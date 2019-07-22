@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/shape_title_item">
+
+        <TextView
+            android:id="@+id/tvTitleLeft"
+            android:layout_width="65dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:background="@mipmap/backbtn"
+            />
+
+        <TextView
+            android:id="@+id/tvTitleCenter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="盘点单列表"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="#000"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:visibility="invisible"
+            android:id="@+id/imgTitleRight"
+            android:layout_width="65dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|right"
+            android:paddingRight="5dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:src="@mipmap/icon_search"/>
+    </LinearLayout>
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/twinklingRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:tr_head_height="80dp"
+        app:tr_bottom_height="80dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/innorder_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+</LinearLayout>

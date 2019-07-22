@@ -1,0 +1,49 @@
+package com.common.esimrfid.uhf;
+
+public class UhfTag {
+    private String epc;
+    private String  tid;
+    private String rssi;
+
+    public UhfTag() {
+    }
+
+    public UhfTag(String epc) {
+        this.epc = epc;
+    }
+
+    public UhfTag(String epc, String tid) {
+        this.epc = epc;
+        this.tid = tid;
+    }
+
+    public UhfTag(String epc, String tid, String rssi) {
+        this.epc = epc;
+        this.tid = tid;
+        this.rssi = rssi;
+    }
+
+    public String getEpc() {
+        return epc;
+    }
+
+    public void setEpc(String epc) {
+        this.epc = epc;
+    }
+
+    public String getTid() {
+        return tid;
+    }
+
+    public void setTid(String tid) {
+        this.tid = tid;
+    }
+
+    public String getRssi() {
+        return rssi;
+    }
+
+    public void setRssi(String rssi) {
+        this.rssi = rssi;
+    }
+}

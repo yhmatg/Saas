@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Esimrfid</string>
+    <string name="double_click_exit_tint">Press the back button again to exit the GeeksAndroid</string>
+    <string name="http_error">network anomaly</string>
+    <string name="unKnown_error">unKnown error</string>
+    <string name="login_fail">登录失败</string>
+    <string name="load_data_fail">获取数据失败</string>
+    <string name="upload_data_fail">提交数据失败</string>
+    <string name="search_data_fail">查询数据失败</string>
+</resources>
