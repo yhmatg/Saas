@@ -77,7 +77,7 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
 
             @Override
             public void onRightImgClick(int position) {
-                mPresenter.downloadInvOrders(mInvOrders.get(position).getId());
+                mPresenter.downloadInvOrders(mInvOrders.get(position).getId(),mInvOrders.get(position));
             }
         });
         mOrderRecycle.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
@@ -120,5 +120,10 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
             mTkrefreshlayout.finishLoadmore();
         }
 
+    }
+
+    @Override
+    public void upDateDownState() {
+        mAdapter.notifyDataSetChanged();
     }
 }

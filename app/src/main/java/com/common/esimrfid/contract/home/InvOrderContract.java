@@ -10,11 +10,13 @@ import java.util.List;
 public interface InvOrderContract {
     interface View extends AbstractView {
         void loadInvOrders(List<InvOrder> invOrders);
+
+        void upDateDownState();
     }
 
     interface Presenter extends AbstractPresenter<View> {
         void fetchAllIvnOrders();
 
-        void downloadInvOrders(String orderId);
+        void downloadInvOrders(String orderId,InvOrder invOrder);
     }
 }

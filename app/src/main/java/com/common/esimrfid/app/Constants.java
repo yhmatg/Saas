@@ -53,7 +53,11 @@ public class Constants {
 
     public static final String AUTO_CACHE_STATE = "auto_cache_state";
 
+    //提交服务器成功
     public static final String CODE_SUC = "200000";
+
+    //提交本地成功
+    public static final String CODE_LOCAL_SUC = "200001";
 
     public static final String CODE_FAIL = "2000FF";
 

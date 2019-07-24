@@ -1,206 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-        <!--<include layout="@layout/include_title" />-->
-        <LinearLayout
-            android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--<include layout="@layout/include_title" />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/shape_title_item"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvTitleLeft"
+            android:layout_width="65dp"
             android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@drawable/shape_title_item">
+            android:layout_gravity="center_vertical"
+            android:background="@mipmap/backbtn"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/tvTitleCenter"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="盘点详情"
+            android:textColor="#000"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:id="@+id/imgTitleRight"
+            android:layout_width="65dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|right"
+            android:paddingTop="8dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="8dp"
+            android:src="@mipmap/icon_search"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bt_con_frid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="连接RFID"
+                android:textColor="@color/gray_text"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
 
             <TextView
-                android:id="@+id/tvTitleLeft"
-                android:layout_width="65dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
-                android:scaleType="fitXY"
-                android:background="@mipmap/backbtn"
-                />
+                android:id="@+id/tv_con_stata"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="连接状态："
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tvTitleCenter"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="盘点详情"
-                android:ellipsize="end"
-                android:singleLine="true"
+                android:id="@+id/tv_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/important"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#ddd" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/DIMEN_10DP">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/DIMEN_10DP"
+                android:text="总数"
                 android:textColor="#000"
-                android:textSize="22sp" />
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/tv_inventory_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/un_checked"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="已盘"
+                android:textColor="#000"
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/tv_inventoried_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="未提交"
+                android:textColor="#000"
+                android:textSize="@dimen/font_size_large" />
+
+            <TextView
+                android:id="@+id/tv_not_commit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blue"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#ddd" />
+
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/detail_tk_rflayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#30b4f8"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/openBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <ImageView
-                android:visibility="invisible"
-                android:id="@+id/imgTitleRight"
-                android:layout_width="65dp"
-                android:layout_height="50dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical|right"
-                android:paddingRight="5dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:src="@mipmap/icon_search"/>
+                android:id="@+id/openimg"
+                android:layout_width="70dp"
+                android:layout_height="28dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/saveicon" />
         </LinearLayout>
-
-
 
         <LinearLayout
-            android:padding="15dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <Button
-                    android:id="@+id/bt_con_frid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="连接RFID"
-                    android:textColor="@color/gray_text"
-                    android:textSize="18sp" />
+            android:id="@+id/clearBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/tv_con_stata"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="连接状态："
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18sp"/>
-                <TextView
-                    android:id="@+id/tv_total"
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textColor="@color/important"
-                    android:textSize="18sp"/>
-
-            </LinearLayout>
-
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="28dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/finishicon2" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#ddd"/>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:paddingBottom="@dimen/DIMEN_10DP"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-                <TextView
-                    android:padding="@dimen/DIMEN_10DP"
-                    android:textColor="#000"
-                    android:textSize="@dimen/font_size_large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="总数" />
-                <TextView
-                    android:id="@+id/tv_inventory_num"
-                    android:textColor="@color/un_checked"
-                    android:textSize="23sp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-            <LinearLayout
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-                <TextView
-                    android:padding="10dp"
-                    android:textColor="#000"
-                    android:textSize="@dimen/font_size_large"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="已盘" />
-                <TextView
-                    android:id="@+id/tv_inventoried_num"
-                    android:textColor="@color/green"
-                    android:textSize="23sp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#ddd"/>
-
-        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-            android:id="@+id/detail_tk_rflayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/detail_recycle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:background="#30b4f8">
-            <LinearLayout
-                android:id="@+id/openBtn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <ImageView
-                    android:id="@+id/openimg"
-                    android:layout_width="70dp"
-                    android:layout_height="28dp"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/saveicon" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/clearBtn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="28dp"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/finishicon2" />
-            </LinearLayout>
-
-        </LinearLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
@@ -50,6 +48,8 @@ public class InvDetailActivity extends BaseActivity<InvDetailPressnter> implemen
     TextView mTatalNum;
     @BindView(R.id.tv_inventoried_num)
     TextView mInventroiedNum;
+    @BindView(R.id.tv_not_commit)
+    TextView mNotState;
     @BindView(R.id.openBtn)
     LinearLayout mUploadBtn;
     @BindView(R.id.clearBtn)
@@ -61,13 +61,13 @@ public class InvDetailActivity extends BaseActivity<InvDetailPressnter> implemen
     @BindView(R.id.detail_recycle)
     RecyclerView mRecycle;
 
-    IEsimUhfService esimUhfService=null;
+    IEsimUhfService esimUhfService = null;
 
     private Boolean isConnected = false;
 
     private Boolean isChanged = false;
     //全部数据invDetail
-    private List<InvDetail> invDetails = new ArrayList<>() ;
+    private List<InvDetail> invDetails = new ArrayList<>();
     //全部数据中已经被扫描到的invDetail
     private List<InvDetail> updateDetails = new ArrayList<>();
     //扫描到的epc集合
@@ -80,9 +80,9 @@ public class InvDetailActivity extends BaseActivity<InvDetailPressnter> implemen
         return R.layout.activity_inv_detail;
     }
 
-    @OnClick({R.id.tvTitleLeft,R.id.bt_con_frid,R.id.openBtn,R.id.clearBtn})
-    public void performClick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.tvTitleLeft, R.id.bt_con_frid, R.id.openBtn, R.id.clearBtn})
+    public void performClick(View view) {
+        switch (view.getId()) {
             case R.id.tvTitleLeft:
                 backMethod();
                 break;
@@ -99,39 +99,39 @@ public class InvDetailActivity extends BaseActivity<InvDetailPressnter> implemen
     }
 
     private void backMethod() {
-        if(isChanged){
+        if (isChanged) {
             ToastUtils.showShort("盘点数据未保存");
-            MaterialDialogUtils.showBasicDialog(EsimAndroidApp.getInstance(),"警告","盘点数据未保存，是否退出？").onPositive(new MaterialDialog.SingleButtonCallback() {
+            MaterialDialogUtils.showBasicDialog(EsimAndroidApp.getInstance(), "警告", "盘点数据未保存，是否退出？").onPositive(new MaterialDialog.SingleButtonCallback() {
                 @Override
                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                     finish();
                 }
             }).show();
-        }else{
+        } else {
             finish();
         }
     }
 
     private void finishInvOrder() {
-        if(isChanged||!updateDetails.isEmpty()){
+        if (isChanged && !updateDetails.isEmpty()) {
             ToastUtils.showShort("存在未提交的盘点数据，请先提交数据");
-        }else{
+        } else {
             mPresenter.finishInvOrder(orderId);
         }
     }
 
     private void uploadData() {
-        if(updateDetails.isEmpty()){
+        if (updateDetails.isEmpty()) {
             ToastUtils.showShort("暂无待提交数据");
-        }else{
-            mPresenter.uploadInvDetails(updateDetails,orderId);
+        } else {
+            mPresenter.uploadInvDetails(updateDetails, orderId);
         }
     }
 
     private void connctFird() {
-        if(isConnected){
+        if (isConnected) {
             ToastUtils.showShort("RFID已连接");
-        }else{
+        } else {
             ToastUtils.showShort("正在连接RFID..");
             esimUhfService.initRFID();
         }
@@ -147,7 +147,7 @@ public class InvDetailActivity extends BaseActivity<InvDetailPressnter> implemen
         initRFID();
         EventBus.getDefault().register(this);
         orderId = getIntent().getStringExtra("orderId");
-        Log.e(TAG,"orderId=====" + orderId);
+        mPresenter.getLocaCommitedDetails(orderId);
         mTkRefresh.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
@@ -157,7 +157,7 @@ public class InvDetailActivity extends BaseActivity<InvDetailPressnter> implemen
 
         });
         mRecycle.setLayoutManager(new LinearLayoutManager(this));
-        mRecycle.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        mRecycle.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mAdapter = new InvDetailAdapter(invDetails, this);
         mRecycle.setAdapter(mAdapter);
         mPresenter.fetchAllInvDetails(orderId);
@@ -177,7 +177,7 @@ public class InvDetailActivity extends BaseActivity<InvDetailPressnter> implemen
     }
 
     private void closeRFID() {
-        if (esimUhfService.isStart()){
+        if (esimUhfService.isStart()) {
             esimUhfService.closeRFID();
         }
 
@@ -203,26 +203,38 @@ public class InvDetailActivity extends BaseActivity<InvDetailPressnter> implemen
 
     @Override
     public void uploadSuccess() {
-        isChanged=false;
+        isChanged = false;
         updateDetails.clear();
+        mNotState.setText(updateDetails.size() + "");
+    }
+
+    @Override
+    public void initLocalCommitDetails(List<InvDetail> invdetails) {
+        updateDetails.addAll(invdetails);
+        mNotState.setText(updateDetails.size() + "");
+    }
+
+    @Override
+    public void uploadLocalSucess() {
+        mNotState.setText(updateDetails.size() + "");
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleEPC(UhfMsgEvent uhfMsgEvent) {
 
-        String epc=null;
-        switch(uhfMsgEvent.getType()) {
+        String epc = null;
+        switch (uhfMsgEvent.getType()) {
             case UhfMsgType.INV_TAG:
-                UhfTag uhfTag=(UhfTag) uhfMsgEvent.getData();
+                UhfTag uhfTag = (UhfTag) uhfMsgEvent.getData();
                 epc = uhfTag.getEpc();
-                if(epc!=null&&!checkList.contains(epc)){
+                if (epc != null && !checkList.contains(epc)) {
                     checkList.add(epc);
                     for (InvDetail invDetail : invDetails) {
-                        if(invDetail.getCorpEpcCode().equals(epc)){
+                        if (invDetail.getCorpEpcCode().equals(epc)) {
                             invDetail.setInvdtStatus(1);
                             updateDetails.add(invDetail);
-                            isChanged =true;
+                            isChanged = true;
                             break;
                         }
                     }
@@ -252,7 +264,7 @@ public class InvDetailActivity extends BaseActivity<InvDetailPressnter> implemen
     private void updateUi() {
         int finishNum = 0;
         for (InvDetail invDetail : invDetails) {
-            if(invDetail.getInvdtStatus()==1){
+            if (invDetail.getInvdtStatus() == 1) {
                 finishNum++;
             }
         }
@@ -260,12 +272,12 @@ public class InvDetailActivity extends BaseActivity<InvDetailPressnter> implemen
         mInventroiedNum.setText(String.valueOf(finishNum));
     }
 
-    public void excuteDetails(){
+    public void excuteDetails() {
         checkList.clear();
-        int finishNum=0;
-        for(InvDetail invDetail:invDetails){
+        int finishNum = 0;
+        for (InvDetail invDetail : invDetails) {
             invDetail.setInvId(orderId);
-            if(invDetail.getInvdtStatus()==1){
+            if (invDetail.getInvdtStatus() == 1) {
                 checkList.add(invDetail.getCorpEpcCode());
                 finishNum++;
             }

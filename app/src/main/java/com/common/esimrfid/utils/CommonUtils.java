@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -102,8 +103,12 @@ public class CommonUtils {
      */
     public static boolean isNetworkConnected() {
         ConnectivityManager connectivityManager = (ConnectivityManager) EsimAndroidApp.getInstance().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert connectivityManager != null;
-        return connectivityManager.getActiveNetworkInfo() != null;
+        if (null == connectivityManager)
+            return false;
+        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+        if (null == info || !info.isAvailable())
+            return false;
+        return true;
     }
 
     /**

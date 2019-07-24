@@ -44,6 +44,7 @@ public class InvOrderAdapter extends RecyclerView.Adapter <InvOrderAdapter.ViewH
         viewHolder.mDocState.setText(invOrder.getInvStatusString());
         viewHolder.mDescribe.setText(invOrder.getInvRemark());
         viewHolder.mCreateTime.setText(DateUtils.date2String(invOrder.getCreateDate()));
+        viewHolder.mRightImg.setImageResource(invOrder.getIdDownload() == 1 ? R.mipmap.surebtn : R.mipmap.download);
         viewHolder.mItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

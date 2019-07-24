@@ -15,6 +15,10 @@ public interface InvDetailContract {
 
         void uploadSuccess();
 
+        void initLocalCommitDetails(List<InvDetail> invdetails);
+
+        void uploadLocalSucess();
+
     }
 
     interface Presenter extends AbstractPresenter<View> {
@@ -24,6 +28,8 @@ public interface InvDetailContract {
         void uploadInvDetails(List<InvDetail> invDetails, String orderId);
 
         void finishInvOrder(String orderId);
+
+        void getLocaCommitedDetails(String orderId);
 
     }
 }

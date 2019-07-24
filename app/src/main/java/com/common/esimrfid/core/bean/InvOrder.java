@@ -19,6 +19,8 @@ public class InvOrder implements Serializable {
     private Date invExptfinishDate;
     private Date createDate;
     private Date updateDate;
+    private int idDownload;
+
 
     @NonNull
     public String getId() {
@@ -75,6 +77,14 @@ public class InvOrder implements Serializable {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public int getIdDownload() {
+        return idDownload;
+    }
+
+    public void setIdDownload(int idDownload) {
+        this.idDownload = idDownload;
     }
 
     public String getInvStatusString() {
