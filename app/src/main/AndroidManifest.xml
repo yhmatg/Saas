@@ -30,6 +30,7 @@
         </activity>
         <activity android:name=".ui.invorder.InvOrderActicity"></activity>
         <activity android:name=".ui.cardsearch.SearchCardActivity"></activity>
+        <activity android:name=".ui.carddeail.CardDetailActivity"></activity>
     </application>
 
 </manifest>

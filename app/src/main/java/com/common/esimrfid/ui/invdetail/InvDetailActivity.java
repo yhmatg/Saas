@@ -1,5 +1,6 @@
 package com.common.esimrfid.ui.invdetail;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
+import com.common.esimrfid.ui.carddeail.CardDetailActivity;
 import com.common.esimrfid.utils.MaterialDialogUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -159,6 +161,14 @@ public class InvDetailActivity extends BaseActivity<InvDetailPressnter> implemen
         mRecycle.setLayoutManager(new LinearLayoutManager(this));
         mRecycle.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mAdapter = new InvDetailAdapter(invDetails, this);
+        mAdapter.setOnItemClickListener(new InvDetailAdapter.OnItemClickListener() {
+            @Override
+            public void onItemLongClick(int position) {
+                Intent cardDetailIntent = new Intent(InvDetailActivity.this, CardDetailActivity.class);
+                cardDetailIntent.putExtra("corpAccount",invDetails.get(position).getCorpAccount());
+                startActivity(cardDetailIntent);
+            }
+        });
         mRecycle.setAdapter(mAdapter);
         mPresenter.fetchAllInvDetails(orderId);
 
