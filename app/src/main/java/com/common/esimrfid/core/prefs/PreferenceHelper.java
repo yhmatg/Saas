@@ -1,5 +1,7 @@
 package com.common.esimrfid.core.prefs;
 
+import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
+
 /**
  * @author yhm
  * @date 2017/11/27
@@ -81,8 +83,6 @@ public interface PreferenceHelper {
      */
     void setAutoCacheState(boolean b);
 
-    //add yhm 20190708 start
-
     void saveHostUrl(String hostUrl);
 
     String getHostUrl();
@@ -95,6 +95,10 @@ public interface PreferenceHelper {
 
     String getToken();
 
-    //add yhm 20190708 end
+    void setUserLoginResponse(UserLoginResponse userLoginResponse);
+
+    UserLoginResponse getUserLoginResponse();
+
+    void removeUserLoginResponse();
 
 }

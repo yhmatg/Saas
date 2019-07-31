@@ -1,11 +1,8 @@
 package com.common.esimrfid.core;
-import com.common.esimrfid.core.bean.BaseResponse;
-import com.common.esimrfid.core.bean.CorpInfo;
-import com.common.esimrfid.core.bean.InvDetail;
-import com.common.esimrfid.core.bean.InvOrder;
-import com.common.esimrfid.core.bean.SignatureCard;
-import com.common.esimrfid.core.bean.UserInfo;
-import com.common.esimrfid.core.bean.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.UserInfo;
+import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
 import com.common.esimrfid.core.http.HttpHelper;
 import com.common.esimrfid.core.http.HttpHelperImpl;
 import com.common.esimrfid.core.prefs.PreferenceHelper;
@@ -128,6 +125,21 @@ public class DataManager implements HttpHelper, PreferenceHelper {
         return mPreferenceHelper.getToken();
     }
 
+    @Override
+    public void setUserLoginResponse(UserLoginResponse userLoginResponse) {
+        mPreferenceHelper.setUserLoginResponse(userLoginResponse);
+    }
+
+    @Override
+    public UserLoginResponse getUserLoginResponse() {
+        return mPreferenceHelper.getUserLoginResponse();
+    }
+
+    @Override
+    public void removeUserLoginResponse() {
+        mPreferenceHelper.removeUserLoginResponse();
+    }
+
 
     @Override
     public Observable<BaseResponse<UserLoginResponse>> login(UserInfo userInfo) {
@@ -135,32 +147,7 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<List<InvOrder>>> fetchAllInvOrders() {
-        return mHttpHelper.fetchAllInvOrders();
-    }
-
-    @Override
-    public Observable<BaseResponse<List<InvDetail>>> fetchAllInvDetails(String orderId) {
-        return mHttpHelper.fetchAllInvDetails(orderId);
-    }
-
-    @Override
-    public Observable<BaseResponse<List<SignatureCard>>> fetchAllSignatureCards(String corpAccount) {
-        return mHttpHelper.fetchAllSignatureCards(corpAccount);
-    }
-
-    @Override
-    public Observable<BaseResponse> uploadInvDetails(List<InvDetail> invDetails, String orderId) {
-        return mHttpHelper.uploadInvDetails(invDetails,orderId);
-    }
-
-    @Override
-    public Observable<BaseResponse> finishInvOrder(String orderId) {
-        return mHttpHelper.finishInvOrder(orderId);
-    }
-
-    @Override
-    public Observable<BaseResponse<CorpInfo>> findCorpInfoByAll(String corpName, String corpAccount, String cardCode) {
-        return mHttpHelper.findCorpInfoByAll(corpName,corpAccount,cardCode);
+    public Observable<BaseResponse<List<ResultInventoryOrder>>> fetchAllIvnOrders(String userId) {
+        return mHttpHelper.fetchAllIvnOrders(userId);
     }
 }

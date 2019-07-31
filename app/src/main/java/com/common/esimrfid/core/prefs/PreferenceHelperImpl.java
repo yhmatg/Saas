@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.app.EsimAndroidApp;
+import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
+import com.common.esimrfid.utils.GsonUtil;
+import com.google.gson.Gson;
 
 
 /**
@@ -87,7 +90,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
         mPreferences.edit().putBoolean(Constants.AUTO_CACHE_STATE, b).apply();
     }
 
-    //add yhm 20190708 start
+
     @Override
     public void saveHostUrl(String hostUrl) {
         mPreferences.edit().putString(Constants.HOSTURL, hostUrl).apply();
@@ -117,6 +120,26 @@ public class PreferenceHelperImpl implements PreferenceHelper {
     public String getToken() {
         return mPreferences.getString(Constants.TOKEN, "");
     }
-    //add yhm 20190708 end
+
+    @Override
+    public void setUserLoginResponse(UserLoginResponse userLoginResponse) {
+        mPreferences.edit().putString(Constants.USERLOGINRESPONSE,new Gson().toJson(userLoginResponse)).apply();
+    }
+
+    @Override
+    public UserLoginResponse getUserLoginResponse() {
+        String userLoginResponse = mPreferences.getString(Constants.USERLOGINRESPONSE, "");
+        if (!"".equals(userLoginResponse)){
+            return GsonUtil.GsonToBean(userLoginResponse, UserLoginResponse.class);
+        }else {
+            return null;
+        }
+    }
+
+    @Override
+    public void removeUserLoginResponse() {
+        mPreferences.edit().remove(Constants.USERLOGINRESPONSE).apply();
+    }
+
 
 }

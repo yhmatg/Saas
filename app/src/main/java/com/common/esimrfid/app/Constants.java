@@ -70,6 +70,9 @@ public class Constants {
     public static final String OPENSOUND = "openSound";
 
     public static final String TOKEN = "token";
+
+    public static final String USERLOGINRESPONSE = "userLoginResponse";
+
     //add yhm 20190707 end
 
 

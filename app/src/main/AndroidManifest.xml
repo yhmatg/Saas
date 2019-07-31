@@ -19,18 +19,15 @@
         <activity android:name=".MainActivity">
         </activity>
         <activity android:name=".ui.login.LoginActivity">
+        </activity>
+        <activity android:name=".ui.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.home.HomeActivity"></activity>
-        <activity android:name=".ui.invdetail.InvDetailActivity">
-        </activity>
         <activity android:name=".ui.invorder.InvOrderActicity"></activity>
-        <activity android:name=".ui.cardsearch.SearchCardActivity"></activity>
-        <activity android:name=".ui.carddeail.CardDetailActivity"></activity>
     </application>
 
 </manifest>

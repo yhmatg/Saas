@@ -3,7 +3,7 @@ package com.common.esimrfid.contract.login;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
-import com.common.esimrfid.core.bean.UserInfo;
+import com.common.esimrfid.core.bean.nanhua.UserInfo;
 
 /**
  * @author yhm

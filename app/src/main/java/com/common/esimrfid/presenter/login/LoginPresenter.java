@@ -5,13 +5,17 @@ import android.util.Log;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.BaseResponse;
-import com.common.esimrfid.core.bean.UserInfo;
-import com.common.esimrfid.core.bean.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.DbUser;
+import com.common.esimrfid.core.bean.nanhua.UserInfo;
+import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
+import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
+import java.util.Date;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
@@ -34,28 +38,37 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     @Override
     public void login(final UserInfo userInfo) {
-        final String passWord = userInfo.getUserPassword();
-        final String userName = userInfo.getUserName();
+        final String passWord = userInfo.getUser_password();
+        final String userName = userInfo.getUser_name();
         if(CommonUtils.isNetworkConnected()){
-            userInfo.setUserPassword(Md5Util.getMD5(passWord));
+            userInfo.setUser_password(Md5Util.getMD5(passWord));
             addSubscribe(mDataManager.login(userInfo)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(Schedulers.io())
                     .map(new Function<BaseResponse<UserLoginResponse>, UserLoginResponse>() {
 
                         @Override
                         public UserLoginResponse apply(BaseResponse<UserLoginResponse> userLoginResponseBaseResponse) throws Exception {
-                            Log.e("login error","userLoginResponseBaseResponse=====" + userLoginResponseBaseResponse);
+                            Log.e("login error","userLoginResponseBaseResponse.getResult()=====" + userLoginResponseBaseResponse.getResult());
+                            UserInfo sysUser = userLoginResponseBaseResponse.getResult().getSysUser();
+                            if(userLoginResponseBaseResponse.isSuccess() && sysUser != null){
+                                //保存用户信息DbUser到数据库
+                                savaUserInfo(sysUser);
+                                mDataManager.setUserLoginResponse(userLoginResponseBaseResponse.getResult());
+                                //保存UserLoginResponse到sp
+
+                            }
                             return userLoginResponseBaseResponse.getResult();
                         }
                     })
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new BaseObserver<UserLoginResponse>(mView,
                             false) {
                         @Override
                         public void onNext(UserLoginResponse userLoginResponse) {
                             //取消提示框
                             mView.dismissDialog();
-                            setLoginAccount(userInfo.getUserName());
+                            setLoginAccount(userInfo.getUser_name());
                             setLoginPassword(passWord);
                             setToken(userLoginResponse.getToken());
                             mView.startMainActivity();
@@ -86,6 +99,23 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     }
 
+    private void savaUserInfo(UserInfo sysUser) {
+        DbUser dbUser = new DbUser();
+        dbUser.setId(sysUser.getId());
+        dbUser.setUser_name(sysUser.getUser_name());
+        dbUser.setUser_password(sysUser.getUser_password());
+        dbUser.setUser_status(sysUser.getUser_status());
+        dbUser.setUser_age(sysUser.getUser_age());
+        dbUser.setUser_mobile(sysUser.getUser_mobile());
+        dbUser.setUser_email(sysUser.getUser_email());
+        dbUser.setTenant_id(sysUser.getTenant_id());
+        dbUser.setUpdate_date(new Date(sysUser.getUpdate_date()));
+        dbUser.setUser_avatar(sysUser.getUser_avatar());
+        dbUser.setUser_empcode(sysUser.getUser_empcode());
+        DbBank.getInstance().getDbUserDao().insertItem(dbUser);
+
+    }
+
     public void saveHostUrl(String hostUrl) {
         mDataManager.saveHostUrl(hostUrl);
     }
@@ -101,6 +131,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     public boolean getOpenSound() {
         return mDataManager.getOpenSound();
     }
+
 
 
 }

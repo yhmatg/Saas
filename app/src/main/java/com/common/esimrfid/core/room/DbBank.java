@@ -11,10 +11,12 @@ import android.support.annotation.NonNull;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.core.bean.InvDetail;
 import com.common.esimrfid.core.bean.InvOrder;
+import com.common.esimrfid.core.bean.nanhua.DbUser;
 import com.common.esimrfid.core.dao.InvDetailDao;
 import com.common.esimrfid.core.dao.InvOrderDao;
+import com.common.esimrfid.core.dao.DbUserDao;
 
-@Database(entities = {InvOrder.class, InvDetail.class}, version = 1)
+@Database(entities = {InvOrder.class, InvDetail.class, DbUser.class}, version = 1)
 @TypeConverters(DateConverter.class)
 public abstract class DbBank extends RoomDatabase {
     public static final String DB_NAME = "bank.db";
@@ -50,4 +52,6 @@ public abstract class DbBank extends RoomDatabase {
     public abstract InvOrderDao getInvOrderDao();
 
     public abstract InvDetailDao getInvDetailDao();
+
+    public abstract DbUserDao getDbUserDao();
 }

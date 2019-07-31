@@ -80,6 +80,7 @@
     <dimen name="DIMEN_25DP">25dp</dimen>
     <dimen name="DIMEN_26DP">26dp</dimen>
     <dimen name="DIMEN_27DP">27dp</dimen>
+    <dimen name="DIMEN_27.5DP">27.5dp</dimen>
     <dimen name="DIMEN_28DP">28dp</dimen>
     <dimen name="DIMEN_29DP">29dp</dimen>
     <dimen name="DIMEN_30DP">30dp</dimen>
@@ -158,6 +159,7 @@
     <dimen name="DIMEN_103DP">103dp</dimen>
     <dimen name="DIMEN_104DP">104dp</dimen>
     <dimen name="DIMEN_105DP">105dp</dimen>
+    <dimen name="DIMEN_105.5DP">105.5dp</dimen>
     <dimen name="DIMEN_106DP">106dp</dimen>
     <dimen name="DIMEN_107DP">107dp</dimen>
     <dimen name="DIMEN_108DP">108dp</dimen>

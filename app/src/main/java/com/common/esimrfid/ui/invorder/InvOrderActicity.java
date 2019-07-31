@@ -1,21 +1,20 @@
 package com.common.esimrfid.ui.invorder;
 
-import android.content.Intent;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.graphics.Color;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
+import com.common.esimrfid.base.fragment.BaseFragment;
 import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.InvOrder;
+import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
-import com.common.esimrfid.ui.invdetail.InvDetailActivity;
-import com.common.esimrfid.utils.ToastUtils;
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +25,31 @@ import butterknife.OnClick;
 
 public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements InvOrderContract.View {
 
-    @BindView(R.id.twinklingRefreshLayout)
-    TwinklingRefreshLayout mTkrefreshlayout;
-    @BindView(R.id.innorder_recycle)
-    RecyclerView mOrderRecycle;
-    @BindView(R.id.tvTitleLeft)
-    TextView mBackBut;
-    private InvOrderAdapter mAdapter;
-    private List<InvOrder> mInvOrders = new ArrayList<>();
-    private int loadMode = 1;
+    @BindView(R.id.imgTitleLeft)
+    ImageView imgTitleLeft;
+    @BindView(R.id.error_page)
+    LinearLayout errorPage;
+    @BindView(R.id.empty_page)
+    LinearLayout emptyPage;
+    @BindView(R.id.tvTitleCenter)
+    TextView tvTitleCenter;
+    @BindView(R.id.tvTitleRight)
+    TextView tvTitleRight;
+    @BindView(R.id.tvMyOrderWaiting)
+    TextView tvMyOrderWaiting;
+    @BindView(R.id.lineMyOrderWaiting)
+    View lineMyOrderWaiting;
+    @BindView(R.id.tvMyOrderDisposing)
+    TextView tvMyOrderDisposing;
+    @BindView(R.id.lineMyOrderDisposing)
+    View lineMyOrderDisposing;
+    @BindView(R.id.tvMyOrderFinish)
+    TextView tvMyOrderFinish;
+    @BindView(R.id.lineMyOrderFinish)
+    View lineMyOrderFinish;
+    @BindView(R.id.frameLayout)
+    FrameLayout frameLayout;
+    public List<ResultInventoryOrder> mDataList = new ArrayList<>();
 
     @Override
     public InvOrderPressnter initPresenter() {
@@ -43,54 +58,30 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
 
     @Override
     protected void initEventAndData() {
-        mOrderRecycle.setLayoutManager(new LinearLayoutManager(this));
-        mTkrefreshlayout.setOnRefreshListener(new RefreshListenerAdapter() {
-            @Override
-            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-                super.onRefresh(refreshLayout);
-                loadMode = 1;
-                mPresenter.fetchAllIvnOrders();
-            }
-
-            @Override
-            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-                super.onLoadMore(refreshLayout);
-                loadMode = 2;
-                mPresenter.fetchAllIvnOrders();
-            }
-        });
-        mAdapter = new InvOrderAdapter(mInvOrders, this);
-        mAdapter.setOnItemClickListener(new InvOrderAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                Intent detailIntend = new Intent(InvOrderActicity.this, InvDetailActivity.class);
-               // Bundle mBundle = new Bundle();
-                //mBundle.putString("orderId", mInvOrders.get(position).getId());
-                detailIntend.putExtra("orderId",mInvOrders.get(position).getId());
-                startActivity(detailIntend);
-            }
-
-            @Override
-            public void onItemLongClick(int position) {
-                ToastUtils.showShort(mInvOrders.get(position).getInvCode());
-            }
-
-            @Override
-            public void onRightImgClick(int position) {
-                mPresenter.downloadInvOrders(mInvOrders.get(position).getId(),mInvOrders.get(position));
-            }
-        });
-        mOrderRecycle.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        mOrderRecycle.setAdapter(mAdapter);
-        mPresenter.fetchAllIvnOrders();
+        tvTitleRight.setVisibility(View.VISIBLE);
+        tvTitleRight.setText("更新");
+        tvTitleCenter.setText("资产盘点");
+        imgTitleLeft.setVisibility(View.VISIBLE);
+        FragCheckWaitingFragment fragCheckWaitingFragment = new FragCheckWaitingFragment();
+        addOrShowFragment(fragCheckWaitingFragment);
 
     }
 
-    @OnClick({R.id.tvTitleLeft})
+    @OnClick({R.id.imgTitleLeft, R.id.tvTitleRight, R.id.tvMyOrderWaiting, R.id.tvMyOrderDisposing, R.id.tvMyOrderFinish})
     public void performClick(View view){
         switch (view.getId()){
-            case R.id.tvTitleLeft:
+            case R.id.imgTitleLeft:
                 finish();
+                break;
+            case R.id.tvTitleRight:
+                break;
+            case R.id.tvMyOrderWaiting:
+                updateUI(tvMyOrderWaiting, tvMyOrderFinish, tvMyOrderDisposing, lineMyOrderWaiting, lineMyOrderDisposing, lineMyOrderFinish);
+
+                break;
+            case R.id.tvMyOrderFinish:
+                updateUI(tvMyOrderFinish, tvMyOrderWaiting, tvMyOrderDisposing, lineMyOrderFinish, lineMyOrderWaiting, lineMyOrderDisposing);
+
                 break;
 
         }
@@ -107,23 +98,29 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
 
     }
 
-    @Override
-    public void loadInvOrders(List<InvOrder> invOrders) {
-        if(loadMode == 1){
-            mInvOrders.clear();
-            mInvOrders.addAll(invOrders);
-            mAdapter.setRefreshDataList(mInvOrders);
-            mTkrefreshlayout.finishRefreshing();
-        }else if(loadMode == 2){
-            mInvOrders.addAll(invOrders);
-            mAdapter.setRefreshDataList(mInvOrders);
-            mTkrefreshlayout.finishLoadmore();
+    public void addOrShowFragment(BaseFragment fragment){
+        if(fragment != null){
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            if (fragment.isAdded()){
+                transaction.show(fragment);
+            }else{
+                transaction.add(R.id.frameLayout,fragment);
+            }
+            transaction.commit();
         }
 
     }
 
-    @Override
-    public void upDateDownState() {
-        mAdapter.notifyDataSetChanged();
+    private void updateUI(TextView tv1, TextView tv2, TextView tv3, View line1, View line2, View line3) {
+
+        tv1.setTextColor(Color.parseColor("#30b4f8"));
+        line1.setVisibility(View.VISIBLE);
+
+        tv2.setTextColor(Color.parseColor("#88d1fc"));
+        line2.setVisibility(View.GONE);
+
+        tv3.setTextColor(Color.parseColor("#88d1fc"));
+        line3.setVisibility(View.GONE);
     }
+
 }

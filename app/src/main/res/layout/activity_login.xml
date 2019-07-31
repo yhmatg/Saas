@@ -1,137 +1,137 @@
- <RelativeLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@mipmap/login_back"
-            android:scaleType="fitXY" />
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="3dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="309dp"
-                android:layout_height="33dp"
-                android:src="@mipmap/logo" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btn_setting"
-                android:layout_width="50dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_gravity="right"
-                android:layout_marginRight="25dp"
-                android:elevation="4dp"
-                android:src="@mipmap/icon_setting" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="34dp"
-                android:background="@mipmap/user_edit"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="16sp">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@mipmap/user_icon" />
+                android:layout_marginTop="10dp">
 
                 <View
-                    android:layout_width="1dp"
+                    android:layout_width="8dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@color/textColorHint" />
+                    android:layout_alignParentStart="true"
+                    android:background="#2fa881" />
 
-                <EditText
-                    android:id="@+id/login_account_edit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="请输入用户名"
-                    android:textColor="@color/textColor"
-                    android:textColorHint="@color/textColorHint"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:id="@+id/login_clean_account"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:padding="6dp"
-                    android:src="@mipmap/clean_edit" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@mipmap/user_edit"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="16sp">
-
-                <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="12dp"
-                    android:src="@mipmap/password_icon" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@color/textColorHint" />
-
-                <EditText
-                    android:id="@+id/login_password_edit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="请输入密码"
-                    android:inputType="textPassword"
-                    android:textColor="@color/textColor"
-                    android:textColorHint="@color/textColorHint"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:id="@+id/iv_swich_passwrod"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="6dp"
-                    android:src="@mipmap/show_psw_press" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="50dp"
+                    android:text="@string/login"
+                    android:textColor="#FFCC00"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#c5c5c5">
+
+                    <EditText
+                        android:id="@+id/login_account_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_bg_edit"
+                        android:hint="@string/uer_name"
+                        android:inputType="textPersonName"
+                        android:paddingBottom="2dp"
+                        android:text=""
+                        android:textColor="#2fa881"
+                        android:textCursorDrawable="@drawable/bg_input_cursor"
+                        android:textSize="15sp" />
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@mipmap/btn_login"
-                android:orientation="vertical"
-                android:padding="6dp">
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingStart="50dp"
+                android:paddingEnd="30dp">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#c5c5c5">
+
+                    <EditText
+                        android:id="@+id/login_password_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/selector_bg_edit"
+                        android:hint="@string/user_passward"
+                        android:inputType="textPassword"
+                        android:paddingBottom="2dp"
+                        android:text=""
+                        android:textColor="#2fa881"
+                        android:textCursorDrawable="@drawable/bg_input_cursor"
+                        android:textSize="15sp" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="25dp"
+                android:gravity="center">
 
                 <Button
                     android:id="@+id/login_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bt_shape"
+                    android:stateListAnimator="@drawable/state_list_animator_z"
                     android:text="登录"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
+                    android:textColor="#02a6f2"></Button>
+            </RelativeLayout>
         </LinearLayout>
+    </android.support.v7.widget.CardView>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_setting"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="@dimen/DIMEN_150DP"
+        android:layout_marginRight="25dp"
+        android:elevation="4dp"
+        android:scaleType="center"
+        android:src="@drawable/icon_setting"
+        app:backgroundTint="@color/colorAccent"
+        app:borderWidth="0dp"
+        app:fabCustomSize="50dp"
+        app:fabSize="normal"
+        app:maxImageSize="30dp"
+        app:pressedTranslationZ="10dp"
+        app:rippleColor="#ec8eae" />
 
-    </RelativeLayout>
+</FrameLayout>

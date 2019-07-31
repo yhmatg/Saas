@@ -64,7 +64,7 @@ public class DateUtils {
         if(null==date){
             return "";
         }
-        return new SimpleDateFormat(FORMAT_TYPE_3).format(date);
+        return new SimpleDateFormat(FORMAT_TYPE_1).format(date);
     }
     /**
      * 时间转换 long ——> Date

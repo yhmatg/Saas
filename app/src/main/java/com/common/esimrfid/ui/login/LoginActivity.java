@@ -5,13 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -19,13 +16,13 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.UserInfo;
+import com.common.esimrfid.core.bean.nanhua.UserInfo;
 import com.common.esimrfid.presenter.login.LoginPresenter;
 import com.common.esimrfid.ui.home.HomeActivity;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -42,13 +39,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     EditText mPasswordEdit;
     @BindView(R.id.login_btn)
     Button mLoginBtn;
-    @BindView(R.id.login_clean_account)
-    ImageView mCleanTv;
-    @BindView(R.id.iv_swich_passwrod)
-    ImageView mSwitchPas;
     @BindView(R.id.btn_setting)
     FloatingActionButton mFloatBut;
-    private int passwordState;
     private  String TAG = "LoginActivity";
 
     @Override
@@ -58,7 +50,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected void initToolbar() {
-        ButterKnife.bind(this);
     }
 
     @Override
@@ -80,17 +71,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     }
 
-    @OnClick({R.id.login_btn,R.id.login_clean_account,R.id.iv_swich_passwrod,R.id.btn_setting})
+    @OnClick({R.id.login_btn,R.id.btn_setting})
     void performClick(View v) {
         switch (v.getId()) {
             case R.id.login_btn:
                 login();
-                break;
-            case R.id.login_clean_account:
-                mAccountEdit.setText("");
-                break;
-            case R.id.iv_swich_passwrod:
-                showOrHidePassword();
                 break;
             case R.id.btn_setting:
                 showSettingDialog();
@@ -100,17 +85,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         }
     }
 
-    private void showOrHidePassword() {
-        if(passwordState == 0){
-            mPasswordEdit.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            mSwitchPas.setImageResource(R.mipmap.show_psw);
-            passwordState = 1;
-        }else {
-            mPasswordEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            mSwitchPas.setImageResource(R.mipmap.show_psw_press);
-            passwordState = 0;
-        }
-    }
 
     private void login() {
         if (TextUtils.isEmpty(mAccountEdit.getText().toString())) {
@@ -122,8 +96,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             return;
         }
         final UserInfo userInfo=new UserInfo();
-        userInfo.setUserName(mAccountEdit.getText().toString());
-        userInfo.setUserPassword(mPasswordEdit.getText().toString());
+        userInfo.setUser_name(mAccountEdit.getText().toString());
+        userInfo.setUser_password(mPasswordEdit.getText().toString());
         mPresenter.login(userInfo);
     }
 
@@ -172,5 +146,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public LoginPresenter initPresenter() {
         return new LoginPresenter(DataManager.getInstance());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

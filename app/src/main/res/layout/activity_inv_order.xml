@@ -1,64 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_title" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
+        android:layout_height="40dp"
+        android:background="@color/white"
         android:gravity="center_vertical"
-        android:background="@drawable/shape_title_item">
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvTitleLeft"
-            android:layout_width="65dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:scaleType="fitXY"
-            android:background="@mipmap/backbtn"
-            />
-
-        <TextView
-            android:id="@+id/tvTitleCenter"
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="盘点单列表"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="#000"
-            android:textSize="22sp" />
+            android:orientation="vertical">
 
-        <ImageView
-            android:visibility="invisible"
-            android:id="@+id/imgTitleRight"
-            android:layout_width="65dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical|right"
-            android:paddingRight="5dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:src="@mipmap/icon_search"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvMyOrderWaiting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="未完成"
+                    android:textColor="@color/theme"
+                    android:textSize="@dimen/sp_my_order_tab" />
+
+                <View
+                    android:id="@+id/lineMyOrderWaiting"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/theme"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:id="@+id/tvMyOrderDisposing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="作业中"
+                    android:textColor="#88d1fc"
+                    android:textSize="@dimen/sp_my_order_tab" />
+
+                <View
+                    android:id="@+id/lineMyOrderDisposing"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/theme"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvMyOrderFinish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="已完成"
+                    android:textColor="#88d1fc"
+                    android:textSize="@dimen/sp_my_order_tab" />
+
+                <View
+                    android:id="@+id/lineMyOrderFinish"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/theme"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
-    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-        android:id="@+id/twinklingRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:tr_head_height="80dp"
-        app:tr_bottom_height="80dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/innorder_recycle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </FrameLayout>
+
+    <include layout="@layout/error_page" />
+
+    <include layout="@layout/empty_page" />
 
 </LinearLayout>

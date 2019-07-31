@@ -3,9 +3,11 @@ package com.common.esimrfid.app;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+
 import com.bumptech.glide.Glide;
 import com.common.esimrfid.BuildConfig;
 import com.common.esimrfid.R;
+import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.utils.Utils;
 import com.common.esimrfid.utils.logger.TxtFormatStrategy;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -20,12 +22,12 @@ import com.squareup.leakcanary.RefWatcher;
  * @date 2017/11/27
  */
 //public class EsimAndroidApp extends Application implements HasActivityInjector {
-public class EsimAndroidApp extends Application  {
+public class EsimAndroidApp extends Application {
 
 
     private static EsimAndroidApp instance;
     private RefWatcher refWatcher;
-    public static boolean isFirstRun = true;
+    private UserLoginResponse mUserLoginResponse;
 
     public static synchronized EsimAndroidApp getInstance() {
         return instance;
@@ -71,7 +73,6 @@ public class EsimAndroidApp extends Application  {
     }
 
 
-
     private void initLogger() {
         //DEBUG版本才打控制台log
         if (BuildConfig.DEBUG) {
@@ -81,6 +82,18 @@ public class EsimAndroidApp extends Application  {
         //把log存到本地
         Logger.addLogAdapter(new DiskLogAdapter(TxtFormatStrategy.newBuilder().
                 tag(getString(R.string.app_name)).build(getPackageName(), getString(R.string.app_name))));
+    }
+
+    public void setUserLoginResponse(UserLoginResponse userLoginResponse) {
+        mUserLoginResponse = userLoginResponse;
+    }
+
+    public UserLoginResponse getUserLoginResponse() {
+        if (mUserLoginResponse != null) {
+            return mUserLoginResponse;
+        } else {
+            return null;
+        }
     }
 
 }

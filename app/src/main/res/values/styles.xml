@@ -1,18 +1,73 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!--将ActionBar隐藏,这里使用ToolBar-->
-        <item name="windowActionBar">false</item>
-        <!-- 使用 API Level 22以上编译的话，要拿掉前綴字 -->
-        <item name="windowNoTitle">true</item>
-        <!--colorPrimary 对应ToolBar的颜色-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <!--colorPrimaryDark对应状态栏的颜色-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <!--colorAccent 对应EditText编辑时、RadioButton选中、CheckBox等选中时的颜色。-->
-        <item name="colorAccent">@color/colorPrimaryDark</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <!--progress 的样式-->
+    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@android:color/white</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="new_circle_progress" parent="@android:style/Theme.Dialog">
+        <item name="android:indeterminateDrawable">@drawable/ic_circle_progress</item>
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->
+        <item name="android:backgroundDimEnabled">true</item><!--模糊-->
+    </style>
+
+    <style name="materialButton" parent="Material.Drawable.Ripple.Wave">
+        <item name="rd_enable">true</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/selector_confirm_button</item>
+    </style>
+
+    <style name="materialButtonScan" parent="Material.Drawable.Ripple.Wave">
+        <item name="rd_enable">true</item>
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:background">@drawable/icon_qr_code</item>
+    </style>
+
+    <style name="fb_common_style">
+        <item name="android:elevation">5dp</item>
+        <item name="pressedTranslationZ">10dp</item>
+        <item name="borderWidth">1dp</item>
+    </style>
+
+    <style name="CustomSpinner">
+        <item name="met_baseColor">#0056d3</item>
+        <item name="met_iconPadding">0dp</item>
+        <item name="met_primaryColor">#0056d3</item>
+        <item name="met_floatingLabel">normal</item>
+        <item name="met_textColor">#666</item>
+        <item name="android:lines">1</item>
+    </style>
+
+    <style name="test1">
+        <item name="android:elevation">4dp</item>
     </style>
 
 </resources>

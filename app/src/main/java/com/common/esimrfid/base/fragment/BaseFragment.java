@@ -1,14 +1,14 @@
 package com.common.esimrfid.base.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import com.common.esimrfid.base.presenter.AbstractPresenter;
+
+import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.utils.CommonUtils;
-
-import dagger.android.support.AndroidSupportInjection;
 
 
 /**
@@ -18,15 +18,25 @@ import dagger.android.support.AndroidSupportInjection;
  * @date 2017/11/28
  */
 
-public abstract class BaseFragment<T extends AbstractPresenter> extends AbstractSimpleFragment
+public abstract class BaseFragment<T extends BasePresenter> extends AbstractSimpleFragment
         implements AbstractView {
 
     protected T mPresenter;
+    protected Context mContext;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPresenter = initPresenter();
+    }
+
+    public abstract T initPresenter();
 
     @Override
     public void onAttach(Activity activity) {
-        AndroidSupportInjection.inject(this);
         super.onAttach(activity);
+        mContext = activity;
+
     }
 
     @Override
