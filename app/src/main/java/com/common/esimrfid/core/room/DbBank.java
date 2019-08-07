@@ -9,17 +9,23 @@ import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
 import com.common.esimrfid.app.EsimAndroidApp;
-import com.common.esimrfid.core.bean.InvDetail;
-import com.common.esimrfid.core.bean.InvOrder;
 import com.common.esimrfid.core.bean.nanhua.DbUser;
-import com.common.esimrfid.core.dao.InvDetailDao;
-import com.common.esimrfid.core.dao.InvOrderDao;
+import com.common.esimrfid.core.bean.nanhua.invdetailbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
 import com.common.esimrfid.core.dao.DbUserDao;
+import com.common.esimrfid.core.dao.InventoryDetailDao;
+import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
 
-@Database(entities = {InvOrder.class, InvDetail.class, DbUser.class}, version = 1)
+@Database(entities = {
+        InventoryDetail.class,
+        DbUser.class,
+        ResultInventoryOrder.class,
+
+        }
+        , version = 1)
 @TypeConverters(DateConverter.class)
 public abstract class DbBank extends RoomDatabase {
-    public static final String DB_NAME = "bank.db";
+    public static final String DB_NAME = "inventory.db";
     private static volatile DbBank instance;
 
     public static synchronized DbBank getInstance() {
@@ -49,9 +55,10 @@ public abstract class DbBank extends RoomDatabase {
         return build;
     }
 
-    public abstract InvOrderDao getInvOrderDao();
-
-    public abstract InvDetailDao getInvDetailDao();
+    public abstract InventoryDetailDao getInventoryDetailDao();
 
     public abstract DbUserDao getDbUserDao();
+
+    public abstract ResultInventoryOrderDao getResultInventoryOrderDao();
+
 }

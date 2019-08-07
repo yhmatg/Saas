@@ -1,24 +1,22 @@
 package com.common.esimrfid.presenter.login;
 
-import android.util.Log;
-
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.DbUser;
 import com.common.esimrfid.core.bean.nanhua.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.Md5Util;
+import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
 import java.util.Date;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -43,7 +41,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         if(CommonUtils.isNetworkConnected()){
             userInfo.setUser_password(Md5Util.getMD5(passWord));
             addSubscribe(mDataManager.login(userInfo)
-                    .subscribeOn(Schedulers.io())
+                    //.compose(rxSchedulerHelper())
+                    /*.subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
                     .map(new Function<BaseResponse<UserLoginResponse>, UserLoginResponse>() {
 
@@ -59,6 +58,19 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
                             }
                             return userLoginResponseBaseResponse.getResult();
+                        }
+                    })*/
+                    .compose(RxUtils.rxSchedulerHelper())
+                    .compose(RxUtils.handleResult())
+                    .observeOn(Schedulers.io())
+                    .doOnNext(new Consumer<UserLoginResponse>() {
+                        @Override
+                        public void accept(UserLoginResponse userLoginResponse) throws Exception {
+                            UserInfo sysUser = userLoginResponse.getSysUser();
+                            //保存用户信息DbUser到数据库
+                            savaUserInfo(sysUser);
+                            mDataManager.setUserLoginResponse(userLoginResponse);
+                            //保存UserLoginResponse到sp
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())
@@ -131,7 +143,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     public boolean getOpenSound() {
         return mDataManager.getOpenSound();
     }
-
 
 
 }

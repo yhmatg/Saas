@@ -1,7 +1,9 @@
 package com.common.esimrfid.core;
+
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.invdetailbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
 import com.common.esimrfid.core.http.HttpHelper;
 import com.common.esimrfid.core.http.HttpHelperImpl;
@@ -149,5 +151,20 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<List<ResultInventoryOrder>>> fetchAllIvnOrders(String userId) {
         return mHttpHelper.fetchAllIvnOrders(userId);
+    }
+
+    @Override
+    public Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(String orderId) {
+        return mHttpHelper.fetchAllInvDetails(orderId);
+    }
+
+    @Override
+    public Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails) {
+        return mHttpHelper.uploadInvDetails(orderId, invDetails);
+    }
+
+    @Override
+    public Observable<BaseResponse> finishInvOrder(String orderId, String uid, String remark) {
+        return mHttpHelper.finishInvOrder(orderId, uid, remark);
     }
 }

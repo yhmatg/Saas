@@ -51,13 +51,15 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.imgHomeAssetsScan,R.id.imgHomeAssetsSearch})
+    @OnClick({R.id.imgHomeAssetsScan,R.id.imgHomeAssetsSearch,R.id.txtHomeOut})
     void performClick(View view){
         switch (view.getId()){
             case R.id.txtHomeOut:
                 new MaterialDialog.Builder(this)
                         .title("提示")
                         .content("您确定退出程序吗？")
+                        .positiveText("确定")
+                        .negativeText("取消")
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

@@ -1,8 +1,19 @@
 package com.common.esimrfid.core.bean.nanhua.inventorybeans;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+@Entity
 public class Updater {
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "ind_updater_id")
     String id;
+    @ColumnInfo(name = "ind_updater_user_name")
     String user_name;
+    @ColumnInfo(name = "ind_updater_user_real_name")
     String user_real_name;
 
     public String getId() {

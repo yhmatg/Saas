@@ -28,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.invorder.InvOrderActicity"></activity>
+        <activity android:name=".ui.invdetail.InvdetailActivity"></activity>
     </application>
 
 </manifest>

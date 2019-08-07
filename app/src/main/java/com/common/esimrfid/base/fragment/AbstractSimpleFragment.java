@@ -6,10 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.common.esimrfid.R;
-import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.app.EsimAndroidApp;
-import com.common.esimrfid.utils.CommonUtils;
 import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.ButterKnife;
@@ -65,7 +62,7 @@ public abstract class AbstractSimpleFragment extends SupportFragment {
      */
     @Override
     public boolean onBackPressedSupport() {
-        if (getChildFragmentManager().getBackStackEntryCount() > 1) {
+        /*if (getChildFragmentManager().getBackStackEntryCount() > 1) {
             popChild();
         } else {
             if (isInnerFragment) {
@@ -79,7 +76,8 @@ public abstract class AbstractSimpleFragment extends SupportFragment {
             } else {
                 _mActivity.finish();
             }
-        }
+        }*/
+        _mActivity.finish();
         return true;
     }
 

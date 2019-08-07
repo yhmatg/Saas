@@ -1,6 +1,6 @@
 package com.common.esimrfid.utils;
 
-import com.common.esimrfid.core.bean.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.http.exception.OtherException;
 
 import org.reactivestreams.Publisher;
@@ -66,13 +66,36 @@ public class RxUtils {
                 return httpResponseObservable.flatMap(new Function<BaseResponse<T>, Observable<T>>() {
                     @Override
                     public Observable<T> apply(BaseResponse<T> baseResponse) throws Exception {
-                        if (baseResponse.isOk()
+                        if (baseResponse.isSuccess()
                                 && baseResponse.getResult() != null
                                 && CommonUtils.isNetworkConnected()) {
                             return createData(baseResponse.getResult());
                         } else {
                             return Observable.error(new OtherException());
                         }
+                    }
+                });
+            }
+        };
+    }
+
+    /**
+     * 统一返回结果处理(没有result)
+     * @return ObservableTransformer
+     */
+    public static  ObservableTransformer<BaseResponse, BaseResponse> handleBaseResponse() {
+        return new ObservableTransformer<BaseResponse, BaseResponse>() {
+            @Override
+            public ObservableSource<BaseResponse> apply(Observable<BaseResponse> upstream) {
+                return upstream.flatMap(new Function<BaseResponse, ObservableSource<BaseResponse>>() {
+                    @Override
+                    public ObservableSource<BaseResponse> apply(BaseResponse baseResponse) throws Exception {
+                        if(baseResponse.isSuccess() &&  CommonUtils.isNetworkConnected()){
+                            return createData(baseResponse);
+                        }else {
+                            return Observable.error(new OtherException());
+                        }
+
                     }
                 });
             }

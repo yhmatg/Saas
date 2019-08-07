@@ -1,31 +1,28 @@
 package com.common.esimrfid.core.bean.emun;
 
-public enum InventoryStatus {
-
-    INIT("未盘点", 0),
-    FINISH("已盘点",1),
-    FINISH_NOT_SUBMIT("已盘点未提交",2);
+public enum OrderStatusEm {
+    INIT("初始创建", 0),
+    PROCESSING("处理中", 10), FINISH("已完成", 11), CANCELLED("作废", 12);
 
     // 成员变量
     private String name;
     private int index;
 
-    InventoryStatus(String name, int index) {
+    private OrderStatusEm(String name, int index) {
         this.name = name;
         this.index = index;
     }
 
     public static String getName(int index) {
-        for (InventoryStatus c : InventoryStatus.values()) {
+        for (OrderStatusEm c : OrderStatusEm.values()) {
             if (c.getIndex() == index) {
                 return c.name;
             }
         }
         return null;
     }
-
     public static int getIndex(String name) {
-        for (InventoryStatus c : InventoryStatus.values()) {
+        for (OrderStatusEm c : OrderStatusEm.values()) {
             if (c.getName() == name) {
                 return c.index;
             }

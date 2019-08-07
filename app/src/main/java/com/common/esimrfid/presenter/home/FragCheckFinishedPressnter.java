@@ -4,11 +4,11 @@ import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.FragCheckWaitingContract;
 import com.common.esimrfid.core.DataManager;
 
-public class FragCheckWaitingPressnter extends BasePresenter<FragCheckWaitingContract.View> implements FragCheckWaitingContract.Presenter {
+public class FragCheckFinishedPressnter extends BasePresenter<FragCheckWaitingContract.View> implements FragCheckWaitingContract.Presenter {
     private DataManager mDataManager;
     private String TAG = "InvOrderPressnter";
 
-    public FragCheckWaitingPressnter(DataManager dataManager) {
+    public FragCheckFinishedPressnter(DataManager dataManager) {
         super(dataManager);
         mDataManager = dataManager;
     }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="存在未盘点产品，您确定结束该盘点任务吗？"/>
+
+        <com.rengwuxian.materialedittext.MaterialAutoCompleteTextView
+            android:layout_marginTop="@dimen/DIMEN_10DP"
+            android:paddingLeft="@dimen/DIMEN_10DP"
+            android:hint="备注"
+            android:id="@+id/uploade_remark"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#666"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        ></View>
+
+
+</LinearLayout>

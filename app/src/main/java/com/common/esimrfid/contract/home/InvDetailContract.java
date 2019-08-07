@@ -3,33 +3,34 @@ package com.common.esimrfid.contract.home;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
-import com.common.esimrfid.core.bean.InvDetail;
+import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.invdetailbeans.InventoryDetail;
 
 import java.util.List;
 
 public interface InvDetailContract {
     interface View extends AbstractView {
-        void loadInvDetailsNet(List<InvDetail> invdetails);
+        void handleInvDetails(List<InventoryDetail> InvDetail);
 
-        void finishSelf();
+        void handelUploadResult(BaseResponse baseResponse);
 
-        void uploadSuccess();
+        void handelFinishInvorder(BaseResponse baseResponse);
 
-        void initLocalCommitDetails(List<InvDetail> invdetails);
-
-        void uploadLocalSucess();
-
+        void uploadInvDetails(List<InventoryDetail> inventoryDetails);
     }
 
     interface Presenter extends AbstractPresenter<View> {
 
-        void fetchAllInvDetails(String orderId);
+        void fetchAllInvDetails( String orderId,boolean online);
 
-        void uploadInvDetails(List<InvDetail> invDetails, String orderId);
+        void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails);
 
-        void finishInvOrder(String orderId);
+        void findLocalInvDetailByInvid(String invId);
 
-        void getLocaCommitedDetails(String orderId);
+        void finishInvOrder(String orderId,String uid, String remark);
 
+        void updateLocalInvDetailsState(String orderId,List<InventoryDetail> inventoryDetails);
+
+        void updateLocalInvDetailState(String orderId,InventoryDetail inventoryDetail);
     }
 }

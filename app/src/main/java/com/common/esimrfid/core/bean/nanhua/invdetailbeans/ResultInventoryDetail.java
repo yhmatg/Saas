@@ -1,43 +1,33 @@
-package com.common.esimrfid.core.bean.nanhua.inventorybeans;
+package com.common.esimrfid.core.bean.nanhua.invdetailbeans;
 
-import android.arch.persistence.room.Embedded;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
+import com.common.esimrfid.core.bean.nanhua.inventorybeans.OrderStatus;
 
-import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
-@Entity
-public class ResultInventoryOrder implements Serializable {
-    @PrimaryKey
-    @NonNull
-    private String id;
-    @Embedded
-    private Assigner assigner;
-    private Date create_date;//Date
-    @Embedded
-    private Creator creator;
+public class ResultInventoryDetail {
+
+    private Date create_date;
     private String creator_id;
+    private String id;
     private String inv_assigner_id;
+    private Set<String> inv_aststatus_filter;
     private String inv_code;
     private String inv_creator_id;
-    @Ignore
     private Set<String> inv_dept_filter;
+    private List<InventoryDetail> detailResults;
     private Date inv_exptfinish_date;
-    private Integer inv_finish_count;
-    private String inv_remark;
-    private String finish_remark;
-    @Embedded
+    private Set<String> inv_loc_filter;
     private OrderStatus inv_status;
     private Integer inv_total_count;
+    private Set<String> inv_type_filter;
     private Date update_date;
-    @Embedded
-    private Updater updater;
     private String updater_id;
-    private Integer opt_status;
+
+    public Date getUpdate_date() {
+        return update_date;
+    }
 
     public Date getCreate_date() {
         return create_date;
@@ -55,37 +45,8 @@ public class ResultInventoryOrder implements Serializable {
         this.inv_exptfinish_date = inv_exptfinish_date;
     }
 
-    public Date getUpdate_date() {
-        return update_date;
-    }
-
     public void setUpdate_date(Date update_date) {
         this.update_date = update_date;
-    }
-
-    public String getFinish_remark() {
-        return finish_remark;
-    }
-
-    public void setFinish_remark(String finish_remark) {
-        this.finish_remark = finish_remark;
-    }
-
-    public Assigner getAssigner() {
-        return assigner;
-    }
-
-    public void setAssigner(Assigner assigner) {
-        this.assigner = assigner;
-    }
-
-
-    public Creator getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Creator creator) {
-        this.creator = creator;
     }
 
     public String getCreator_id() {
@@ -112,6 +73,14 @@ public class ResultInventoryOrder implements Serializable {
         this.inv_assigner_id = inv_assigner_id;
     }
 
+    public Set<String> getInv_aststatus_filter() {
+        return inv_aststatus_filter;
+    }
+
+    public void setInv_aststatus_filter(Set<String> inv_aststatus_filter) {
+        this.inv_aststatus_filter = inv_aststatus_filter;
+    }
+
     public String getInv_code() {
         return inv_code;
     }
@@ -136,21 +105,21 @@ public class ResultInventoryOrder implements Serializable {
         this.inv_dept_filter = inv_dept_filter;
     }
 
-
-    public Integer getInv_finish_count() {
-        return inv_finish_count;
+    public List<InventoryDetail> getDetailResults() {
+        return detailResults;
     }
 
-    public void setInv_finish_count(Integer inv_finish_count) {
-        this.inv_finish_count = inv_finish_count;
+    public void setDetailResults(List<InventoryDetail> detailResults) {
+        this.detailResults = detailResults;
     }
 
-    public String getInv_remark() {
-        return inv_remark;
+
+    public Set<String> getInv_loc_filter() {
+        return inv_loc_filter;
     }
 
-    public void setInv_remark(String inv_remark) {
-        this.inv_remark = inv_remark;
+    public void setInv_loc_filter(Set<String> inv_loc_filter) {
+        this.inv_loc_filter = inv_loc_filter;
     }
 
     public OrderStatus getInv_status() {
@@ -168,12 +137,13 @@ public class ResultInventoryOrder implements Serializable {
     public void setInv_total_count(Integer inv_total_count) {
         this.inv_total_count = inv_total_count;
     }
-    public Updater getUpdater() {
-        return updater;
+
+    public Set<String> getInv_type_filter() {
+        return inv_type_filter;
     }
 
-    public void setUpdater(Updater updater) {
-        this.updater = updater;
+    public void setInv_type_filter(Set<String> inv_type_filter) {
+        this.inv_type_filter = inv_type_filter;
     }
 
     public String getUpdater_id() {
@@ -182,13 +152,5 @@ public class ResultInventoryOrder implements Serializable {
 
     public void setUpdater_id(String updater_id) {
         this.updater_id = updater_id;
-    }
-
-    public Integer getOpt_status() {
-        return opt_status;
-    }
-
-    public void setOpt_status(Integer opt_status) {
-        this.opt_status = opt_status;
     }
 }

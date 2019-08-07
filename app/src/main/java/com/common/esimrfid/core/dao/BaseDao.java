@@ -14,11 +14,15 @@ public interface BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertItem(T item);//插入单条数据
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertItems(List<T> items);//插入list
 
     @Delete
     public void deleteItem(T item);//删除
     @Update
     public void updateItem(T item);//更新
+
+    @Update
+    public void updateItems(List<T> items);//更新
+
 }

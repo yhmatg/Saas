@@ -8,7 +8,10 @@ import android.view.View;
 
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.base.view.AbstractView;
+import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
 import com.common.esimrfid.utils.CommonUtils;
+
+import java.util.List;
 
 
 /**
@@ -115,5 +118,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends AbstractSimp
     public void showSnackBar(String message) {
         CommonUtils.showSnackMessage(_mActivity, message);
     }
+
+    public abstract void showInvOrders(List<ResultInventoryOrder> resultInventoryOrders);
 
 }

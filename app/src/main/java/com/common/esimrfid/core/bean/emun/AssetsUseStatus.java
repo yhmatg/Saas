@@ -1,35 +1,46 @@
 package com.common.esimrfid.core.bean.emun;
 
-public enum OrderStatus {
-    INIT("初始创建", 0),
-    PROCESSING("处理中", 10), FINISH("已完成", 11), CANCELLED("作废", 12);
+/**
+ * @Auther: lijiahang
+ * @Date: 2019/2/14 16:36
+ * @Description:
+ */
+public enum AssetsUseStatus {
+    AST_INIT("录入",0),
+    IN_STORE("在库", 1),
+    IN_USED("在用", 2),
+    IN_LOCK("锁定",3),
+
+
+
+    DISCARD("报废", 4);
+
 
     // 成员变量
     private String name;
     private int index;
 
-    private OrderStatus(String name, int index) {
+    private AssetsUseStatus(String name, int index) {
         this.name = name;
         this.index = index;
     }
 
     public static String getName(int index) {
-        for (OrderStatus c : OrderStatus.values()) {
+        for (AssetsUseStatus c : AssetsUseStatus.values()) {
             if (c.getIndex() == index) {
                 return c.name;
             }
         }
         return null;
     }
-    public static int getIndex(String name) {
-        for (OrderStatus c : OrderStatus.values()) {
-            if (c.getName() == name) {
-                return c.index;
-            }
-        }
-        return -1;
-    }
-
+//    public static AssetsStatus getByName(String name) {
+//        for (AssetsStatus c : AssetsStatus.values()) {
+//            if (c.getName().equals(name)) {
+//                return c;
+//            }
+//        }
+//        return null;
+//    }
     public String getName() {
         return name;
     }

@@ -15,8 +15,9 @@ import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.core.bean.emun.InvOperateStatus;
-import com.common.esimrfid.core.bean.emun.OrderStatus;
+import com.common.esimrfid.core.bean.emun.OrderStatusEm;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
+import com.common.esimrfid.ui.invdetail.InvdetailActivity;
 import com.common.esimrfid.utils.DateUtils;
 import com.orhanobut.logger.Logger;
 
@@ -64,14 +65,14 @@ public class InvsAdapter extends RecyclerView.Adapter<InvsAdapter.ViewHolder> {
         try {
             ResultInventoryOrder nventoryOrder = inventoryOrders.get(i);
             int status = nventoryOrder.getInv_status().getIndex();
-            if (status == OrderStatus.INIT.getIndex()) {
-                viewHolder.tvStatus.setText(OrderStatus.INIT.getName());
+            if (status == OrderStatusEm.INIT.getIndex()) {
+                viewHolder.tvStatus.setText(OrderStatusEm.INIT.getName());
                 viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.un_checked));
-            } else if (status == OrderStatus.FINISH.getIndex()) {
-                viewHolder.tvStatus.setText(OrderStatus.FINISH.getName());
+            } else if (status == OrderStatusEm.FINISH.getIndex()) {
+                viewHolder.tvStatus.setText(OrderStatusEm.FINISH.getName());
                 viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.green));
-            } else if (status == OrderStatus.PROCESSING.getIndex()) {
-                viewHolder.tvStatus.setText(OrderStatus.PROCESSING.getName());
+            } else if (status == OrderStatusEm.PROCESSING.getIndex()) {
+                viewHolder.tvStatus.setText(OrderStatusEm.PROCESSING.getName());
                 viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.processing));
             }
             // 指定单号
@@ -182,17 +183,17 @@ public class InvsAdapter extends RecyclerView.Adapter<InvsAdapter.ViewHolder> {
         Intent intent = new Intent();
 
         intent.putExtra(INV_ID, order.getId());
-        //intent.putExtra(InvDetailsActivity.INV_TOTAL_COUNT, order.getInv_total_count());
-        //intent.putExtra(InvDetailsActivity.INV_FININSHED_COUNT, order.getInv_finish_count());
+        intent.putExtra(InvdetailActivity.INV_TOTAL_COUNT, order.getInv_total_count());
+        intent.putExtra(InvdetailActivity.INV_FININSHED_COUNT, order.getInv_finish_count());
 
         if (order.getInv_status().getIndex() == 0) {//"初始创建"
             intent.putExtra(INV_STATUS, STATUS_INIT);
-        } else if (order.getInv_status().getIndex() == OrderStatus.FINISH.getIndex()) {//完成
+        } else if (order.getInv_status().getIndex() == OrderStatusEm.FINISH.getIndex()) {//完成
             intent.putExtra(INV_STATUS, STATUS_FINISH);
         }
-        //intent.setClass(mContext, InvDetailsActivity.class);
+        intent.setClass(mContext, InvdetailActivity.class);
 
-        //mContext.startActivity(intent);
+        mContext.startActivity(intent);
         Logger.e("======== BEGIN SWITCH =======> " + (System.currentTimeMillis() - l));
 
     }

@@ -3,13 +3,9 @@ package com.common.esimrfid.contract.home;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
-import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
-
-import java.util.List;
 
 public interface FragCheckWaitingContract {
     interface View extends AbstractView {
-        void showInvOrders(List<ResultInventoryOrder> resultInventoryOrders);
     }
 
     interface Presenter extends AbstractPresenter<View> {

@@ -3,13 +3,19 @@ package com.common.esimrfid.contract.home;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
+import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
+
+import java.util.List;
 
 public interface InvOrderContract {
     interface View extends AbstractView {
-
+        void showInvOrders(List<ResultInventoryOrder> resultInventoryOrders);
+        void loadOrUpdateData(boolean locaLeftUpload);
     }
 
     interface Presenter extends AbstractPresenter<View> {
+        void  fetchAllIvnOrders( String userId,boolean online);
 
+        void checkLocalDataState();
     }
 }

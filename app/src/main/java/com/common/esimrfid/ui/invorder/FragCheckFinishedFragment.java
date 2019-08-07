@@ -10,8 +10,9 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.base.fragment.BaseFragment;
 import com.common.esimrfid.contract.home.FragCheckWaitingContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.emun.OrderStatusEm;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
-import com.common.esimrfid.presenter.home.FragCheckWaitingPressnter;
+import com.common.esimrfid.presenter.home.FragCheckFinishedPressnter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import butterknife.BindView;
 
 import static android.view.View.GONE;
 
-public class FragCheckWaitingFragment extends BaseFragment<FragCheckWaitingPressnter> implements FragCheckWaitingContract.View {
+public class FragCheckFinishedFragment extends BaseFragment<FragCheckFinishedPressnter> implements FragCheckWaitingContract.View {
 
     @BindView(R.id.twinklingRefreshLayout)
     TwinklingRefreshLayout mTkrefreshlayout;
@@ -58,8 +59,8 @@ public class FragCheckWaitingFragment extends BaseFragment<FragCheckWaitingPress
     }
 
     @Override
-    public FragCheckWaitingPressnter initPresenter() {
-        return new FragCheckWaitingPressnter(DataManager.getInstance());
+    public FragCheckFinishedPressnter initPresenter() {
+        return new FragCheckFinishedPressnter(DataManager.getInstance());
     }
 
     @Override
@@ -67,14 +68,13 @@ public class FragCheckWaitingFragment extends BaseFragment<FragCheckWaitingPress
         mData.clear();
         for (int i = 0; i < resultInventoryOrders.size(); i++) {
             if (resultInventoryOrders.get(i) != null
-                    && (resultInventoryOrders.get(i).getInv_status().getIndex() == 0
-                    || resultInventoryOrders.get(i).getInv_status().getIndex() == 10))
+                    && resultInventoryOrders.get(i).getInv_status().getIndex() == OrderStatusEm.FINISH.getIndex())
                 mData.add(resultInventoryOrders.get(i));
         }
         if (mData.size() == 0) {
             mTkrefreshlayout.setVisibility(GONE);
             emptyRes.setVisibility(View.VISIBLE);
-            emptyRes.setText("暂无未完成盘点单");
+            emptyRes.setText("暂无已完成盘点单");
         } else {
             mTkrefreshlayout.setVisibility(View.VISIBLE);
             emptyRes.setVisibility(View.GONE);

@@ -1,15 +1,20 @@
-package com.common.esimrfid.core.bean.nanhua.inventorybeans;
+package com.common.esimrfid.core.bean.nanhua.invdetailbeans;
+
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 @Entity
-public class OrderStatus {
-//    INIT("初始创建", 0),
-//    PROCESSING("处理中", 10), FINISH("已完成", 11), CANCELLED("作废", 12);
-
-    // 成员变量
+public class AssetsCheckStatus {
+    //need
+    @PrimaryKey
+    @NonNull
     private Integer code;
+    @Ignore
     private Integer index;
+    @Ignore
     private String name;
 
     public Integer getCode() {
@@ -35,4 +40,5 @@ public class OrderStatus {
     public void setName(String name) {
         this.name = name;
     }
+
 }
