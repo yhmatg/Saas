@@ -21,16 +21,10 @@ import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvDetailContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.emun.InvOperateStatus;
 import com.common.esimrfid.core.bean.emun.InventoryStatus;
-import com.common.esimrfid.core.bean.emun.OrderStatusEm;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.core.bean.nanhua.invdetailbeans.InventoryDetail;
-import com.common.esimrfid.core.bean.nanhua.inventorybeans.OrderStatus;
-import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
-import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
-import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.presenter.home.InvDetailPresenter;
 import com.common.esimrfid.uhf.EsimUhfAbstractService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
@@ -330,7 +324,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             case R.id.openBtn:
                 esimUhfService.startStopScanning();
                 //test start
-                mDataList.get(0).getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
+               /* mDataList.get(0).getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
                 DbBank.getInstance().getInventoryDetailDao().updateItem(mDataList.get(0));
                 ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
                 ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(mInvId);
@@ -341,7 +335,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                 orderStatus.setName(OrderStatusEm.PROCESSING.getName());
                 invOrderByInvId.setInv_status(orderStatus);
                 resultInventoryOrderDao.updateItem(invOrderByInvId);
-                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();*/
                 //test end
                 break;
             case R.id.saveBtn:
