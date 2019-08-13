@@ -5,8 +5,10 @@ import com.common.esimrfid.core.bean.nanhua.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.core.bean.nanhua.invdetailbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.invscannbeans.AssetsInfo;
 
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Observable;
 
@@ -26,4 +28,6 @@ public interface HttpHelper {
     Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails);
 
     Observable<BaseResponse> finishInvOrder(String orderId, String uid, String remark);
+
+    Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssetsInfons( Set<String> ecps);
 }

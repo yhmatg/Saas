@@ -2,6 +2,7 @@ package com.common.esimrfid.utils;
 
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.http.exception.OtherException;
+import com.common.esimrfid.core.http.exception.TokenException;
 
 import org.reactivestreams.Publisher;
 
@@ -71,7 +72,11 @@ public class RxUtils {
                                 && CommonUtils.isNetworkConnected()) {
                             return createData(baseResponse.getResult());
                         } else {
-                            return Observable.error(new OtherException());
+                            if("2000A0".equals(baseResponse.getCode())){
+                                return Observable.error(new TokenException());
+                            }else{
+                                return Observable.error(new OtherException());
+                            }
                         }
                     }
                 });

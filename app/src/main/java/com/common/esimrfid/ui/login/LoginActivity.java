@@ -7,7 +7,6 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -115,12 +114,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                     }
                 })
-                .checkBoxPrompt("开启声音", isSoundOpen, new CompoundButton.OnCheckedChangeListener() {
+                /*.checkBoxPrompt("开启声音", isSoundOpen, new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
                     }
-                })
+                })*/
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

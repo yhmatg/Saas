@@ -41,17 +41,17 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.2"
                         android:gravity="right"
-                        android:text="盘点人："
+                        android:text="未提交："
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/font_size_large" />
 
                     <TextView
-                        android:id="@+id/tv_inventory_owner"
+                        android:id="@+id/tv_unsubmit"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:text="---"
+                        android:text="0"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/font_size_large"
                         android:textStyle="bold" />
@@ -207,8 +207,11 @@
             android:id="@+id/twinklingRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:tr_enable_loadmore="false"
+            app:tr_enable_refresh="false"
             app:tr_bottom_height="80dp"
-            app:tr_head_height="80dp">
+            app:tr_head_height="80dp"
+            android:layout_marginBottom="50dp">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/invdetail_recycleview"

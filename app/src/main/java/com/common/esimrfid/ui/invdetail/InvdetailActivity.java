@@ -23,14 +23,12 @@ import com.common.esimrfid.contract.home.InvDetailContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.emun.InventoryStatus;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
-import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.core.bean.nanhua.invdetailbeans.InventoryDetail;
 import com.common.esimrfid.presenter.home.InvDetailPresenter;
-import com.common.esimrfid.uhf.EsimUhfAbstractService;
+import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
-import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.utils.ToastUtils;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
@@ -62,6 +60,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     private int mOrignHasInvenroid;
     private int mHasInventorid;
     private int mNotInventoried;
+    private int mNotSubmit;
     private InvDetailAdapter mAdapter;
     //所有条目数据
     private List<InventoryDetail> mDataList = new ArrayList<>();
@@ -76,7 +75,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     private  int mUpdateInvDataListSize;
     private boolean mDataChanged;
     private boolean mEnable = true;
-    EsimUhfAbstractService esimUhfService=null;
+    IEsimUhfService esimUhfService=null;
 
     @BindView(R.id.imgTitleLeft)
     ImageView imgTitleLeft;
@@ -98,8 +97,8 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     LinearLayout saveBtn;
     @BindView(R.id.btn_submit)
     FloatingActionButton btnSubmit;
-    @BindView(R.id.tv_inventory_owner)
-    TextView tvInventoryOwner;
+    @BindView(R.id.tv_unsubmit)
+    TextView tvUnsubmit;
     @BindView(R.id.tv_total)
     TextView tvTotal;
     @BindView(R.id.tv_not_inventory_num)
@@ -133,8 +132,8 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             mInvId = getIntent().getStringExtra(INV_ID);
             mStatus = getIntent().getStringExtra(INV_STATUS);
             mTotalInventoried = getIntent().getIntExtra(INV_TOTAL_COUNT, -1);
-            mOrignHasInvenroid =  getIntent().getIntExtra(INV_FININSHED_COUNT, -1);
-            mHasInventorid = mOrignHasInvenroid;
+            /*mOrignHasInvenroid =  getIntent().getIntExtra(INV_FININSHED_COUNT, -1);
+            mHasInventorid = mOrignHasInvenroid;*/
             mNotInventoried = mTotalInventoried - mHasInventorid;
         }
         userId = EsimAndroidApp.getInstance().getUserLoginResponse().getSysUser().getId();
@@ -150,9 +149,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     }
 
     private void initRfidAndEventbus() {
-        //esimUhfService = new RodinbellUhfServiceImpl();
-        esimUhfService = new ZebraUhfServiceImpl();
-        esimUhfService.initRFID();
+        esimUhfService = EsimAndroidApp.getIEsimUhfService();
         EventBus.getDefault().register(this);
     }
 
@@ -161,8 +158,8 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
         // 总数
         tvTotal.setText(String.valueOf(mTotalInventoried));
         // 盘点人
-        UserLoginResponse uerLogin = DataManager.getInstance().getUserLoginResponse();
-        tvInventoryOwner.setText(uerLogin.getSysUser().getUser_real_name());
+        //UserLoginResponse uerLogin = DataManager.getInstance().getUserLoginResponse();
+        tvUnsubmit.setText(String.valueOf(mNotSubmit));
         // 已盘点
         tvInventoriedNum.setText(String.valueOf(mHasInventorid));
         // 未盘点
@@ -185,6 +182,9 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             if(invDetail.getInvdt_status().getCode() == InventoryStatus.FINISH.getIndex() ){
                 mHasInventorid++;
                 mNotInventoried--;
+
+            }else if (invDetail.getInvdt_status().getCode() == InventoryStatus.FINISH_NOT_SUBMIT.getIndex()){
+                mNotSubmit++;
             }
         }
         refresTitle();
@@ -195,6 +195,17 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     public void handelUploadResult(BaseResponse baseResponse) {
         if(baseResponse.isSuccess()){
             mDataChanged = false;
+            List<InventoryDetail> tempDataList = new ArrayList<>();
+            tempDataList.addAll(mDataList);
+            tempDataList.retainAll(mResnentUpdateInvDataList);
+            mNotSubmit = 0;
+            mNotInventoried -= mResnentUpdateInvDataList.size();
+            mHasInventorid += mResnentUpdateInvDataList.size();
+            for (InventoryDetail inventoryDetail : tempDataList) {
+                inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
+            }
+            refresTitle();
+            mAdapter.notifyDataSetChanged();
             ToastUtils.showShort("提交成功！");
         }else {
             ToastUtils.showShort("提交失败!");
@@ -219,7 +230,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
         List<String> finishedOdIds = new ArrayList<>();
         List<InventoryDetail> finishedInvOrders = new ArrayList<>();
         for (InventoryDetail inventoryDetail : inventoryDetails) {
-            if(inventoryDetail.getInvdt_status().getCode() == InventoryStatus.FINISH.getIndex()){
+            if(inventoryDetail.getInvdt_status().getCode() == InventoryStatus.FINISH_NOT_SUBMIT.getIndex()){
                 finishedOdIds.add(inventoryDetail.getAst_id());
                 finishedInvOrders.add(inventoryDetail);
             }
@@ -323,20 +334,6 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                 break;
             case R.id.openBtn:
                 esimUhfService.startStopScanning();
-                //test start
-               /* mDataList.get(0).getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
-                DbBank.getInstance().getInventoryDetailDao().updateItem(mDataList.get(0));
-                ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
-                ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(mInvId);
-                invOrderByInvId.setOpt_status(InvOperateStatus.MODIFIED_BUT_NOT_SUBMIT.getIndex());
-                OrderStatus orderStatus = new OrderStatus();
-                orderStatus.setCode(OrderStatusEm.PROCESSING.getIndex());
-                orderStatus.setIndex(OrderStatusEm.PROCESSING.getIndex());
-                orderStatus.setName(OrderStatusEm.PROCESSING.getName());
-                invOrderByInvId.setInv_status(orderStatus);
-                resultInventoryOrderDao.updateItem(invOrderByInvId);
-                mAdapter.notifyDataSetChanged();*/
-                //test end
                 break;
             case R.id.saveBtn:
                 mPresenter.findLocalInvDetailByInvid(mInvId);
@@ -361,21 +358,20 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             case UhfMsgType.INV_TAG:
                 UhfTag uhfTag=(UhfTag) uhfMsgEvent.getData();
                 epc = uhfTag.getEpc();
-                Log.d(TAG, "epc=====: "+epc);
                 handleEpc(epc);
                 break;
             case UhfMsgType.UHF_CONNECT:
-                Log.d(TAG, "UHF_CONNECT=====: ");
                 break;
             case UhfMsgType.UHF_DISCONNECT:
-                Log.d(TAG, "UHF_DISCONNECT=====: ");
                 break;
             case UhfMsgType.UHF_START:
-                Log.d(TAG, "UHF_START=====: ");
                 mResnentUpdateInvDataList.clear();
+                //test 20190812 start
+               /* handleEpc("6573696D303038");
+                handleEpc("6573696D303032");*/
+                //test 20190812 end
                 break;
             case UhfMsgType.UHF_STOP:
-                Log.d(TAG, "UHF_STOP=====: ");
                 //跟新盘点状态到数据库
                 //盘点到新数据才更新到数据库
                 if(mResnentUpdateInvDataList.size() > 0){
@@ -393,11 +389,12 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                 InventoryDetail inventoryDetail = mDataList.get(i);
                 if(epc.equals(inventoryDetail.getAssets_info().getAst_epc_code())){
                     checkedEpcList.add(epc);
-                    inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
+                    inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH_NOT_SUBMIT.getIndex());
                     mUpdateInvDataList.add(inventoryDetail);
                     mResnentUpdateInvDataList.add(inventoryDetail);
-                    mHasInventorid++;
-                    mNotInventoried--;
+                   /* mHasInventorid++;
+                    mNotInventoried--;*/
+                    mNotSubmit++;
                     llCurrent.setVisibility(View.VISIBLE);
                     tvCurrentAst.setText(inventoryDetail.getAssets_info().getAst_name() + "-" + inventoryDetail.getAssets_info().getAst_code());
                     refresTitle();
@@ -479,9 +476,6 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(esimUhfService.mEnable){
-            esimUhfService.closeRFID();
-        }
         EventBus.getDefault().unregister(this);
     }
 }

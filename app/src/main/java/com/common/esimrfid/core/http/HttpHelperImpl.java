@@ -6,10 +6,12 @@ import com.common.esimrfid.core.bean.nanhua.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.core.bean.nanhua.invdetailbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.invscannbeans.AssetsInfo;
 import com.common.esimrfid.core.http.api.GeeksApis;
 import com.common.esimrfid.core.http.client.RetrofitClient;
 
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Observable;
 
@@ -69,6 +71,11 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse> finishInvOrder(String orderId, String uid, String remark) {
         return mGeeksApis.finishInvOrder(orderId, uid, remark);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssetsInfons(Set<String> ecps) {
+        return mGeeksApis.fetchScanAssetsInfons(ecps);
     }
 
 

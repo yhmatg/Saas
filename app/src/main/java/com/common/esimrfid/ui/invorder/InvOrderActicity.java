@@ -19,6 +19,7 @@ import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
+import com.common.esimrfid.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,7 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
     private FragCheckWaitingFragment fragCheckWaitingFragment;
     private FragCheckFinishedFragment fragCheckFinishedFragment;
     private String userId;
+    private Boolean isUpdate = false;
 
     @Override
     public InvOrderPressnter initPresenter() {
@@ -95,6 +97,7 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
                 break;
             case R.id.tvTitleRight:
                 mPresenter.checkLocalDataState();
+                isUpdate = true;
                 break;
             case R.id.tvMyOrderWaiting:
                 updateUI(tvMyOrderWaiting, tvMyOrderFinish, tvMyOrderDisposing, lineMyOrderWaiting, lineMyOrderDisposing, lineMyOrderFinish);
@@ -154,6 +157,11 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
         mDataList.addAll(resultInventoryOrders);
         fragCheckWaitingFragment.showInvOrders(mDataList);
         fragCheckFinishedFragment.showInvOrders(mDataList);
+        if(isUpdate){
+            ToastUtils.showShort(R.string.data_updated);
+            isUpdate = false;
+        }
+
     }
 
     @Override
@@ -175,6 +183,7 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             dialog.dismiss();
                             mPresenter.fetchAllIvnOrders(userId,false);
+                            isUpdate = false;
                         }
                     })
                     .show();

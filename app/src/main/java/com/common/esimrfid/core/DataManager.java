@@ -5,12 +5,14 @@ import com.common.esimrfid.core.bean.nanhua.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.core.bean.nanhua.invdetailbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.invscannbeans.AssetsInfo;
 import com.common.esimrfid.core.http.HttpHelper;
 import com.common.esimrfid.core.http.HttpHelperImpl;
 import com.common.esimrfid.core.prefs.PreferenceHelper;
 import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
 
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Observable;
 
@@ -166,5 +168,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse> finishInvOrder(String orderId, String uid, String remark) {
         return mHttpHelper.finishInvOrder(orderId, uid, remark);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssetsInfons(Set<String> ecps) {
+        return mHttpHelper.fetchScanAssetsInfons(ecps);
     }
 }

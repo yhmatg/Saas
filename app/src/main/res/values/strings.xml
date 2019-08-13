@@ -16,6 +16,7 @@
     <string name="title_activity_uninv_list">UninvListActivity</string>
     <string name="double_click_exit_tint">Press the back button again to exit the GeeksAndroid</string>
     <string name="http_error">network anomaly</string>
+    <string name="token_error">未登录或token过期,请重新登录!</string>
     <string name="unKnown_error">unKnown error</string>
     <string name="login_fail">登录失败</string>
     <string name="load_data_fail">获取数据失败</string>
@@ -23,4 +24,6 @@
     <string name="search_data_fail">查询数据失败</string>
     <string name="uer_name">用户名</string>
     <string name="user_passward">密码</string>
+    <string name="data_updated">数据已经更新！</string>
+
 </resources>

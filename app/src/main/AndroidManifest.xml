@@ -29,6 +29,8 @@
         </activity>
         <activity android:name=".ui.invorder.InvOrderActicity"></activity>
         <activity android:name=".ui.invdetail.InvdetailActivity"></activity>
+        <activity android:name=".ui.cardsearch.ScanRfidActivity"></activity>
+        <activity android:name=".ui.cardsearch.PhotoViewActivity"></activity>
     </application>
 
 </manifest>

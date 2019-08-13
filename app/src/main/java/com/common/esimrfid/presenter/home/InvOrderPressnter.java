@@ -31,22 +31,10 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     }
 
 
+    //获取盘点数据
     @Override
     public void fetchAllIvnOrders(String userId,boolean online) {
         addSubscribe(Observable.concat(getLocalInOrderObservable(online),mDataManager.fetchAllIvnOrders(userId))
-               /* .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .map(new Function<BaseResponse<List<ResultInventoryOrder>>, List<ResultInventoryOrder>>() {
-                    @Override
-                    public List<ResultInventoryOrder> apply(BaseResponse<List<ResultInventoryOrder>> listBaseResponse) throws Exception {
-                        //保存ResultInventoryOrder数据到本地
-                        List<ResultInventoryOrder> result = listBaseResponse.getResult();
-                        if(result != null ){
-                            DbBank.getInstance().getResultInventoryOrderDao().insertItems(listBaseResponse.getResult());
-                        }
-                        return result;
-                    }
-                })*/
                .compose(RxUtils.rxSchedulerHelper())
                .compose(RxUtils.handleResult())
                 .observeOn(Schedulers.io())
@@ -78,6 +66,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                 }));
     }
 
+    //检查本地是否有盘点过未提交的数据
     @Override
     public void checkLocalDataState() {
         addSubscribe(Observable.create(new ObservableOnSubscribe<List<ResultInventoryOrder>>() {

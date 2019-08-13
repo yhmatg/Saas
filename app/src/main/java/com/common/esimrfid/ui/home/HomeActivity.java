@@ -15,8 +15,18 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
+import com.common.esimrfid.uhf.IEsimUhfService;
+import com.common.esimrfid.uhf.UhfMsgEvent;
+import com.common.esimrfid.uhf.UhfMsgType;
+import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
+import com.common.esimrfid.ui.cardsearch.ScanRfidActivity;
 import com.common.esimrfid.ui.invorder.InvOrderActicity;
 import com.common.esimrfid.ui.login.LoginActivity;
+import com.common.esimrfid.utils.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,8 +46,18 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
+        initRfid();
     }
 
+    private void initRfid() {
+        ToastUtils.showShort("RFID正在连接...");
+        IEsimUhfService iEsimUhfService = new ZebraUhfServiceImpl();
+        iEsimUhfService.initRFID();
+        EsimAndroidApp.setIEsimUhfService(iEsimUhfService);
+    }
 
     @Override
     protected void onResume() {
@@ -80,10 +100,30 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(this, InvOrderActicity.class));
                 break;
             case R.id.imgHomeAssetsSearch:
-                //startActivity(new Intent(this, SearchCardActivity.class));
+                startActivity(new Intent(this, ScanRfidActivity.class));
                 break;
 
 
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleEPC(UhfMsgEvent uhfMsgEvent) {
+
+        switch(uhfMsgEvent.getType()) {
+            case UhfMsgType.UHF_CONNECT:
+                ToastUtils.showShort("RFID已连接");
+                break;
+            case UhfMsgType.UHF_DISCONNECT:
+                break;
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EsimAndroidApp.getIEsimUhfService().closeRFID();
+        EventBus.getDefault().unregister(this);
     }
 }

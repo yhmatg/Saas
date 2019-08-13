@@ -1,5 +1,6 @@
 package com.common.esimrfid.base.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatDelegate;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
+import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.MaterialDialogUtils;
 
@@ -138,5 +140,11 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
      * 初始化数据
      */
     protected abstract void initEventAndData();
+
+    @Override
+    public void startLoginActivity(){
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
 
 }

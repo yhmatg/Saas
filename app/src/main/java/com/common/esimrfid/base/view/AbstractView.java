@@ -82,4 +82,5 @@ public interface AbstractView {
 
     void dismissDialog();
 
+    void startLoginActivity();
 }

@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 import com.common.esimrfid.BuildConfig;
 import com.common.esimrfid.R;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
+import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.utils.Utils;
 import com.common.esimrfid.utils.logger.TxtFormatStrategy;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -28,6 +29,7 @@ public class EsimAndroidApp extends Application {
     private static EsimAndroidApp instance;
     private RefWatcher refWatcher;
     private UserLoginResponse mUserLoginResponse;
+    private static IEsimUhfService mIEsimUhfService ;
 
     public static synchronized EsimAndroidApp getInstance() {
         return instance;
@@ -94,6 +96,14 @@ public class EsimAndroidApp extends Application {
         } else {
             return null;
         }
+    }
+
+    public static IEsimUhfService getIEsimUhfService(){
+        return mIEsimUhfService;
+    }
+
+    public static void setIEsimUhfService(IEsimUhfService iEsimUhfService){
+        mIEsimUhfService = iEsimUhfService;
     }
 
 }

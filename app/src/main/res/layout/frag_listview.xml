@@ -9,6 +9,8 @@
         android:id="@+id/twinklingRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:tr_enable_refresh="false"
+        app:tr_enable_loadmore="false"
         app:tr_head_height="80dp"
         app:tr_bottom_height="80dp">
 

@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
+
 @Entity
 public class InventoryDetail implements Serializable {
 
@@ -146,5 +148,20 @@ public class InventoryDetail implements Serializable {
             return reg_date;
         }
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InventoryDetail that = (InventoryDetail) o;
+        return id.equals(that.id) &&
+                ast_id.equals(that.ast_id) &&
+                inv_id.equals(that.inv_id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, ast_id, inv_id);
     }
 }

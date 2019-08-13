@@ -2,16 +2,17 @@ package com.common.esimrfid.contract.home;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
-import com.common.esimrfid.core.bean.CorpInfo;
+import com.common.esimrfid.core.bean.nanhua.invscannbeans.AssetsInfo;
 
-public interface CardSearchContract {
+import java.util.List;
+import java.util.Set;
+
+public interface ScanFridContract {
     interface View extends AbstractView {
-        void handleSerachData(CorpInfo corpInfo);
+        void handleAssetsInfons(List<AssetsInfo> assetsInfos);
     }
 
     interface Presenter extends AbstractPresenter<View> {
-
-        void findCorpInfoByAll(String corpName, String corpAccount, String cardCode);
-
+        void fetchScanAssetsInfons( Set<String> ecps);
     }
 }

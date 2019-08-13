@@ -4,6 +4,7 @@ import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvDetailContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.emun.InvOperateStatus;
+import com.common.esimrfid.core.bean.emun.InventoryStatus;
 import com.common.esimrfid.core.bean.emun.OrderStatusEm;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.invdetailbeans.InventoryDetail;
@@ -80,9 +81,9 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                             resultInventoryOrderDao.updateItem(invOrderByInvId);
                             //跟新盘点子条目ResultInventoryDetail的盘点提交状态
                             // 暂定 本地盘点和已经上传的盘点不区分
-                           /* for (InventoryDetail inventoryDetail : inventoryDetails) {
+                            for (InventoryDetail inventoryDetail : inventoryDetails) {
                                 inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
-                            }*/
+                            }
                             DbBank.getInstance().getInventoryDetailDao().updateItems(inventoryDetails);
                         }else {
 
