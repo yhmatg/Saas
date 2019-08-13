@@ -15,7 +15,7 @@
     <string name="xlistview_header_last_time">上次更新时间：</string>
     <string name="title_activity_uninv_list">UninvListActivity</string>
     <string name="double_click_exit_tint">Press the back button again to exit the GeeksAndroid</string>
-    <string name="http_error">network anomaly</string>
+    <string name="http_error">网络异常！</string>
     <string name="token_error">未登录或token过期,请重新登录!</string>
     <string name="unKnown_error">unKnown error</string>
     <string name="login_fail">登录失败</string>

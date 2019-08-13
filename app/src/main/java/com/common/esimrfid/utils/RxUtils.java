@@ -68,8 +68,7 @@ public class RxUtils {
                     @Override
                     public Observable<T> apply(BaseResponse<T> baseResponse) throws Exception {
                         if (baseResponse.isSuccess()
-                                && baseResponse.getResult() != null
-                                && CommonUtils.isNetworkConnected()) {
+                                && baseResponse.getResult() != null) {
                             return createData(baseResponse.getResult());
                         } else {
                             if("2000A0".equals(baseResponse.getCode())){

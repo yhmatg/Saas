@@ -9,6 +9,7 @@ import com.common.esimrfid.core.bean.emun.InvOperateStatus;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
@@ -34,6 +35,9 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     //获取盘点数据
     @Override
     public void fetchAllIvnOrders(String userId,boolean online) {
+        if(!CommonUtils.isNetworkConnected()){
+            online = false;
+        }
         addSubscribe(Observable.concat(getLocalInOrderObservable(online),mDataManager.fetchAllIvnOrders(userId))
                .compose(RxUtils.rxSchedulerHelper())
                .compose(RxUtils.handleResult())

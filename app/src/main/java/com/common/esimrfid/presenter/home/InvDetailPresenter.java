@@ -37,7 +37,6 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
     //网络获取盘点数据
     @Override
     public void fetchAllInvDetails(String orderId, boolean online) {
-        //addSubscribe(mDataManager.fetchAllInvDetails(orderId)
         addSubscribe(Observable.concat(getLocalInvDetailsObservable(orderId,online),mDataManager.fetchAllInvDetails(orderId))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
@@ -80,7 +79,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                             invOrderByInvId.setInv_status(orderStatus);
                             resultInventoryOrderDao.updateItem(invOrderByInvId);
                             //跟新盘点子条目ResultInventoryDetail的盘点提交状态
-                            // 暂定 本地盘点和已经上传的盘点不区分
+                            // 暂定 本地盘点和已经上传的区分
                             for (InventoryDetail inventoryDetail : inventoryDetails) {
                                 inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
                             }
@@ -99,7 +98,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                 }));
     }
 
-    //本地获取要上传的盘点数据后上传服务器
+    //本地获取所有本地InventoryDetail数据
     @Override
     public void findLocalInvDetailByInvid(String invId) {
         addSubscribe(Observable.create((ObservableOnSubscribe<List<InventoryDetail>>) new ObservableOnSubscribe<List<InventoryDetail>>() {

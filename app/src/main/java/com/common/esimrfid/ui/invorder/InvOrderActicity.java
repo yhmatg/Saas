@@ -19,6 +19,7 @@ import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -166,7 +167,7 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
 
     @Override
     public void loadOrUpdateData(boolean locaLeftUpload) {
-        if (locaLeftUpload){
+        if (locaLeftUpload && CommonUtils.isNetworkConnected()){
             new MaterialDialog.Builder(this)
                     .title("更新提示")
                     .positiveText("确定")

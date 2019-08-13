@@ -83,6 +83,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                             setLoginAccount(userInfo.getUser_name());
                             setLoginPassword(passWord);
                             setToken(userLoginResponse.getToken());
+                            mDataManager.setLoginStatus(true);
                             mView.startMainActivity();
                         }
 
@@ -102,6 +103,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                     }));
         }else {
             if(passWord.equals(mDataManager.getLoginPassword()) && userName.equals(mDataManager.getLoginAccount())){
+                mDataManager.setLoginStatus(true);
                 mView.startMainActivity();
             }else {
                 ToastUtils.showShort("账号或者密码错误");

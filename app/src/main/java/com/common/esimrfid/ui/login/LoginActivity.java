@@ -139,6 +139,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     public void startMainActivity(){
         startActivity(new Intent(this, HomeActivity.class));
+        finish();
     }
 
 

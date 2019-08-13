@@ -62,63 +62,66 @@ public class InvsAdapter extends RecyclerView.Adapter<InvsAdapter.ViewHolder> {
                 switchDetailsPage(inventoryOrders.get(i));
             }
         });
-        try {
-            ResultInventoryOrder nventoryOrder = inventoryOrders.get(i);
-            int status = nventoryOrder.getInv_status().getIndex();
-            if (status == OrderStatusEm.INIT.getIndex()) {
-                viewHolder.tvStatus.setText(OrderStatusEm.INIT.getName());
-                viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.un_checked));
-            } else if (status == OrderStatusEm.FINISH.getIndex()) {
-                viewHolder.tvStatus.setText(OrderStatusEm.FINISH.getName());
-                viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.green));
-            } else if (status == OrderStatusEm.PROCESSING.getIndex()) {
-                viewHolder.tvStatus.setText(OrderStatusEm.PROCESSING.getName());
-                viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.processing));
-            }
-            // 指定单号
-            viewHolder.tvOrderNum.setText("单号：" + nventoryOrder.getInv_code());
-            if (nventoryOrder.getInv_status().getIndex() == 0) {
-                // 未完成
-                viewHolder.tvFinishDate.setVisibility(View.GONE);
-            } else {
-                // 已完成
-                viewHolder.tvCredDate.setVisibility(View.VISIBLE);
-                viewHolder.tvFinishDate.setText("结束时间：");//+ DateUtils.stampToDate(bean.getOd_finishdate())
-            }
-            String creator = nventoryOrder.getCreator().getUser_real_name();
-            if (TextUtils.isEmpty(creator) || "null".equals(creator)) {
-                creator = nventoryOrder.getCreator().getUser_name();
-            }
-            viewHolder.tvCreator.setText("创建人：" + creator);
-            viewHolder.tvCredDate.setText("创建时间：" + DateUtils.date2String(nventoryOrder.getCreate_date()));
-            int tempStatus = nventoryOrder.getInv_status().getIndex();
-            if (tempStatus == 11) {
-                viewHolder.tvDeadLine.setText("完成时间：" + DateUtils.date2String(nventoryOrder.getUpdate_date()));
-            } else if (tempStatus == 0 || tempStatus == 10) {
-                viewHolder.tvDeadLine.setText("预计完成：" + DateUtils.date2String(nventoryOrder.getInv_exptfinish_date()));
-            }
+        ResultInventoryOrder nventoryOrder = inventoryOrders.get(i);
+        int status = nventoryOrder.getInv_status().getIndex();
+        if (status == OrderStatusEm.INIT.getIndex()) {
+            viewHolder.tvStatus.setText(OrderStatusEm.INIT.getName());
+            viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.un_checked));
+        } else if (status == OrderStatusEm.FINISH.getIndex()) {
+            viewHolder.tvStatus.setText(OrderStatusEm.FINISH.getName());
+            viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.green));
+        } else if (status == OrderStatusEm.PROCESSING.getIndex()) {
+            viewHolder.tvStatus.setText(OrderStatusEm.PROCESSING.getName());
+            viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.processing));
+        }
+        // 指定单号
+        viewHolder.tvOrderNum.setText("单号：" + nventoryOrder.getInv_code());
+        if (nventoryOrder.getInv_status().getIndex() == 0) {
+            // 未完成
+            viewHolder.tvFinishDate.setVisibility(View.GONE);
+        } else {
+            // 已完成
+            viewHolder.tvCredDate.setVisibility(View.VISIBLE);
+            viewHolder.tvFinishDate.setText("结束时间：");//+ DateUtils.stampToDate(bean.getOd_finishdate())
+        }
+        //modify null 20190813 start
+        String creator = "";
+        String userRealName = nventoryOrder.getCreator() == null ? "未知" : nventoryOrder.getCreator().getUser_real_name();
+        String userName = nventoryOrder.getCreator() == null ? "未知" : nventoryOrder.getCreator().getUser_name();
+        if (!"未知".equals(userRealName)) {
+            creator = userRealName;
+        } else if (!"未知".equals(userName)) {
+            creator = userName;
+        } else {
+            creator = "未知";
+        }
+        //modify null 20190813 end
+        viewHolder.tvCreator.setText("创建人：" + creator);
+        viewHolder.tvCredDate.setText("创建时间：" + DateUtils.date2String(nventoryOrder.getCreate_date()));
+        int tempStatus = nventoryOrder.getInv_status().getIndex();
+        if (tempStatus == 11) {
+            viewHolder.tvDeadLine.setText("完成时间：" + DateUtils.date2String(nventoryOrder.getUpdate_date()));
+        } else if (tempStatus == 0 || tempStatus == 10) {
+            viewHolder.tvDeadLine.setText("预计完成：" + DateUtils.date2String(nventoryOrder.getInv_exptfinish_date()));
+        }
 
-            if (nventoryOrder.getOpt_status() != null && nventoryOrder.getOpt_status() == InvOperateStatus.MODIFIED_BUT_NOT_SUBMIT.getIndex()) {
-                viewHolder.optImg.setVisibility(View.VISIBLE);
-            } else {
-                viewHolder.optImg.setVisibility(View.GONE);
-            }
-            if (!TextUtils.isEmpty(nventoryOrder.getInv_remark())) {
-                viewHolder.tvRemark.setVisibility(View.VISIBLE);
-                viewHolder.tvRemark.setText("备注：" + nventoryOrder.getInv_remark());
-            } else {
-                viewHolder.tvRemark.setVisibility(View.GONE);
-            }
+        if (nventoryOrder.getOpt_status() != null && nventoryOrder.getOpt_status() == InvOperateStatus.MODIFIED_BUT_NOT_SUBMIT.getIndex()) {
+            viewHolder.optImg.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.optImg.setVisibility(View.GONE);
+        }
+        if (!TextUtils.isEmpty(nventoryOrder.getInv_remark())) {
+            viewHolder.tvRemark.setVisibility(View.VISIBLE);
             viewHolder.tvRemark.setText("备注：" + nventoryOrder.getInv_remark());
-            if (nventoryOrder.getFinish_remark() != null) {
-                viewHolder.tvFinishRemark.setVisibility(View.VISIBLE);
-                viewHolder.tvFinishRemark.setText("结束备注：" + nventoryOrder.getFinish_remark());
-            } else {
-                viewHolder.tvFinishRemark.setVisibility(View.GONE);
-            }
-        } catch (NullPointerException e) {
-            viewHolder.itemLayout.setBackgroundColor(mContext.getResources().getColor(R.color.graybg));
-            e.printStackTrace();
+        } else {
+            viewHolder.tvRemark.setVisibility(View.GONE);
+        }
+        viewHolder.tvRemark.setText("备注：" + nventoryOrder.getInv_remark());
+        if (nventoryOrder.getFinish_remark() != null) {
+            viewHolder.tvFinishRemark.setVisibility(View.VISIBLE);
+            viewHolder.tvFinishRemark.setText("结束备注：" + nventoryOrder.getFinish_remark());
+        } else {
+            viewHolder.tvFinishRemark.setVisibility(View.GONE);
         }
 
 
@@ -178,7 +181,7 @@ public class InvsAdapter extends RecyclerView.Adapter<InvsAdapter.ViewHolder> {
 
     private void switchDetailsPage(ResultInventoryOrder order) {
         long l = System.currentTimeMillis();
-        Logger.e("======== BEGAIN START =======> " + ( l));
+        Logger.e("======== BEGAIN START =======> " + (l));
 
         Intent intent = new Intent();
 

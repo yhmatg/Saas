@@ -60,12 +60,15 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     private int mOrignHasInvenroid;
     private int mHasInventorid;
     private int mNotInventoried;
+    //盘点未提交的数目
     private int mNotSubmit;
     private InvDetailAdapter mAdapter;
     //所有条目数据
     private List<InventoryDetail> mDataList = new ArrayList<>();
-    //已经盘点过的条目id
+    //已经盘点提交过的条目epc
     private ArrayList<String> checkedEpcList = new ArrayList<>();
+    //盘点未提交过的条目epc
+    private ArrayList<String> notSubmitEpcList = new ArrayList<>();
     //已经盘点过的条目
     private List<InventoryDetail> mLastInvDataList = new ArrayList<>();
     //所有扫描盘点到的数据
@@ -158,7 +161,6 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
         // 总数
         tvTotal.setText(String.valueOf(mTotalInventoried));
         // 盘点人
-        //UserLoginResponse uerLogin = DataManager.getInstance().getUserLoginResponse();
         tvUnsubmit.setText(String.valueOf(mNotSubmit));
         // 已盘点
         tvInventoriedNum.setText(String.valueOf(mHasInventorid));
@@ -178,16 +180,6 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
 
     @Override
     public void handleInvDetails(List<InventoryDetail> InvDetails) {
-        for (InventoryDetail invDetail : InvDetails) {
-            if(invDetail.getInvdt_status().getCode() == InventoryStatus.FINISH.getIndex() ){
-                mHasInventorid++;
-                mNotInventoried--;
-
-            }else if (invDetail.getInvdt_status().getCode() == InventoryStatus.FINISH_NOT_SUBMIT.getIndex()){
-                mNotSubmit++;
-            }
-        }
-        refresTitle();
         upDateUi(InvDetails);
     }
 
@@ -281,13 +273,19 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
         mDataList.addAll(invDetails);
 
         checkedEpcList.clear();
-        mLastInvDataList.clear();
+        notSubmitEpcList.clear();
         for (InventoryDetail detail : invDetails) {
-            if (detail.getInvdt_status().getCode() == 1) {
+            if (detail.getInvdt_status().getCode() == InventoryStatus.FINISH.getIndex()) {
                 checkedEpcList.add(detail.getAssets_info().getAst_epc_code());
-                mLastInvDataList.add(detail);
+                mHasInventorid++;
+                mNotInventoried--;
+            }else if(detail.getInvdt_status().getCode() == InventoryStatus.FINISH_NOT_SUBMIT.getIndex()){
+                notSubmitEpcList.add(detail.getAssets_info().getAst_epc_code());
+                mResnentUpdateInvDataList.add(detail);
+                mNotSubmit++;
             }
         }
+        refresTitle();
         adapterChangeByStatus(mDataList);
     }
 
@@ -310,7 +308,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                 if(mDataChanged){
                     new MaterialDialog.Builder(this)
                             .title("警告")
-                            .content("盘点数据未保存，您确定退出盘点吗？")
+                            .content("盘点数据未提交，您确定退出盘点吗？")
                             .positiveText("确定")
                             .negativeText("取消")
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -365,13 +363,14 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             case UhfMsgType.UHF_DISCONNECT:
                 break;
             case UhfMsgType.UHF_START:
+                openimg.setImageResource(R.drawable.stopicon_inv);
                 mResnentUpdateInvDataList.clear();
                 //test 20190812 start
-               /* handleEpc("6573696D303038");
-                handleEpc("6573696D303032");*/
+                //handleEpc("6573696D303033");
                 //test 20190812 end
                 break;
             case UhfMsgType.UHF_STOP:
+                openimg.setImageResource(R.drawable.openicon_inv);
                 //跟新盘点状态到数据库
                 //盘点到新数据才更新到数据库
                 if(mResnentUpdateInvDataList.size() > 0){
@@ -384,7 +383,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
 
     //处理盘点到的数据
     private void handleEpc(String epc) {
-        if(epc != null && !checkedEpcList.contains(epc)){
+        if(epc != null && !checkedEpcList.contains(epc) && !notSubmitEpcList.contains(epc) ){
             for (int i = 0; i < mDataList.size(); i++) {
                 InventoryDetail inventoryDetail = mDataList.get(i);
                 if(epc.equals(inventoryDetail.getAssets_info().getAst_epc_code())){
@@ -392,8 +391,6 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                     inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH_NOT_SUBMIT.getIndex());
                     mUpdateInvDataList.add(inventoryDetail);
                     mResnentUpdateInvDataList.add(inventoryDetail);
-                   /* mHasInventorid++;
-                    mNotInventoried--;*/
                     mNotSubmit++;
                     llCurrent.setVisibility(View.VISIBLE);
                     tvCurrentAst.setText(inventoryDetail.getAssets_info().getAst_name() + "-" + inventoryDetail.getAssets_info().getAst_code());

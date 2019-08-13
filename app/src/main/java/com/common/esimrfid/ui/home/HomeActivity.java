@@ -50,6 +50,7 @@ public class HomeActivity extends AppCompatActivity {
             EventBus.getDefault().register(this);
         }
         initRfid();
+        checkUserSatus();
     }
 
     private void initRfid() {
@@ -59,16 +60,21 @@ public class HomeActivity extends AppCompatActivity {
         EsimAndroidApp.setIEsimUhfService(iEsimUhfService);
     }
 
+    private void checkUserSatus (){
+        UserLoginResponse uerLogin = DataManager.getInstance().getUserLoginResponse();
+        boolean loginStatus = DataManager.getInstance().getLoginStatus();
+        if(loginStatus){
+            EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
+            tvCrop.setText(uerLogin.getSysUser().getUser_real_name());
+        }else {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        UserLoginResponse uerLogin = DataManager.getInstance().getUserLoginResponse();
-        if( uerLogin == null || DataManager.getInstance().getToken() == null || "".equals(DataManager.getInstance().getToken())){
-            startActivity(new Intent(this, LoginActivity.class));
-        }else {
-            EsimAndroidApp.getInstance().setUserLoginResponse(DataManager.getInstance().getUserLoginResponse());
-            tvCrop.setText(uerLogin.getSysUser().getUser_real_name());
-        }
     }
 
     @OnClick({R.id.imgHomeAssetsScan,R.id.imgHomeAssetsSearch,R.id.txtHomeOut})
@@ -83,7 +89,7 @@ public class HomeActivity extends AppCompatActivity {
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                DataManager.getInstance().removeUserLoginResponse();
+                                DataManager.getInstance().setLoginStatus(false);
                                 finish();
                                 System.exit(0);
                             }
