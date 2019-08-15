@@ -25,5 +25,18 @@
     <string name="uer_name">用户名</string>
     <string name="user_passward">密码</string>
     <string name="data_updated">数据已经更新！</string>
+    <string name="search_card">寻卡</string>
+    <string name="search_stop">暂停</string>
+    <string name="clear_card">清除</string>
+    <string name="write_epc">写入</string>
+    <string name="tv_write_epc">写卡</string>
+    <string name="epc_context">内容：</string>
+    <string name="write_epc_hint">请写入16进制数</string>
+    <string name="cancel_opt">取消</string>
+    <string name="sure_opt">确定</string>
+    <string name="old_epc_data">原始数据</string>
+    <string name="old_data">旧数据:</string>
+    <string name="new_data">新数据:</string>
+    <string name="error_epc_write">写入的ecp数据不能为空</string>
 
 </resources>

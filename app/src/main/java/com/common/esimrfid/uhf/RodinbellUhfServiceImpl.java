@@ -10,6 +10,7 @@ import com.rfid.ReaderConnector;
 import com.rfid.rxobserver.RXObserver;
 import com.rfid.rxobserver.ReaderSetting;
 import com.rfid.rxobserver.bean.RXInventoryTag;
+import com.util.StringTool;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -139,4 +140,23 @@ public class RodinbellUhfServiceImpl extends EsimUhfAbstractService{
             }
         }
     };
+
+    public void setAccessEpcMatch(byte[] btAryEpc){
+        mReaderHelper.setAccessEpcMatch(ReaderSetting.newInstance().btReadId, (byte)(btAryEpc.length & 0xFF), btAryEpc);
+    }
+
+    public void writeEpcTag( String[] epcResult){
+        //读写区 （epc）固定 0x01
+        byte btMemBank = 0x01;
+        //写入的起始地址 固定 02
+        byte btWordAdd = 0x02;
+        //访问密码 固定 00000000
+        String[] PassWardresult = StringTool.stringToStringArray("00000000".toUpperCase(), 2);
+        byte []btAryPassWord = StringTool.stringArrayToByteArray(PassWardresult, 4);
+        //新epc数据
+        byte[] btAryData = StringTool.stringArrayToByteArray(epcResult, epcResult.length);
+        //长度
+        byte btWordCnt = (byte)((epcResult.length / 2 + epcResult.length % 2) & 0xFF);
+        mReaderHelper.writeTag(ReaderSetting.newInstance().btReadId, btAryPassWord, btMemBank, btWordAdd, btWordCnt, btAryData);
+    }
 }

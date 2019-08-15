@@ -57,7 +57,7 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
             viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.green));
             viewHolder.ivCollapse.setVisibility(View.VISIBLE);
         }else if(status == 2){
-            viewHolder.tvStatus.setText("已盘点未提交");
+            viewHolder.tvStatus.setText("未提交");
             viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.processing));
             viewHolder.ivCollapse.setVisibility(View.VISIBLE);
         }

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:background="#30b4f8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="@string/tv_write_epc" />
+        <TextView
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/old_data"/>
+
+        <TextView
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:id="@+id/old_epc"
+            android:textSize="18dp"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:hint="@string/old_epc_data"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_data"/>
+
+        <EditText
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:background="@null"
+            android:id="@+id/new_epc"
+            android:textSize="18dp"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:hint="@string/write_epc_hint"
+            android:maxLength="24"
+            android:layout_height="wrap_content"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" />
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/cancel_opt"
+            android:textSize="25sp"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:background="@drawable/bt_background"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginStart="15dp"
+            android:gravity="center"
+            android:id="@+id/tv_write"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/sure_opt"
+            android:textSize="25sp"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:background="@drawable/bt_background"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</LinearLayout>

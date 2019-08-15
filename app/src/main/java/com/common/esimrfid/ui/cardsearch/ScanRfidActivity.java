@@ -114,11 +114,6 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
             case UhfMsgType.UHF_START:
                 scanEpcs.clear();
                 mOpenOrStop.setImageResource(R.drawable.stopicon);
-                //test 20190809 start
-               /* scanEpcs.add("5A433030303230303031323031393033313130303035");
-                scanEpcs.add("5A433030303230303032323031393033303130303032");
-                scanEpcs.add("5A433030303230303031323031393033303630303032");*/
-                //test 20190809 end
                 break;
             case UhfMsgType.UHF_STOP:
                 mOpenOrStop.setImageResource(R.drawable.openicon);

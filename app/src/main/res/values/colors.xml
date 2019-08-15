@@ -35,4 +35,5 @@
     <color name="disabled_color1">#6130b4f8</color>
     <color name="enabled_color1">#30b4f8</color>
     <color name="warning">#bf6037</color>
+    <color name="write_item">#3686B1</color>
 </resources>

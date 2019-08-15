@@ -16,12 +16,13 @@ import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.uhf.IEsimUhfService;
+import com.common.esimrfid.uhf.RodinbellUhfServiceImpl;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
-import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.ui.cardsearch.ScanRfidActivity;
 import com.common.esimrfid.ui.invorder.InvOrderActicity;
 import com.common.esimrfid.ui.login.LoginActivity;
+import com.common.esimrfid.ui.writeepc.WriteEpcActivity;
 import com.common.esimrfid.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,7 +56,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initRfid() {
         ToastUtils.showShort("RFID正在连接...");
-        IEsimUhfService iEsimUhfService = new ZebraUhfServiceImpl();
+        //IEsimUhfService iEsimUhfService = new ZebraUhfServiceImpl();
+        IEsimUhfService iEsimUhfService = new RodinbellUhfServiceImpl();
         iEsimUhfService.initRFID();
         EsimAndroidApp.setIEsimUhfService(iEsimUhfService);
     }
@@ -77,7 +79,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    @OnClick({R.id.imgHomeAssetsScan,R.id.imgHomeAssetsSearch,R.id.txtHomeOut})
+    @OnClick({R.id.imgHomeAssetsScan,R.id.imgHomeAssetsSearch,R.id.txtHomeOut,R.id.img_write_epc})
     void performClick(View view){
         switch (view.getId()){
             case R.id.txtHomeOut:
@@ -107,6 +109,9 @@ public class HomeActivity extends AppCompatActivity {
                 break;
             case R.id.imgHomeAssetsSearch:
                 startActivity(new Intent(this, ScanRfidActivity.class));
+                break;
+            case R.id.img_write_epc:
+                startActivity(new Intent(this, WriteEpcActivity.class));
                 break;
 
 

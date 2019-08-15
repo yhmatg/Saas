@@ -365,9 +365,6 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             case UhfMsgType.UHF_START:
                 openimg.setImageResource(R.drawable.stopicon_inv);
                 mResnentUpdateInvDataList.clear();
-                //test 20190812 start
-                //handleEpc("6573696D303033");
-                //test 20190812 end
                 break;
             case UhfMsgType.UHF_STOP:
                 openimg.setImageResource(R.drawable.openicon_inv);
