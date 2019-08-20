@@ -38,5 +38,8 @@
     <string name="old_data">旧数据:</string>
     <string name="new_data">新数据:</string>
     <string name="error_epc_write">写入的ecp数据不能为空</string>
+    <string name="error_epc_length">请输入24位16进制数</string>
+    <string name="write_epc_sucess">写入成功</string>
+    <string name="write_epc_fail">写入失败，请将手持机靠近标签重试</string>
 
 </resources>

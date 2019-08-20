@@ -141,11 +141,14 @@ public class RodinbellUhfServiceImpl extends EsimUhfAbstractService{
         }
     };
 
-    public void setAccessEpcMatch(byte[] btAryEpc){
+    public void setAccessEpcMatch(String selectEpc){
+        String[] result = StringTool.stringToStringArray(selectEpc.toUpperCase(), 2);
+        byte[] btAryEpc = StringTool.stringArrayToByteArray(result, result.length);
         mReaderHelper.setAccessEpcMatch(ReaderSetting.newInstance().btReadId, (byte)(btAryEpc.length & 0xFF), btAryEpc);
     }
 
-    public void writeEpcTag( String[] epcResult){
+    public void writeEpcTag( String epcData){
+        String[] epcResult = StringTool.stringToStringArray(epcData.toUpperCase(), 2);
         //读写区 （epc）固定 0x01
         byte btMemBank = 0x01;
         //写入的起始地址 固定 02
@@ -158,5 +161,34 @@ public class RodinbellUhfServiceImpl extends EsimUhfAbstractService{
         //长度
         byte btWordCnt = (byte)((epcResult.length / 2 + epcResult.length % 2) & 0xFF);
         mReaderHelper.writeTag(ReaderSetting.newInstance().btReadId, btAryPassWord, btMemBank, btWordAdd, btWordCnt, btAryData);
+    }
+
+    @Override
+    public void writeEpcTag(String selectEpc, String epcData) {
+        String[] result = StringTool.stringToStringArray(selectEpc.toUpperCase(), 2);
+        byte[] btAryEpc = StringTool.stringArrayToByteArray(result, result.length);
+        mReaderHelper.setAccessEpcMatch(ReaderSetting.newInstance().btReadId, (byte)(btAryEpc.length & 0xFF), btAryEpc);
+
+        String[] epcResult = StringTool.stringToStringArray(epcData.toUpperCase(), 2);
+        //读写区 （epc）固定 0x01
+        byte btMemBank = 0x01;
+        //写入的起始地址 固定 02
+        byte btWordAdd = 0x02;
+        //访问密码 固定 00000000
+        String[] PassWardresult = StringTool.stringToStringArray("00000000".toUpperCase(), 2);
+        byte []btAryPassWord = StringTool.stringArrayToByteArray(PassWardresult, 4);
+        //新epc数据
+        byte[] btAryData = StringTool.stringArrayToByteArray(epcResult, epcResult.length);
+        //长度
+        byte btWordCnt = (byte)((epcResult.length / 2 + epcResult.length % 2) & 0xFF);
+        int writeResult = mReaderHelper.writeTag(ReaderSetting.newInstance().btReadId, btAryPassWord, btMemBank, btWordAdd, btWordCnt, btAryData);
+        if(writeResult == 0){
+            UhfMsgEvent<UhfTag> uhfMsgEvent=new UhfMsgEvent<>(UhfMsgType.UHF_WRITE_SUC);
+            EventBus.getDefault().post(uhfMsgEvent);
+        }else {
+            UhfMsgEvent<UhfTag> uhfMsgEvent=new UhfMsgEvent<>(UhfMsgType.UHF_READ_FAIL);
+            EventBus.getDefault().post(uhfMsgEvent);
+        }
+
     }
 }

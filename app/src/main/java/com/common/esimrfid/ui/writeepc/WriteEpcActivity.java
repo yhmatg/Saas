@@ -16,12 +16,11 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.WriteEpcContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.presenter.home.WriteEpcPressnter;
-import com.common.esimrfid.uhf.RodinbellUhfServiceImpl;
+import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.utils.ToastUtils;
-import com.util.StringTool;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,7 +43,7 @@ public class WriteEpcActivity extends BaseActivity<WriteEpcPressnter> implements
     TextView tvClear;
     @BindView(R.id.write_recycleview)
     RecyclerView mWriteRecycle;
-    private RodinbellUhfServiceImpl esimUhfService=null;
+    private IEsimUhfService esimUhfService=null;
     private List<String> scanEpcs = new ArrayList<>();
     private WriteEpcAdapter mWriteAdapter;
     @Override
@@ -69,11 +68,6 @@ public class WriteEpcActivity extends BaseActivity<WriteEpcPressnter> implements
     }
 
     private void showWriteEpcDialog(String epc) {
-        //选中要写入的epc
-        String[] result = StringTool.stringToStringArray(epc.toUpperCase(), 2);
-        byte[] btAryEpc = StringTool.stringArrayToByteArray(result, result.length);
-        esimUhfService.setAccessEpcMatch(btAryEpc);
-
         View contentView = LayoutInflater.from(this).inflate(R.layout.dialog_write_epc, null);
         TextView mOldEpc = contentView.findViewById(R.id.old_epc);
         mOldEpc.setText(epc);
@@ -95,9 +89,10 @@ public class WriteEpcActivity extends BaseActivity<WriteEpcPressnter> implements
                 String epcData = mEditEpc.getText().toString();
                 if(epcData == null || "".equals(epcData)){
                     ToastUtils.showShort(R.string.error_epc_write);
+                }else if(epcData.length() != 24){
+                    ToastUtils.showShort(R.string.error_epc_length);
                 }else {
-                    String[] epcResult = StringTool.stringToStringArray(epcData.toUpperCase(), 2);
-                    esimUhfService.writeEpcTag(epcResult);
+                    esimUhfService.writeEpcTag(epc,epcData);
                     writeDialog.dismiss();
                 }
 
@@ -149,11 +144,17 @@ public class WriteEpcActivity extends BaseActivity<WriteEpcPressnter> implements
                 tvStartOrStop.setText(R.string.search_card);
                 mWriteAdapter.notifyDataSetChanged();
                 break;
+            case UhfMsgType.UHF_WRITE_SUC:
+                ToastUtils.showShort(R.string.write_epc_sucess);
+                break;
+            case UhfMsgType.UHF_READ_FAIL:
+               ToastUtils.showShort(R.string.write_epc_sucess);
+                break;
         }
     }
 
     private void initRfidAndEventbus() {
-        esimUhfService = (RodinbellUhfServiceImpl)EsimAndroidApp.getIEsimUhfService();
+        esimUhfService = EsimAndroidApp.getIEsimUhfService();
         EventBus.getDefault().register(this);
     }
 

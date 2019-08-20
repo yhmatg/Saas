@@ -25,4 +25,6 @@ public interface IEsimUhfService {
     boolean isSound();
 
     int getDownKey();
+
+    void writeEpcTag(String selectEpc, String epcData);
 }

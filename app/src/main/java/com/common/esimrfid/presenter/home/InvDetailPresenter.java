@@ -140,6 +140,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                         }
                     }
                 })
+                .observeOn(AndroidSchedulers.mainThread())
         .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
             @Override
             public void onNext(BaseResponse baseResponse) {

@@ -14,6 +14,7 @@ import com.zebra.rfid.api3.ENUM_TRIGGER_MODE;
 import com.zebra.rfid.api3.HANDHELD_TRIGGER_EVENT_TYPE;
 import com.zebra.rfid.api3.INVENTORY_STATE;
 import com.zebra.rfid.api3.InvalidUsageException;
+import com.zebra.rfid.api3.MEMORY_BANK;
 import com.zebra.rfid.api3.OperationFailureException;
 import com.zebra.rfid.api3.RFIDReader;
 import com.zebra.rfid.api3.ReaderDevice;
@@ -26,6 +27,7 @@ import com.zebra.rfid.api3.SL_FLAG;
 import com.zebra.rfid.api3.START_TRIGGER_TYPE;
 import com.zebra.rfid.api3.STATUS_EVENT_TYPE;
 import com.zebra.rfid.api3.STOP_TRIGGER_TYPE;
+import com.zebra.rfid.api3.TagAccess;
 import com.zebra.rfid.api3.TagData;
 import com.zebra.rfid.api3.TriggerInfo;
 
@@ -397,5 +399,50 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         }
     }
 
+    @Override
+    public void writeEpcTag(String selectEpc, String epcData) {
+        TagAccess tagAccess = new TagAccess();
+        final TagAccess.WriteAccessParams writeAccessParams = tagAccess.new WriteAccessParams();
+        //设置密码
+        writeAccessParams.setAccessPassword(Long.decode("0X" + "00000000"));
+        //设置长度
+        writeAccessParams.setWriteDataLength(epcData.length() / 4);
+        //设置写入区域为ecp
+        writeAccessParams.setMemoryBank(MEMORY_BANK.MEMORY_BANK_EPC);
+        writeAccessParams.setOffset(2);
+        writeAccessParams.setWriteData(epcData);
 
+        new AsyncTask<Void, Void, Boolean>() {
+            private InvalidUsageException invalidUsageException;
+            private OperationFailureException operationFailureException;
+            private Boolean bResult = false;
+
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                try {
+                    //tagId 选中的epc
+                    reader.Actions.TagAccess.writeWait(selectEpc, writeAccessParams, null, null);
+                    bResult = true;
+                } catch (InvalidUsageException e) {
+                    invalidUsageException = e;
+                    e.printStackTrace();
+                } catch (OperationFailureException e) {
+                    operationFailureException = e;
+                    e.printStackTrace();
+                }
+                return bResult;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                if (!result) {
+                    UhfMsgEvent<UhfTag> uhfMsgEvent=new UhfMsgEvent<>(UhfMsgType.UHF_READ_FAIL);
+                    EventBus.getDefault().post(uhfMsgEvent);
+                } else {
+                    UhfMsgEvent<UhfTag> uhfMsgEvent=new UhfMsgEvent<>(UhfMsgType.UHF_WRITE_SUC);
+                    EventBus.getDefault().post(uhfMsgEvent);
+                }
+            }
+        }.execute();
+    }
 }

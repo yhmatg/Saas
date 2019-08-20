@@ -17,8 +17,10 @@ import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.RodinbellUhfServiceImpl;
+import com.common.esimrfid.uhf.SpeedataUhfServiceImpl;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
+import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.ui.cardsearch.ScanRfidActivity;
 import com.common.esimrfid.ui.invorder.InvOrderActicity;
 import com.common.esimrfid.ui.login.LoginActivity;
@@ -56,8 +58,15 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initRfid() {
         ToastUtils.showShort("RFID正在连接...");
-        //IEsimUhfService iEsimUhfService = new ZebraUhfServiceImpl();
-        IEsimUhfService iEsimUhfService = new RodinbellUhfServiceImpl();
+        String model=android.os.Build.MODEL;
+        IEsimUhfService iEsimUhfService ;
+        if(model.equals("ESUR-H600")|| model.equals("SD60")){
+            iEsimUhfService=new SpeedataUhfServiceImpl();
+        }else if(model.equals("common")){
+            iEsimUhfService = new RodinbellUhfServiceImpl();
+        }else{
+            iEsimUhfService=new ZebraUhfServiceImpl();
+        }
         iEsimUhfService.initRFID();
         EsimAndroidApp.setIEsimUhfService(iEsimUhfService);
     }

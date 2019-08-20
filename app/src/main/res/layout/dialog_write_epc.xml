@@ -52,7 +52,8 @@
             android:hint="@string/write_epc_hint"
             android:maxLength="24"
             android:layout_height="wrap_content"
-            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" />
+            android:digits="0123456789ABCDEF"
+            android:inputType="textCapCharacters|textNoSuggestions"/>
 
     <LinearLayout
         android:gravity="center"

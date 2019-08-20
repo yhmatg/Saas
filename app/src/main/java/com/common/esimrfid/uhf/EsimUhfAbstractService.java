@@ -18,6 +18,8 @@ public abstract class EsimUhfAbstractService implements IEsimUhfService {
 
     public abstract int getDownKey();
     public abstract boolean stopScanning();
+
+    public abstract void writeEpcTag(String selectEpc, String epcData);
     @Override
     public boolean isEnable(){
         return mEnable;
