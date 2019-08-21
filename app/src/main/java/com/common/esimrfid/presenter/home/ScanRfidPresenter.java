@@ -22,6 +22,7 @@ public class ScanRfidPresenter extends BasePresenter<ScanFridContract.View> impl
 
     @Override
     public void fetchScanAssetsInfons(Set<String> ecps) {
+        mView.showDialog("loading");
         //防止并发修改异常ConcurrentModificationException
         Set<String> mTempEpcs = new HashSet<>();
         mTempEpcs.addAll(ecps);
@@ -31,6 +32,7 @@ public class ScanRfidPresenter extends BasePresenter<ScanFridContract.View> impl
         .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
             @Override
             public void onNext(List<AssetsInfo> assetsInfos) {
+                mView.dismissDialog();
                 mView.handleAssetsInfons(assetsInfos);
             }
         }));

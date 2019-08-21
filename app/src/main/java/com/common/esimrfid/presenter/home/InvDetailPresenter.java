@@ -37,6 +37,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
     //网络获取盘点数据
     @Override
     public void fetchAllInvDetails(String orderId, boolean online) {
+        mView.showDialog("loading...");
         addSubscribe(Observable.concat(getLocalInvDetailsObservable(orderId,online),mDataManager.fetchAllInvDetails(orderId))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
@@ -52,6 +53,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                 .subscribeWith(new BaseObserver<ResultInventoryDetail>(mView, false) {
                     @Override
                     public void onNext(ResultInventoryDetail resultInventoryDetail) {
+                        mView.dismissDialog();
                         mView.handleInvDetails(resultInventoryDetail.getDetailResults());
                     }
                 }));

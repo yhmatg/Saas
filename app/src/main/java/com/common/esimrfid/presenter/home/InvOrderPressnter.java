@@ -35,6 +35,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     //获取盘点数据
     @Override
     public void fetchAllIvnOrders(String userId,boolean online) {
+        mView.showDialog("loading...");
         if(!CommonUtils.isNetworkConnected()){
             online = false;
         }
@@ -55,6 +56,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                     @Override
                     public void onNext(List<ResultInventoryOrder> resultInventoryOrders) {
                         Log.e("yhmaaaaaaa", "resultInventoryOrders===" + resultInventoryOrders.size());
+                        mView.dismissDialog();
                         mView.showInvOrders(resultInventoryOrders);
                     }
 

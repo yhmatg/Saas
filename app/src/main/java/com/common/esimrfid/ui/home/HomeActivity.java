@@ -52,7 +52,6 @@ public class HomeActivity extends AppCompatActivity {
         if(!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }
-        initRfid();
         checkUserSatus();
     }
 
@@ -75,6 +74,7 @@ public class HomeActivity extends AppCompatActivity {
         UserLoginResponse uerLogin = DataManager.getInstance().getUserLoginResponse();
         boolean loginStatus = DataManager.getInstance().getLoginStatus();
         if(loginStatus){
+            initRfid();
             EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
             tvCrop.setText(uerLogin.getSysUser().getUser_real_name());
         }else {
@@ -143,7 +143,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EsimAndroidApp.getIEsimUhfService().closeRFID();
+        if( EsimAndroidApp.getIEsimUhfService() != null){
+            EsimAndroidApp.getIEsimUhfService().closeRFID();
+        }
         EventBus.getDefault().unregister(this);
     }
 }

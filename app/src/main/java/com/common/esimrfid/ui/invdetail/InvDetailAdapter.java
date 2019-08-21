@@ -135,13 +135,13 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
                     mCollMap.put(i, COLLAPSE_UP);
                     viewHolder.ivCollapse.setVisibility(View.INVISIBLE);
                     showDetails(viewHolder, invDetail);
-                    notifyDataSetChanged();
+                    notifyItemChanged(i);
 
                 } else if (COLLAPSE_UP.equals(st)) {
                     mCollMap.put(i, COLLAPSE_DOWN);
                     viewHolder.ivCollapse.setVisibility(View.VISIBLE);
                     hideDetails(viewHolder, invDetail);
-                    notifyDataSetChanged();
+                    notifyItemChanged(i);
                 }
             }
         });

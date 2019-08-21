@@ -17,7 +17,7 @@
     <string name="double_click_exit_tint">Press the back button again to exit the GeeksAndroid</string>
     <string name="http_error">网络异常！</string>
     <string name="token_error">未登录或token过期,请重新登录!</string>
-    <string name="unKnown_error">unKnown error</string>
+    <string name="unKnown_error">未知错误！</string>
     <string name="login_fail">登录失败</string>
     <string name="load_data_fail">获取数据失败</string>
     <string name="upload_data_fail">提交数据失败</string>
@@ -41,5 +41,4 @@
     <string name="error_epc_length">请输入24位16进制数</string>
     <string name="write_epc_sucess">写入成功</string>
     <string name="write_epc_fail">写入失败，请将手持机靠近标签重试</string>
-
 </resources>

@@ -154,7 +154,7 @@
                     android:paddingTop="17dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
-                    android:src="@drawable/icon_inv_search" />
+                    android:src="@drawable/icon_inv_write" />
 
             </LinearLayout>
         </LinearLayout>

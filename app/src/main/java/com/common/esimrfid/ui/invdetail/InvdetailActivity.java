@@ -198,18 +198,18 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             }
             refresTitle();
             mAdapter.notifyDataSetChanged();
-            ToastUtils.showShort("提交成功！");
+            ToastUtils.showShort("盘点数据提交成功！");
         }else {
-            ToastUtils.showShort("提交失败!");
+            ToastUtils.showShort("盘点数据提交失败!");
         }
     }
 
     @Override
     public void handelFinishInvorder(BaseResponse baseResponse) {
         if(baseResponse.isSuccess()){
-            ToastUtils.showShort("提交成功！");
+            ToastUtils.showShort("结束盘点提交成功！");
         }else {
-            ToastUtils.showShort("提交失败!");
+            ToastUtils.showShort("结束盘点提交失败!");
         }
     }
 
