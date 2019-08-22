@@ -86,8 +86,6 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                                 inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
                             }
                             DbBank.getInstance().getInventoryDetailDao().updateItems(inventoryDetails);
-                        }else {
-
                         }
                     }
                 })

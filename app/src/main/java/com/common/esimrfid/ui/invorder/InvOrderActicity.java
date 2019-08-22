@@ -1,7 +1,6 @@
 package com.common.esimrfid.ui.invorder;
 
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -9,8 +8,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
@@ -19,7 +16,6 @@ import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
-import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -61,6 +57,7 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
     private FragCheckFinishedFragment fragCheckFinishedFragment;
     private String userId;
     private Boolean isUpdate = false;
+    private Boolean isFirstOnResume = true;
 
     @Override
     public InvOrderPressnter initPresenter() {
@@ -78,16 +75,19 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
         addOrShowFragment(fragCheckFinishedFragment);
         addOrShowFragment(fragCheckWaitingFragment);
         userId = EsimAndroidApp.getInstance().getUserLoginResponse().getSysUser().getId();
-        //初始化盘点数据
-        mPresenter.checkLocalDataState();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //更新本地盘点的状态
-        mPresenter.fetchAllIvnOrders(userId,false);
+        //初始化或者更新本地盘点的状态
+        if(isFirstOnResume){
+            mPresenter.fetchAllIvnOrders(userId,true);
+            isFirstOnResume = false;
+        }else{
+            mPresenter.fetchAllIvnOrders(userId,false);
+        }
+
     }
 
     @OnClick({R.id.imgTitleLeft, R.id.tvTitleRight, R.id.tvMyOrderWaiting, R.id.tvMyOrderDisposing, R.id.tvMyOrderFinish})
@@ -97,7 +97,7 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
                 finish();
                 break;
             case R.id.tvTitleRight:
-                mPresenter.checkLocalDataState();
+                mPresenter.fetchAllIvnOrders(userId,true);
                 isUpdate = true;
                 break;
             case R.id.tvMyOrderWaiting:
@@ -167,7 +167,7 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
 
     @Override
     public void loadOrUpdateData(boolean locaLeftUpload) {
-        if (locaLeftUpload && CommonUtils.isNetworkConnected()){
+        /*if (locaLeftUpload && CommonUtils.isNetworkConnected()){
             new MaterialDialog.Builder(this)
                     .title("更新提示")
                     .positiveText("确定")
@@ -190,7 +190,7 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
                     .show();
         }else {
             mPresenter.fetchAllIvnOrders(userId,true);
-        }
+        }*/
     }
 
 

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -190,5 +191,19 @@ public class ResultInventoryOrder implements Serializable {
 
     public void setOpt_status(Integer opt_status) {
         this.opt_status = opt_status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ResultInventoryOrder)) return false;
+        ResultInventoryOrder that = (ResultInventoryOrder) o;
+        return getId().equals(that.getId()) &&
+                getInv_code().equals(that.getInv_code());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getInv_code());
     }
 }

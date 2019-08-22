@@ -19,6 +19,9 @@ public interface BaseDao<T> {
 
     @Delete
     public void deleteItem(T item);//删除
+
+    @Delete
+    public void deleteItems(List<T> items);//删除
     @Update
     public void updateItem(T item);//更新
 

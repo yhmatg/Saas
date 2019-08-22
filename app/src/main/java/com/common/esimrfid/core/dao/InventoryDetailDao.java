@@ -11,4 +11,7 @@ import java.util.List;
 public interface InventoryDetailDao extends BaseDao<InventoryDetail> {
     @Query("SELECT * FROM InventoryDetail where inv_id = :invId" )
     public List<InventoryDetail> findLocalInvDetailByInvid(String invId);
+
+    @Query("SELECT * FROM InventoryDetail where inv_id = :invId AND code = 2" )
+    public List<InventoryDetail> findLocalInvedDetailByInvid(String invId);
 }

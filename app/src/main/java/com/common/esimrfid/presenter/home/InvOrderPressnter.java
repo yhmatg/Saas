@@ -13,13 +13,15 @@ import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> implements InvOrderContract.Presenter {
@@ -43,12 +45,24 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                .compose(RxUtils.rxSchedulerHelper())
                .compose(RxUtils.handleResult())
                 .observeOn(Schedulers.io())
-                .doOnNext(new Consumer<List<ResultInventoryOrder>>() {
+                .flatMap(new Function<List<ResultInventoryOrder>, ObservableSource<List<ResultInventoryOrder>>>() {
                     @Override
-                    public void accept(List<ResultInventoryOrder> resultInventoryOrders) throws Exception {
-                        if(resultInventoryOrders != null){
-                            DbBank.getInstance().getResultInventoryOrderDao().insertItems(resultInventoryOrders);
-                        }
+                    public ObservableSource<List<ResultInventoryOrder>> apply(List<ResultInventoryOrder> resultInventoryOrders) throws Exception {
+                        List<ResultInventoryOrder> localOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrders();
+                        //本地同步服务端已经删除的数据
+                        List<ResultInventoryOrder> tempLocal = new ArrayList<>();
+                        tempLocal.addAll(localOrders);
+                        tempLocal.removeAll(resultInventoryOrders);
+                        DbBank.getInstance().getResultInventoryOrderDao().deleteItems(tempLocal);
+                        //本地数据和服务器数据的交集，服务端删除盘点单，本地同步跟新显示
+                        localOrders.retainAll(resultInventoryOrders);
+                        //服务端新增的数据
+                        resultInventoryOrders.removeAll(localOrders);
+                        List<ResultInventoryOrder> tempRemount = new ArrayList<>();
+                        tempRemount.addAll(resultInventoryOrders);
+                        tempRemount.addAll(localOrders);
+                        DbBank.getInstance().getResultInventoryOrderDao().insertItems(resultInventoryOrders);
+                        return Observable.just(tempRemount);
                     }
                 })
                .observeOn(AndroidSchedulers.mainThread())
