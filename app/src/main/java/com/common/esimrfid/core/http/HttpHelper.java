@@ -25,7 +25,7 @@ public interface HttpHelper {
 
     Observable<BaseResponse<ResultInventoryDetail>>  fetchAllInvDetails(String orderId);
 
-    Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails);
+    Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails, String uid);
 
     Observable<BaseResponse> finishInvOrder(String orderId, String uid, String remark);
 

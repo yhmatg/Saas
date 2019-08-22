@@ -232,7 +232,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             return;
         }
         //提交已经盘点的数据到服务器
-        mPresenter.upLoadInvDetails(mInvId,finishedOdIds,finishedInvOrders);
+        mPresenter.upLoadInvDetails(mInvId,finishedOdIds,finishedInvOrders,userId);
     }
 
     private void upDateUi(List<InventoryDetail> invDetails) {

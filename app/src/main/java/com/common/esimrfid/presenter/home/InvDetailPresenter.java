@@ -61,8 +61,8 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
 
     //上传盘点数据到服务器
     @Override
-    public void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails) {
-        addSubscribe(mDataManager.uploadInvDetails(orderId, invDetails)
+    public void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails ,String uid) {
+        addSubscribe(mDataManager.uploadInvDetails(orderId, invDetails ,uid)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleBaseResponse())
                 .observeOn(Schedulers.io())

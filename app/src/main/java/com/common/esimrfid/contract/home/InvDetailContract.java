@@ -23,7 +23,7 @@ public interface InvDetailContract {
 
         void fetchAllInvDetails( String orderId,boolean online);
 
-        void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails);
+        void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid);
 
         void findLocalInvDetailByInvid(String invId);
 

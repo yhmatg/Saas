@@ -64,8 +64,8 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails) {
-        return mGeeksApis.uploadInvDetails(orderId,invDetails);
+    public Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails ,String uid) {
+        return mGeeksApis.uploadInvDetails(orderId,invDetails,uid);
     }
 
     @Override

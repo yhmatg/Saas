@@ -161,8 +161,8 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails) {
-        return mHttpHelper.uploadInvDetails(orderId, invDetails);
+    public Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails ,String uid) {
+        return mHttpHelper.uploadInvDetails(orderId, invDetails, uid);
     }
 
     @Override

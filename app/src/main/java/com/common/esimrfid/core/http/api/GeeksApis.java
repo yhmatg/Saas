@@ -45,7 +45,7 @@ public interface GeeksApis {
 
     //盘点数据上传
     @POST("inventory-server/inventoryorders/{orderId}/commit")
-    Observable<BaseResponse> uploadInvDetails(@Path("orderId")String orderId,@Body List<String> invDetails);
+    Observable<BaseResponse> uploadInvDetails(@Path("orderId")String orderId,@Body List<String> invDetails ,@Query("uid")String uid);
 
     //获取查询数据
     @POST("assets-server/assets/byrfids")
