@@ -38,7 +38,9 @@ public class RodinbellUhfServiceImpl extends EsimUhfAbstractService{
             try {
                 mReaderHelper = RFIDReaderHelper.getDefaultHelper();
                 mReaderHelper.registerObserver(rxObserver);
-                mEnable=true;
+                //mEnable=true;
+                UhfMsgEvent<UhfTag> uhfMsgEvent=new UhfMsgEvent<>(UhfMsgType.UHF_CONNECT);
+                EventBus.getDefault().post(uhfMsgEvent);
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
@@ -59,6 +61,8 @@ public class RodinbellUhfServiceImpl extends EsimUhfAbstractService{
             }
             ModuleManager.newInstance().setUHFStatus(false);
             ModuleManager.newInstance().release();
+            UhfMsgEvent<UhfTag> uhfMsgEvent=new UhfMsgEvent<>(UhfMsgType.UHF_DISCONNECT);
+            EventBus.getDefault().post(uhfMsgEvent);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

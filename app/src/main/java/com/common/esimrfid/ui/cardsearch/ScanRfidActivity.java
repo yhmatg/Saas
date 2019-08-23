@@ -4,6 +4,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
+import com.common.esimrfid.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,15 +55,15 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
     private ScanRfidAdapter mScanAdapter;
     private List<AssetsInfo> mAssetsInfos = new ArrayList<>();
     Set<String> scanEpcs = new HashSet<>();
-    IEsimUhfService esimUhfService=null;
+    IEsimUhfService esimUhfService = null;
 
     @Override
     protected void initEventAndData() {
         tvTitleCenter.setText("查找产品");
         initRfidAndEventbus();
-        mScanAdapter = new ScanRfidAdapter(this,mAssetsInfos);
+        mScanAdapter = new ScanRfidAdapter(this, mAssetsInfos);
         mRvInfos.setLayoutManager(new LinearLayoutManager(this));
-        mRvInfos.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        mRvInfos.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRvInfos.setAdapter(mScanAdapter);
     }
 
@@ -80,14 +82,18 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
         return new ScanRfidPresenter(DataManager.getInstance());
     }
 
-    @OnClick({R.id.imgTitleLeft,R.id.open_or_stop,R.id.clear_btn})
-    void performClick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.imgTitleLeft, R.id.open_or_stop, R.id.clear_btn})
+    void performClick(View view) {
+        switch (view.getId()) {
             case R.id.imgTitleLeft:
                 finish();
                 break;
             case R.id.open_or_stop:
-                esimUhfService.startStopScanning();
+                if (esimUhfService != null) {
+                    esimUhfService.startStopScanning();
+                } else {
+                    ToastUtils.showShort(R.string.not_connect_prompt);
+                }
                 break;
             case R.id.clear_btn:
                 mAssetsInfos.clear();
@@ -98,13 +104,13 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleUhfMsg(UhfMsgEvent<UhfTag> uhfMsgEvent) {
-        Log.d(TAG, "handleEPC: "+uhfMsgEvent.toString());
-        String epc=null;
-        switch(uhfMsgEvent.getType()) {
+        Log.d(TAG, "handleEPC: " + uhfMsgEvent.toString());
+        String epc = null;
+        switch (uhfMsgEvent.getType()) {
             case UhfMsgType.INV_TAG:
-                UhfTag uhfTag=(UhfTag) uhfMsgEvent.getData();
+                UhfTag uhfTag = (UhfTag) uhfMsgEvent.getData();
                 epc = uhfTag.getEpc();
-                Log.d(TAG, "epc=====: "+epc);
+                Log.d(TAG, "epc=====: " + epc);
                 handleEpc(epc);
                 break;
             case UhfMsgType.UHF_CONNECT:
@@ -122,7 +128,7 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
         }
     }
 
-    public void handleEpc(String epc){
+    public void handleEpc(String epc) {
         scanEpcs.add(epc);
     }
 
@@ -142,5 +148,17 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
         mAssetsInfos.clear();
         mAssetsInfos.addAll(assetsInfos);
         mScanAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_F4) { //扳机建扫描
+            if (esimUhfService != null) {
+                esimUhfService.startStopScanning();
+            } else {
+                ToastUtils.showShort(R.string.not_connect_prompt);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -3,6 +3,7 @@ package com.common.esimrfid.ui.writeepc;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -92,7 +93,12 @@ public class WriteEpcActivity extends BaseActivity<WriteEpcPressnter> implements
                 }else if(epcData.length() != 24){
                     ToastUtils.showShort(R.string.error_epc_length);
                 }else {
-                    esimUhfService.writeEpcTag(epc,epcData);
+                    if(esimUhfService != null){
+                        esimUhfService.writeEpcTag(epc,epcData);
+                    }else {
+                        ToastUtils.showShort(R.string.not_connect_prompt);
+                    }
+
                     writeDialog.dismiss();
                 }
 
@@ -117,7 +123,11 @@ public class WriteEpcActivity extends BaseActivity<WriteEpcPressnter> implements
                 finish();
                 break;
             case R.id.tv_start_or_stop:
-                esimUhfService.startStopScanning();
+                if(esimUhfService != null){
+                    esimUhfService.startStopScanning();
+                }else {
+                    ToastUtils.showShort(R.string.not_connect_prompt);
+                }
                 break;
             case R.id.tv_clear:
                 scanEpcs.clear();
@@ -162,5 +172,17 @@ public class WriteEpcActivity extends BaseActivity<WriteEpcPressnter> implements
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_F4) { //扳机建扫描
+            if (esimUhfService != null) {
+                esimUhfService.startStopScanning();
+            } else {
+                ToastUtils.showShort(R.string.not_connect_prompt);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

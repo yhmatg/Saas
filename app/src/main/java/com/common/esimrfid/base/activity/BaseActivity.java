@@ -1,16 +1,18 @@
 package com.common.esimrfid.base.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
+import android.view.KeyEvent;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.common.esimrfid.R;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.utils.CommonUtils;
-import com.common.esimrfid.utils.MaterialDialogUtils;
 
 
 /**
@@ -125,7 +127,25 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
         if (dialog != null) {
             dialog.show();
         } else {
-            MaterialDialog.Builder builder = MaterialDialogUtils.showIndeterminateProgressDialog(this, title, true);
+            //MaterialDialog.Builder builder = MaterialDialogUtils.showIndeterminateProgressDialog(this, title, true);
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                    .title(title)
+                    .progress(true, 0)
+                    .progressIndeterminateStyle(true)
+                    .canceledOnTouchOutside(false)
+                    .backgroundColorRes(R.color.white)
+                    .keyListener(new DialogInterface.OnKeyListener() {
+                        @Override
+                        public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                            if (event.getAction() == KeyEvent.ACTION_DOWN) {//如果是按下，则响应，否则，一次按下会响应两次
+                                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                    //activity.onBackPressed();
+
+                                }
+                            }
+                            return false;//false允许按返回键取消对话框，true除了调用取消，其他情况下不会取消
+                        }
+                    });
             dialog = builder.show();
         }
     }

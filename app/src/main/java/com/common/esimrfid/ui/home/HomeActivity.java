@@ -88,6 +88,13 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(EsimAndroidApp.getIEsimUhfService() != null){
+            isConnected = true;
+            conOrDiscon.setText(R.string.disconnect_rfid);
+        }else {
+            isConnected = false;
+            conOrDiscon.setText(R.string.connect_rfid);
+        }
     }
 
     @OnClick({R.id.imgHomeAssetsScan,R.id.imgHomeAssetsSearch,R.id.txtHomeOut,R.id.img_write_epc,R.id.tv_con_discon})
@@ -130,6 +137,7 @@ public class HomeActivity extends AppCompatActivity {
                 }else {
                     if( EsimAndroidApp.getIEsimUhfService() != null){
                         EsimAndroidApp.getIEsimUhfService().closeRFID();
+                        EsimAndroidApp.setIEsimUhfService(null);
                     }
                 }
                 break;

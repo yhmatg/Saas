@@ -43,4 +43,5 @@
     <string name="write_epc_fail">写入失败，请将手持机靠近标签重试</string>
     <string name="connect_rfid">开始连接</string>
     <string name="disconnect_rfid">断开连接</string>
+    <string name="not_connect_prompt">请先在首页初始化连接RFID!</string>
 </resources>

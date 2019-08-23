@@ -75,10 +75,10 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     private List<InventoryDetail> mUpdateInvDataList = new ArrayList<>();
     //最近一次扫描盘点到的数据
     private List<InventoryDetail> mResnentUpdateInvDataList = new ArrayList<>();
-    private  int mUpdateInvDataListSize;
+    private int mUpdateInvDataListSize;
     private boolean mDataChanged;
     private boolean mEnable = true;
-    IEsimUhfService esimUhfService=null;
+    IEsimUhfService esimUhfService = null;
 
     @BindView(R.id.imgTitleLeft)
     ImageView imgTitleLeft;
@@ -145,10 +145,10 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
         imgTitleLeft.setVisibility(View.VISIBLE);
         mAdapter = new InvDetailAdapter(mDataList, this);
         mInvdetailRecycle.setLayoutManager(new LinearLayoutManager(this));
-        mInvdetailRecycle.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        mInvdetailRecycle.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mInvdetailRecycle.setAdapter(mAdapter);
         //本地获取数据库
-        mPresenter.fetchAllInvDetails(mInvId,false);
+        mPresenter.fetchAllInvDetails(mInvId, false);
     }
 
     private void initRfidAndEventbus() {
@@ -185,7 +185,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
 
     @Override
     public void handelUploadResult(BaseResponse baseResponse) {
-        if(baseResponse.isSuccess()){
+        if (baseResponse.isSuccess()) {
             mDataChanged = false;
             List<InventoryDetail> tempDataList = new ArrayList<>();
             tempDataList.addAll(mDataList);
@@ -199,30 +199,30 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             refresTitle();
             mAdapter.notifyDataSetChanged();
             ToastUtils.showShort("盘点数据提交成功！");
-        }else {
+        } else {
             ToastUtils.showShort("盘点数据提交失败!");
         }
     }
 
     @Override
     public void handelFinishInvorder(BaseResponse baseResponse) {
-        if(baseResponse.isSuccess()){
+        if (baseResponse.isSuccess()) {
             ToastUtils.showShort("结束盘点提交成功！");
-        }else {
+        } else {
             ToastUtils.showShort("结束盘点提交失败!");
         }
     }
 
     @Override
     public void uploadInvDetails(List<InventoryDetail> inventoryDetails) {
-        if(inventoryDetails == null || inventoryDetails.size() == 0){
+        if (inventoryDetails == null || inventoryDetails.size() == 0) {
             ToastUtils.showShort("未发现已盘点产品");
             return;
         }
         List<String> finishedOdIds = new ArrayList<>();
         List<InventoryDetail> finishedInvOrders = new ArrayList<>();
         for (InventoryDetail inventoryDetail : inventoryDetails) {
-            if(inventoryDetail.getInvdt_status().getCode() == InventoryStatus.FINISH_NOT_SUBMIT.getIndex()){
+            if (inventoryDetail.getInvdt_status().getCode() == InventoryStatus.FINISH_NOT_SUBMIT.getIndex()) {
                 finishedOdIds.add(inventoryDetail.getAst_id());
                 finishedInvOrders.add(inventoryDetail);
             }
@@ -232,7 +232,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             return;
         }
         //提交已经盘点的数据到服务器
-        mPresenter.upLoadInvDetails(mInvId,finishedOdIds,finishedInvOrders,userId);
+        mPresenter.upLoadInvDetails(mInvId, finishedOdIds, finishedInvOrders, userId);
     }
 
     private void upDateUi(List<InventoryDetail> invDetails) {
@@ -258,7 +258,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             clearBtn.setEnabled(false);
             llBottomBar.setBackgroundColor(
                     getResources().getColor(R.color.disabled_color1));
-        }else {
+        } else {
            /* enableInvKey();
             ((CoordinatorLayout.LayoutParams) btnSubmit.getLayoutParams())
                     .setBehavior(new ScrollAwareFABBehavior());*/
@@ -279,7 +279,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                 checkedEpcList.add(detail.getAssets_info().getAst_epc_code());
                 mHasInventorid++;
                 mNotInventoried--;
-            }else if(detail.getInvdt_status().getCode() == InventoryStatus.FINISH_NOT_SUBMIT.getIndex()){
+            } else if (detail.getInvdt_status().getCode() == InventoryStatus.FINISH_NOT_SUBMIT.getIndex()) {
                 notSubmitEpcList.add(detail.getAssets_info().getAst_epc_code());
                 mResnentUpdateInvDataList.add(detail);
                 mNotSubmit++;
@@ -289,7 +289,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
         adapterChangeByStatus(mDataList);
     }
 
-    public void adapterChangeByStatus(List<InventoryDetail> inventoryDetails){
+    public void adapterChangeByStatus(List<InventoryDetail> inventoryDetails) {
         Collections.sort(inventoryDetails, new Comparator<InventoryDetail>() {
             @Override
             public int compare(InventoryDetail t1, InventoryDetail t2) {
@@ -305,7 +305,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgTitleLeft:
-                if(mDataChanged){
+                if (mDataChanged) {
                     new MaterialDialog.Builder(this)
                             .title("警告")
                             .content("盘点数据未提交，您确定退出盘点吗？")
@@ -324,14 +324,19 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                                 }
                             })
                             .show();
-                }else {
+                } else {
                     finish();
                 }
                 break;
             case R.id.clearBtn:
                 break;
             case R.id.openBtn:
-                esimUhfService.startStopScanning();
+                if (esimUhfService != null) {
+                    esimUhfService.startStopScanning();
+                } else {
+                    ToastUtils.showShort(R.string.not_connect_prompt);
+                }
+
                 break;
             case R.id.saveBtn:
                 mPresenter.findLocalInvDetailByInvid(mInvId);
@@ -350,11 +355,11 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleUhfMsg(UhfMsgEvent<UhfTag> uhfMsgEvent) {
-        Log.d(TAG, "handleEPC: "+uhfMsgEvent.toString());
-        String epc=null;
-        switch(uhfMsgEvent.getType()) {
+        Log.d(TAG, "handleEPC: " + uhfMsgEvent.toString());
+        String epc = null;
+        switch (uhfMsgEvent.getType()) {
             case UhfMsgType.INV_TAG:
-                UhfTag uhfTag=(UhfTag) uhfMsgEvent.getData();
+                UhfTag uhfTag = (UhfTag) uhfMsgEvent.getData();
                 epc = uhfTag.getEpc();
                 handleEpc(epc);
                 break;
@@ -370,20 +375,20 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                 openimg.setImageResource(R.drawable.openicon_inv);
                 //跟新盘点状态到数据库
                 //盘点到新数据才更新到数据库
-                if(mResnentUpdateInvDataList.size() > 0){
+                if (mResnentUpdateInvDataList.size() > 0) {
                     mAdapter.notifyDataSetChanged();
                 }
-                mPresenter.updateLocalInvDetailsState(mInvId,mResnentUpdateInvDataList);
+                mPresenter.updateLocalInvDetailsState(mInvId, mResnentUpdateInvDataList);
                 break;
         }
     }
 
     //处理盘点到的数据
     private void handleEpc(String epc) {
-        if(epc != null && !checkedEpcList.contains(epc) && !notSubmitEpcList.contains(epc) ){
+        if (epc != null && !checkedEpcList.contains(epc) && !notSubmitEpcList.contains(epc)) {
             for (int i = 0; i < mDataList.size(); i++) {
                 InventoryDetail inventoryDetail = mDataList.get(i);
-                if(epc.equals(inventoryDetail.getAssets_info().getAst_epc_code())){
+                if (epc.equals(inventoryDetail.getAssets_info().getAst_epc_code())) {
                     checkedEpcList.add(epc);
                     inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH_NOT_SUBMIT.getIndex());
                     mUpdateInvDataList.add(inventoryDetail);
@@ -400,15 +405,15 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     }
 
     //盘点完成
-    public void finishInventory(){
+    public void finishInventory() {
         ArrayList<InventoryDetail> nuInvDetails = new ArrayList<>();
         for (int i = 0; i < mDataList.size(); i++) {
             InventoryDetail inventoryDetail = mDataList.get(i);
-            if (inventoryDetail.getInvdt_status().getCode() == 0){
+            if (inventoryDetail.getInvdt_status().getCode() == 0) {
                 nuInvDetails.add(inventoryDetail);
             }
         }
-        if(nuInvDetails.size() == 0){
+        if (nuInvDetails.size() == 0) {
             new MaterialDialog.Builder(this)
                     .title("提示")
                     .content("您确定结束该盘点任务吗？")
@@ -418,7 +423,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             dialog.dismiss();
-                            mPresenter.finishInvOrder(mInvId, userId,null);
+                            mPresenter.finishInvOrder(mInvId, userId, null);
                         }
                     })
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -428,23 +433,23 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                         }
                     })
                     .show();
-        }else{
+        } else {
             View remarkView = LayoutInflater.from(this).inflate(R.layout.layout_uninv_remark, null);
             new MaterialDialog.Builder(this)
                     .title("提示")
-                    .customView(remarkView,true)
+                    .customView(remarkView, true)
                     .positiveText("确定")
                     .negativeText("取消")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            MaterialAutoCompleteTextView etRemark = (MaterialAutoCompleteTextView)remarkView.findViewById(R.id.uploade_remark);
+                            MaterialAutoCompleteTextView etRemark = (MaterialAutoCompleteTextView) remarkView.findViewById(R.id.uploade_remark);
                             String remark = etRemark.getText().toString();
-                            if(remark == null || "".equals(remark)){
+                            if (remark == null || "".equals(remark)) {
                                 ToastUtils.showShort("请填写备注！");
-                            }else {
+                            } else {
                                 dialog.dismiss();
-                                mPresenter.finishInvOrder(mInvId, userId,remark);
+                                mPresenter.finishInvOrder(mInvId, userId, remark);
                             }
                         }
                     })
@@ -461,8 +466,11 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_F4) { //扳机建扫描
-            if (mEnable)
+            if (esimUhfService != null) {
                 esimUhfService.startStopScanning();
+            } else {
+                ToastUtils.showShort(R.string.not_connect_prompt);
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
