@@ -148,7 +148,7 @@ public class WriteEpcActivity extends BaseActivity<WriteEpcPressnter> implements
                 ToastUtils.showShort(R.string.write_epc_sucess);
                 break;
             case UhfMsgType.UHF_READ_FAIL:
-               ToastUtils.showShort(R.string.write_epc_sucess);
+               ToastUtils.showShort(R.string.write_epc_fail);
                 break;
         }
     }

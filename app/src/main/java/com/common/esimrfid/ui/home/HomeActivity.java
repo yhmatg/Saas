@@ -43,6 +43,9 @@ public class HomeActivity extends AppCompatActivity {
     ImageView homeAssectSearch;
     @BindView(R.id.tv_crop)
     TextView tvCrop;
+    @BindView(R.id.tv_con_discon)
+    TextView conOrDiscon;
+    private boolean isConnected;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,9 +62,9 @@ public class HomeActivity extends AppCompatActivity {
         ToastUtils.showShort("RFID正在连接...");
         String model=android.os.Build.MODEL;
         IEsimUhfService iEsimUhfService ;
-        if(model.equals("ESUR-H600")|| model.equals("SD60")){
+        if("ESUR-H600".equals(model)|| "SD60".equals(model)){
             iEsimUhfService=new SpeedataUhfServiceImpl();
-        }else if(model.equals("common")){
+        }else if("common".equals(model)|| "ESUR-H500".equals(model)){
             iEsimUhfService = new RodinbellUhfServiceImpl();
         }else{
             iEsimUhfService=new ZebraUhfServiceImpl();
@@ -74,7 +77,6 @@ public class HomeActivity extends AppCompatActivity {
         UserLoginResponse uerLogin = DataManager.getInstance().getUserLoginResponse();
         boolean loginStatus = DataManager.getInstance().getLoginStatus();
         if(loginStatus){
-            initRfid();
             EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
             tvCrop.setText(uerLogin.getSysUser().getUser_real_name());
         }else {
@@ -88,7 +90,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    @OnClick({R.id.imgHomeAssetsScan,R.id.imgHomeAssetsSearch,R.id.txtHomeOut,R.id.img_write_epc})
+    @OnClick({R.id.imgHomeAssetsScan,R.id.imgHomeAssetsSearch,R.id.txtHomeOut,R.id.img_write_epc,R.id.tv_con_discon})
     void performClick(View view){
         switch (view.getId()){
             case R.id.txtHomeOut:
@@ -122,6 +124,15 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.img_write_epc:
                 startActivity(new Intent(this, WriteEpcActivity.class));
                 break;
+            case R.id.tv_con_discon:
+                if(!isConnected){
+                    initRfid();
+                }else {
+                    if( EsimAndroidApp.getIEsimUhfService() != null){
+                        EsimAndroidApp.getIEsimUhfService().closeRFID();
+                    }
+                }
+                break;
 
 
         }
@@ -132,9 +143,13 @@ public class HomeActivity extends AppCompatActivity {
 
         switch(uhfMsgEvent.getType()) {
             case UhfMsgType.UHF_CONNECT:
+                isConnected = true;
+                conOrDiscon.setText(R.string.disconnect_rfid);
                 ToastUtils.showShort("RFID已连接");
                 break;
             case UhfMsgType.UHF_DISCONNECT:
+                conOrDiscon.setText(R.string.connect_rfid);
+                isConnected = false;
                 break;
         }
 
@@ -143,9 +158,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if( EsimAndroidApp.getIEsimUhfService() != null){
-            EsimAndroidApp.getIEsimUhfService().closeRFID();
-        }
         EventBus.getDefault().unregister(this);
     }
 }

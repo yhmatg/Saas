@@ -91,6 +91,15 @@
             android:textColor="@color/white"
             android:textSize="22sp" />
 
+        <TextView
+            android:id="@+id/tv_con_discon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/connect_rfid"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -98,11 +107,6 @@
             android:layout_marginBottom="30dp"
             android:layout_weight="1"
             android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -112,8 +116,8 @@
 
                 <ImageView
                     android:id="@+id/imgHomeAssetsScan"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/main_icon_bg"
                     android:paddingLeft="30dp"
@@ -124,8 +128,8 @@
 
                 <ImageView
                     android:id="@+id/imgHomeAssetsSearch"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/main_icon_bg"
                     android:paddingLeft="30dp"
@@ -146,8 +150,8 @@
 
                 <ImageView
                     android:id="@+id/img_write_epc"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/main_icon_bg"
                     android:paddingLeft="30dp"
