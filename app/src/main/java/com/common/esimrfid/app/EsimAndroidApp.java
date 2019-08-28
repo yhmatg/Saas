@@ -10,6 +10,7 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.utils.Utils;
+import com.common.esimrfid.utils.logger.MyCrashListener;
 import com.common.esimrfid.utils.logger.TxtFormatStrategy;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.DiskLogAdapter;
@@ -17,6 +18,8 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+import com.xuexiang.xlog.XLog;
+import com.xuexiang.xlog.crash.CrashHandler;
 
 /**
  * @author yhm
@@ -57,6 +60,11 @@ public class EsimAndroidApp extends Application {
         instance = this;
         initLogger();
         Utils.init(this);
+        //崩溃日志保存到本地
+        ///storage/emulated/0/Android/data/com.common.esimrfid/cache/crash_log
+        XLog.init(this);
+        CrashHandler.getInstance().setOnCrashListener(new MyCrashListener());
+
     }
 
     @Override
@@ -91,11 +99,7 @@ public class EsimAndroidApp extends Application {
     }
 
     public UserLoginResponse getUserLoginResponse() {
-        if (mUserLoginResponse != null) {
-            return mUserLoginResponse;
-        } else {
-            return null;
-        }
+        return mUserLoginResponse;
     }
 
     public static IEsimUhfService getIEsimUhfService(){
