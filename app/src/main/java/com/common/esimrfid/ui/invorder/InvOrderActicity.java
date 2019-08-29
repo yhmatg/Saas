@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
-import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.base.fragment.BaseFragment;
 import com.common.esimrfid.contract.home.InvOrderContract;
@@ -74,7 +73,7 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
         fragCheckFinishedFragment = new FragCheckFinishedFragment();
         addOrShowFragment(fragCheckFinishedFragment);
         addOrShowFragment(fragCheckWaitingFragment);
-        userId = EsimAndroidApp.getInstance().getUserLoginResponse().getSysUser().getId();
+        userId = getUserLoginResponse().getSysUser().getId();
     }
 
     @Override
@@ -192,6 +191,5 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
             mPresenter.fetchAllIvnOrders(userId,true);
         }*/
     }
-
 
 }

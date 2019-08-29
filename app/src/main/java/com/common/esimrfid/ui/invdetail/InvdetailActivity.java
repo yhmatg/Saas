@@ -135,12 +135,9 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             mInvId = getIntent().getStringExtra(INV_ID);
             mStatus = getIntent().getStringExtra(INV_STATUS);
             mTotalInventoried = getIntent().getIntExtra(INV_TOTAL_COUNT, -1);
-            /*mOrignHasInvenroid =  getIntent().getIntExtra(INV_FININSHED_COUNT, -1);
-            mHasInventorid = mOrignHasInvenroid;*/
             mNotInventoried = mTotalInventoried - mHasInventorid;
         }
-        userId = EsimAndroidApp.getInstance().getUserLoginResponse().getSysUser().getId();
-        //refresTitle();
+        userId = getUserLoginResponse().getSysUser().getId();
         tvTitleCenter.setText("扫描盘点");
         imgTitleLeft.setVisibility(View.VISIBLE);
         mAdapter = new InvDetailAdapter(mDataList, this);

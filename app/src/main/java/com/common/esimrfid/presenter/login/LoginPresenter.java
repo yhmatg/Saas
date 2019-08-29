@@ -41,25 +41,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         if(CommonUtils.isNetworkConnected()){
             userInfo.setUser_password(Md5Util.getMD5(passWord));
             addSubscribe(mDataManager.login(userInfo)
-                    //.compose(rxSchedulerHelper())
-                    /*.subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.io())
-                    .map(new Function<BaseResponse<UserLoginResponse>, UserLoginResponse>() {
-
-                        @Override
-                        public UserLoginResponse apply(BaseResponse<UserLoginResponse> userLoginResponseBaseResponse) throws Exception {
-                            Log.e("login error","userLoginResponseBaseResponse.getResult()=====" + userLoginResponseBaseResponse.getResult());
-                            UserInfo sysUser = userLoginResponseBaseResponse.getResult().getSysUser();
-                            if(userLoginResponseBaseResponse.isSuccess() && sysUser != null){
-                                //保存用户信息DbUser到数据库
-                                savaUserInfo(sysUser);
-                                mDataManager.setUserLoginResponse(userLoginResponseBaseResponse.getResult());
-                                //保存UserLoginResponse到sp
-
-                            }
-                            return userLoginResponseBaseResponse.getResult();
-                        }
-                    })*/
                     .compose(RxUtils.rxSchedulerHelper())
                     .compose(RxUtils.handleResult())
                     .observeOn(Schedulers.io())

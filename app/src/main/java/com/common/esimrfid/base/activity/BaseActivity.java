@@ -9,8 +9,11 @@ import android.view.KeyEvent;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
+import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.utils.CommonUtils;
 
@@ -164,6 +167,14 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
     @Override
     public void startLoginActivity(){
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    public UserLoginResponse getUserLoginResponse(){
+        UserLoginResponse loginResponse = EsimAndroidApp.getInstance().getUserLoginResponse();
+        if(loginResponse == null){
+            loginResponse = DataManager.getInstance().getUserLoginResponse();
+        }
+        return loginResponse;
     }
 
 
