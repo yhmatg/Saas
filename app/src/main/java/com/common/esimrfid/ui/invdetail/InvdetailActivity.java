@@ -190,6 +190,9 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             mNotSubmit = 0;
             mNotInventoried -= mResnentUpdateInvDataList.size();
             mHasInventorid += mResnentUpdateInvDataList.size();
+            //add 0830 start
+            mResnentUpdateInvDataList.clear();
+            //add 0830 end
             for (InventoryDetail inventoryDetail : tempDataList) {
                 inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
             }
@@ -366,7 +369,6 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                 break;
             case UhfMsgType.UHF_START:
                 openimg.setImageResource(R.drawable.stopicon_inv);
-                mResnentUpdateInvDataList.clear();
                 break;
             case UhfMsgType.UHF_STOP:
                 openimg.setImageResource(R.drawable.openicon_inv);
