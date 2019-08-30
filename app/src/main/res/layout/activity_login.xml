@@ -23,10 +23,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp">
 
                 <View
+                    android:visibility="gone"
                     android:layout_width="8dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
@@ -41,6 +42,23 @@
                     android:textColor="#FFCC00"
                     android:textSize="20sp"
                     android:textStyle="bold" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btn_setting"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="5dp"
+                    android:elevation="4dp"
+                    android:scaleType="center"
+                    android:src="@drawable/icon_setting"
+                    app:backgroundTint="@color/colorAccent"
+                    app:borderWidth="0dp"
+                    app:fabCustomSize="50dp"
+                    app:fabSize="normal"
+                    app:maxImageSize="30dp"
+                    app:pressedTranslationZ="10dp"
+                    app:rippleColor="#ec8eae" />
             </RelativeLayout>
 
             <LinearLayout
@@ -115,23 +133,5 @@
             </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btn_setting"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="right"
-        android:layout_marginTop="@dimen/DIMEN_150DP"
-        android:layout_marginRight="25dp"
-        android:elevation="4dp"
-        android:scaleType="center"
-        android:src="@drawable/icon_setting"
-        app:backgroundTint="@color/colorAccent"
-        app:borderWidth="0dp"
-        app:fabCustomSize="50dp"
-        app:fabSize="normal"
-        app:maxImageSize="30dp"
-        app:pressedTranslationZ="10dp"
-        app:rippleColor="#ec8eae" />
 
 </FrameLayout>

@@ -69,7 +69,7 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
         viewHolder.tvInvType.setText("类型：" + typeName);
         //yhm 20190807 null
         String roomName = assetsInfo.getOrg_belongdept() == null ? "未知" : assetsInfo.getOrg_belongdept().getOrg_name();
-        viewHolder.tvOrg.setText("科室：" + roomName);
+        viewHolder.tvOrg.setText("部门：" + roomName);
         viewHolder.tvRemark.setText("备注：");
         //yhm 20190807 null
         String loc_name = assetsInfo.getLoc_info() == null ? "null" : assetsInfo.getLoc_info().getLoc_name();

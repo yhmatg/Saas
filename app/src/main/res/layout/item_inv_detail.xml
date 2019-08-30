@@ -36,7 +36,7 @@
             android:textColor="#19a1e7"
             android:textSize="16sp"/>
         <TextView
-            android:text="科室：无信息"
+            android:text="部门：无信息"
             android:id="@+id/tv_org"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
