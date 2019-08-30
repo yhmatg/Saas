@@ -107,7 +107,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1.2"
                         android:gravity="right"
-                        android:text="待盘点："
+                        android:text="未盘点："
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/font_size_large" />
 
