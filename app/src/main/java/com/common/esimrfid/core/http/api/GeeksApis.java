@@ -36,7 +36,6 @@ public interface GeeksApis {
 
     //获取盘点条目详情
     @GET("inventory-server/inventoryorders/{orderId}/detail")
-    //Observable<BaseResponse<List<InventoryDetail>>>  fetchAllInvDetails(@Path("orderId") String orderId);
     Observable<BaseResponse<ResultInventoryDetail>>  fetchAllInvDetails(@Path("orderId") String orderId);
 
     //完成盘点
