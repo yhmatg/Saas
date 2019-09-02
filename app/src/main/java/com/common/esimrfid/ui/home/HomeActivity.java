@@ -16,8 +16,8 @@ import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.uhf.IEsimUhfService;
+import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
 import com.common.esimrfid.uhf.RodinbellUhfServiceImpl;
-import com.common.esimrfid.uhf.SpeedataUhfServiceImpl;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         String model=android.os.Build.MODEL;
         IEsimUhfService iEsimUhfService ;
         if("ESUR-H600".equals(model)|| "SD60".equals(model)){
-            iEsimUhfService=new SpeedataUhfServiceImpl();
+            iEsimUhfService=new NewSpeedataUhfServiceImpl();
         }else if("common".equals(model)|| "ESUR-H500".equals(model)){
             iEsimUhfService = new RodinbellUhfServiceImpl();
         }else{

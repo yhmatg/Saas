@@ -104,4 +104,5 @@ dependencies {
     api 'com.github.SpeedataG:Device:1.6.7'
     implementation 'com.github.xuexiangjys.XLog:xlog-core:1.2.1'
     implementation 'com.github.xuexiangjys.XLog:xlog-crash:1.2.1'
+    implementation files('libs/App_Demo_API_V1.0.5.jar')
 }

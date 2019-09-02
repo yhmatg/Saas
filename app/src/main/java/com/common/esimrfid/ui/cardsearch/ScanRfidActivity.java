@@ -152,12 +152,12 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_F4) { //扳机建扫描
-            if (esimUhfService != null) {
+        if (esimUhfService != null) {
+            if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
                 esimUhfService.startStopScanning();
-            } else {
-                ToastUtils.showShort(R.string.not_connect_prompt);
             }
+        } else {
+            ToastUtils.showShort(R.string.not_connect_prompt);
         }
         return super.onKeyDown(keyCode, event);
     }
