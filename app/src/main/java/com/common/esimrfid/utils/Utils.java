@@ -2,6 +2,7 @@ package com.common.esimrfid.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.KeyEvent;
 
 /**
  * Created by rylai on 2017/5/14.
@@ -35,5 +36,16 @@ public final class Utils {
             return context;
         }
         throw new NullPointerException("should be initialized in application");
+    }
+
+    public static int getDiffDownKey(){
+        int key = 0;
+        String model=android.os.Build.MODEL;
+        if("ESUR-H600".equals(model)|| "SD60".equals(model)){
+            key = KeyEvent.KEYCODE_F1;
+        }else if("common".equals(model)|| "ESUR-H500".equals(model)){
+            key = KeyEvent.KEYCODE_F4;
+        }
+        return key;
     }
 }

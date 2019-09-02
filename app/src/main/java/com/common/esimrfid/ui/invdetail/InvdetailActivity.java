@@ -30,6 +30,7 @@ import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.utils.ToastUtils;
+import com.common.esimrfid.utils.Utils;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.rengwuxian.materialedittext.MaterialAutoCompleteTextView;
 
@@ -468,7 +469,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
                 esimUhfService.startStopScanning();
             }
-        } else {
+        } else if(keyCode == Utils.getDiffDownKey()) {
             ToastUtils.showShort(R.string.not_connect_prompt);
         }
         return super.onKeyDown(keyCode, event);

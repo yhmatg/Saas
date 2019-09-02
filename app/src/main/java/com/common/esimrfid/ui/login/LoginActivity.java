@@ -94,6 +94,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             ToastUtils.showShort("请输入密码！");
             return;
         }
+        if (TextUtils.isEmpty(mPresenter.getHostUrl()) || !mPresenter.getHostUrl().startsWith("http://")) {
+            ToastUtils.showShort("请配置正确的服务器URL！");
+            return;
+        }
         final UserInfo userInfo=new UserInfo();
         userInfo.setUser_name(mAccountEdit.getText().toString());
         userInfo.setUser_password(mPasswordEdit.getText().toString());
@@ -114,23 +118,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                     }
                 })
-                /*.checkBoxPrompt("开启声音", isSoundOpen, new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
-                    }
-                })*/
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         String newHostUrl = dialog.getInputEditText().getText().toString();
-
-                        boolean newIsSoundOpen = dialog.isPromptCheckBoxChecked();
+                        if(!newHostUrl.startsWith("http://")){
+                            ToastUtils.showShort(R.string.url_error);
+                            return;
+                        }
                         if (!newHostUrl.equals(hostUrl)) {
                             mPresenter.saveHostUrl(newHostUrl);
-                        }
-                        if (!newIsSoundOpen != isSoundOpen) {
-                            mPresenter.saveOpenSound(newIsSoundOpen);
                         }
                     }
                 })

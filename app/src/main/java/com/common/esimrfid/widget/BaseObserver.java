@@ -11,6 +11,8 @@ import com.common.esimrfid.core.http.exception.TokenException;
 import com.common.esimrfid.utils.LogHelper;
 import com.common.esimrfid.utils.ToastUtils;
 
+import java.net.SocketTimeoutException;
+
 import io.reactivex.observers.ResourceObserver;
 import retrofit2.HttpException;
 
@@ -66,6 +68,8 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
         }else if (e instanceof TokenException) {
                 ToastUtils.showShort(R.string.token_error);
                 mView.startLoginActivity();
+        }else if (e instanceof SocketTimeoutException) {
+            ToastUtils.showShort(R.string.socket_time_out_error);
         } else {
             mView.showErrorMsg(EsimAndroidApp.getInstance().getString(R.string.unKnown_error));
             LogHelper.d(e.toString());
