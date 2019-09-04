@@ -301,6 +301,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 // tag event with tag data
                 reader.Events.setTagReadEvent(true);
                 reader.Events.setAttachTagDataWithReadEvent(false);
+                reader.Events.setReaderDisconnectEvent(true);
                 // set trigger mode as rfid so scanner beam will not come
                 reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.RFID_MODE, true);
                 // set start and stop triggers
@@ -380,6 +381,11 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                         }
                     }.execute();
                 }
+            }
+            if (rfidStatusEvents.StatusEventData.getStatusEventType() == STATUS_EVENT_TYPE.DISCONNECTION_EVENT) {
+                UhfMsgEvent<UhfTag> uhfMsgEvent=new UhfMsgEvent<>(UhfMsgType.UHF_DISCONNECT);
+                EventBus.getDefault().post(uhfMsgEvent);
+                EsimAndroidApp.setIEsimUhfService(null);
             }
         }
     }
