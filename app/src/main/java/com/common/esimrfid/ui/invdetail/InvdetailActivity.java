@@ -465,12 +465,14 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (esimUhfService != null) {
-            if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
-                esimUhfService.startStopScanning();
+        if(!STATUS_FINISH.equals(mStatus)){
+            if (esimUhfService != null) {
+                if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
+                    esimUhfService.startStopScanning();
+                }
+            } else if(keyCode == Utils.getDiffDownKey()) {
+                ToastUtils.showShort(R.string.not_connect_prompt);
             }
-        } else if(keyCode == Utils.getDiffDownKey()) {
-            ToastUtils.showShort(R.string.not_connect_prompt);
         }
         return super.onKeyDown(keyCode, event);
     }
