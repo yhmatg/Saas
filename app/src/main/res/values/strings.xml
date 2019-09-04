@@ -46,6 +46,4 @@
     <string name="not_connect_prompt">请先在首页初始化连接RFID!</string>
     <string name="socket_time_out_error">网络连接超时，请检查输入的服务器URL是否正确!</string>
     <string name="url_error">请检查输入的服务器URL是否正确!</string>
-    <string name="not_get_data">未查询到相关数据！</string>
-    <string name="not_get_epc">没有扫到任何标签，请重试！</string>
 </resources>

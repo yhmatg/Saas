@@ -124,11 +124,7 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
                 break;
             case UhfMsgType.UHF_STOP:
                 mOpenOrStop.setImageResource(R.drawable.openicon);
-                if(scanEpcs.size() != 0){
-                    mPresenter.fetchScanAssetsInfons(scanEpcs);
-                }else {
-                    ToastUtils.showShort(R.string.not_get_epc);
-                }
+                mPresenter.fetchScanAssetsInfons(scanEpcs);
                 break;
         }
     }
@@ -150,9 +146,6 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
 
     @Override
     public void handleAssetsInfons(List<AssetsInfo> assetsInfos) {
-        if(assetsInfos.size() == 0){
-            ToastUtils.showShort(R.string.not_get_data);
-        }
         mAssetsInfos.clear();
         mAssetsInfos.addAll(assetsInfos);
         mScanAdapter.notifyDataSetChanged();
