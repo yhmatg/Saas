@@ -32,7 +32,7 @@ public interface GeeksApis {
 
     //获取盘点数据
     @GET("inventory-server/inventoryorders")
-    Observable<BaseResponse<List<ResultInventoryOrder>>> fetchAllIvnOrders(@Query("userId")String userId);
+    Observable<BaseResponse<List<ResultInventoryOrder>>> fetchAllIvnOrders(@Query("user_id")String userId);
 
     //获取盘点条目详情
     @GET("inventory-server/inventoryorders/{orderId}/detail")
@@ -40,7 +40,7 @@ public interface GeeksApis {
 
     //完成盘点
     @POST("inventory-server/inventoryorders/{orderId}/finish")
-    Observable<BaseResponse> finishInvOrder(@Path("orderId")String orderId,@Query("uid")String uid,@Query("remark")String remark);
+    Observable<BaseResponse> finishInvOrder(@Path("orderId")String orderId,@Query("uid")String uid,@Query("finish_remark")String remark);
 
     //盘点数据上传
     @POST("inventory-server/inventoryorders/{orderId}/commit")
