@@ -357,6 +357,9 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleUhfMsg(UhfMsgEvent<UhfTag> uhfMsgEvent) {
         Log.d(TAG, "handleEPC: " + uhfMsgEvent.toString());
+        if(STATUS_FINISH.equals(mStatus)){
+            return;
+        }
         String epc = null;
         switch (uhfMsgEvent.getType()) {
             case UhfMsgType.INV_TAG:
