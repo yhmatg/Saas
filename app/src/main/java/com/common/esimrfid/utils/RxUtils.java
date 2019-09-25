@@ -2,6 +2,7 @@ package com.common.esimrfid.utils;
 
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.http.exception.OtherException;
+import com.common.esimrfid.core.http.exception.ResultIsNullException;
 import com.common.esimrfid.core.http.exception.TokenException;
 
 import org.reactivestreams.Publisher;
@@ -73,6 +74,8 @@ public class RxUtils {
                         } else {
                             if("2000A0".equals(baseResponse.getCode())){
                                 return Observable.error(new TokenException());
+                            }else if(baseResponse.getResult() == null){
+                                return Observable.error(new ResultIsNullException());
                             }else{
                                 return Observable.error(new OtherException());
                             }
@@ -94,7 +97,7 @@ public class RxUtils {
                 return upstream.flatMap(new Function<BaseResponse, ObservableSource<BaseResponse>>() {
                     @Override
                     public ObservableSource<BaseResponse> apply(BaseResponse baseResponse) throws Exception {
-                        if(baseResponse.isSuccess() &&  CommonUtils.isNetworkConnected()){
+                        if(CommonUtils.isNetworkConnected()){
                             return createData(baseResponse);
                         }else {
                             return Observable.error(new OtherException());

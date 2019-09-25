@@ -7,6 +7,9 @@ import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.core.bean.nanhua.invdetailbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.invscannbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionAssetInfo;
+import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionDetailInfo;
+import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionItemInfo;
 import com.common.esimrfid.core.http.api.GeeksApis;
 import com.common.esimrfid.core.http.client.RetrofitClient;
 
@@ -33,7 +36,7 @@ public class HttpHelperImpl implements HttpHelper {
         mGeeksApis = geeksApis;
     }
 
-    public static HttpHelperImpl getInstance(){
+    public static HttpHelperImpl getInstance() {
         if (INSTANCE == null) {
             synchronized (HttpHelperImpl.class) {
                 if (INSTANCE == null) {
@@ -64,8 +67,8 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails ,String uid) {
-        return mGeeksApis.uploadInvDetails(orderId,invDetails,uid);
+    public Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails, String uid) {
+        return mGeeksApis.uploadInvDetails(orderId, invDetails, uid);
     }
 
     @Override
@@ -76,6 +79,31 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssetsInfons(Set<String> ecps) {
         return mGeeksApis.fetchScanAssetsInfons(ecps);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<RequisitionItemInfo>>> fetchAllRequisitions() {
+        return mGeeksApis.fetchAllRequisitions();
+    }
+
+    @Override
+    public Observable<BaseResponse<List<RequisitionAssetInfo>>> getRequisitionInfons(Set<String> ecps) {
+        return mGeeksApis.getRequisitionInfons(ecps);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<RequisitionAssetInfo>>> fetchRequestAssetsInfos(String patternName) {
+        return mGeeksApis.fetchRequestAssetsInfos(patternName);
+    }
+
+    @Override
+    public Observable<BaseResponse<RequisitionDetailInfo>> fetchRequsitionDetailByid(String odrId) {
+        return mGeeksApis.fetchRequsitionDetailByid(odrId);
+    }
+
+    @Override
+    public Observable<BaseResponse> uploadResAssets(String requestId, List<String> epcs) {
+        return mGeeksApis.uploadResAssets(requestId, epcs);
     }
 
 

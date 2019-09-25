@@ -24,6 +24,7 @@ import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.ui.cardsearch.ScanRfidActivity;
 import com.common.esimrfid.ui.invorder.InvOrderActicity;
 import com.common.esimrfid.ui.login.LoginActivity;
+import com.common.esimrfid.ui.requisition.RequisitionActivity;
 import com.common.esimrfid.ui.writeepc.WriteEpcActivity;
 import com.common.esimrfid.utils.ToastUtils;
 
@@ -91,13 +92,15 @@ public class HomeActivity extends AppCompatActivity {
         if(EsimAndroidApp.getIEsimUhfService() != null){
             isConnected = true;
             conOrDiscon.setText(R.string.disconnect_rfid);
+            conOrDiscon.setTextColor(getColor(R.color.blue));
         }else {
             isConnected = false;
             conOrDiscon.setText(R.string.connect_rfid);
+            conOrDiscon.setTextColor(getColor(R.color.con_red));
         }
     }
 
-    @OnClick({R.id.imgHomeAssetsScan,R.id.imgHomeAssetsSearch,R.id.txtHomeOut,R.id.img_write_epc,R.id.tv_con_discon})
+    @OnClick({R.id.imgHomeAssetsScan,R.id.imgHomeAssetsSearch,R.id.txtHomeOut,R.id.img_write_epc,R.id.tv_con_discon,R.id.img_asset_use})
     void performClick(View view){
         switch (view.getId()){
             case R.id.txtHomeOut:
@@ -131,6 +134,9 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.img_write_epc:
                 startActivity(new Intent(this, WriteEpcActivity.class));
                 break;
+            case R.id.img_asset_use:
+                startActivity(new Intent(this, RequisitionActivity.class));
+                break;
             case R.id.tv_con_discon:
                 if(!isConnected){
                     initRfid();
@@ -153,10 +159,12 @@ public class HomeActivity extends AppCompatActivity {
             case UhfMsgType.UHF_CONNECT:
                 isConnected = true;
                 conOrDiscon.setText(R.string.disconnect_rfid);
+                conOrDiscon.setTextColor(getColor(R.color.blue));
                 ToastUtils.showShort("RFID已连接");
                 break;
             case UhfMsgType.UHF_DISCONNECT:
                 conOrDiscon.setText(R.string.connect_rfid);
+                conOrDiscon.setTextColor(getColor(R.color.con_red));
                 isConnected = false;
                 break;
         }

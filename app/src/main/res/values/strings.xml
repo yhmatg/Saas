@@ -48,4 +48,26 @@
     <string name="url_error">请检查输入的服务器URL是否正确!</string>
     <string name="not_get_data">未查询到相关数据！</string>
     <string name="not_get_epc">没有扫到任何标签，请重试！</string>
+    <string name="requisition_name">领用单号：无信息</string>
+    <string name="requisition_user">领用人：无信息</string>
+    <string name="requisition_creator">创建人：无信息</string>
+    <string name="requisition_create_time">创建时间：无信息</string>
+    <string name="request_assets">领用信息：无信息</string>
+    <string name="start_scan">扫描</string>
+    <string name="inprogress">处理中</string>
+    <string name="asset_id">资产编号</string>
+    <string name="query_asset">查询</string>
+    <string name="asset_detail">详情</string>
+    <string name="input_write_asset_id">请输入正确的资产编码</string>
+    <string name="asset_details">已领用详情:</string>
+    <string name="search_asset_details">查询详情:</string>
+    <string name="not_result_error">未获取到数据！</string>
+    <string name="not_find_asset">未查询到相关资产数据！</string>
+    <string name="has_used_assets">已领用资产:无信息</string>
+    <string name="error_page_text">未知错误，请重试！</string>
+    <string name="empty_page_text">没有数据</string>
+    <string name="submit_data">提交</string>
+    <string name="not_select_asset">未选中任何领用资产！</string>
+    <string name="sub_req_asset_suc">提交领用资产成功！</string>
+    <string name="sub_req_asset_fail">提交领用资产失败：</string>
 </resources>

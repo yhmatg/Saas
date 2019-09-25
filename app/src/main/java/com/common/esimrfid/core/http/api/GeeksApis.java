@@ -6,6 +6,9 @@ import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
 import com.common.esimrfid.core.bean.nanhua.invdetailbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.invscannbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionAssetInfo;
+import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionDetailInfo;
+import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionItemInfo;
 
 import java.util.List;
 import java.util.Set;
@@ -49,4 +52,25 @@ public interface GeeksApis {
     //获取查询数据
     @POST("assets-server/assets/byrfids")
     Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssetsInfons(@Body Set<String> ecps);
+
+    //获取领用单列表
+    @GET("/assets-server/requisitions/unpage")
+    Observable<BaseResponse<List<RequisitionItemInfo>>> fetchAllRequisitions();
+
+    //通过单号获取领用单详情
+    @GET("/assets-server/requisitions/{odrId}/detail")
+    Observable<BaseResponse<RequisitionDetailInfo>> fetchRequsitionDetailByid(@Path("odrId")String odrId);
+
+    //模糊查询资产详情
+    @GET("/assets-server/assets/unpage")
+    Observable<BaseResponse<List<RequisitionAssetInfo>>> fetchRequestAssetsInfos(@Query("pattern_name")String patternName);
+
+    //确认领用资产后上传 id 领用单id
+    @POST("/assets-server/requisitions/{id}/reqAssets")
+    Observable<BaseResponse> uploadResAssets(@Path("id")String requestId,@Body List<String> epcs);
+
+    //根据epc获取资产详情
+    @POST("assets-server/assets/byrfids")
+    Observable<BaseResponse<List<RequisitionAssetInfo>>> getRequisitionInfons(@Body Set<String> ecps);
+
 }

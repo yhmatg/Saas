@@ -83,7 +83,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="@string/connect_rfid"
-            android:textColor="@color/white"
+            android:padding="5dp"
+            android:gravity="center"
+            android:textColor="@color/con_red"
+            android:background="@drawable/title_background"
             android:textSize="22sp" />
 
         <LinearLayout
@@ -145,6 +148,18 @@
                     android:paddingRight="20dp"
                     android:paddingBottom="15dp"
                     android:src="@drawable/icon_inv_write" />
+
+                <ImageView
+                    android:id="@+id/img_asset_use"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/main_icon_bg"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="17dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="15dp"
+                    android:src="@drawable/icon_requisition" />
 
             </LinearLayout>
         </LinearLayout>
