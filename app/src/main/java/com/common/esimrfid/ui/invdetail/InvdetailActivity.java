@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -92,13 +93,9 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     @BindView(R.id.tvTitleRight)
     TextView tvTitleRight;
     @BindView(R.id.openBtn)
-    LinearLayout openBtn;
-    @BindView(R.id.clearBtn)
-    LinearLayout clearBtn;
-    @BindView(R.id.openimg)
-    ImageView openimg;
+    TextView openBtn;
     @BindView(R.id.saveBtn)
-    LinearLayout saveBtn;
+    TextView saveBtn;
     @BindView(R.id.btn_submit)
     FloatingActionButton btnSubmit;
     @BindView(R.id.tv_unsubmit)
@@ -256,9 +253,10 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             btnSubmit.hide();
             saveBtn.setEnabled(false);
             openBtn.setEnabled(false);
-            clearBtn.setEnabled(false);
-            llBottomBar.setBackgroundColor(
-                    getResources().getColor(R.color.disabled_color1));
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)mTkrefreshlayout.getLayoutParams();
+            layoutParams.bottomMargin = 0;
+            mTkrefreshlayout.setLayoutParams(layoutParams);
+            llBottomBar.setVisibility(View.GONE);
         } else {
            /* enableInvKey();
             ((CoordinatorLayout.LayoutParams) btnSubmit.getLayoutParams())
@@ -266,9 +264,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             btnSubmit.show();
             saveBtn.setEnabled(true);
             openBtn.setEnabled(true);
-            clearBtn.setEnabled(true);
-            llBottomBar.setBackgroundColor(
-                    getResources().getColor(R.color.enabled_color1));
+            llBottomBar.setVisibility(View.VISIBLE);
         }
         mDataList.clear();
         mDataList.addAll(invDetails);
@@ -300,7 +296,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
         mAdapter.notifyDataSetChanged();
     }
 
-    @OnClick({R.id.imgTitleLeft, R.id.openBtn, R.id.clearBtn,
+    @OnClick({R.id.imgTitleLeft, R.id.openBtn,
             R.id.saveBtn, R.id.btn_submit, R.id.error_page,
             R.id.ll_init, R.id.ll_finish})
     public void onClick(View view) {
@@ -328,8 +324,6 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
                 } else {
                     finish();
                 }
-                break;
-            case R.id.clearBtn:
                 break;
             case R.id.openBtn:
                 if (esimUhfService != null) {
@@ -372,10 +366,10 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             case UhfMsgType.UHF_DISCONNECT:
                 break;
             case UhfMsgType.UHF_START:
-                openimg.setImageResource(R.drawable.stopicon_inv);
+                openBtn.setText(R.string.stop_inv);
                 break;
             case UhfMsgType.UHF_STOP:
-                openimg.setImageResource(R.drawable.openicon_inv);
+                openBtn.setText(R.string.start_inv);
                 //跟新盘点状态到数据库
                 //盘点到新数据才更新到数据库
                 if (mResnentUpdateInvDataList.size() > 0) {

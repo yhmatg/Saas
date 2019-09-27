@@ -42,9 +42,9 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
     @BindView(R.id.imgTitleLeft)
     ImageView imgTitleLeft;
     @BindView(R.id.open_or_stop)
-    ImageView mOpenOrStop;
+    TextView mOpenOrStop;
     @BindView(R.id.clear_btn)
-    ImageView mClearBtn;
+    TextView mClearBtn;
     @BindView(R.id.error_page)
     LinearLayout errorPage;
     @BindView(R.id.empty_page)
@@ -120,10 +120,10 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
                 break;
             case UhfMsgType.UHF_START:
                 scanEpcs.clear();
-                mOpenOrStop.setImageResource(R.drawable.stopicon);
+                mOpenOrStop.setText(R.string.scann_stop);
                 break;
             case UhfMsgType.UHF_STOP:
-                mOpenOrStop.setImageResource(R.drawable.openicon);
+                mOpenOrStop.setText(R.string.scann_start);
                 if(scanEpcs.size() != 0){
                     mPresenter.fetchScanAssetsInfons(scanEpcs);
                 }else {

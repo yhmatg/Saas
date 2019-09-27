@@ -70,4 +70,9 @@
     <string name="not_select_asset">未选中任何领用资产！</string>
     <string name="sub_req_asset_suc">提交领用资产成功！</string>
     <string name="sub_req_asset_fail">提交领用资产失败：</string>
+    <string name="scann_start">开启</string>
+    <string name="scann_stop">停止</string>
+    <string name="start_inv">开始盘点</string>
+    <string name="stop_inv">停止盘点</string>
+    <string name="inv_upload_data">数据上传</string>
 </resources>

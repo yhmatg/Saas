@@ -23,22 +23,31 @@
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#30b4f8"
             android:gravity="center"
+            android:padding="5dp"
             android:orientation="horizontal">
-            <ImageView
+            <TextView
                 android:id="@+id/open_or_stop"
                 android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/openicon"/>
+                android:gravity="center"
+                android:text="@string/scann_start"
+                android:layout_marginEnd="5dp"
+                android:textColor="@color/white"
+                android:background="@drawable/button_background"
+                android:textSize="18sp" />
 
-            <ImageView
+            <TextView
                 android:id="@+id/clear_btn"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_height="20dp"
-                android:src="@drawable/clearicon"/>
+                android:gravity="center"
+                android:text="@string/clear_card"
+                android:textColor="@color/white"
+                android:background="@drawable/button_background"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
