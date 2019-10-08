@@ -9,21 +9,21 @@
     <include layout="@layout/include_title" />
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/tv_res_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="@string/requisition_user"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_res_assets"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:textColor="@color/theme"
         android:text="@string/request_assets"
+        android:textColor="@color/theme"
         android:textSize="16sp" />
 
     <LinearLayout
@@ -32,9 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:focusable="true"
-        android:visibility="gone"
         android:focusableInTouchMode="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/used_assets"
@@ -71,8 +71,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColorHint="@color/person"
-            android:hint="@string/asset_id" />
+            android:hint="@string/asset_id"
+            android:lines="1"
+            android:singleLine="true"
+            android:textColorHint="@color/person" />
 
         <TextView
             android:id="@+id/tv_search"
@@ -92,8 +94,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:textColor="@color/theme"
         android:text="@string/search_asset_details"
+        android:textColor="@color/theme"
         android:textSize="16sp" />
 
     <RelativeLayout
@@ -118,30 +120,30 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="60dp"
+            android:scaleType="center"
             android:src="@drawable/finish_requisition"
+            android:visibility="gone"
             app:backgroundTint="@color/colorAccent"
             app:fabSize="mini"
-            android:visibility="gone"
-            android:scaleType="center"
             app:rippleColor="#ec8eae" />
 
         <LinearLayout
             android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:padding="5dp"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/tv_start_or_stop"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/button_background"
                 android:gravity="center"
                 android:text="@string/start_scan"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/button_background"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
@@ -150,9 +152,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/button_background"
                 android:gravity="center"
                 android:text="@string/submit_data"
-                android:background="@drawable/button_background"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </LinearLayout>

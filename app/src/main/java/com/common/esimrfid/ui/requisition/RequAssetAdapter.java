@@ -61,9 +61,11 @@ public class RequAssetAdapter extends RecyclerView.Adapter<RequAssetAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         RequisitionAssetInfo assetsInfo = mAssetsInfos.get(i);
         viewHolder.tvBrand.setText("名称：" + assetsInfo.getAst_name());
-        String status = assetsInfo.getAst_used_status() == null ? "" : assetsInfo.getAst_used_status().getName();
-        viewHolder.tvStatus.setText("状态：" + status);
-        String type = assetsInfo.getType_info() == null ? "" : assetsInfo.getType_info().getType_name();
+        String status = assetsInfo.getAst_used_status() == null ? "无信息" : assetsInfo.getAst_used_status().getName();
+        viewHolder.tvStatus.setText("使用状态：" + status);
+        String astStatus = assetsInfo.getAst_status() == null ? "无信息" : assetsInfo.getAst_status().getName();
+        viewHolder.astStatus.setText("资产状态：" + astStatus);
+        String type = assetsInfo.getType_info() == null ? "无信息" : assetsInfo.getType_info().getType_name();
         viewHolder.tvType.setText("类型：" + type);
         viewHolder.tvModel.setText("型号：" + assetsInfo.getAst_model());
         viewHolder.tvNum.setText("编号：" + assetsInfo.getAst_code());
@@ -131,6 +133,8 @@ public class RequAssetAdapter extends RecyclerView.Adapter<RequAssetAdapter.View
         ImageView typeImg;
         @BindView(R.id.tv_status)
         TextView tvStatus;
+        @BindView(R.id.ast_status)
+        TextView astStatus;
         @BindView(R.id.tv_type)
         TextView tvType;
         @BindView(R.id.tv_brand)

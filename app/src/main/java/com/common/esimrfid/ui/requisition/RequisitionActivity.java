@@ -145,8 +145,8 @@ public class RequisitionActivity extends BaseActivity<RequisitionPressnter> impl
             RequisitionItemInfo item = requisitionItemInfos.get(i);
             if("已完成".equals(item.getOdr_status())) {
                 finishedRequisitions.add(item);
-                //}else if("处理中".equals(item.getOdr_status())){
-            }else {
+            }else if("处理中".equals(item.getOdr_status())){
+            //}else {
                 originalRequisitions.add(item);
             }
         }

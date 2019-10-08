@@ -236,10 +236,16 @@ public class RequisitionDetailActivity extends BaseActivity<RequisitionDetailPre
 
     @Override
     public void handleAssetsByAssetId(List<RequisitionAssetInfo> assets) {
+        ArrayList<RequisitionAssetInfo> tempData = new ArrayList<>();
+        tempData.addAll(rqeList);
+        assets.removeAll(rqeList);
         rqeList.clear();
         rqeList.addAll(assets);
+        rqeList.addAll(tempData);
+        resAdapter.getSeleceItems().clear();
+        resAdapter.getStatusMap().clear();
         resAdapter.notifyDataSetChanged();
-        handleResultList(assets);
+        handleResultList(rqeList);
     }
 
     @Override

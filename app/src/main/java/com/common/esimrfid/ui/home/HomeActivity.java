@@ -86,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         if(EsimAndroidApp.getIEsimUhfService() != null){
@@ -98,7 +98,7 @@ public class HomeActivity extends AppCompatActivity {
             conOrDiscon.setText(R.string.connect_rfid);
             conOrDiscon.setTextColor(getColor(R.color.con_red));
         }
-    }
+    }*/
 
     @OnClick({R.id.imgHomeAssetsScan,R.id.imgHomeAssetsSearch,R.id.txtHomeOut,R.id.img_write_epc,R.id.tv_con_discon,R.id.img_asset_use})
     void performClick(View view){

@@ -21,6 +21,11 @@ public class RequisitionAssetInfo {
     private String ast_name;
     private AstUsedStatusBean ast_used_status;
     private TypeInfoBean type_info;
+    /**
+     * ast_status : {"code":0,"index":0,"name":"正常"}
+     */
+
+    private AstUsedStatusBean ast_status;
 
 
     public String getAst_code() {
@@ -77,6 +82,14 @@ public class RequisitionAssetInfo {
 
     public void setType_info(TypeInfoBean type_info) {
         this.type_info = type_info;
+    }
+
+    public AstUsedStatusBean getAst_status() {
+        return ast_status;
+    }
+
+    public void setAst_status(AstUsedStatusBean ast_status) {
+        this.ast_status = ast_status;
     }
 
     public static class AstUsedStatusBean {
