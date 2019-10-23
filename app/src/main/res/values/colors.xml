@@ -37,4 +37,7 @@
     <color name="warning">#bf6037</color>
     <color name="write_item">#3686B1</color>
     <color name="con_red">#FFCF4D4A</color>
+    <color name="drawer_item_bg_p">#e8e8e8</color>
+    <color name="drawer_item_bg_n">#fffff9</color>
+    <color name="main_status_bar_blue">#279ede</color>
 </resources>

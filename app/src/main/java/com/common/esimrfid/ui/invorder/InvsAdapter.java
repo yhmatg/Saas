@@ -97,6 +97,20 @@ public class InvsAdapter extends RecyclerView.Adapter<InvsAdapter.ViewHolder> {
         }
         //modify null 20190813 end
         viewHolder.tvCreator.setText("创建人：" + creator);
+        //add assigner name start 20192022
+        String assigner = "";
+        String assRealName = nventoryOrder.getAssigner() == null ? "未知" : nventoryOrder.getAssigner().getUser_real_name();
+        String assName = nventoryOrder.getAssigner() == null ? "未知" : nventoryOrder.getAssigner().getUser_name();
+        if (!"未知".equals(assRealName)) {
+            assigner = assRealName;
+        } else if (!"未知".equals(assName)) {
+            assigner = assName;
+        } else {
+            assigner = "未知";
+        }
+        viewHolder.tvAssigner.setText("盘点人：" +  assigner);
+        //add assigner name end 20192022
+
         viewHolder.tvCredDate.setText("创建时间：" + DateUtils.date2String(nventoryOrder.getCreate_date()));
         int tempStatus = nventoryOrder.getInv_status().getIndex();
         if (tempStatus == 11) {
@@ -146,6 +160,7 @@ public class InvsAdapter extends RecyclerView.Adapter<InvsAdapter.ViewHolder> {
         ImageView optImg;
         TextView tvRemark;
         LinearLayout itemLayout;
+        TextView tvAssigner;
 
         ViewHolder(View view) {
             super(view);
@@ -161,7 +176,7 @@ public class InvsAdapter extends RecyclerView.Adapter<InvsAdapter.ViewHolder> {
             optImg = view.findViewById(R.id.opt_status);
             tvRemark = view.findViewById(R.id.tv_remark);
             itemLayout = view.findViewById(R.id.inv_recycle_item);
-
+            tvAssigner = view.findViewById(R.id.tv_assigner);
         }
     }
 

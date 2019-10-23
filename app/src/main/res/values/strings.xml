@@ -75,4 +75,8 @@
     <string name="start_inv">开始盘点</string>
     <string name="stop_inv">停止盘点</string>
     <string name="inv_upload_data">数据上传</string>
+    <string name="home_title">首页</string>
+    <string name="navigation_drawer_open">打开侧栏</string>
+    <string name="navigation_drawer_close">关闭侧栏</string>
+    <string name="update_message">更新服务正在运行</string>
 </resources>
