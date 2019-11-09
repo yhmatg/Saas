@@ -2,11 +2,10 @@ package com.common.esimrfid.base.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.utils.CommonUtils;
-
-import dagger.android.support.AndroidSupportInjection;
 
 
 /**
@@ -24,7 +23,6 @@ public abstract class BaseDialogFragment<T extends AbstractPresenter> extends Ab
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        AndroidSupportInjection.inject(this);
     }
 
     @Override
