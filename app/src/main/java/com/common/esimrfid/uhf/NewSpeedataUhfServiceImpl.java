@@ -55,9 +55,16 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
         }else {
             return false;
         }*/
-        UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_DISCONNECT);
-        EventBus.getDefault().post(uhfMsgEvent);
-        return true;
+        try {
+            newUHFDeviceControl.PowerOffDevice();
+            UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_DISCONNECT);
+            EventBus.getDefault().post(uhfMsgEvent);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
 
     }
 

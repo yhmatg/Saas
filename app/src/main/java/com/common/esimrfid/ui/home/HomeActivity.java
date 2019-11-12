@@ -174,6 +174,10 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if( EsimAndroidApp.getIEsimUhfService() != null){
+            EsimAndroidApp.getIEsimUhfService().closeRFID();
+            EsimAndroidApp.setIEsimUhfService(null);
+        }
         EventBus.getDefault().unregister(this);
     }
 }
