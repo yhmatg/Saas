@@ -5,24 +5,26 @@ import com.common.esimrfid.contract.home.InvDetailContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.emun.InvOperateStatus;
 import com.common.esimrfid.core.bean.emun.InventoryStatus;
-import com.common.esimrfid.core.bean.emun.OrderStatusEm;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
-import com.common.esimrfid.core.bean.nanhua.invdetailbeans.InventoryDetail;
-import com.common.esimrfid.core.bean.nanhua.invdetailbeans.ResultInventoryDetail;
-import com.common.esimrfid.core.bean.nanhua.inventorybeans.OrderStatus;
-import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> implements InvDetailContract.Presenter {
@@ -42,14 +44,27 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .observeOn(Schedulers.io())
-                .doOnNext(new Consumer<ResultInventoryDetail>() {
+               /* .doOnNext(new Consumer<ResultInventoryDetail>() {
                     @Override
                     public void accept(ResultInventoryDetail resultInventoryDetail) throws Exception {
                         if (resultInventoryDetail.getDetailResults() != null) {
                             DbBank.getInstance().getInventoryDetailDao().insertItems(resultInventoryDetail.getDetailResults());
                         }
                     }
-                }).observeOn(AndroidSchedulers.mainThread())
+                })*/
+                //本地远程除盘点状态同步 1116
+               .flatMap(new Function<ResultInventoryDetail, ObservableSource<ResultInventoryDetail>>() {
+                   @Override
+                   public ObservableSource<ResultInventoryDetail> apply(ResultInventoryDetail resultInventoryDetail) throws Exception {
+                       //本地数据库列表
+                       List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
+                       //更新出盘点状态的其他盘点数据
+                       List<InventoryDetail> finalData = handleLocalAndRemountData(localInvDetailsByInvid, resultInventoryDetail.getDetailResults());
+                       DbBank.getInstance().getInventoryDetailDao().insertItems(finalData);
+                       resultInventoryDetail.setDetailResults(finalData);
+                       return Observable.just(resultInventoryDetail);
+                   }
+               }).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new BaseObserver<ResultInventoryDetail>(mView, false) {
                     @Override
                     public void onNext(ResultInventoryDetail resultInventoryDetail) {
@@ -74,10 +89,11 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                             ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
                             ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
                             invOrderByInvId.setOpt_status(InvOperateStatus.MODIFIED_AND_SUBMIT_BUT_NOT_FINISHED.getIndex());
-                            OrderStatus orderStatus = new OrderStatus();
+                           /* ResultInventoryOrder.InvStatus orderStatus = new ResultInventoryOrder.InvStatus();
                             orderStatus.setCode(OrderStatusEm.PROCESSING.getIndex());
                             orderStatus.setIndex(OrderStatusEm.PROCESSING.getIndex());
-                            orderStatus.setName(OrderStatusEm.PROCESSING.getName());
+                            orderStatus.setName(OrderStatusEm.PROCESSING.getName());*/
+                            int orderStatus = 10;
                             invOrderByInvId.setInv_status(orderStatus);
                             resultInventoryOrderDao.updateItem(invOrderByInvId);
                             //跟新盘点子条目ResultInventoryDetail的盘点提交状态
@@ -130,10 +146,12 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                             ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
                             ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
                             invOrderByInvId.setOpt_status(InvOperateStatus.FINISHED.getIndex());
-                            OrderStatus orderStatus = new OrderStatus();
+                            invOrderByInvId.setInv_finish_remark(remark);
+                           /* ResultInventoryOrder.InvStatus orderStatus = new ResultInventoryOrder.InvStatus();
                             orderStatus.setCode(OrderStatusEm.FINISH.getIndex());
                             orderStatus.setIndex(OrderStatusEm.FINISH.getIndex());
-                            orderStatus.setName(OrderStatusEm.FINISH.getName());
+                            orderStatus.setName(OrderStatusEm.FINISH.getName());*/
+                            int orderStatus = 11;
                             invOrderByInvId.setInv_status(orderStatus);
                             resultInventoryOrderDao.updateItem(invOrderByInvId);
                         }else {
@@ -162,10 +180,11 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                 ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
                 ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
                 invOrderByInvId.setOpt_status(InvOperateStatus.MODIFIED_BUT_NOT_SUBMIT.getIndex());
-                OrderStatus orderStatus = new OrderStatus();
+               /* ResultInventoryOrder.InvStatus orderStatus = new ResultInventoryOrder.InvStatus();
                 orderStatus.setCode(OrderStatusEm.PROCESSING.getIndex());
                 orderStatus.setIndex(OrderStatusEm.PROCESSING.getIndex());
-                orderStatus.setName(OrderStatusEm.PROCESSING.getName());
+                orderStatus.setName(OrderStatusEm.PROCESSING.getName());*/
+                int orderStatus = 10;
                 invOrderByInvId.setInv_status(orderStatus);
                 resultInventoryOrderDao.updateItem(invOrderByInvId);
             }
@@ -188,10 +207,11 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                 ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
                 ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
                 invOrderByInvId.setOpt_status(InvOperateStatus.MODIFIED_BUT_NOT_SUBMIT.getIndex());
-                OrderStatus orderStatus = new OrderStatus();
+                /*ResultInventoryOrder.InvStatus orderStatus = new ResultInventoryOrder.InvStatus();
                 orderStatus.setCode(OrderStatusEm.PROCESSING.getIndex());
                 orderStatus.setIndex(OrderStatusEm.PROCESSING.getIndex());
-                orderStatus.setName(OrderStatusEm.PROCESSING.getName());
+                orderStatus.setName(OrderStatusEm.PROCESSING.getName());*/
+                int orderStatus = 10;
                 invOrderByInvId.setInv_status(orderStatus);
                 resultInventoryOrderDao.updateItem(invOrderByInvId);
             }
@@ -225,5 +245,26 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
             }
         });
         return localInvDetailObservable;
+    }
+
+    public List<InventoryDetail> handleLocalAndRemountData(List<InventoryDetail> local ,List<InventoryDetail> remount){
+        ArrayList<InventoryDetail> tempData = new ArrayList<>();
+        if(local.size() == 0){
+            tempData.addAll(remount);
+        }else {
+            HashMap<String,InventoryDetail> hasMap = new HashMap<>();
+            for (int i = 0; i < remount.size(); i++) {
+                hasMap.put(remount.get(i).getId(),remount.get(i));
+            }
+            for (int i = 0; i < local.size(); i++) {
+                InventoryDetail localDetail = local.get(i);
+                InventoryDetail remountDetail = hasMap.get(localDetail.getId());
+                if(remountDetail != null){
+                    remountDetail.getInvdt_status().setCode(localDetail.getInvdt_status().getCode());
+                    tempData.add(remountDetail);
+                }
+            }
+        }
+        return tempData;
     }
 }

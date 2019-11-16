@@ -7,7 +7,7 @@ import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.emun.InvOperateStatus;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
-import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
@@ -53,7 +53,12 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                         List<ResultInventoryOrder> tempLocal = new ArrayList<>();
                         tempLocal.addAll(localOrders);
                         tempLocal.removeAll(resultInventoryOrders);
+                        //数据库同步删除盘点单
                         DbBank.getInstance().getResultInventoryOrderDao().deleteItems(tempLocal);
+                        //数据库同步删除盘点单下的资产
+                        for (int i = 0; i < tempLocal.size(); i++) {
+                            DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvid(tempLocal.get(i).getId());
+                        }
                         //本地数据和服务器数据的交集，服务端删除盘点单，本地同步跟新显示
                         localOrders.retainAll(resultInventoryOrders);
                         //服务端新增的数据

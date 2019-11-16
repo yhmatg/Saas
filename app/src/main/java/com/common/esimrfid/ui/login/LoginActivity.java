@@ -15,7 +15,7 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.UserInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.presenter.login.LoginPresenter;
 import com.common.esimrfid.ui.home.HomeActivity;
 import com.common.esimrfid.utils.StringUtils;

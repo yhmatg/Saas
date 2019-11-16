@@ -1,6 +1,6 @@
 package com.common.esimrfid.core.prefs;
 
-import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 
 /**
  * @author yhm

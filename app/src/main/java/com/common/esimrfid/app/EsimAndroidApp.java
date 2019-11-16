@@ -7,7 +7,7 @@ import android.support.multidex.MultiDex;
 import com.bumptech.glide.Glide;
 import com.common.esimrfid.BuildConfig;
 import com.common.esimrfid.R;
-import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.utils.Utils;
 import com.common.esimrfid.utils.logger.MyCrashListener;

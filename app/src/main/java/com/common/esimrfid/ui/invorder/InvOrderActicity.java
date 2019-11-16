@@ -13,7 +13,7 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.base.fragment.BaseFragment;
 import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
 import com.common.esimrfid.utils.ToastUtils;
 
@@ -73,7 +73,7 @@ public class InvOrderActicity extends BaseActivity<InvOrderPressnter> implements
         fragCheckFinishedFragment = new FragCheckFinishedFragment();
         addOrShowFragment(fragCheckFinishedFragment);
         addOrShowFragment(fragCheckWaitingFragment);
-        userId = getUserLoginResponse().getSysUser().getId();
+        userId = getUserLoginResponse().getUserinfo().getId();
     }
 
     @Override

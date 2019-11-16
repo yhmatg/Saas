@@ -13,7 +13,7 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.RequisitionContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionItemInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionItemInfo;
 import com.common.esimrfid.presenter.home.RequisitionPressnter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -51,7 +51,7 @@ public class RequisitionActivity extends BaseActivity<RequisitionPressnter> impl
     private List<RequisitionItemInfo> currentRequisition = new ArrayList<>();
     private List<RequisitionItemInfo> finishedRequisitions = new ArrayList<>();
     private List<RequisitionItemInfo> originalRequisitions = new ArrayList<>();
-    private boolean mShowNotFinishd = true;
+    private boolean mShowNotFinishd = false;
 
 
     @Override
@@ -69,13 +69,13 @@ public class RequisitionActivity extends BaseActivity<RequisitionPressnter> impl
         mReqRecycle.setLayoutManager(new LinearLayoutManager(this));
         mReqRecycle.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mReqRecycle.setAdapter(resAdapter );
-        //mPresenter.fetchAllRequisitions();
+        mPresenter.fetchAllRequisitions();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.fetchAllRequisitions();
+        //mPresenter.fetchAllRequisitions();
     }
 
     @Override
@@ -145,10 +145,9 @@ public class RequisitionActivity extends BaseActivity<RequisitionPressnter> impl
             RequisitionItemInfo item = requisitionItemInfos.get(i);
             if("已完成".equals(item.getOdr_status())) {
                 finishedRequisitions.add(item);
-            }else if("处理中".equals(item.getOdr_status())){
-            //}else {
+            }/*else if("处理中".equals(item.getOdr_status())){
                 originalRequisitions.add(item);
-            }
+            }*/
         }
         if(mShowNotFinishd){
             currentRequisition.addAll(originalRequisitions);
@@ -156,8 +155,7 @@ public class RequisitionActivity extends BaseActivity<RequisitionPressnter> impl
             currentRequisition.addAll(finishedRequisitions);
         }
         resAdapter.notifyDataSetChanged();
-        //updateUI(tvMyOrderWaiting, tvMyOrderFinish, lineMyOrderWaiting, lineMyOrderFinish);
-        if(originalRequisitions.size() == 0){
+        if(currentRequisition.size() == 0){
             emptyPage.setVisibility(View.VISIBLE);
             mReqRecycle.setVisibility(View.GONE);
         }else {

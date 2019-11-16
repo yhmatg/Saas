@@ -3,17 +3,13 @@ package com.common.esimrfid.presenter.login;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.DbUser;
-import com.common.esimrfid.core.bean.nanhua.UserInfo;
-import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
-import com.common.esimrfid.core.room.DbBank;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
-
-import java.util.Date;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -47,11 +43,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                     .doOnNext(new Consumer<UserLoginResponse>() {
                         @Override
                         public void accept(UserLoginResponse userLoginResponse) throws Exception {
-                            UserInfo sysUser = userLoginResponse.getSysUser();
-                            //保存用户信息DbUser到数据库
-                            savaUserInfo(sysUser);
-                            mDataManager.setUserLoginResponse(userLoginResponse);
                             //保存UserLoginResponse到sp
+                            mDataManager.setUserLoginResponse(userLoginResponse);
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())
@@ -91,23 +84,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
             }
 
         }
-
-    }
-
-    private void savaUserInfo(UserInfo sysUser) {
-        DbUser dbUser = new DbUser();
-        dbUser.setId(sysUser.getId());
-        dbUser.setUser_name(sysUser.getUser_name());
-        dbUser.setUser_password(sysUser.getUser_password());
-        dbUser.setUser_status(sysUser.getUser_status());
-        dbUser.setUser_age(sysUser.getUser_age());
-        dbUser.setUser_mobile(sysUser.getUser_mobile());
-        dbUser.setUser_email(sysUser.getUser_email());
-        dbUser.setTenant_id(sysUser.getTenant_id());
-        dbUser.setUpdate_date(new Date(sysUser.getUpdate_date()));
-        dbUser.setUser_avatar(sysUser.getUser_avatar());
-        dbUser.setUser_empcode(sysUser.getUser_empcode());
-        DbBank.getInstance().getDbUserDao().insertItem(dbUser);
 
     }
 

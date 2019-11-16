@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,8 +22,8 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.RequisitionDetailContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
-import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionAssetInfo;
-import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionDetailInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionAssetInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionDetailInfo;
 import com.common.esimrfid.presenter.home.RequisitionDetailPressnter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
@@ -251,11 +252,11 @@ public class RequisitionDetailActivity extends BaseActivity<RequisitionDetailPre
     @Override
     public void handleFinishedAssets(RequisitionDetailInfo requisitionDetailInfo) {
         List<RequisitionAssetInfo> assets = requisitionDetailInfo.getAssetsInfo();
-        List<RequisitionDetailInfo.ItemsBean> reqDetails = requisitionDetailInfo.getReq_detail();
-        StringBuilder detailString = new StringBuilder("领用信息：" + "\n");
+        /* List<RequisitionDetailInfo.ReqDetail> reqDetails = requisitionDetailInfo.getReq_detail();
+        StringBuilder detailString = new StringBuilder("领用备注：" + "\n");
         if (reqDetails != null && reqDetails.size() != 0) {
             for (int i = 0; i < reqDetails.size(); i++) {
-                RequisitionDetailInfo.ItemsBean itemsBean = reqDetails.get(i);
+                RequisitionDetailInfo.ReqDetail itemsBean = reqDetails.get(i);
                 detailString.append("    " + itemsBean.getName());
                 detailString.append("(");
                 for (int j = 0; j < itemsBean.getFormFields().size(); j++) {
@@ -271,7 +272,10 @@ public class RequisitionDetailActivity extends BaseActivity<RequisitionDetailPre
                 }
             }
             mReqAssetsInfo.setText(detailString.toString().replace("null", "无信息"));
-        }
+        }*/
+        String remark = requisitionDetailInfo.getOdr_remark();
+        if(!TextUtils.isEmpty(remark))
+            mReqAssetsInfo.setText("领用备注："+ remark);
         if (assets != null) {
             currentUpload = assets.size();
             String usedAssets = "已领用资产: " + currentUpload;
@@ -324,7 +328,7 @@ public class RequisitionDetailActivity extends BaseActivity<RequisitionDetailPre
         for (int i = 0; i < seleceItems.size(); i++) {
             RequisitionAssetInfo requisitionAssetInfo = seleceItems.get(i);
             selectEpcs.add(requisitionAssetInfo.getAst_epc_code());
-            stringBuilder.append(requisitionAssetInfo.getAst_name() + "\n(" + requisitionAssetInfo.getAst_code() + ")");
+            stringBuilder.append(requisitionAssetInfo.getAst_name() + "\n(" + requisitionAssetInfo.getAst_barcode() + ")");
             if(i < seleceItems.size() - 1){
                 stringBuilder.append(",\n");
             }

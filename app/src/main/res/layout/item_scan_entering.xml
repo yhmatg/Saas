@@ -1,85 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#ffffff"
     android:gravity="center_vertical"
+    android:orientation="horizontal"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:background="#ffffff">
+    android:paddingBottom="10dp">
+
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal">
+
         <ImageView
-            android:scaleType="fitCenter"
             android:id="@+id/typeImg"
             android:layout_width="@dimen/DIMEN_60DP"
-            android:layout_height="@dimen/DIMEN_60DP"/>
+            android:layout_height="@dimen/DIMEN_60DP"
+            android:scaleType="fitCenter" />
     </LinearLayout>
+
     <LinearLayout
+        android:layout_marginStart="20dp"
         android:id="@+id/ll_common_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
         <TextView
-            android:text="状态：无信息"
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="名称：无信息"
+            android:textColor="@color/theme"
+            android:textSize="16sp" />
+
+        <TextView
             android:id="@+id/tv_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/theme"
-            android:textSize="16sp"/>
-        <TextView
-            android:text="类型：无信息"
-            android:id="@+id/tv_type"
             android:layout_marginTop="7dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:text="状态：无信息"
             android:textColor="@color/theme"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
-            android:visibility="gone"
-            android:text="领用人：无信息"
+            android:id="@+id/tv_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:text="类型：无信息"
+            android:textColor="@color/theme"
+            android:textSize="16sp" />
+
+        <TextView
             android:id="@+id/tv_owner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
+            android:text="领用人：无信息"
             android:textColor="@color/theme"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:visibility="gone" />
+
         <TextView
-            android:text="品牌：无信息"
-            android:id="@+id/tv_brand"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/theme"
-            android:layout_marginTop="7dp"
-            android:textSize="16sp"/>
-        <TextView
-            android:text="型号：无信息"
             android:id="@+id/tv_model"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
+            android:text="型号：无信息"
             android:textColor="@color/theme"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
+
         <TextView
-            android:text="编号：无信息"
             android:id="@+id/tv_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
+            android:text="编号：无信息"
             android:textColor="@color/theme"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </LinearLayout>
+
     <CheckBox
-        android:visibility="gone"
         android:id="@+id/cbx_sel"
-        android:layout_marginRight="10dp"
         android:layout_width="40dp"
-        android:layout_height="40dp" />
+        android:layout_height="40dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone" />
 </LinearLayout>

@@ -14,7 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
 import com.common.esimrfid.uhf.RodinbellUhfServiceImpl;
@@ -79,7 +79,7 @@ public class HomeActivity extends AppCompatActivity {
         boolean loginStatus = DataManager.getInstance().getLoginStatus();
         if(loginStatus){
             EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
-            tvCrop.setText(uerLogin.getSysUser().getUser_real_name());
+            tvCrop.setText(uerLogin.getUserinfo().getUser_real_name());
         }else {
             startActivity(new Intent(this, LoginActivity.class));
             finish();

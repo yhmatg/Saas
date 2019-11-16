@@ -6,14 +6,10 @@ package com.common.esimrfid.core.bean.emun;
  * @Description:
  */
 public enum AssetsUseStatus {
-    AST_INIT("录入",0),
-    IN_STORE("在库", 1),
-    IN_USED("在用", 2),
-    IN_LOCK("锁定",3),
-
-
-
-    DISCARD("报废", 4);
+    IN_IDEL("闲置",0),
+    IN_USED("在用", 1),
+    IN_REPAIR("维修中", 2),
+    IN_Transfer("调拨中",3);
 
 
     // 成员变量

@@ -13,6 +13,40 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvMyOrderFinish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="已完成"
+                    android:textColor="#88d1fc"
+                    android:textSize="@dimen/sp_my_order_tab" />
+
+                <View
+                    android:id="@+id/lineMyOrderFinish"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/theme"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -43,45 +77,9 @@
                     android:background="@color/theme"
                     android:paddingLeft="30dp"
                     android:paddingRight="30dp"
-                    android:visibility="visible" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvMyOrderFinish"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="已完成"
-                    android:textColor="#88d1fc"
-                    android:textSize="@dimen/sp_my_order_tab" />
-
-                <View
-                    android:id="@+id/lineMyOrderFinish"
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:background="@color/theme"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="30dp"
                     android:visibility="gone" />
 
             </LinearLayout>
-
         </LinearLayout>
 
     </LinearLayout>

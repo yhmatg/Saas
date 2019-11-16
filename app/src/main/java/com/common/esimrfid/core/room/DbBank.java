@@ -10,8 +10,8 @@ import android.support.annotation.NonNull;
 
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.core.bean.nanhua.DbUser;
-import com.common.esimrfid.core.bean.nanhua.invdetailbeans.InventoryDetail;
-import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.dao.DbUserDao;
 import com.common.esimrfid.core.dao.InventoryDetailDao;
 import com.common.esimrfid.core.dao.ResultInventoryOrderDao;

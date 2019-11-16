@@ -12,9 +12,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.common.esimrfid.R;
+import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
-import com.common.esimrfid.core.bean.nanhua.invdetailbeans.AssetsInfo;
-import com.common.esimrfid.core.bean.nanhua.invdetailbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,66 +47,63 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         InventoryDetail invDetail = inventoryOrders.get(i);
-        AssetsInfo assetsInfo = invDetail.getAssets_info();
+        AssetsInfo assetsInfo = invDetail.getAssetsInfos();
         Integer status = invDetail.getInvdt_status().getCode();
-        if(status == 0){
+        if (status == 0) {
             viewHolder.tvStatus.setText("未盘点");
             viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.un_checked));
-            viewHolder.ivCollapse.setVisibility(View.INVISIBLE);
-        }else if(status == 1){
+            //viewHolder.ivCollapse.setVisibility(View.INVISIBLE);
+        } else if (status == 1) {
             viewHolder.tvStatus.setText("已盘点");
             viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.green));
-            viewHolder.ivCollapse.setVisibility(View.VISIBLE);
-        }else if(status == 2){
+            //viewHolder.ivCollapse.setVisibility(View.VISIBLE);
+        } else if (status == 2) {
             viewHolder.tvStatus.setText("未提交");
             viewHolder.tvStatus.setTextColor(mContext.getResources().getColor(R.color.processing));
-            viewHolder.ivCollapse.setVisibility(View.VISIBLE);
+            //viewHolder.ivCollapse.setVisibility(View.VISIBLE);
         }
-        viewHolder.tvInvId.setText("资产编号：" + assetsInfo.getAst_code());
-        viewHolder.tvBrand.setText("资产名称：" + assetsInfo.getAst_name());
-        viewHolder.tvModel.setText("型号：" + assetsInfo.getAst_model());
-        //yhm 20190807 null
-        String typeName = assetsInfo.getType_info() == null ? "未知" : assetsInfo.getType_info().getType_name();
+        String astBarcode = TextUtils.isEmpty(assetsInfo.getAst_barcode()) ? "无信息" : assetsInfo.getAst_barcode();
+        viewHolder.tvInvId.setText("资产编号：" + astBarcode);
+
+        String astName = TextUtils.isEmpty(assetsInfo.getAst_name()) ? "无信息" : assetsInfo.getAst_name();
+        viewHolder.tvBrand.setText("资产名称：" + astName);
+
+        String astMode = TextUtils.isEmpty(assetsInfo.getAst_model()) ? "无信息" : assetsInfo.getAst_model();
+        viewHolder.tvModel.setText("型号：" + astMode);
+
+        String typeName = assetsInfo.getType_info() == null ? "无信息" : assetsInfo.getType_info().getType_name();
+        typeName = TextUtils.isEmpty(typeName) ? "无信息" : typeName;
         viewHolder.tvInvType.setText("类型：" + typeName);
-        //yhm 20190807 null
-        String roomName = assetsInfo.getOrg_belongdept() == null ? "未知" : assetsInfo.getOrg_belongdept().getOrg_name();
-        viewHolder.tvOrg.setText("部门：" + roomName);
-        viewHolder.tvRemark.setText("备注：");
-        //yhm 20190807 null
-        String loc_name = assetsInfo.getLoc_info() == null ? "null" : assetsInfo.getLoc_info().getLoc_name();
-        if (TextUtils.isEmpty(loc_name) || "null".equals(loc_name)) {
-            viewHolder.tvLoc.setVisibility(View.GONE);
-        } else {
-            viewHolder.tvLoc.setVisibility(View.VISIBLE);
-            viewHolder.tvLoc.setText("位置：" + loc_name);
-        }
-        //yhm 20190807 null
-        Integer astUsedStatus = assetsInfo.getAst_used_status() == null ? 0 : assetsInfo.getAst_used_status().getCode();
+
+        String roomName = assetsInfo.getOrg_useddept() == null ? "无信息" : assetsInfo.getOrg_useddept().getOrg_name();
+        roomName = TextUtils.isEmpty(roomName) ? "无信息" : roomName;
+        viewHolder.tvOrg.setText("使用部门：" + roomName);
+
+        String loc_name = assetsInfo.getLoc_info() == null ? "无信息" : assetsInfo.getLoc_info().getLoc_name();
+        loc_name = TextUtils.isEmpty(loc_name) ? "无信息" : loc_name;
+        viewHolder.tvLoc.setText("位置：" + loc_name);
+
+
+        Integer astUsedStatus = assetsInfo.getAst_used_status() == null ? 0 : assetsInfo.getAst_used_status();
         if (astUsedStatus == AssetsUseStatus.IN_USED.getIndex()) {
-            viewHolder.tvStore.setVisibility(View.GONE);
             viewHolder.tvOwner.setVisibility(View.VISIBLE);
-            //yhm 20190807 null
-            String userName = assetsInfo.getUser_info() == null ? "未知" :
-                    (assetsInfo.getUser_info().getUser_real_name() == null ? "未知" : assetsInfo.getUser_info().getUser_real_name());
+            String userName = assetsInfo.getUser_info() == null ? "无信息" : assetsInfo.getUser_info().getUser_real_name();
+            userName = TextUtils.isEmpty(userName) ? "无信息" : userName;
             viewHolder.tvOwner.setText("使用人：" + userName);
-        }  else if (astUsedStatus == AssetsUseStatus.IN_STORE.getIndex()) {
+        } else {
             // 在库
             viewHolder.tvOwner.setVisibility(View.GONE);
-            viewHolder.tvStore.setVisibility(View.VISIBLE);
-            //yhm 20190807 null
-            String storeName = assetsInfo.getStore_info() == null ? "未知" : assetsInfo.getStore_info().getSto_name();
-            viewHolder.tvStore.setText("仓库：" + storeName);
         }
-        String url = "";
+        String url = DataManager.getInstance().getHostUrl() + assetsInfo.getAst_img_url();
         Glide.with(mContext)
                 .load(url)
                 .centerCrop()
                 //.transform(new GlideRoundTransform(mContext, 5))
-                .placeholder(R.drawable.icon_wait)
+                //.placeholder(R.drawable.icon_wait)
                 .error(R.drawable.icon_nofind)
                 .into(viewHolder.typeImg);
 
-        String s = mCollMap.get(i);
+        /*String s = mCollMap.get(i);
         if (s != null) {
             if (COLLAPSE_UP.equals(s)) {
                 // 展开状态
@@ -125,9 +123,9 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
                 hideDetails(viewHolder, invDetail);
                 mCollMap.put(i, COLLAPSE_DOWN);
             }
-        }
+        }*/
 
-        viewHolder.ivCollapse.setOnClickListener(new View.OnClickListener() {
+       /* viewHolder.ivCollapse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String st = mCollMap.get(i);
@@ -144,7 +142,7 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
                     notifyItemChanged(i);
                 }
             }
-        });
+        });*/
 
     }
 
@@ -153,7 +151,7 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
         return inventoryOrders == null ? 0 : inventoryOrders.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.typeImg)
         ImageView typeImg;
         @BindView(R.id.tv_inv_id)
@@ -166,21 +164,18 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
         TextView tvOwner;
         @BindView(R.id.tv_loc)
         TextView tvLoc;
-        @BindView(R.id.tv_store)
-        TextView tvStore;
         @BindView(R.id.tv_inv_type)
         TextView tvInvType;
         @BindView(R.id.tv_model)
         TextView tvModel;
-        @BindView(R.id.tv_remark)
-        TextView tvRemark;
         @BindView(R.id.tv_status)
         TextView tvStatus;
         @BindView(R.id.iv_collapse)
         ImageView ivCollapse;
+
         ViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
         }
     }
 
@@ -188,36 +183,19 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
         viewHolder.ivCollapse.setImageResource(R.drawable.icon_arrow_up);
         viewHolder.tvModel.setVisibility(View.VISIBLE);
         viewHolder.tvInvType.setVisibility(View.VISIBLE);
-        viewHolder.tvBrand.setVisibility(View.VISIBLE);
-        //yhm 20190807 null
-        Integer astUsedStatus = invDetail.getAssets_info().getAst_used_status() == null ? 0 : invDetail.getAssets_info().getAst_used_status().getCode();
-        if (astUsedStatus == 1 ) {
-            viewHolder.tvStore.setVisibility(View.VISIBLE);
-        }
-
-        if (astUsedStatus == AssetsUseStatus.IN_USED.getIndex())//bean.getProduct().getBase_status()
+        viewHolder.tvLoc.setVisibility(View.VISIBLE);
+        Integer astUsedStatus = invDetail.getAssetsInfos().getAst_used_status() == null ? 0 : invDetail.getAssetsInfos().getAst_used_status();
+        if (astUsedStatus == AssetsUseStatus.IN_USED.getIndex())
             viewHolder.tvOwner.setVisibility(View.VISIBLE);
         else
             viewHolder.tvOwner.setVisibility(View.GONE);
-
-        if (true) {//TextUtils.isEmpty(bean.getInvdt_remark())
-            viewHolder.tvRemark.setVisibility(View.GONE);
-        } else {
-            viewHolder.tvRemark.setVisibility(View.VISIBLE);
-        }
     }
 
     private void hideDetails(ViewHolder viewHolder, InventoryDetail invDetail) {
         viewHolder.ivCollapse.setImageResource(R.drawable.icon_arrow_down);
         viewHolder.tvModel.setVisibility(View.GONE);
-        //yhm 20190807 null
-        int astUesdStatus = invDetail.getAssets_info().getAst_used_status() == null ? 0 : invDetail.getAssets_info().getAst_used_status().getCode();
-        if (!(AssetsUseStatus.IN_STORE.getIndex() == astUesdStatus)) {
-            viewHolder.tvStore.setVisibility(View.GONE);
-        }
         viewHolder.tvInvType.setVisibility(View.GONE);
-        viewHolder.tvBrand.setVisibility(View.GONE);
-        viewHolder.tvRemark.setVisibility(View.GONE);
         viewHolder.tvOwner.setVisibility(View.GONE);
+        viewHolder.tvLoc.setVisibility(View.GONE);
     }
 }

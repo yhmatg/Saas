@@ -3,7 +3,7 @@ package com.common.esimrfid.core.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
-import com.common.esimrfid.core.bean.nanhua.invdetailbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 
 import java.util.List;
 
@@ -14,4 +14,8 @@ public interface InventoryDetailDao extends BaseDao<InventoryDetail> {
 
     @Query("SELECT * FROM InventoryDetail where inv_id = :invId AND code = 2" )
     public List<InventoryDetail> findLocalInvedDetailByInvid(String invId);
+
+    @Query("DELETE FROM InventoryDetail where inv_id = :invId" )
+    public void deleteLocalInvDetailByInvid(String invId);
+
 }

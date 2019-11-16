@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.app.EsimAndroidApp;
-import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.utils.GsonUtil;
 import com.google.gson.Gson;
 

@@ -10,8 +10,7 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.base.fragment.BaseFragment;
 import com.common.esimrfid.contract.home.FragCheckWaitingContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.emun.OrderStatusEm;
-import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.FragCheckFinishedPressnter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -68,7 +67,7 @@ public class FragCheckFinishedFragment extends BaseFragment<FragCheckFinishedPre
         mData.clear();
         for (int i = 0; i < resultInventoryOrders.size(); i++) {
             if (resultInventoryOrders.get(i) != null
-                    && resultInventoryOrders.get(i).getInv_status().getIndex() == OrderStatusEm.FINISH.getIndex())
+                    && resultInventoryOrders.get(i).getInv_status() == 11)
                 mData.add(resultInventoryOrders.get(i));
         }
         if (mData.size() == 0) {

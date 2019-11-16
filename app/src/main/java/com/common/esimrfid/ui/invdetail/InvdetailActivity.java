@@ -24,7 +24,7 @@ import com.common.esimrfid.contract.home.InvDetailContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.emun.InventoryStatus;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
-import com.common.esimrfid.core.bean.nanhua.invdetailbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.presenter.home.InvDetailPresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
@@ -112,10 +112,6 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
     LinearLayout llInit;
     @BindView(R.id.ll_finish)
     LinearLayout llFinish;
-    @BindView(R.id.ll_current)
-    LinearLayout llCurrent;
-    @BindView(R.id.tv_current_ast)
-    TextView tvCurrentAst;
     @BindView(R.id.twinklingRefreshLayout)
     TwinklingRefreshLayout mTkrefreshlayout;
     @BindView(R.id.invdetail_recycleview)
@@ -135,7 +131,7 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
             mTotalInventoried = getIntent().getIntExtra(INV_TOTAL_COUNT, -1);
             mNotInventoried = mTotalInventoried - mHasInventorid;
         }
-        userId = getUserLoginResponse().getSysUser().getId();
+        userId = getUserLoginResponse().getUserinfo().getId();
         tvTitleCenter.setText("扫描盘点");
         imgTitleLeft.setVisibility(View.VISIBLE);
         mAdapter = new InvDetailAdapter(mDataList, this);
@@ -143,7 +139,8 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
         mInvdetailRecycle.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mInvdetailRecycle.setAdapter(mAdapter);
         //本地获取数据库
-        mPresenter.fetchAllInvDetails(mInvId, false);
+        //本地远程除盘点状态同步 1116
+        mPresenter.fetchAllInvDetails(mInvId, true);
     }
 
     private void initRfidAndEventbus() {
@@ -271,13 +268,14 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
 
         checkedEpcList.clear();
         notSubmitEpcList.clear();
+
         for (InventoryDetail detail : invDetails) {
             if (detail.getInvdt_status().getCode() == InventoryStatus.FINISH.getIndex()) {
-                checkedEpcList.add(detail.getAssets_info().getAst_epc_code());
+                checkedEpcList.add(detail.getAssetsInfos().getAst_epc_code());
                 mHasInventorid++;
                 mNotInventoried--;
             } else if (detail.getInvdt_status().getCode() == InventoryStatus.FINISH_NOT_SUBMIT.getIndex()) {
-                notSubmitEpcList.add(detail.getAssets_info().getAst_epc_code());
+                notSubmitEpcList.add(detail.getAssetsInfos().getAst_epc_code());
                 mResnentUpdateInvDataList.add(detail);
                 mNotSubmit++;
             }
@@ -385,14 +383,12 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
         if (epc != null && !checkedEpcList.contains(epc) && !notSubmitEpcList.contains(epc)) {
             for (int i = 0; i < mDataList.size(); i++) {
                 InventoryDetail inventoryDetail = mDataList.get(i);
-                if (epc.equals(inventoryDetail.getAssets_info().getAst_epc_code())) {
+                if (epc.equals(inventoryDetail.getAssetsInfos().getAst_epc_code())) {
                     checkedEpcList.add(epc);
                     inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH_NOT_SUBMIT.getIndex());
                     mUpdateInvDataList.add(inventoryDetail);
                     mResnentUpdateInvDataList.add(inventoryDetail);
                     mNotSubmit++;
-                    llCurrent.setVisibility(View.VISIBLE);
-                    tvCurrentAst.setText(inventoryDetail.getAssets_info().getAst_name() + "-" + inventoryDetail.getAssets_info().getAst_code());
                     refresTitle();
                     mDataChanged = true;
                 }
@@ -406,7 +402,8 @@ public class InvdetailActivity extends BaseActivity<InvDetailPresenter> implemen
         ArrayList<InventoryDetail> nuInvDetails = new ArrayList<>();
         for (int i = 0; i < mDataList.size(); i++) {
             InventoryDetail inventoryDetail = mDataList.get(i);
-            if (inventoryDetail.getInvdt_status().getCode() == 0) {
+            //modify 1115
+            if (inventoryDetail.getInvdt_status().getCode() == 0 || inventoryDetail.getInvdt_status().getCode() == 2) {
                 nuInvDetails.add(inventoryDetail);
             }
         }

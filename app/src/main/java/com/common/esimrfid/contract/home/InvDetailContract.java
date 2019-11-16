@@ -4,7 +4,7 @@ package com.common.esimrfid.contract.home;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
-import com.common.esimrfid.core.bean.nanhua.invdetailbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 
 import java.util.List;
 

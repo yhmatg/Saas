@@ -1,14 +1,14 @@
 package com.common.esimrfid.core;
 
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
-import com.common.esimrfid.core.bean.nanhua.UserInfo;
-import com.common.esimrfid.core.bean.nanhua.UserLoginResponse;
-import com.common.esimrfid.core.bean.nanhua.invdetailbeans.ResultInventoryDetail;
-import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
-import com.common.esimrfid.core.bean.nanhua.invscannbeans.AssetsInfo;
-import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionAssetInfo;
-import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionDetailInfo;
-import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionItemInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionAssetInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionDetailInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionItemInfo;
 import com.common.esimrfid.core.http.HttpHelper;
 import com.common.esimrfid.core.http.HttpHelperImpl;
 import com.common.esimrfid.core.prefs.PreferenceHelper;

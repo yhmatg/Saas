@@ -3,8 +3,8 @@ package com.common.esimrfid.contract.home;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
-import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionAssetInfo;
-import com.common.esimrfid.core.bean.nanhua.requisitionbeans.RequisitionDetailInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionAssetInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionDetailInfo;
 
 import java.util.List;
 import java.util.Set;

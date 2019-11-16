@@ -10,7 +10,7 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.base.fragment.BaseFragment;
 import com.common.esimrfid.contract.home.FragCheckWaitingContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.inventorybeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.FragCheckWaitingPressnter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
@@ -43,7 +43,7 @@ public class FragCheckWaitingFragment extends BaseFragment<FragCheckWaitingPress
     protected void initEventAndData() {
         mAdapter = new InvsAdapter(mData, mContext);
         mFragRecycle.setLayoutManager(new LinearLayoutManager(mContext));
-        mFragRecycle.addItemDecoration(new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL));
+        mFragRecycle.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
         mFragRecycle.setAdapter(mAdapter);
     }
 
@@ -67,8 +67,7 @@ public class FragCheckWaitingFragment extends BaseFragment<FragCheckWaitingPress
         mData.clear();
         for (int i = 0; i < resultInventoryOrders.size(); i++) {
             if (resultInventoryOrders.get(i) != null
-                    && (resultInventoryOrders.get(i).getInv_status().getIndex() == 0
-                    || resultInventoryOrders.get(i).getInv_status().getIndex() == 10))
+                    && (resultInventoryOrders.get(i).getInv_status() == 10))
                 mData.add(resultInventoryOrders.get(i));
         }
         if (mData.size() == 0) {

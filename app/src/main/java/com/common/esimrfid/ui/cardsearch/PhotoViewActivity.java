@@ -28,7 +28,7 @@ public class PhotoViewActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(imgUrl)
                 .error(R.drawable.icon_nofind)
-                .placeholder(R.drawable.icon_wait)
+                //.placeholder(R.drawable.icon_wait)
                 .into(photoview);
     }
 }
