@@ -139,13 +139,25 @@ public class ScanRfidActivity extends BaseActivity<ScanRfidPresenter> implements
 
     private void initRfidAndEventbus() {
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
+        //EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
     }
 
     @Override

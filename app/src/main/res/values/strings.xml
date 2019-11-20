@@ -79,4 +79,22 @@
     <string name="navigation_drawer_open">打开侧栏</string>
     <string name="navigation_drawer_close">关闭侧栏</string>
     <string name="update_message">更新服务正在运行</string>
+
+    <string name="inv_filter_str">盘存过滤：</string>
+    <string name="save">保存</string>
+    <string name="tag_epc">标签EPC：</string>
+    <string name="data_type">16位16进制数</string>
+    <string name="set_status">设置</string>
+    <string name="fileter_clear_str">清除</string>
+    <string name="start_search">开始查找</string>
+    <string name="stop_search">停止查找</string>
+    <string name="current_search_tag">当前识别标签</string>
+    <string name="filter_data_null">过滤数据不能为空！</string>
+    <string name="filter_sucess">过滤成功</string>
+    <string name="filter_failed">过滤失败</string>
+    <string name="clear_sucess">清除成功</string>
+    <string name="clear_failed">清除失败</string>
+    <string name="ast_name">资产名称：</string>
+    <string name="no_info">无信息</string>
+    <string name="ast_code">资产编号：</string>
 </resources>

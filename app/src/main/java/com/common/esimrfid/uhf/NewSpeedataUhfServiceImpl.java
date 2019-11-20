@@ -112,7 +112,11 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
             return false;
         }
 
+    }
 
+    @Override
+    public int setFilterData(int area, int start, int length, String data, boolean isSave) {
+        return driver.Set_Filter_Data(area, start, length, data, isSave);
     }
 
     @Override
@@ -167,11 +171,13 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
                     String len = strEpc.substring(0, 2);
                     int epclen = (Integer.parseInt(len, 16) / 8) * 4;
                     String finalEpc = text.substring(0, epclen);
-                    UhfTag utag = new UhfTag(finalEpc);
+                    UhfTag utag = new UhfTag(finalEpc,null,null,strEpc);
                     UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.INV_TAG, utag);
                     EventBus.getDefault().post(uhfMsgEvent);
+                }else {
+                    UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.INV_TAG_NULL);
+                    EventBus.getDefault().post(uhfMsgEvent);
                 }
-
                 try {
                     sleep(mBetween);
                 } catch (InterruptedException e) {

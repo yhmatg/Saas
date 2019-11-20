@@ -159,6 +159,11 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         return true;
     }
 
+    @Override
+    public int setFilterData(int area, int start, int length, String data, boolean isSave) {
+        return 0;
+    }
+
 
     private boolean isReaderConnected() {
         if (reader != null && reader.isConnected())

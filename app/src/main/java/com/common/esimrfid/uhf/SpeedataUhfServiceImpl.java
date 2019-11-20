@@ -100,6 +100,12 @@ public class SpeedataUhfServiceImpl extends EsimUhfAbstractService{
         EventBus.getDefault().post(uhfMsgEvent);
         return true;
     }
+
+    @Override
+    public int setFilterData(int area, int start, int length, String data, boolean isSave) {
+        return 0;
+    }
+
     private OnSpdInventoryListener inventoryListener=new OnSpdInventoryListener() {
         @Override
         public void getInventoryData(SpdInventoryData var1) {

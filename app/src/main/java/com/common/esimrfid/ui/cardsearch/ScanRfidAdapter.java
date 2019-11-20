@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -88,7 +89,19 @@ public class ScanRfidAdapter extends RecyclerView.Adapter<ScanRfidAdapter.ViewHo
                 mContext.startActivity(viewIntent);
             }
         });
-
+        String model=android.os.Build.MODEL;
+        if("ESUR-H600".equals(model)|| "SD60".equals(model)){
+            viewHolder.mCommonInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent searchIntent = new Intent(mContext, SearchCardLocaionActivity.class);
+                    searchIntent.putExtra("astName", assetsInfo.getAst_name());
+                    searchIntent.putExtra("epcData", assetsInfo.getAst_epc_code());
+                    searchIntent.putExtra("astBarcode", assetsInfo.getAst_barcode());
+                    mContext.startActivity(searchIntent);
+                }
+            });
+        }
     }
 
     @Override
@@ -111,6 +124,8 @@ public class ScanRfidAdapter extends RecyclerView.Adapter<ScanRfidAdapter.ViewHo
         TextView tvNum;
         @BindView(R.id.tv_owner)
         TextView tvOwner;
+        @BindView(R.id.ll_common_info)
+        LinearLayout mCommonInfo;
 
         ViewHolder(View view) {
             super(view);

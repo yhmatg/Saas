@@ -27,4 +27,6 @@ public interface IEsimUhfService {
     int getDownKey();
 
     void writeEpcTag(String selectEpc, String epcData);
+
+    int setFilterData(int area, int start, int length, String data, boolean isSave);
 }

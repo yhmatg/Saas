@@ -4,6 +4,14 @@ public class UhfTag {
     private String epc;
     private String  tid;
     private String rssi;
+    private String allData;
+
+    public UhfTag(String epc, String tid, String rssi, String allData) {
+        this.epc = epc;
+        this.tid = tid;
+        this.rssi = rssi;
+        this.allData = allData;
+    }
 
     public UhfTag() {
     }
@@ -45,5 +53,13 @@ public class UhfTag {
 
     public void setRssi(String rssi) {
         this.rssi = rssi;
+    }
+
+    public String getAllData() {
+        return allData;
+    }
+
+    public void setAllData(String allData) {
+        this.allData = allData;
     }
 }
