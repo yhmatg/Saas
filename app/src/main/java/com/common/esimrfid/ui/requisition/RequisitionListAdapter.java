@@ -53,8 +53,8 @@ public class RequisitionListAdapter extends RecyclerView.Adapter<RequisitionList
         createName = TextUtils.isEmpty(createName) ? "无信息" : createName;
         viewHolder.tvResCreateor.setText("创建人：" + createName);
 
-        String createTime = requisitionItemInfo.getCreate_date() == null ? "无信息" : DateUtils.date2String(requisitionItemInfo.getCreate_date());
-        viewHolder.tvCreateTime.setText("创建时间：" + createTime);
+        String createTime = requisitionItemInfo.getOdr_date() == null ? "无信息" : DateUtils.date2String(requisitionItemInfo.getOdr_date());
+        viewHolder.tvCreateTime.setText("领用时间：" + createTime);
 
         if ("已完成".equals(requisitionItemInfo.getOdr_status())) {
             viewHolder.tvStatus.setText("已完成");
