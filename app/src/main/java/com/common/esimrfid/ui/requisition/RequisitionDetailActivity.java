@@ -251,7 +251,7 @@ public class RequisitionDetailActivity extends BaseActivity<RequisitionDetailPre
 
     @Override
     public void handleFinishedAssets(RequisitionDetailInfo requisitionDetailInfo) {
-        List<RequisitionAssetInfo> assets = requisitionDetailInfo.getAssetsInfo();
+        List<RequisitionAssetInfo> assets = requisitionDetailInfo.getAssetsInfos();
         /* List<RequisitionDetailInfo.ReqDetail> reqDetails = requisitionDetailInfo.getReq_detail();
         StringBuilder detailString = new StringBuilder("领用备注：" + "\n");
         if (reqDetails != null && reqDetails.size() != 0) {

@@ -6,9 +6,11 @@ import android.util.Log;
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.view.AbstractView;
+import com.common.esimrfid.core.http.exception.ExpiredExpection;
 import com.common.esimrfid.core.http.exception.ResultIsNullException;
 import com.common.esimrfid.core.http.exception.ServerException;
 import com.common.esimrfid.core.http.exception.TokenException;
+import com.common.esimrfid.core.http.exception.WrongAccountOrPassException;
 import com.common.esimrfid.utils.LogHelper;
 import com.common.esimrfid.utils.ToastUtils;
 
@@ -73,7 +75,11 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
             ToastUtils.showShort(R.string.socket_time_out_error);
         } else if (e instanceof ResultIsNullException) {
             ToastUtils.showShort(R.string.not_result_error);
-        } else {
+        } else if (e instanceof ExpiredExpection) {
+            ToastUtils.showShort(R.string.expiration_reminder);
+        } else if (e instanceof WrongAccountOrPassException) {
+            ToastUtils.showShort(R.string.wrong_account_or_pass);
+        }else {
             mView.showErrorMsg(EsimAndroidApp.getInstance().getString(R.string.unKnown_error));
             LogHelper.d(e.toString());
         }

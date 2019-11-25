@@ -1,9 +1,11 @@
 package com.common.esimrfid.utils;
 
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.http.exception.ExpiredExpection;
 import com.common.esimrfid.core.http.exception.OtherException;
 import com.common.esimrfid.core.http.exception.ResultIsNullException;
 import com.common.esimrfid.core.http.exception.TokenException;
+import com.common.esimrfid.core.http.exception.WrongAccountOrPassException;
 
 import org.reactivestreams.Publisher;
 
@@ -72,8 +74,12 @@ public class RxUtils {
                                 && baseResponse.getResult() != null) {
                             return createData(baseResponse.getResult());
                         } else {
-                            if("2000A0".equals(baseResponse.getCode())){
+                            if("2000A0".equals(baseResponse.getCode())){//token过期
                                 return Observable.error(new TokenException());
+                            } else if("909003".equals(baseResponse.getCode())){//试用过期
+                                return Observable.error(new ExpiredExpection());
+                            } else if("200001".equals(baseResponse.getCode())){//密码账号错误
+                                return Observable.error(new WrongAccountOrPassException());
                             }else if(baseResponse.getResult() == null){
                                 return Observable.error(new ResultIsNullException());
                             }else{

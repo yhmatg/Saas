@@ -36,7 +36,8 @@ public class RequisitionDetailInfo {
     private String odr_remark;
     private String odr_status;
     private ReqUser reqUser;
-    private List<RequisitionAssetInfo> assetsInfo;
+
+    private List<RequisitionAssetInfo> assetsInfos;
 
     public long getCreate_date() {
         return create_date;
@@ -102,13 +103,14 @@ public class RequisitionDetailInfo {
         this.reqUser = reqUser;
     }
 
-    public List<RequisitionAssetInfo> getAssetsInfo() {
-        return assetsInfo;
+    public List<RequisitionAssetInfo> getAssetsInfos() {
+        return assetsInfos;
     }
 
-    public void setAssetsInfo(List<RequisitionAssetInfo> assetsInfo) {
-        this.assetsInfo = assetsInfo;
+    public void setAssetsInfos(List<RequisitionAssetInfo> assetsInfos) {
+        this.assetsInfos = assetsInfos;
     }
+
 
     public static class Creator {
         /**

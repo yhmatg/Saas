@@ -97,4 +97,6 @@
     <string name="ast_name">资产名称：</string>
     <string name="no_info">无信息</string>
     <string name="ast_code">资产编号：</string>
+    <string name="expiration_reminder">已经过期，请先购买！</string>
+    <string name="wrong_account_or_pass">用户名或密码错误！</string>
 </resources>
