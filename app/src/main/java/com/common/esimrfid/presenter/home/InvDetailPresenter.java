@@ -11,6 +11,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
 import com.common.esimrfid.core.room.DbBank;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
@@ -40,6 +41,9 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
     @Override
     public void fetchAllInvDetails(String orderId, boolean online) {
         mView.showDialog("loading...");
+        if(!CommonUtils.isNetworkConnected()){
+            online = false;
+        }
         addSubscribe(Observable.concat(getLocalInvDetailsObservable(orderId,online),mDataManager.fetchAllInvDetails(orderId))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
@@ -89,10 +93,6 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                             ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
                             ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
                             invOrderByInvId.setOpt_status(InvOperateStatus.MODIFIED_AND_SUBMIT_BUT_NOT_FINISHED.getIndex());
-                           /* ResultInventoryOrder.InvStatus orderStatus = new ResultInventoryOrder.InvStatus();
-                            orderStatus.setCode(OrderStatusEm.PROCESSING.getIndex());
-                            orderStatus.setIndex(OrderStatusEm.PROCESSING.getIndex());
-                            orderStatus.setName(OrderStatusEm.PROCESSING.getName());*/
                             int orderStatus = 10;
                             invOrderByInvId.setInv_status(orderStatus);
                             resultInventoryOrderDao.updateItem(invOrderByInvId);
@@ -147,10 +147,6 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                             ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
                             invOrderByInvId.setOpt_status(InvOperateStatus.FINISHED.getIndex());
                             invOrderByInvId.setInv_finish_remark(remark);
-                           /* ResultInventoryOrder.InvStatus orderStatus = new ResultInventoryOrder.InvStatus();
-                            orderStatus.setCode(OrderStatusEm.FINISH.getIndex());
-                            orderStatus.setIndex(OrderStatusEm.FINISH.getIndex());
-                            orderStatus.setName(OrderStatusEm.FINISH.getName());*/
                             int orderStatus = 11;
                             invOrderByInvId.setInv_status(orderStatus);
                             resultInventoryOrderDao.updateItem(invOrderByInvId);
@@ -180,10 +176,6 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                 ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
                 ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
                 invOrderByInvId.setOpt_status(InvOperateStatus.MODIFIED_BUT_NOT_SUBMIT.getIndex());
-               /* ResultInventoryOrder.InvStatus orderStatus = new ResultInventoryOrder.InvStatus();
-                orderStatus.setCode(OrderStatusEm.PROCESSING.getIndex());
-                orderStatus.setIndex(OrderStatusEm.PROCESSING.getIndex());
-                orderStatus.setName(OrderStatusEm.PROCESSING.getName());*/
                 int orderStatus = 10;
                 invOrderByInvId.setInv_status(orderStatus);
                 resultInventoryOrderDao.updateItem(invOrderByInvId);
@@ -207,10 +199,6 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                 ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
                 ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
                 invOrderByInvId.setOpt_status(InvOperateStatus.MODIFIED_BUT_NOT_SUBMIT.getIndex());
-                /*ResultInventoryOrder.InvStatus orderStatus = new ResultInventoryOrder.InvStatus();
-                orderStatus.setCode(OrderStatusEm.PROCESSING.getIndex());
-                orderStatus.setIndex(OrderStatusEm.PROCESSING.getIndex());
-                orderStatus.setName(OrderStatusEm.PROCESSING.getName());*/
                 int orderStatus = 10;
                 invOrderByInvId.setInv_status(orderStatus);
                 resultInventoryOrderDao.updateItem(invOrderByInvId);
