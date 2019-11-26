@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:hint="@string/current_search_tag"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/pb_Search"

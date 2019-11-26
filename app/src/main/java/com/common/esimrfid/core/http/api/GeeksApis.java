@@ -34,7 +34,8 @@ public interface GeeksApis {
     Observable<BaseResponse<UserLoginResponse>> login(@Body UserInfo userInfo);
 
     //获取盘点数据
-    @GET("inventory-server/inventoryorders")
+    //@GET("inventory-server/inventoryorders")
+    @GET("inventory-server/inventoryorders/unpage")
     Observable<BaseResponse<List<ResultInventoryOrder>>> fetchAllIvnOrders(@Query("user_id")String userId);
 
     //获取盘点条目详情

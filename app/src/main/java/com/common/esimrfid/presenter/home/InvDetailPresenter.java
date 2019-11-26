@@ -22,10 +22,8 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> implements InvDetailContract.Presenter {
@@ -48,16 +46,16 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .observeOn(Schedulers.io())
-               /* .doOnNext(new Consumer<ResultInventoryDetail>() {
+                .doOnNext(new Consumer<ResultInventoryDetail>() {
                     @Override
                     public void accept(ResultInventoryDetail resultInventoryDetail) throws Exception {
                         if (resultInventoryDetail.getDetailResults() != null) {
                             DbBank.getInstance().getInventoryDetailDao().insertItems(resultInventoryDetail.getDetailResults());
                         }
                     }
-                })*/
+                })
                 //本地远程除盘点状态同步 1116
-               .flatMap(new Function<ResultInventoryDetail, ObservableSource<ResultInventoryDetail>>() {
+               /*.flatMap(new Function<ResultInventoryDetail, ObservableSource<ResultInventoryDetail>>() {
                    @Override
                    public ObservableSource<ResultInventoryDetail> apply(ResultInventoryDetail resultInventoryDetail) throws Exception {
                        //本地数据库列表
@@ -68,7 +66,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                        resultInventoryDetail.setDetailResults(finalData);
                        return Observable.just(resultInventoryDetail);
                    }
-               }).observeOn(AndroidSchedulers.mainThread())
+               })*/.observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new BaseObserver<ResultInventoryDetail>(mView, false) {
                     @Override
                     public void onNext(ResultInventoryDetail resultInventoryDetail) {
@@ -218,7 +216,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<ResultInventoryDetail>> emitter) throws Exception {
                 List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
-                if (online || localInvDetailsByInvid.size() == 0) {
+                if (online && localInvDetailsByInvid.size() == 0) {
                     emitter.onComplete();
                 } else {
                     BaseResponse<ResultInventoryDetail> localInvDetailResponse = new BaseResponse<>();
