@@ -58,6 +58,7 @@
             android:layout_marginTop="7dp"
             android:text="状态：无信息"
             android:textColor="@color/theme"
+            android:visibility="gone"
             android:textSize="16sp" />
 
         <TextView
