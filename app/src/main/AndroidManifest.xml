@@ -20,9 +20,6 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.login.LoginActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".ui.home.HomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,29 +27,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.invorder.InvOrderActicity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".ui.invdetail.InvdetailActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".ui.cardsearch.ScanRfidActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".ui.cardsearch.PhotoViewActivity"></activity>
-        <activity
-            android:name=".ui.writeepc.WriteEpcActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".ui.requisition.RequisitionActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".ui.requisition.RequisitionDetailActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
-        <activity
-            android:name=".ui.cardsearch.SearchCardLocaionActivity"
-            android:screenOrientation="portrait"></activity>
     </application>
-
 </manifest>

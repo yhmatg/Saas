@@ -17,7 +17,6 @@ import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.presenter.login.LoginPresenter;
-import com.common.esimrfid.ui.home.HomeActivity;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
@@ -135,7 +134,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     public void startMainActivity(){
-        startActivity(new Intent(this, HomeActivity.class));
+        //startActivity(new Intent(this, HomeActivity.class));
         finish();
     }
 
