@@ -25,15 +25,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="new_circle_progress" parent="@android:style/Theme.Dialog">
-        <item name="android:indeterminateDrawable">@drawable/ic_circle_progress</item>
-        <item name="android:windowFrame">@null</item><!--边框-->
-        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
-        <item name="android:windowIsTranslucent">false</item><!--半透明-->
-        <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->
-        <item name="android:backgroundDimEnabled">true</item><!--模糊-->
-    </style>
-
     <style name="fb_common_style">
         <item name="android:elevation">5dp</item>
         <item name="pressedTranslationZ">10dp</item>
