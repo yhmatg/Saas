@@ -99,4 +99,41 @@
     <string name="ast_code">资产编号：</string>
     <string name="expiration_reminder">已经过期，请先购买！</string>
     <string name="wrong_account_or_pass">用户名或密码错误！</string>
+
+
+    <!--    NEW       -->
+
+    <string name="assets_title">请输入资产名称、资产编号</string>
+
+    <string name="assets_id">资产编号</string>
+    <string name="assets_name">资产名称</string>
+    <string name="assets_type">资产类型</string>
+    <string name="brand">品牌</string>
+    <string name="assets_status">资产状态</string>
+    <string name="rule_model">规则型号</string>
+    <string name="measuring_unit">计量单位</string>
+    <string name="SN">SN号</string>
+    <string name="ast_material">资产材质</string>
+    <string name="belong_company">所属公司</string>
+    <string name="model">型号</string>
+    <string name="stroe_loaction">存放地点</string>
+    <string name="manager">管理员</string>
+    <string name="source">来源</string>
+    <string name="buy_date">购入日期</string>
+    <string name="count">金额</string>
+    <string name="expiration_use_months">预计使用月数</string>
+    <string name="use_company">使用公司</string>
+    <string name="use_department">使用部门</string>
+    <string name="user">使用人</string>
+    <string name="requisition_date">领用日期</string>
+    <string name="remark">备注</string>
+    <string name="warranty_info">维保信息</string>
+    <string name="supplier">供应商</string>
+    <string name="contacts">联系人</string>
+    <string name="contact_information">联系方式</string>
+    <string name="maintenance_expiration">维保到期</string>
+    <string name="maintenance_instructions">维保说明</string>
+    <string name="location_search">定位查找</string>
+    <string name="tag_write">写入标签</string>
+    <string name="base_info">基本信息</string>
 </resources>
