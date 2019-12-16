@@ -1,22 +1,28 @@
 package com.common.esimrfid.ui.login;
 
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.text.InputType;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.presenter.login.LoginPresenter;
+import com.common.esimrfid.utils.ScreenSizeUtils;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
@@ -31,15 +37,18 @@ import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
 
-    @BindView(R.id.login_account_edit)
+    @BindView(R.id.edit_account)
     EditText mAccountEdit;
-    @BindView(R.id.login_password_edit)
+    @BindView(R.id.edit_password)
     EditText mPasswordEdit;
-    @BindView(R.id.login_btn)
+    @BindView(R.id.btn_login)
     Button mLoginBtn;
-    @BindView(R.id.btn_setting)
-    FloatingActionButton mFloatBut;
-    private  String TAG = "LoginActivity";
+    @BindView(R.id.password_invisible)
+    ImageView ivEye;
+    @BindView(R.id.tv_change_address)
+    TextView access_address;
+    private String TAG = "LoginActivity";
+    private boolean isOpenEye = false;
 
     @Override
     protected int getLayoutId() {
@@ -52,7 +61,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected void initEventAndData() {
-        if(StringUtils.isEmpty(mPresenter.getHostUrl())){
+        if (StringUtils.isEmpty(mPresenter.getHostUrl())) {
             showSettingDialog();
         }
         initAccountState();
@@ -66,21 +75,42 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void showLoginSuccess() {
-
     }
 
-    @OnClick({R.id.login_btn,R.id.btn_setting})
+    @OnClick({R.id.btn_login, R.id.tv_change_address, R.id.password_invisible})
     void performClick(View v) {
         switch (v.getId()) {
-            case R.id.login_btn:
+            case R.id.btn_login:
                 login();
                 break;
-            case R.id.btn_setting:
+            case R.id.tv_change_address:
                 showSettingDialog();
                 break;
+            case R.id.password_invisible:
+                settingVisible();
             default:
                 break;
         }
+    }
+
+    //密码显示
+    private void settingVisible() {
+        ivEye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isOpenEye) {
+                    ivEye.setSelected(false);
+                    isOpenEye = false;
+                    ivEye.setImageResource(R.drawable.psd_invisible);
+                    mPasswordEdit.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                } else {
+                    ivEye.setSelected(true);
+                    isOpenEye = true;
+                    ivEye.setImageResource(R.drawable.psd_visible);
+                    mPasswordEdit.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+            }
+        });
     }
 
 
@@ -97,45 +127,69 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             ToastUtils.showShort("请配置正确的服务器URL！");
             return;
         }
-        final UserInfo userInfo=new UserInfo();
+        final UserInfo userInfo = new UserInfo();
         userInfo.setUser_name(mAccountEdit.getText().toString());
         userInfo.setUser_password(mPasswordEdit.getText().toString());
         mPresenter.login(userInfo);
     }
 
+
+    //URL弹出框
     private void showSettingDialog() {
-        final String hostUrl=mPresenter.getHostUrl();
-        final boolean isSoundOpen=mPresenter.getOpenSound();
-        //check事件
-        new MaterialDialog.Builder(this)
-                .title("设置")
-                .content("配置服务器URL")
-                .inputType(InputType.TYPE_CLASS_TEXT)
-                //前2个一个是hint一个是预输入的文字
-                .input("http://", hostUrl, new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                    }
-                })
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        String newHostUrl = dialog.getInputEditText().getText().toString();
-                        if(!newHostUrl.startsWith("http://")){
-                            ToastUtils.showShort(R.string.url_error);
-                            return;
-                        }
-                        if (!newHostUrl.equals(hostUrl)) {
-                            mPresenter.saveHostUrl(newHostUrl);
-                        }
-                    }
-                })
-                .show();
+        final String hostUrl = mPresenter.getHostUrl();
+        final boolean isSoundOpen = mPresenter.getOpenSound();
+        final Dialog dialog = new Dialog(this, R.style.SettingDialog);
+        View view = View.inflate(this, R.layout.settingurl_dialog, null);
+        Button cancel = (Button) view.findViewById(R.id.btn_cancel);
+        Button confirm = (Button) view.findViewById(R.id.btn_save);
+        EditText editText = (EditText) view.findViewById(R.id.edit_url);
+        dialog.setContentView(view);
+//        mPresenter.saveHostUrl(editText.getText().toString());
+        editText.setText(hostUrl);
+        //使得点击对话框外部不消失对话框
+        dialog.setCanceledOnTouchOutside(true);
+        //设置对话框的大小
+        view.setMinimumHeight((int) (ScreenSizeUtils.getInstance(this).getScreenHeight() * 0.23f));
+        Window dialogWindow = dialog.getWindow();
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.width = (int) (ScreenSizeUtils.getInstance(this).getScreenWidth() * 0.75f);
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.gravity = Gravity.CENTER;
+        dialogWindow.setAttributes(lp);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newHostUrl = editText.getText().toString();
+                if (!newHostUrl.startsWith("http://")) {
+                    ToastUtils.showShort(R.string.url_error);
+                    return;
+                }
+                if (!newHostUrl.equals(hostUrl)) {
+                    mPresenter.saveHostUrl(newHostUrl);
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
-    public void startMainActivity(){
-        //startActivity(new Intent(this, HomeActivity.class));
-        finish();
+    public void startMainActivity() {
+        //设置登录成功弹出框
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View toast_view = inflater.inflate(R.layout.login_success_dialog, null);
+        Toast toast = new Toast(this);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 150);
+        toast.setView(toast_view);
+        toast.show();
+//        startActivity(new Intent(this, HomeActivity.class));
+//        finish();
     }
 
 

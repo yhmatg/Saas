@@ -1,10 +1,16 @@
 package com.common.esimrfid.presenter.login;
 
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.common.esimrfid.R;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
+import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
@@ -58,6 +64,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                             setLoginPassword(passWord);
                             setToken(userLoginResponse.getToken());
                             mDataManager.setLoginStatus(true);
+//                            ToastUtils.showShort("登录成功！");
                             mView.startMainActivity();
                         }
 
@@ -80,7 +87,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                 mDataManager.setLoginStatus(true);
                 mView.startMainActivity();
             }else {
-                ToastUtils.showShort("账号或者密码错误");
+                ToastUtils.showShort("账号或者密码不正确");
             }
 
         }
