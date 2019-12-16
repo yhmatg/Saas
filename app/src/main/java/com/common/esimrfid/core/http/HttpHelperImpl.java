@@ -2,6 +2,7 @@ package com.common.esimrfid.core.http;
 
 
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
@@ -13,6 +14,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionItemInfo;
 import com.common.esimrfid.core.http.api.GeeksApis;
 import com.common.esimrfid.core.http.client.RetrofitClient;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -104,6 +106,16 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse> uploadResAssets(String requestId, List<String> epcs) {
         return mGeeksApis.uploadResAssets(requestId, epcs);
+    }
+
+    @Override
+    public Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation() {
+        return mGeeksApis.getAssetsNmbDiffLocation();
+    }
+
+    @Override
+    public Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus() {
+        return mGeeksApis.getAssetsNmbDiffStatus();
     }
 
 

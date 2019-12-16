@@ -9,7 +9,9 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionAssetInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionDetailInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionItemInfo;
+import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -74,4 +76,11 @@ public interface GeeksApis {
     @POST("assets-server/assets/byrfids")
     Observable<BaseResponse<List<RequisitionAssetInfo>>> getRequisitionInfons(@Body Set<String> ecps);
 
+    //获取不同位置下资产数量
+    @GET("/assets-server/assets/countbyloc")
+    Observable<BaseResponse<HashMap<String,Integer>>> getAssetsNmbDiffLocation();
+
+    //获取不同状态的资产数量
+    @GET("/assets-server/assets/countbystatus")
+    Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus();
 }

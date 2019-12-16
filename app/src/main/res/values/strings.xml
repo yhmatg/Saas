@@ -139,4 +139,16 @@
     <string name="base_info">基本信息</string>
     <string name="login_hint">手机/邮箱/用户名</string>
     <string name="access_address">更改访问位置</string>
+    <string name="welcom_user">欢迎您,管理员</string>
+    <string name="welcom">欢迎您, </string>
+    <string name="company_name">一芯智能</string>
+    <string name="all_assets">总资产</string>
+    <string name="assets_inuse">在用资产</string>
+    <string name="assets_free">空闲资产</string>
+    <string name="assets_manager">资产管理</string>
+    <string name="inv_task">盘点任务</string>
+    <string name="ast_inv">资产盘点</string>
+    <string name="ast_search">资产查找</string>
+    <string name="write_tag">标签写入</string>
+    <string name="assets_location">资产分布情况（按存放地点）</string>
 </resources>

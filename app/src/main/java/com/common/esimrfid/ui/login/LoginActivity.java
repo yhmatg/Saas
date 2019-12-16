@@ -2,6 +2,7 @@ package com.common.esimrfid.ui.login;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -22,6 +23,7 @@ import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.presenter.login.LoginPresenter;
+import com.common.esimrfid.ui.home.HomeActivity;
 import com.common.esimrfid.utils.ScreenSizeUtils;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
@@ -149,10 +151,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //使得点击对话框外部不消失对话框
         dialog.setCanceledOnTouchOutside(true);
         //设置对话框的大小
-        view.setMinimumHeight((int) (ScreenSizeUtils.getInstance(this).getScreenHeight() * 0.23f));
+        view.setMinimumHeight((int) (ScreenSizeUtils.getInstance(getApplication()).getScreenHeight() * 0.23f));
         Window dialogWindow = dialog.getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.width = (int) (ScreenSizeUtils.getInstance(this).getScreenWidth() * 0.75f);
+        lp.width = (int) (ScreenSizeUtils.getInstance(getApplication()).getScreenWidth() * 0.75f);
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.gravity = Gravity.CENTER;
         dialogWindow.setAttributes(lp);
@@ -183,13 +185,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //设置登录成功弹出框
         LayoutInflater inflater = LayoutInflater.from(this);
         View toast_view = inflater.inflate(R.layout.login_success_dialog, null);
-        Toast toast = new Toast(this);
+        Toast toast = new Toast(getApplication());
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 150);
         toast.setView(toast_view);
         toast.show();
-//        startActivity(new Intent(this, HomeActivity.class));
-//        finish();
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
     }
 
 
