@@ -1,5 +1,12 @@
 package com.common.esimrfid.core.http.api;
 
+import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
+import com.common.esimrfid.core.bean.inventorytask.AssetsType;
+import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
+import com.common.esimrfid.core.bean.inventorytask.CreateInvResult;
+import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
+import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
+import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
@@ -83,4 +90,29 @@ public interface GeeksApis {
     //获取不同状态的资产数量
     @GET("/assets-server/assets/countbystatus")
     Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus();
+
+    //查询所有管理员
+    //@GET("/user-server/sysusers/querymanager/unpage")
+    @GET("/user-server/emps/all/unpage")
+    Observable<BaseResponse<List<MangerUser>>> getAllManagerUsers();
+
+    //查询所有公司
+    @GET("/user-server/orgs/corps")
+    Observable<BaseResponse<List<CompanyBean>>> getAllCompany();
+
+    //获取公司下的所有部门
+    @GET("/user-server/orgs/{comId}/subs")
+    Observable<BaseResponse<List<DepartmentBean>>> getAllDeparts(@Path("comId")String comId);
+
+    //获取所有资产类型
+    @GET("/assets-server/assetstypes")
+    Observable<BaseResponse<List<AssetsType>>> getAllAssetsType();
+
+    //获取所有资产位置
+    @GET("/assets-server/locations")
+    Observable<BaseResponse<List<AssetsLocation>>> getAllAssetsLocation();
+
+    //创建盘点单
+    @POST("/inventory-server/inventoryorders")
+    Observable<BaseResponse<CreateInvResult>> createNewInventory(@Body InventoryParameter invpara);
 }

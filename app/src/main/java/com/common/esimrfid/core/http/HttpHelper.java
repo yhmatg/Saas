@@ -1,5 +1,12 @@
 package com.common.esimrfid.core.http;
 
+import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
+import com.common.esimrfid.core.bean.inventorytask.AssetsType;
+import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
+import com.common.esimrfid.core.bean.inventorytask.CreateInvResult;
+import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
+import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
+import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
@@ -49,4 +56,16 @@ public interface HttpHelper {
     Observable<BaseResponse<HashMap<String,Integer>>> getAssetsNmbDiffLocation();
 
     Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus();
+
+    Observable<BaseResponse<List<MangerUser>>> getAllManagerUsers();
+
+    Observable<BaseResponse<List<CompanyBean>>> getAllCompany();
+
+    Observable<BaseResponse<List<DepartmentBean>>> getAllDeparts(String comId);
+
+    Observable<BaseResponse<List<AssetsType>>> getAllAssetsType();
+
+    Observable<BaseResponse<List<AssetsLocation>>> getAllAssetsLocation();
+
+    Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara);
 }

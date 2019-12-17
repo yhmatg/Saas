@@ -55,6 +55,10 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
             mPresenter.detachView();
             mPresenter = null;
         }
+        if(dialog != null && dialog.isShowing()){
+            dialog.dismiss();
+            dialog = null;
+        }
         super.onDestroy();
     }
 

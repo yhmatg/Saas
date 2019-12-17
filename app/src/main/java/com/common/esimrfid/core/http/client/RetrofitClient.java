@@ -9,6 +9,7 @@ import com.common.esimrfid.core.http.interceptor.AppendUrlIntercepter;
 import com.common.esimrfid.core.http.interceptor.CacheInterceptor;
 import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
 import com.common.esimrfid.utils.CommonUtils;
+import com.common.esimrfid.utils.DaterylaiGson;
 import com.common.esimrfid.utils.RylaiGson;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.Utils;
@@ -132,7 +133,8 @@ public class RetrofitClient {
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 //.addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(RylaiGson.getGson()))
+                //.addConverterFactory(GsonConverterFactory.create(RylaiGson.getGson()))
+                .addConverterFactory(GsonConverterFactory.create(DaterylaiGson.getGson()))
                 .build();
     }
     /**

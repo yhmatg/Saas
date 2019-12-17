@@ -1,5 +1,12 @@
 package com.common.esimrfid.core;
 
+import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
+import com.common.esimrfid.core.bean.inventorytask.AssetsType;
+import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
+import com.common.esimrfid.core.bean.inventorytask.CreateInvResult;
+import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
+import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
+import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
@@ -213,5 +220,35 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus() {
         return mHttpHelper.getAssetsNmbDiffStatus();
+    }
+
+    @Override
+    public Observable<BaseResponse<List<MangerUser>>> getAllManagerUsers() {
+        return mHttpHelper.getAllManagerUsers();
+    }
+
+    @Override
+    public Observable<BaseResponse<List<CompanyBean>>> getAllCompany() {
+        return mHttpHelper.getAllCompany();
+    }
+
+    @Override
+    public Observable<BaseResponse<List<DepartmentBean>>> getAllDeparts(String comId) {
+        return mHttpHelper.getAllDeparts(comId);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<AssetsType>>> getAllAssetsType() {
+        return mHttpHelper.getAllAssetsType();
+    }
+
+    @Override
+    public Observable<BaseResponse<List<AssetsLocation>>> getAllAssetsLocation() {
+        return mHttpHelper.getAllAssetsLocation();
+    }
+
+    @Override
+    public Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara) {
+        return mHttpHelper.createNewInventory(invpara);
     }
 }

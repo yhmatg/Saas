@@ -114,7 +114,6 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                                 }
                             }
                         }
-                        mView.loadOrUpdateData(locaLeftUpload);
                     }
                 })
 

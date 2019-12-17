@@ -10,7 +10,6 @@ import java.util.List;
 public interface InvOrderContract {
     interface View extends AbstractView {
         void showInvOrders(List<ResultInventoryOrder> resultInventoryOrders);
-        void loadOrUpdateData(boolean locaLeftUpload);
     }
 
     interface Presenter extends AbstractPresenter<View> {

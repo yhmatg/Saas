@@ -4,9 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_mtpostion_tag">MTPostionTagActivity</string>
-
     <string name="login">登录</string>
-
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_header_hint_normal">下拉刷新</string>
@@ -151,4 +149,26 @@
     <string name="ast_search">资产查找</string>
     <string name="write_tag">标签写入</string>
     <string name="assets_location">资产分布情况（按存放地点）</string>
+
+    <string name="new_inv_name">盘点单名称</string>
+    <string name="exp_finish_date">预计完场时间</string>
+    <string name="inv_name_hint">请输入盘点单名称</string>
+    <string name="new_inv_persion">盘点人</string>
+    <string name="inv_persion_hint">请选择盘点人</string>
+    <string name="inv_finish_hint">请选择预计完成时间</string>
+    <string name="inv_range">盘点范围</string>
+    <string name="inv_remind_hint">注意：不选范围默认为有权限的全部资产</string>
+    <string name="new_inv_submit">保存</string>
+    <string name="inv_own_comp_hint">请选择所属公司</string>
+    <string name="inv_owncom">所属公司</string>
+    <string name="inv_loc_hint">请选择存放地点</string>
+    <string name="inv_location">存放地点</string>
+    <string name="inv_asstype_hint">请选择资产分类</string>
+    <string name="inv_asstype">资产分类</string>
+    <string name="inv_usedepart_hint">请选择使用部门</string>
+    <string name="inv_usedepart">使用部门</string>
+    <string name="inv_usecom_hint">请选择使用公司</string>
+    <string name="inv_usecom">使用公司</string>
+    <string name="new_inv_task">新建盘点任务</string>
+    <string name="save_newinv_succ">保存成功</string>
 </resources>
