@@ -1,4 +1,4 @@
-package com.common.esimrfid.ui.inventorytask;
+package com.common.esimrfid.ui.assetinventory;
 
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,13 +9,10 @@ import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
-import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> implements InvOrderContract.View {
+public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> implements InvOrderContract.View {
     @BindView(R.id.title_back)
     ImageView mBackImg;
     @BindView(R.id.title_content)

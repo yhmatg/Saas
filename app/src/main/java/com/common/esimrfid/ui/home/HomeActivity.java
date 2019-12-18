@@ -1,7 +1,6 @@
 package com.common.esimrfid.ui.home;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -21,9 +20,8 @@ import com.common.esimrfid.uhf.RodinbellUhfServiceImpl;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
-import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
+import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
 import com.common.esimrfid.ui.login.LoginActivity;
-import com.common.esimrfid.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -133,7 +131,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
                 break;
             case R.id.ast_inv:
-                startActivity(new Intent(this, InventoryTaskActivity.class));
+                startActivity(new Intent(this, AssetInventoryActivity.class));
                 break;
             case R.id.ast_search:
 

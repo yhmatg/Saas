@@ -1,4 +1,4 @@
-package com.common.esimrfid.ui.inventorytask;
+package com.common.esimrfid.ui.assetinventory;
 
 import android.app.Dialog;
 import android.text.TextUtils;
@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;

@@ -31,10 +31,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.inventorytask.InventoryTaskActivity"
+            android:name=".ui.assetinventory.AssetInventoryActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".ui.inventorytask.NewInventoryActivity"
+            android:name=".ui.assetinventory.NewInventoryActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.home.SettingActivity"

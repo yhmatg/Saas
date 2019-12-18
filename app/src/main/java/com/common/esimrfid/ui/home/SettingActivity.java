@@ -1,6 +1,5 @@
 package com.common.esimrfid.ui.home;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,7 +9,6 @@ import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
