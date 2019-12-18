@@ -68,4 +68,6 @@ public interface HttpHelper {
     Observable<BaseResponse<List<AssetsLocation>>> getAllAssetsLocation();
 
     Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara);
+	
+	Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName);
 }

@@ -39,7 +39,7 @@
     <string name="error_epc_write">写入的ecp数据不能为空</string>
     <string name="error_epc_length">请输入24位16进制数</string>
     <string name="write_epc_sucess">写入成功</string>
-    <string name="write_epc_fail">写入失败，请将手持机靠近标签重试</string>
+    <string name="write_epc_fail">写入失败，请将手持机靠近标签重试!</string>
     <string name="connect_rfid">开始连接</string>
     <string name="disconnect_rfid">断开连接</string>
     <string name="not_connect_prompt">请先在首页初始化连接RFID!</string>
@@ -149,6 +149,7 @@
     <string name="ast_search">资产查找</string>
     <string name="write_tag">标签写入</string>
     <string name="assets_location">资产分布情况（按存放地点）</string>
+    <string name="confirm_write">确认写入</string>
 
     <string name="new_inv_name">盘点单名称</string>
     <string name="exp_finish_date">预计完场时间</string>
@@ -176,4 +177,11 @@
     <string name="version_num">v1.0.2</string>
     <string name="login_out">退出登录</string>
     <string name="setting_title">设置</string>
+
+    <string name="identify_tips">扣动扳机 识别标签</string>
+    <string name="identify_success">识别成功</string>
+    <string name="identify_tags">一次只能写入一个标签</string>
+    <string name="write_tips">请将待写入标签贴近手持机前端</string>
+    <string name="write_attention">注意：标签写入时，请尽量远离其他标签，避免其他标签干扰</string>
+    <string name="no_message">暂无信息哦</string>
 </resources>

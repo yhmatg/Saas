@@ -251,4 +251,9 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     public Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara) {
         return mHttpHelper.createNewInventory(invpara);
     }
+	
+	@Override
+    public Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName) {
+        return mHttpHelper.fetchWriteAssetsInfo(patternName);
+    }
 }

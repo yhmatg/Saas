@@ -22,6 +22,7 @@ import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
 import com.common.esimrfid.ui.login.LoginActivity;
+import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -137,7 +138,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
                 break;
             case R.id.write_tag:
-
+			 startActivity(new Intent(this, WriteTagActivity.class));
                 break;
             case R.id.home_setting:
                 startActivity(new Intent(this,SettingActivity.class));

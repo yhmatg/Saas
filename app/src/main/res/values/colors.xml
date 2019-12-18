@@ -15,6 +15,7 @@
     <color name="text">#666</color>
     <color name="btn_normal">#5f83d2</color>
     <color name="btn_pressed">#3b6fca</color>
+    <color name="search_background">#036BD1</color>
     <color name="myorder_tab">#81baed</color>
     <color name="graybg">#ccc</color>
     <color name="green">#12e22a</color>

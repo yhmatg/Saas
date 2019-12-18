@@ -115,4 +115,8 @@ public interface GeeksApis {
     //创建盘点单
     @POST("/inventory-server/inventoryorders")
     Observable<BaseResponse<CreateInvResult>> createNewInventory(@Body InventoryParameter invpara);
+	
+	//模糊查询资产详情（写入标签）
+    @GET("/assets-server/assets/unpage")
+    Observable<BaseResponse<List<AssetsInfo>>>fetchWriteAssetsInfos(@Query("pattern_name")String patternName);
 }
