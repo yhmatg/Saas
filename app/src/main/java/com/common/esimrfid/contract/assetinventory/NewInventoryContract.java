@@ -1,4 +1,4 @@
-package com.common.esimrfid.contract.inventorytask;
+package com.common.esimrfid.contract.assetinventory;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;

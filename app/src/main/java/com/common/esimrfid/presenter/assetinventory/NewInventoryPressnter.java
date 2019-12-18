@@ -1,7 +1,7 @@
-package com.common.esimrfid.presenter.inventorytask;
+package com.common.esimrfid.presenter.assetinventory;
 
 import com.common.esimrfid.base.presenter.BasePresenter;
-import com.common.esimrfid.contract.inventorytask.NewInventoryContract;
+import com.common.esimrfid.contract.assetinventory.NewInventoryContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
