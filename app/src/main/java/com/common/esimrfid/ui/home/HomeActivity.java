@@ -142,7 +142,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
                 break;
             case R.id.home_setting:
-
+                startActivity(new Intent(this,SettingActivity.class));
                 break;
         }
     }

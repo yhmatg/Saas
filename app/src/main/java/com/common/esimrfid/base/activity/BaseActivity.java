@@ -38,6 +38,7 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
         mPresenter = initPresenter();
         onViewCreated();
         initEventAndData();
+        EsimAndroidApp.getInstance().addActivity(this);
     }
 
     public abstract T initPresenter();
@@ -59,6 +60,7 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
             dialog.dismiss();
             dialog = null;
         }
+        EsimAndroidApp.getInstance().removeActivity(this);
         super.onDestroy();
     }
 

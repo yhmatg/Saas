@@ -7,6 +7,7 @@ import android.support.multidex.MultiDex;
 import com.bumptech.glide.Glide;
 import com.common.esimrfid.BuildConfig;
 import com.common.esimrfid.R;
+import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.utils.Utils;
@@ -21,6 +22,8 @@ import com.squareup.leakcanary.RefWatcher;
 import com.xuexiang.xlog.XLog;
 import com.xuexiang.xlog.crash.CrashHandler;
 
+import java.util.ArrayList;
+
 /**
  * @author yhm
  * @date 2017/11/27
@@ -33,6 +36,7 @@ public class EsimAndroidApp extends Application {
     private RefWatcher refWatcher;
     private UserLoginResponse mUserLoginResponse;
     private static IEsimUhfService mIEsimUhfService ;
+    private ArrayList<BaseActivity> activities = new ArrayList<>();
 
     public static synchronized EsimAndroidApp getInstance() {
         return instance;
@@ -108,6 +112,20 @@ public class EsimAndroidApp extends Application {
 
     public static void setIEsimUhfService(IEsimUhfService iEsimUhfService){
         mIEsimUhfService = iEsimUhfService;
+    }
+
+    public void addActivity(BaseActivity activity){
+        activities.add(activity);
+    }
+
+    public void removeActivity(BaseActivity activity){
+        activities.remove(activity);
+    }
+
+    public void exitActivitys(){
+        for (int i = 0; i < activities.size(); i++) {
+            activities.get(i).finish();
+        }
     }
 
 }

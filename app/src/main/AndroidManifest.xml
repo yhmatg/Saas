@@ -33,8 +33,11 @@
         <activity
             android:name=".ui.inventorytask.InventoryTaskActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".ui.inventorytask.NewInventoryActivity"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name=".ui.inventorytask.NewInventoryActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.home.SettingActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 </manifest>

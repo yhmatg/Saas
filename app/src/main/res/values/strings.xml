@@ -172,4 +172,8 @@
     <string name="new_inv_task">新建盘点任务</string>
     <string name="save_newinv_succ">保存成功</string>
     <string name="save_newinv_fail">保存失败</string>
+    <string name="version_name">当前版本</string>
+    <string name="version_num">v1.0.2</string>
+    <string name="login_out">退出登录</string>
+    <string name="setting_title">设置</string>
 </resources>
