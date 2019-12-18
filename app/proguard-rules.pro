@@ -168,3 +168,5 @@
 -keep class com.odm.tools.Tools { *; }
 
 -keep class com.common.esimrfid.core.bean.** { *; }
+
+-keep class com.nativec.tools.** { *; }

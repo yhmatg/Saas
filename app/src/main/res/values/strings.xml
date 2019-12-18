@@ -171,4 +171,5 @@
     <string name="inv_usecom">使用公司</string>
     <string name="new_inv_task">新建盘点任务</string>
     <string name="save_newinv_succ">保存成功</string>
+    <string name="save_newinv_fail">保存失败</string>
 </resources>

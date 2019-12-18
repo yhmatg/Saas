@@ -99,6 +99,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
 
     @Override
     protected void initEventAndData() {
+        mTitle.setText(R.string.new_inv_task);
         initCustomTimePicker();
         initCustomOptionPicker();
     }
@@ -491,16 +492,16 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     @Override
     public void handlecreateNewInventory(CreateInvResult createInvResult) {
         if(createInvResult == null){
-            ToastUtils.showShort("创建盘点单失败");
+            showCreateSuccessDialog(R.string.save_newinv_fail);
         }else {
-            showCreateSuccessDialog();
+            showCreateSuccessDialog(R.string.save_newinv_succ);
         }
     }
 
-    public void showCreateSuccessDialog(){
+    public void showCreateSuccessDialog(int message){
         View contentView = LayoutInflater.from(this).inflate(R.layout.login_success_dialog, null);
         TextView mContent = contentView.findViewById(R.id.tv_status);
-        mContent.setText(R.string.save_newinv_succ);
+        mContent.setText(message);
         MaterialDialog writeDialog = new MaterialDialog.Builder(this)
                 .customView(contentView, false)
                 .show();

@@ -57,7 +57,7 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
 
     @Override
     protected void initEventAndData() {
-        mTitle.setText(R.string.new_inv_task);
+        mTitle.setText(R.string.ast_inv);
         userId = getUserLoginResponse().getUserinfo().getId();
         mAdapter = new InvTaskAdapter(mShowTaskorders,this);
         mInvTaskRecycleview.setLayoutManager(new LinearLayoutManager(this));

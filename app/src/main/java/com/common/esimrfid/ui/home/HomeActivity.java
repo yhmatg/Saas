@@ -130,10 +130,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.inv_task:
-                startActivity(new Intent(this, InventoryTaskActivity.class));
+
                 break;
             case R.id.ast_inv:
-
+                startActivity(new Intent(this, InventoryTaskActivity.class));
                 break;
             case R.id.ast_search:
 
