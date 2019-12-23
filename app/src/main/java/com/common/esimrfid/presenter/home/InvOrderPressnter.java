@@ -6,8 +6,12 @@ import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.emun.InvOperateStatus;
+import com.common.esimrfid.core.bean.emun.InventoryStatus;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
@@ -21,6 +25,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -142,6 +147,125 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
         return invOrderObservable;
     }
 
+    //网络获取盘点数据
+    @Override
+    public void fetchAllInvDetails(String orderId, boolean online) {
+        //mView.showDialog("loading...");
+        if (!CommonUtils.isNetworkConnected()) {
+            online = false;
+        }
+        addSubscribe(Observable.concat(getLocalInvDetailsObservable(orderId, online), mDataManager.fetchAllInvDetails(orderId))
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .observeOn(Schedulers.io())
+                .doOnNext(new Consumer<ResultInventoryDetail>() {
+                    @Override
+                    public void accept(ResultInventoryDetail resultInventoryDetail) throws Exception {
+                        if (resultInventoryDetail.getDetailResults() != null) {
+                            //保存盘点单资产
+                            DbBank.getInstance().getInventoryDetailDao().insertItems(resultInventoryDetail.getDetailResults());
+                            //盘点单资产状态设置为已经下载状态 1已下载 0 未下载
+                           /* ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
+                            ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
+                            invOrderByInvId.setIsDownLoad(1);
+                            resultInventoryOrderDao.updateItem(invOrderByInvId);*/
+                        }
+                    }
+                })
+                //本地远程除盘点状态同步 1116
+                /*.flatMap(new Function<ResultInventoryDetail, ObservableSource<ResultInventoryDetail>>() {
+                    @Override
+                    public ObservableSource<ResultInventoryDetail> apply(ResultInventoryDetail resultInventoryDetail) throws Exception {
+                        //本地数据库列表
+                        List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
+                        //更新出盘点状态的其他盘点数据
+                        List<InventoryDetail> finalData = handleLocalAndRemountData(localInvDetailsByInvid, resultInventoryDetail.getDetailResults());
+                        DbBank.getInstance().getInventoryDetailDao().insertItems(finalData);
+                        resultInventoryDetail.setDetailResults(finalData);
+                        return Observable.just(resultInventoryDetail);
+                    }
+                })*/.observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseObserver<ResultInventoryDetail>(mView, false) {
+                    @Override
+                    public void onNext(ResultInventoryDetail resultInventoryDetail) {
+                        //mView.dismissDialog();
+                        mView.handleInvDetails(resultInventoryDetail);
+                    }
+                }));
+    }
 
+    //本地获取盘点数据
+    public Observable<BaseResponse<ResultInventoryDetail>> getLocalInvDetailsObservable(String orderId, final boolean online) {
+        Observable<BaseResponse<ResultInventoryDetail>> localInvDetailObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<ResultInventoryDetail>>() {
+            @Override
+            public void subscribe(ObservableEmitter<BaseResponse<ResultInventoryDetail>> emitter) throws Exception {
+                List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
+                ResultInventoryOrder invOrderByInvId = DbBank.getInstance().getResultInventoryOrderDao().findInvOrderByInvId(orderId);
+                if (online && localInvDetailsByInvid.size() == 0) {
+                    emitter.onComplete();
+                } else {
+                    BaseResponse<ResultInventoryDetail> localInvDetailResponse = new BaseResponse<>();
+                    ResultInventoryDetail resultInventoryDetail = new ResultInventoryDetail();
+                    resultInventoryDetail.setDetailResults(localInvDetailsByInvid);
+                    //20191219 start 从盘点单条目中获取相关属性信息
+                    resultInventoryDetail.setInv_total_count(invOrderByInvId.getInv_total_count());
+                    resultInventoryDetail.setInv_finish_count(invOrderByInvId.getInv_finish_count());
+                    resultInventoryDetail.setCreate_date(invOrderByInvId.getCreate_date());
+                    resultInventoryDetail.setInv_exptfinish_date(invOrderByInvId.getInv_exptfinish_date());
+                    resultInventoryDetail.setId(invOrderByInvId.getId());
+                    //20191219 end
+                    localInvDetailResponse.setResult(resultInventoryDetail);
+                    localInvDetailResponse.setCode("200000");
+                    localInvDetailResponse.setMessage("成功");
+                    localInvDetailResponse.setSuccess(true);
+                    emitter.onNext(localInvDetailResponse);
+                }
+            }
+        });
+        return localInvDetailObservable;
+    }
+
+    //上传盘点数据到服务器
+    @Override
+    public void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid) {
+        addSubscribe(mDataManager.uploadInvDetails(orderId, invDetails, uid)
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleBaseResponse())
+                .observeOn(Schedulers.io())
+                .doOnNext(new Consumer<BaseResponse>() {
+                    @Override
+                    public void accept(BaseResponse baseResponse) throws Exception {
+                        if (baseResponse.isSuccess()) {
+                            //上传盘点条目到数据库后，更新父条目ResultInventoryOrder状态
+                            ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
+                            ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
+                            invOrderByInvId.setOpt_status(InvOperateStatus.MODIFIED_AND_SUBMIT_BUT_NOT_FINISHED.getIndex());
+                            int orderStatus = 10;
+                            invOrderByInvId.setInv_status(orderStatus);
+                            //更新盘点单完成上传和没有提交数目
+                            //1223 start
+                           /* Integer finishCount = invOrderByInvId.getInv_finish_count() + invDetails.size();
+                            invOrderByInvId.setInv_finish_count(finishCount);*/
+                            //1223 end
+                            Integer notSubmitCount = invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
+                            invOrderByInvId.setInv_notsubmit_count(notSubmitCount);
+                            resultInventoryOrderDao.updateItem(invOrderByInvId);
+                            //跟新盘点子条目ResultInventoryDetail的盘点提交状态
+                            // 暂定 本地盘点和已经上传的区分
+                            for (InventoryDetail inventoryDetail : inventoryDetails) {
+                                inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
+                            }
+                            DbBank.getInstance().getInventoryDetailDao().updateItems(inventoryDetails);
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        mView.handelUploadResult(baseResponse);
+                    }
+                }));
+    }
 
 }

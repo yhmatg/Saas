@@ -29,6 +29,7 @@ public class ResultInventoryDetail {
      * updater_id : caddb5d8014311eab97300163e086c26
      */
     private Date create_date;
+    private Date inv_exptfinish_date;
     private String id;
     private int inv_finish_count;
     private int inv_total_count;
@@ -41,6 +42,14 @@ public class ResultInventoryDetail {
 
     public void setCreate_date(Date create_date) {
         this.create_date = create_date;
+    }
+
+    public Date getInv_exptfinish_date() {
+        return inv_exptfinish_date;
+    }
+
+    public void setInv_exptfinish_date(Date inv_exptfinish_date) {
+        this.inv_exptfinish_date = inv_exptfinish_date;
     }
 
     public String getId() {

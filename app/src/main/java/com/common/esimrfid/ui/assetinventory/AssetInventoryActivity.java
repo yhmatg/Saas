@@ -11,6 +11,8 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
 
@@ -133,6 +135,16 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
         mUnFinishedNum.setText(String.valueOf(mUnFinishedTaskorders.size()));
         mFinishedNum.setText(String.valueOf(mFinishedTaskorders.size()));
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void handleInvDetails(ResultInventoryDetail mInventoryDetail) {
+
+    }
+
+    @Override
+    public void handelUploadResult(BaseResponse baseResponse) {
+
     }
 
 }

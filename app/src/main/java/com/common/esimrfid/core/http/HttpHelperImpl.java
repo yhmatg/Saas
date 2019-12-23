@@ -160,4 +160,9 @@ public class HttpHelperImpl implements HttpHelper {
         return mGeeksApis.fetchWriteAssetsInfos(patternName);
     }
 
+    @Override
+    public Observable<BaseResponse> finishInvOrderWithAsset(String orderId, String uid, List<String> invDetails) {
+        return mGeeksApis.finishInvOrderWithAsset(orderId,uid,invDetails);
+    }
+
 }

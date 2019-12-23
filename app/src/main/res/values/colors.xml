@@ -30,11 +30,12 @@
     <color name="write_item">#3686B1</color>
     <color name="con_red">#FFCF4D4A</color>
     <color name="drawer_item_bg_p">#e8e8e8</color>
-    <color name="drawer_item_bg_n">#fffff9</color>
+    <color name="drawer_item_bg_n">#FCFCFC</color>
     <color name="home_number">#036AC5</color>
     <color name="location_one">#036AC5</color>
     <color name="location_two">#FFC92A</color>
     <color name="location_three">#FE7D84</color>
     <color name="location_four">#16D1DD</color>
     <color name="hint_color">#D4D4D4</color>
+    <color name="green_color">#28A701</color>
 </resources>

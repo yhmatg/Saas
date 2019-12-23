@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_250"
+        android:layout_height="@dimen/dp_118"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_update_success"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.common.esimrfid.customview.MiniLoadingView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:mlv_loading_view_color="#FF06E9E6"
+            app:mlv_loading_view_size="60dp" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="正在同步中..."
+            android:textColor="#FF06E9E6"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+</LinearLayout>

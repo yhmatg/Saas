@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Set;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
+import retrofit2.http.Path;
 
 /**
  * @author yhm
@@ -53,7 +55,7 @@ public interface HttpHelper {
 
     Observable<BaseResponse> uploadResAssets(String requestId, List<String> epcs);
 
-    Observable<BaseResponse<HashMap<String,Integer>>> getAssetsNmbDiffLocation();
+    Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation();
 
     Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus();
 
@@ -68,6 +70,8 @@ public interface HttpHelper {
     Observable<BaseResponse<List<AssetsLocation>>> getAllAssetsLocation();
 
     Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara);
-	
-	Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName);
+
+    Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName);
+
+    Observable<BaseResponse> finishInvOrderWithAsset(String orderId, String uid, List<String> invDetails);
 }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/scan_background">
+
+    <ImageView
+        android:id="@+id/title_back"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/title_back"/>
+
+    <FrameLayout
+        android:id="@+id/fm_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_70"
+        android:layout_marginBottom="@dimen/dp_20">
+
+        <ImageView
+            android:id="@+id/iv_big_round"
+            android:layout_width="@dimen/dp_230"
+            android:layout_height="@dimen/dp_230"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/big_round"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/iv_mid_round"
+            android:layout_width="@dimen/dp_230"
+            android:layout_height="@dimen/dp_230"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/mid_round" />
+
+        <ImageView
+            android:id="@+id/iv_radar"
+            android:layout_width="@dimen/dp_230"
+            android:layout_height="@dimen/dp_230"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/radar_icon" />
+    </FrameLayout>
+
+
+    <Button
+        android:id="@+id/bt_start_scan"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="@dimen/dp_35"
+        android:layout_below="@+id/fm_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/dp_15"
+        android:background="@drawable/scan_bk"
+        android:text="@string/start_inv"
+        android:textColor="#FFFEFE" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/bt_start_scan"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_40"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_24"
+        android:background="@drawable/home_item_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:text="存放地点"
+            android:textSize="@dimen/sp_15" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:text="资产数量"
+            android:textSize="@dimen/sp_15" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_assets_location"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_store" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

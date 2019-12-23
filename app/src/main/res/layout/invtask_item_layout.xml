@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_task_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/dp_5"
@@ -14,9 +15,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_2"
-        android:text="盘点单名称"
+        android:text="@string/invorder_name"
         android:textColor="@color/theme"
-        android:textSize="@dimen/sp_14" />
+        android:textSize="@dimen/sp_15"
+        android:textStyle="bold" />
 
     <View
         android:id="@+id/divider_one"
@@ -34,7 +36,7 @@
         android:layout_below="@+id/divider_one"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginBottom="@dimen/dp_5"
-        android:text="创建人"
+        android:text="@string/inv_creator"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -47,7 +49,7 @@
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginBottom="@dimen/dp_5"
         android:layout_toEndOf="@+id/inv_creator"
-        android:text="管理员"
+        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -56,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/inv_creator"
-        android:text="创建日期"
+        android:text="@string/inv_create_date"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -67,7 +69,7 @@
         android:layout_below="@+id/inv_creator"
         android:layout_marginStart="@dimen/dp_5"
         android:layout_toEndOf="@+id/inv_create_date"
-        android:text="2019-11-28"
+        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -76,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/inv_creator"
         android:layout_toStartOf="@+id/expect_finish_date"
-        android:text="预计完成日期"
+        android:text="@string/inv_expect_finish_date"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -87,7 +89,7 @@
         android:layout_below="@+id/inv_creator"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="@dimen/dp_5"
-        android:text="2019-11-28"
+        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -105,7 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/divider_two"
-        android:text="盘点总数"
+        android:text="@string/inv_all_num"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -115,8 +117,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/divider_two"
         android:layout_marginStart="@dimen/dp_5"
-        android:layout_toEndOf="@+id/inv_create_date"
-        android:text="11"
+        android:layout_toEndOf="@+id/inv_all_name"
+        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -132,7 +134,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="待盘点"
+            android:text="@string/asset_not_inventoried"
             android:textColor="@color/gray_text"
             android:textSize="@dimen/sp_13" />
 
@@ -141,17 +143,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_5"
-            android:text="9"
+            android:text="@string/no_info"
             android:textColor="@color/gray_text"
             android:textSize="@dimen/sp_13" />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/divider_two"
         android:layout_toStartOf="@+id/inv_finished_num"
-        android:text="已盘点"
+        android:text="@string/asset_inventoried"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -163,24 +166,23 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="@dimen/dp_5"
         android:layout_marginEnd="@dimen/dp_10"
-        android:text="2"
+        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
     <Button
-        android:visibility="gone"
         android:id="@+id/bt_start_inv"
         android:layout_width="@dimen/dp_81"
         android:layout_height="@dimen/dp_25"
         android:layout_below="@+id/inv_finished_num"
         android:layout_marginTop="@dimen/dp_10"
         android:background="@drawable/bt_background"
-        android:text="开始盘点"
+        android:text="@string/start_inv"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_12" />
+        android:textSize="@dimen/sp_12"
+        android:visibility="gone" />
 
     <Button
-        android:visibility="gone"
         android:id="@+id/bt_sync_data"
         android:layout_width="@dimen/dp_81"
         android:layout_height="@dimen/dp_25"
@@ -188,12 +190,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_10"
         android:background="@drawable/bt_background"
-        android:text="同步数据"
+        android:text="@string/sync_data"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_12" />
+        android:textSize="@dimen/sp_12"
+        android:visibility="gone" />
 
     <Button
-        android:visibility="gone"
         android:id="@+id/bt_finish_inv"
         android:layout_width="@dimen/dp_81"
         android:layout_height="@dimen/dp_25"
@@ -201,7 +203,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/dp_10"
         android:background="@drawable/bt_background"
-        android:text="完成盘点"
+        android:text="@string/finish_inv"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_12" />
+        android:textSize="@dimen/sp_12"
+        android:visibility="gone" />
 </RelativeLayout>

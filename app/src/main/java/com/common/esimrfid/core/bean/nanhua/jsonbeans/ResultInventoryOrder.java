@@ -50,6 +50,7 @@ public class ResultInventoryOrder {
     private String inv_creator_id;
     private Date inv_exptfinish_date;
     private Integer inv_finish_count;
+    private Integer inv_notsubmit_count;
     private String inv_finish_remark;
     private String inv_name;
     private String inv_remark;
@@ -60,7 +61,6 @@ public class ResultInventoryOrder {
     private Updater updater;
     private String updater_id;
     private Integer opt_status;
-
     public Assigner getAssigner() {
         return assigner;
     }
@@ -139,6 +139,14 @@ public class ResultInventoryOrder {
 
     public void setInv_finish_count(Integer inv_finish_count) {
         this.inv_finish_count = inv_finish_count;
+    }
+
+    public Integer getInv_notsubmit_count() {
+        return inv_notsubmit_count;
+    }
+
+    public void setInv_notsubmit_count(Integer inv_notsubmit_count) {
+        this.inv_notsubmit_count = inv_notsubmit_count;
     }
 
     public String getInv_finish_remark() {

@@ -184,4 +184,19 @@
     <string name="write_tips">请将待写入标签贴近手持机前端</string>
     <string name="write_attention">注意：标签写入时，请尽量远离其他标签，避免其他标签干扰</string>
     <string name="no_message">暂无信息哦</string>
+
+    <string name="not_submit">未提交</string>
+    <string name="invorder_name">盘点单名称</string>
+    <string name="inv_creator">创建人</string>
+    <string name="sync_data">同步数据</string>
+    <string name="finish_inv">完成盘点</string>
+    <string name="asset_inventoried">已盘点</string>
+    <string name="asset_not_inventoried">待盘点</string>
+    <string name="inv_create_date">创建日期</string>
+    <string name="inv_expect_finish_date">预计完成日期</string>
+    <string name="inv_all_num">盘点总数</string>
+    <string name="ast_inved">已盘</string>
+    <string name="ast_not_inved">未盘</string>
+    <string name="ast_not_submit">未提</string>
+    <string name="inv_detail">盘点单详情</string>
 </resources>

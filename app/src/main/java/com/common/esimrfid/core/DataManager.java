@@ -256,4 +256,9 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     public Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName) {
         return mHttpHelper.fetchWriteAssetsInfo(patternName);
     }
+
+    @Override
+    public Observable<BaseResponse> finishInvOrderWithAsset(String orderId, String uid, List<String> invDetails) {
+        return mHttpHelper.finishInvOrderWithAsset(orderId, uid, invDetails);
+    }
 }

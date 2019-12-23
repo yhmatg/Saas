@@ -55,6 +55,10 @@ public interface GeeksApis {
     @POST("inventory-server/inventoryorders/{orderId}/finish")
     Observable<BaseResponse> finishInvOrder(@Path("orderId")String orderId,@Query("uid")String uid,@Query("finish_remark")String remark);
 
+    //完成盘点携带资产编号id
+    @POST("inventory-server/inventoryorders/{orderId}/finishwithinfo")
+    Observable<BaseResponse> finishInvOrderWithAsset(@Path("orderId")String orderId,@Query("uid")String uid,@Body List<String> invDetails);
+
     //盘点数据上传
     @POST("inventory-server/inventoryorders/{orderId}/commit")
     Observable<BaseResponse> uploadInvDetails(@Path("orderId")String orderId,@Body List<String> invDetails ,@Query("uid")String uid);

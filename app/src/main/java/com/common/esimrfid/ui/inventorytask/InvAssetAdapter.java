@@ -1,4 +1,4 @@
-package com.common.esimrfid.ui.assetinventory;
+package com.common.esimrfid.ui.inventorytask;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,12 +8,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
-import com.common.esimrfid.ui.inventorytask.InvdetialActivity;
 import com.common.esimrfid.utils.DateUtils;
 
 import java.util.List;
@@ -21,15 +20,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class InvTaskAdapter extends RecyclerView.Adapter<InvTaskAdapter.ViewHolder> {
+public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHolder> {
 
     private static final String INV_ID = "inv_id";
     private static final String INV_NAME = "inv_name";
     private static final String INTENT_FROM = "intent_from";
     private List<ResultInventoryOrder> mInvTaskorders;
     private Context mContext;
+    private OnItemClickListener mOnItemClickListener;
 
-    public InvTaskAdapter(List<ResultInventoryOrder> invTaskorders, Context mContext) {
+    public InvAssetAdapter(List<ResultInventoryOrder> invTaskorders, Context mContext) {
         this.mInvTaskorders = invTaskorders;
         this.mContext = mContext;
     }
@@ -55,16 +55,34 @@ public class InvTaskAdapter extends RecyclerView.Adapter<InvTaskAdapter.ViewHold
         viewHolder.mExpFinishDate.setText(DateUtils.date2String(invTaskItem.getInv_exptfinish_date()));
         Integer inv_total_count = invTaskItem.getInv_total_count();
         Integer inv_finish_count = invTaskItem.getInv_finish_count();
+        Integer not_submit_count = invTaskItem.getInv_notsubmit_count() == null ? 0 : invTaskItem.getInv_notsubmit_count();
         viewHolder.mAllNum.setText(String.valueOf(inv_total_count));
-        viewHolder.mFinishedNum.setText(String.valueOf(inv_finish_count));
         viewHolder.mUnfinishedNum.setText(String.valueOf(inv_total_count - inv_finish_count));
+        viewHolder.mFinishedNum.setText(String.valueOf(not_submit_count));
 
-        viewHolder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mTvName.setText(R.string.not_submit);
+        viewHolder.mStartInv.setVisibility(View.VISIBLE);
+        viewHolder.mStartInv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showInvDetailActivity(invTaskItem);
             }
         });
+        viewHolder.mSyncInv.setVisibility(View.VISIBLE);
+        viewHolder.mSyncInv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onSyncData(invTaskItem, i);
+            }
+        });
+        viewHolder.mFinishInv.setVisibility(View.VISIBLE);
+        viewHolder.mFinishInv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onFinishInv(invTaskItem);
+            }
+        });
+
     }
 
     @Override
@@ -85,22 +103,40 @@ public class InvTaskAdapter extends RecyclerView.Adapter<InvTaskAdapter.ViewHold
         TextView mAllNum;
         @BindView(R.id.unfinished_num)
         TextView mUnfinishedNum;
+        //盘点任务界面显示未待提交
         @BindView(R.id.inv_finished_num)
         TextView mFinishedNum;
-        @BindView(R.id.rl_task_item)
-        RelativeLayout mRelativeLayout;
+        @BindView(R.id.bt_start_inv)
+        Button mStartInv;
+        @BindView(R.id.bt_sync_data)
+        Button mSyncInv;
+        @BindView(R.id.bt_finish_inv)
+        Button mFinishInv;
+        @BindView(R.id.tv_name)
+        TextView mTvName;
 
         ViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onSyncData(ResultInventoryOrder invOder, int position);
+
+        void onFinishInv(ResultInventoryOrder invOder);
+
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
     }
 
     private void showInvDetailActivity(ResultInventoryOrder invOrder) {
         Intent intent = new Intent();
         intent.putExtra(INV_ID, invOrder.getId());
         intent.putExtra(INV_NAME, invOrder.getInv_name());
-        intent.putExtra(INTENT_FROM, "InvTaskAdapter");
+        intent.putExtra(INTENT_FROM, "InvAssetAdapter");
         intent.setClass(mContext, InvdetialActivity.class);
         mContext.startActivity(intent);
     }
