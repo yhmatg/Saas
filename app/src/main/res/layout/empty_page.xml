@@ -4,13 +4,36 @@
     android:layout_height="match_parent"
     android:id="@+id/empty_page"
     android:background="@drawable/tips_background"
-    android:visibility="gone"
-    android:gravity="center">
+    android:orientation="vertical"
+    android:visibility="gone">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:textSize="@dimen/dp_10"
-        android:text="@string/no_message"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_message"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dp_270"
+            android:textSize="@dimen/dp_10" />
+
+        <TextView
+            android:id="@+id/tv_tips"
+            android:layout_width="@dimen/dp_167"
+            android:layout_height="@dimen/dp_22"
+            android:layout_marginTop="@dimen/dp_25"
+            android:text="@string/search_assets_tips"
+            android:layout_marginBottom="@dimen/dp_230"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ff999999"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="9sp"
+            />
+    </RelativeLayout>
+
 </LinearLayout>

@@ -11,13 +11,11 @@ import com.common.esimrfid.widget.BaseObserver;
 
 import java.util.List;
 
-import butterknife.OnClick;
-
-public class WriteTagPressnter extends BasePresenter<WriteTagContract.View> implements WriteTagContract.Presenter {
+public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> implements WriteTagContract.Presenter {
     private DataManager mDataManager;
-    private String TAG = "InvOrderPressnter";
+    private String TAG = "WriteTagPresenter";
 
-    public WriteTagPressnter(DataManager dataManager) {
+    public WriteTagPresenter(DataManager dataManager) {
         super(dataManager);
         mDataManager = dataManager;
     }

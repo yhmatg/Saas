@@ -39,6 +39,13 @@
         android:gravity="center">
 
         <ImageView
+            android:id="@+id/discern_success"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:visibility="gone"
+            android:src="@drawable/discern_success"
+            />
+        <ImageView
             android:id="@+id/scan_outer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,14 +64,6 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/img_success"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:visibility="gone"
-            android:src="@drawable/login_success"/>
 
         <TextView
             android:id="@+id/identify_tips"

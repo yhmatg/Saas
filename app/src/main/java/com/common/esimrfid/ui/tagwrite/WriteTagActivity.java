@@ -1,6 +1,5 @@
 package com.common.esimrfid.ui.tagwrite;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
@@ -21,17 +20,16 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.WriteTagContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
-import com.common.esimrfid.presenter.home.WriteTagPressnter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.ui.home.HomeActivity;
-
+import com.common.esimrfid.presenter.home.WriteTagPresenter;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class WriteTagActivity extends BaseActivity<WriteTagPressnter> implements WriteTagContract.View {
+public class WriteTagActivity extends BaseActivity<WriteTagPresenter> implements WriteTagContract.View {
     @BindView(R.id.edit_search)
     EditText search;
     @BindView(R.id.titleLeft)
@@ -40,14 +38,16 @@ public class WriteTagActivity extends BaseActivity<WriteTagPressnter> implements
     RecyclerView recyclerView;
     @BindView(R.id.empty_page)
     LinearLayout empty_page;
+    @BindView(R.id.tv_tips)
+    TextView tips;
     IEsimUhfService esimUhfService = null;
     public static final String TAG = "WriteTagActivity";
     private List<AssetsInfo> mData = new ArrayList<>();
     private WriteTagAdapter adapter;
 
     @Override
-    public WriteTagPressnter initPresenter() {
-        return new WriteTagPressnter(DataManager.getInstance());
+    public WriteTagPresenter initPresenter() {
+        return new WriteTagPresenter(DataManager.getInstance());
     }
 
     @Override
@@ -59,6 +59,7 @@ public class WriteTagActivity extends BaseActivity<WriteTagPressnter> implements
         recyclerView.setAdapter(adapter);
         empty_page.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
+        tips.setVisibility(View.GONE);
 
     }
 
@@ -124,9 +125,11 @@ public class WriteTagActivity extends BaseActivity<WriteTagPressnter> implements
         if (mData.size() == 0) {
             empty_page.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
+            tips.setVisibility(View.GONE);
         } else {
             empty_page.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
+            tips.setVisibility(View.GONE);
         }
     }
 }

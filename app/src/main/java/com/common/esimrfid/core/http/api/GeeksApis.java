@@ -8,6 +8,7 @@ import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
@@ -123,4 +124,11 @@ public interface GeeksApis {
 	//模糊查询资产详情（写入标签）
     @GET("/assets-server/assets/unpage")
     Observable<BaseResponse<List<AssetsInfo>>>fetchWriteAssetsInfos(@Query("pattern_name")String patternName);
+
+    //根据Epc查询资产详情（资产查找）
+    @POST("/assets-server/assets/byrfids")
+    Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(@Body Set<String> Epcs);
+
+    @GET("/assets-server/assets/{astid}")
+    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfoById(@Path("astid") String astid);
 }

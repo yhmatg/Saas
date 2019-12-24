@@ -54,5 +54,14 @@
         <activity
             android:name=".ui.inventorytask.InventoryScanActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.assetsearch.AssetsSearchActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.assetsearch.AssetsDetailsActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.assetsearch.LocationSearchActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 </manifest>

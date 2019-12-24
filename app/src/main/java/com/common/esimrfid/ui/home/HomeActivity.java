@@ -21,6 +21,7 @@ import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
+import com.common.esimrfid.ui.assetsearch.AssetsSearchActivity;
 import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
@@ -136,7 +137,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 startActivity(new Intent(this, AssetInventoryActivity.class));
                 break;
             case R.id.ast_search:
-
+                startActivity(new Intent(this, AssetsSearchActivity.class));
                 break;
             case R.id.write_tag:
 			 startActivity(new Intent(this, WriteTagActivity.class));

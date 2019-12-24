@@ -3,7 +3,6 @@ package com.common.esimrfid.ui.tagwrite;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -46,10 +45,10 @@ public class SearchTagActivity extends BaseActivity {
     ImageView scan_outer;
     @BindView(R.id.sacn_inner)
     ImageView scan_inner;
+    @BindView(R.id.discern_success)
+    ImageView discern_success;
     @BindView(R.id.btn_confirm_write)
     Button confirm;
-    @BindView(R.id.img_success)
-    ImageView success;
     @BindView(R.id.identify_tips)
     TextView identify;
     IEsimUhfService esimUhfService = null;
@@ -169,7 +168,7 @@ public class SearchTagActivity extends BaseActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SearchTagActivity.this, WriteTagActivity.class));
+                finish();
                 dialog.dismiss();
             }
         });
@@ -180,7 +179,7 @@ public class SearchTagActivity extends BaseActivity {
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.titleLeft:
-                startActivity(new Intent(this, WriteTagActivity.class));
+                finish();
                 break;
         }
     }
@@ -199,7 +198,9 @@ public class SearchTagActivity extends BaseActivity {
             case UhfMsgType.UHF_START:
                 scan_outer.startAnimation(anim1);
                 scan_inner.startAnimation(anim2);
-                success.setVisibility(View.GONE);
+                discern_success.setVisibility(View.GONE);
+                scan_inner.setVisibility(View.VISIBLE);
+                scan_outer.setVisibility(View.VISIBLE);
                 identify.setText(R.string.identify_tips);
                 isClick = false;
                 scanEpcs.clear();
@@ -220,15 +221,25 @@ public class SearchTagActivity extends BaseActivity {
 
     private void handleEpc() {
         if (scanEpcs.size() == 1) {
-            success.setVisibility(View.VISIBLE);
+            scan_outer.clearAnimation();
+            scan_inner.clearAnimation();
+            discern_success.setVisibility(View.VISIBLE);
+            scan_inner.setVisibility(View.GONE);
+            scan_outer.setVisibility(View.GONE);
             identify.setText(R.string.identify_success);
+            esimUhfService.stopScanning();
             isClick = true;
         } else if (scanEpcs.size() > 1) {
-            success.setVisibility(View.GONE);
+            esimUhfService.startScanning();
+            discern_success.setVisibility(View.GONE);
+            scan_inner.setVisibility(View.VISIBLE);
+            scan_outer.setVisibility(View.VISIBLE);
             identify.setText(R.string.identify_tags);
             isClick = false;
         } else if (scanEpcs.size() == 0) {
-            success.setVisibility(View.GONE);
+            discern_success.setVisibility(View.GONE);
+            scan_inner.setVisibility(View.VISIBLE);
+            scan_outer.setVisibility(View.VISIBLE);
             identify.setText(R.string.identify_tips);
             isClick = false;
         }

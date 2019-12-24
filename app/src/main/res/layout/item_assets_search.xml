@@ -121,7 +121,7 @@
             android:background="@drawable/btn_background"
             android:layout_gravity="center_vertical"
             android:gravity="center"
-            android:text="@string/tag_write"
+            android:text="@string/location_search"
             android:textColor="@color/white"
             android:textSize="11sp" />
     </LinearLayout>

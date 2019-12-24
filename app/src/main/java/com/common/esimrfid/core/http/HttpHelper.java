@@ -9,6 +9,7 @@ import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
@@ -74,4 +75,8 @@ public interface HttpHelper {
     Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName);
 
     Observable<BaseResponse> finishInvOrderWithAsset(String orderId, String uid, List<String> invDetails);
+
+    Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(Set<String> Epcs);
+
+    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId);
 }
