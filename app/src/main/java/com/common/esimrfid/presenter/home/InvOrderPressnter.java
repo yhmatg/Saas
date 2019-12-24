@@ -41,14 +41,14 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
 
     //获取盘点数据
     @Override
-    public void fetchAllIvnOrders(String userId,boolean online) {
+    public void fetchAllIvnOrders(String userId, boolean online) {
         mView.showDialog("loading...");
-        if(!CommonUtils.isNetworkConnected()){
+        if (!CommonUtils.isNetworkConnected()) {
             online = false;
         }
-        addSubscribe(Observable.concat(getLocalInOrderObservable(online),mDataManager.fetchAllIvnOrders(userId))
-               .compose(RxUtils.rxSchedulerHelper())
-               .compose(RxUtils.handleResult())
+        addSubscribe(Observable.concat(getLocalInOrderObservable(online), mDataManager.fetchAllIvnOrders(userId))
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
                 .observeOn(Schedulers.io())
                 .flatMap(new Function<List<ResultInventoryOrder>, ObservableSource<List<ResultInventoryOrder>>>() {
                     @Override
@@ -75,7 +75,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                         return Observable.just(tempRemount);
                     }
                 })
-               .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new BaseObserver<List<ResultInventoryOrder>>(mView, false) {
                     @Override
                     public void onNext(List<ResultInventoryOrder> resultInventoryOrders) {
@@ -106,21 +106,21 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                         emitter.onNext(newestOrders);
                     }
                 })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new BaseObserver<List<ResultInventoryOrder>>(mView, false) {
-                    @Override
-                    public void onNext(List<ResultInventoryOrder> resultInventoryOrders) {
-                        boolean locaLeftUpload = false;
-                        if(resultInventoryOrders != null){
-                            for (ResultInventoryOrder resultInventoryOrder : resultInventoryOrders) {
-                                if (resultInventoryOrder.getOpt_status() != null && resultInventoryOrder.getOpt_status() == InvOperateStatus.MODIFIED_BUT_NOT_SUBMIT.getIndex()){
-                                    locaLeftUpload = true;
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new BaseObserver<List<ResultInventoryOrder>>(mView, false) {
+                            @Override
+                            public void onNext(List<ResultInventoryOrder> resultInventoryOrders) {
+                                boolean locaLeftUpload = false;
+                                if (resultInventoryOrders != null) {
+                                    for (ResultInventoryOrder resultInventoryOrder : resultInventoryOrders) {
+                                        if (resultInventoryOrder.getOpt_status() != null && resultInventoryOrder.getOpt_status() == InvOperateStatus.MODIFIED_BUT_NOT_SUBMIT.getIndex()) {
+                                            locaLeftUpload = true;
+                                        }
+                                    }
                                 }
                             }
-                        }
-                    }
-                })
+                        })
 
         );
     }
@@ -247,7 +247,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                            /* Integer finishCount = invOrderByInvId.getInv_finish_count() + invDetails.size();
                             invOrderByInvId.setInv_finish_count(finishCount);*/
                             //1223 end
-                            Integer notSubmitCount = invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
+                            Integer notSubmitCount = invOrderByInvId.getInv_notsubmit_count() == null ? 0 : invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
                             invOrderByInvId.setInv_notsubmit_count(notSubmitCount);
                             resultInventoryOrderDao.updateItem(invOrderByInvId);
                             //跟新盘点子条目ResultInventoryDetail的盘点提交状态
@@ -267,5 +267,48 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                     }
                 }));
     }
+
+    @Override
+    public void finishInvOrderWithAsset(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid) {
+        addSubscribe(mDataManager.finishInvOrderWithAsset(orderId, uid, invDetails)
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleBaseResponse())
+                .observeOn(Schedulers.io())
+                .doOnNext(new Consumer<BaseResponse>() {
+                    @Override
+                    public void accept(BaseResponse baseResponse) throws Exception {
+                        if (baseResponse.isSuccess()) {
+                            //上传盘点条目到数据库后，更新父条目ResultInventoryOrder状态
+                            ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
+                            ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
+                            invOrderByInvId.setOpt_status(InvOperateStatus.FINISHED.getIndex());
+                            int orderStatus = 11;
+                            invOrderByInvId.setInv_status(orderStatus);
+                            //更新盘点单完成上传和没有提交数目
+                            //1223 start
+                           /* Integer finishCount = invOrderByInvId.getInv_finish_count() + invDetails.size();
+                            invOrderByInvId.setInv_finish_count(finishCount);*/
+                            //1223 end
+                            Integer notSubmitCount = invOrderByInvId.getInv_notsubmit_count() == null ? 0 : invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
+                            invOrderByInvId.setInv_notsubmit_count(notSubmitCount);
+                            resultInventoryOrderDao.updateItem(invOrderByInvId);
+                            //跟新盘点子条目ResultInventoryDetail的盘点提交状态
+                            // 暂定 本地盘点和已经上传的区分
+                            for (InventoryDetail inventoryDetail : inventoryDetails) {
+                                inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
+                            }
+                            DbBank.getInstance().getInventoryDetailDao().updateItems(inventoryDetails);
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        mView.handelFinishInvOrder(baseResponse);
+                    }
+                }));
+    }
+
 
 }

@@ -79,7 +79,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         viewHolder.mFinishInv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onFinishInv(invTaskItem);
+                mOnItemClickListener.onFinishInv(invTaskItem, i);
             }
         });
 
@@ -124,7 +124,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
     public interface OnItemClickListener {
         void onSyncData(ResultInventoryOrder invOder, int position);
 
-        void onFinishInv(ResultInventoryOrder invOder);
+        void onFinishInv(ResultInventoryOrder invOder, int position);
 
     }
 

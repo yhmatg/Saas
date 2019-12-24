@@ -1,10 +1,12 @@
 package com.common.esimrfid.ui.assetinventory;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
@@ -15,6 +17,9 @@ import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +46,10 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
     TextView mUnFinishedEnd;
     @BindView(R.id.rv_inventory_task)
     RecyclerView mInvTaskRecycleview;
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.empty_page)
+    LinearLayout mEmptyPage;
     InvTaskAdapter mAdapter;
     List<ResultInventoryOrder> mInvTaskorders = new ArrayList<>();
     List<ResultInventoryOrder> mUnFinishedTaskorders = new ArrayList<>();
@@ -48,6 +57,7 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
     List<ResultInventoryOrder> mShowTaskorders = new ArrayList<>();
     private Boolean isFirstOnResume = true;
     private String userId;
+    private Boolean isShowUnfinish = true;
 
     @Override
     public InvOrderPressnter initPresenter() {
@@ -61,6 +71,15 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
         mAdapter = new InvTaskAdapter(mShowTaskorders,this);
         mInvTaskRecycleview.setLayoutManager(new LinearLayoutManager(this));
         mInvTaskRecycleview.setAdapter(mAdapter);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.fetchAllIvnOrders(userId, true);
+            }
+        });
+        mRefreshLayout.setEnableAutoLoadMore(false);//使上拉加载具有弹性效果
+        mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
+        mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
     }
 
     @Override
@@ -97,6 +116,12 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 mFinishedEnd.setTextColor(getColor(R.color.gray_text));
                 mUnFinishStart.setTextColor(getColor(R.color.theme));
                 mUnFinishedEnd.setTextColor(getColor(R.color.theme));
+                isShowUnfinish = true;
+                if(mShowTaskorders.size() == 0){
+                    mEmptyPage.setVisibility(View.VISIBLE);
+                } else {
+                    mEmptyPage.setVisibility(View.GONE);
+                }
                 break;
             case R.id.ll_finished:
                 mShowTaskorders.clear();
@@ -106,6 +131,12 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 mFinishedEnd.setTextColor(getColor(R.color.theme));
                 mUnFinishStart.setTextColor(getColor(R.color.gray_text));
                 mUnFinishedEnd.setTextColor(getColor(R.color.gray_text));
+                isShowUnfinish = false;
+                if(mShowTaskorders.size() == 0){
+                    mEmptyPage.setVisibility(View.VISIBLE);
+                } else {
+                    mEmptyPage.setVisibility(View.GONE);
+                }
                 break;
             case R.id.title_back:
                 finish();
@@ -131,10 +162,20 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 mFinishedTaskorders.add(resultInventoryOrder);
             }
         }
-        mShowTaskorders.addAll(mUnFinishedTaskorders);
+        if(isShowUnfinish){
+            mShowTaskorders.addAll(mUnFinishedTaskorders);
+        }else {
+            mShowTaskorders.addAll(mFinishedTaskorders);
+        }
         mUnFinishedNum.setText(String.valueOf(mUnFinishedTaskorders.size()));
         mFinishedNum.setText(String.valueOf(mFinishedTaskorders.size()));
         mAdapter.notifyDataSetChanged();
+        mRefreshLayout.finishRefresh();
+        if(mShowTaskorders.size() == 0){
+            mEmptyPage.setVisibility(View.VISIBLE);
+        } else {
+            mEmptyPage.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -144,6 +185,11 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
 
     @Override
     public void handelUploadResult(BaseResponse baseResponse) {
+
+    }
+
+    @Override
+    public void handelFinishInvOrder(BaseResponse baseResponse) {
 
     }
 

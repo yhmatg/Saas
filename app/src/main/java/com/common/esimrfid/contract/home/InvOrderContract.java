@@ -17,6 +17,8 @@ public interface InvOrderContract {
         void handleInvDetails(ResultInventoryDetail mInventoryDetail);
 
         void handelUploadResult(BaseResponse baseResponse);
+
+        void handelFinishInvOrder(BaseResponse baseResponse);
     }
 
     interface Presenter extends AbstractPresenter<View> {
@@ -25,6 +27,8 @@ public interface InvOrderContract {
         void fetchAllInvDetails( String orderId,boolean online);
 
         void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid);
+
+        void finishInvOrderWithAsset(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid);
 
         void checkLocalDataState();
     }

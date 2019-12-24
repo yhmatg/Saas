@@ -1,15 +1,21 @@
 package com.common.esimrfid.ui.inventorytask;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
@@ -25,6 +31,9 @@ import com.common.esimrfid.ui.assetinventory.InvTaskAdapter;
 import com.common.esimrfid.ui.assetinventory.NewInventoryActivity;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.ToastUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +46,10 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     TextView mTitle;
     @BindView(R.id.rv_asset_inventory)
     RecyclerView mInvTaskRecycleview;
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout mRefreshLayout;
+    @BindView(R.id.empty_page)
+    LinearLayout mEmptyPage;
     InvAssetAdapter mAdapter;
     List<ResultInventoryOrder> mUnFinishedTaskorders = new ArrayList<>();
     private Boolean isFirstOnResume = true;
@@ -44,8 +57,13 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     //盘点未提交过的条目
     private ArrayList<InventoryDetail> notSubmitInvDetails = new ArrayList<>();
     private ArrayList<String> notSubmitEpcList = new ArrayList<>();
-    private  int mPosition;
+    //已经盘点过的条目
+    private int finishCount;
+    private int totalCount;
+    private int mPosition;
     private MaterialDialog updateDialog;
+    private MaterialDialog finishDialog;
+    private boolean isFinish = false;
 
     @Override
     public InvOrderPressnter initPresenter() {
@@ -60,6 +78,15 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         mAdapter.setOnItemClickListener(this);
         mInvTaskRecycleview.setLayoutManager(new LinearLayoutManager(this));
         mInvTaskRecycleview.setAdapter(mAdapter);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.fetchAllIvnOrders(userId, true);
+            }
+        });
+        mRefreshLayout.setEnableAutoLoadMore(false);//使上拉加载具有弹性效果
+        mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
+        mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
     }
 
     @Override
@@ -104,24 +131,49 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
             }
         }
         mAdapter.notifyDataSetChanged();
+        mRefreshLayout.finishRefresh();
+        if(mUnFinishedTaskorders.size() == 0){
+            mEmptyPage.setVisibility(View.VISIBLE);
+        }else {
+            mEmptyPage.setVisibility(View.GONE);
+        }
+
     }
+
     //盘点单中的资产
     @Override
     public void handleInvDetails(ResultInventoryDetail mInventoryDetail) {
         notSubmitInvDetails.clear();
         notSubmitEpcList.clear();
+        finishCount = 0;
+        totalCount = mInventoryDetail.getInv_total_count();
         List<InventoryDetail> detailResults = mInventoryDetail.getDetailResults();
         for (InventoryDetail detailResult : detailResults) {
             if (detailResult.getInvdt_status().getCode() == InventoryStatus.FINISH_NOT_SUBMIT.getIndex()) {
                 notSubmitInvDetails.add(detailResult);
                 notSubmitEpcList.add(detailResult.getAst_id());
+            } else if (detailResult.getInvdt_status().getCode() == InventoryStatus.FINISH.getIndex()) {
+                finishCount++;
             }
         }
         dismissUpdateDialog();
-        if (CommonUtils.isNetworkConnected() && notSubmitInvDetails.size() > 0) {
+        //盘点数据上传服务器
+        if (!isFinish && CommonUtils.isNetworkConnected() && notSubmitInvDetails.size() > 0) {
             mPresenter.upLoadInvDetails(mInventoryDetail.getId(), notSubmitEpcList, notSubmitInvDetails, userId);
         }
+        //盘点数据上传服务器并且完成盘点单
+        if (isFinish && CommonUtils.isNetworkConnected()) {
+            int totalFinishCount = notSubmitEpcList.size() + finishCount;
+            if (totalFinishCount < totalCount) {
+                showFinishInvDialog(mInventoryDetail.getId(), notSubmitEpcList, notSubmitInvDetails, userId);
+            }else {
+                showUpdateDialog();
+                mPresenter.finishInvOrderWithAsset(mInventoryDetail.getId(), notSubmitEpcList, notSubmitInvDetails, userId);
+            }
+
+        }
     }
+
     //资产盘点上传结果
     @Override
     public void handelUploadResult(BaseResponse baseResponse) {
@@ -131,7 +183,7 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
             //1223 start
           /*  Integer oldFinishCount = resultInventoryOrder.getInv_finish_count();
             resultInventoryOrder.setInv_finish_count(oldFinishCount + notSubmitEpcList.size() );*/
-          //1223 end
+            //1223 end
             mAdapter.notifyItemChanged(mPosition);
             dismissUpdateDialog();
         }
@@ -139,13 +191,22 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     }
 
     @Override
+    public void handelFinishInvOrder(BaseResponse baseResponse) {
+        if (baseResponse.isSuccess()) {
+            mUnFinishedTaskorders.remove(mPosition);
+            dismissUpdateDialog();
+        }
+    }
+
+    @Override
     public void onSyncData(ResultInventoryOrder invOder, int position) {
         //网络可用情况下同步数据
+        isFinish = false;
         if (CommonUtils.isNetworkConnected()) {
             showUpdateDialog();
             mPosition = position;
             mPresenter.fetchAllInvDetails(invOder.getId(), true);
-        }else {
+        } else {
             //todo
             ToastUtils.showShort("请检查网络是否可用");
         }
@@ -154,26 +215,78 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     }
 
     @Override
-    public void onFinishInv(ResultInventoryOrder invOder) {
+    public void onFinishInv(ResultInventoryOrder invOder, int position) {
+        //网络可用情况下完成盘点
+        isFinish = true;
+        if (CommonUtils.isNetworkConnected()) {
+            mPosition = position;
+            mPresenter.fetchAllInvDetails(invOder.getId(), true);
+        } else {
+            //todo
+            ToastUtils.showShort("请检查网络是否可用");
+        }
+    }
+
+    public void showUpdateDialog() {
+        if(updateDialog != null){
+            updateDialog.show();
+        }else {
+            View contentView = LayoutInflater.from(this).inflate(R.layout.update_loading_dialog, null);
+            updateDialog = new MaterialDialog.Builder(this)
+                    .customView(contentView, false)
+                    .show();
+            Window window = updateDialog.getWindow();
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.width = CommonUtils.dp2px(250);
+            layoutParams.height = CommonUtils.dp2px(130);
+            window.setAttributes(layoutParams);
+        }
 
     }
 
-    public void showUpdateDialog(){
-        View contentView = LayoutInflater.from(this).inflate(R.layout.update_loading_dialog, null);
-        updateDialog = new MaterialDialog.Builder(this)
-                .customView(contentView, false)
-                .show();
-        Window window = updateDialog.getWindow();
-        window.setBackgroundDrawableResource(android.R.color.transparent);
-        WindowManager.LayoutParams layoutParams = window.getAttributes();
-        layoutParams.width = CommonUtils.dp2px(250);
-        layoutParams.height = CommonUtils.dp2px(130);
-        window.setAttributes(layoutParams);
-    }
-
-    public void dismissUpdateDialog(){
+    public void dismissUpdateDialog() {
         if (updateDialog != null && updateDialog.isShowing()) {
             updateDialog.dismiss();
+        }
+    }
+
+    public void showFinishInvDialog(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid) {
+        if(finishDialog != null){
+            finishDialog.show();
+        }else {
+            View contentView = LayoutInflater.from(this).inflate(R.layout.finish_inv_dialog, null);
+            View cancleTv = contentView.findViewById(R.id.tv_cancel);
+            View sureTv = contentView.findViewById(R.id.tv_sure);
+            sureTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showUpdateDialog();
+                    mPresenter.finishInvOrderWithAsset(orderId, invDetails, inventoryDetails, uid);
+                    finishDialog.dismiss();
+                }
+            });
+            cancleTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finishDialog.dismiss();
+                }
+            });
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                    .customView(contentView, false);
+            finishDialog = builder.show();
+            Window window = finishDialog.getWindow();
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.width = CommonUtils.dp2px(268);
+            layoutParams.height = CommonUtils.dp2px(164);
+            window.setAttributes(layoutParams);
+        }
+    }
+
+    public void dismissFinishDialog() {
+        if (finishDialog != null && finishDialog.isShowing()) {
+            finishDialog.dismiss();
         }
     }
 

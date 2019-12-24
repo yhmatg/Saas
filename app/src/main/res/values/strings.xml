@@ -199,4 +199,6 @@
     <string name="ast_not_inved">未盘</string>
     <string name="ast_not_submit">未提</string>
     <string name="inv_detail">盘点单详情</string>
+    <string name="prompt_title">提示</string>
+    <string name="finish_prop_content">您还有数据未盘点，是否确认要终止该盘点任务？</string>
 </resources>
