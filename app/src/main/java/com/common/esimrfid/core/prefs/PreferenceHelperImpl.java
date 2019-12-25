@@ -98,7 +98,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public String getHostUrl() {
-        return mPreferences.getString(Constants.HOSTURL, "http://172.16.63.36:12000");
+        return mPreferences.getString(Constants.HOSTURL, "http://www.esimtekiot.com:30020");
     }
 
     @Override

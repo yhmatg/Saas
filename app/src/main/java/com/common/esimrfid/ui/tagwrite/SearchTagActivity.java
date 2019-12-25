@@ -67,16 +67,6 @@ public class SearchTagActivity extends BaseActivity {
         rotateAnim2();
         setStatusBarTransparent();
         initRfidAndEvent();
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (esimUhfService != null) {
-                    esimUhfService.writeEpcTag(scanTagEpc, getTagEpc);
-                } else {
-                    ToastUtils.showShort(R.string.not_connect_prompt);
-                }
-            }
-        });
     }
 
     @Override
@@ -129,7 +119,7 @@ public class SearchTagActivity extends BaseActivity {
     private void showfailDialog() {
         final Dialog dialog = new Dialog(this, R.style.SettingDialog);
         View view = View.inflate(this, R.layout.write_success_dialog, null);
-        Button confirm = (Button) view.findViewById(R.id.btn_confirm);
+        Button confirm2 = (Button) view.findViewById(R.id.btn_confirm);
         TextView content = (TextView) view.findViewById(R.id.tv_content);
         dialog.setContentView(view);
         content.setText(R.string.write_epc_fail);
@@ -141,7 +131,7 @@ public class SearchTagActivity extends BaseActivity {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.gravity = Gravity.CENTER;
         dialogWindow.setAttributes(lp);
-        confirm.setOnClickListener(new View.OnClickListener() {
+        confirm2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -153,7 +143,7 @@ public class SearchTagActivity extends BaseActivity {
     private void showSuccessDialog() {
         final Dialog dialog = new Dialog(this, R.style.SettingDialog);
         View view = View.inflate(this, R.layout.write_success_dialog, null);
-        Button confirm = (Button) view.findViewById(R.id.btn_confirm);
+        Button confirm1 = (Button) view.findViewById(R.id.btn_confirm);
         TextView content = (TextView) view.findViewById(R.id.tv_content);
         dialog.setContentView(view);
         content.setText(R.string.write_epc_sucess);
@@ -165,7 +155,7 @@ public class SearchTagActivity extends BaseActivity {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.gravity = Gravity.CENTER;
         dialogWindow.setAttributes(lp);
-        confirm.setOnClickListener(new View.OnClickListener() {
+        confirm1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -251,6 +241,16 @@ public class SearchTagActivity extends BaseActivity {
         if (isClick) {
             confirm.setEnabled(true);
             confirm.setBackgroundResource(R.drawable.btn_confirm_write);
+            confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (esimUhfService != null) {
+                        esimUhfService.writeEpcTag(scanTagEpc, getTagEpc);
+                    } else {
+                        ToastUtils.showShort(R.string.not_connect_prompt);
+                    }
+                }
+            });
         } else {
             confirm.setEnabled(false);
             confirm.setBackgroundResource(R.drawable.btn_unconfirm_write);
