@@ -19,6 +19,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionAssetInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionDetailInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionItemInfo;
+import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.core.http.api.GeeksApis;
 import com.common.esimrfid.core.http.client.RetrofitClient;
 
@@ -174,6 +175,11 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId) {
         return mGeeksApis.fetchAssetsInfoById(astId);
+    }
+
+    @Override
+    public Observable<BaseResponse<UpdateVersion>> updateVersion() {
+        return mGeeksApis.updateVersion();
     }
 
 }

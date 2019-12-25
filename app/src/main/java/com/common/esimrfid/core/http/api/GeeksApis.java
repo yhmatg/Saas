@@ -18,6 +18,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionAssetInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionDetailInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionItemInfo;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
+import com.common.esimrfid.core.bean.update.UpdateVersion;
 
 import java.util.HashMap;
 import java.util.List;
@@ -131,4 +132,8 @@ public interface GeeksApis {
 
     @GET("/assets-server/assets/{astid}")
     Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfoById(@Path("astid") String astid);
+
+    //版本更新
+    @GET("/tagorder-server/appversions/latest")
+    Observable<BaseResponse<UpdateVersion>> updateVersion();
 }

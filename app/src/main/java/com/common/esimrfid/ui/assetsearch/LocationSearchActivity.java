@@ -51,6 +51,7 @@ public class LocationSearchActivity extends BaseActivity {
     protected void initEventAndData() {
         initRfidAndEvent();
         title.setText(R.string.location_search);
+        progressBar.setMax(50);
         Intent intent = getIntent();
         AssetsEpc = intent.getStringExtra(ASSETS_EPC);
         filterSet();

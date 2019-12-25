@@ -251,6 +251,7 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         }
     }
 
+
     public void showFinishInvDialog(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid) {
         if(finishDialog != null){
             finishDialog.show();
@@ -289,5 +290,4 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
             finishDialog.dismiss();
         }
     }
-
 }

@@ -204,4 +204,9 @@
     <string name="finish_prop_content">您还有数据未盘点，是否确认要终止该盘点任务？</string>
     <string name="location_tips">距离越大，距离资产越近</string>
     <string name="assets_details">资产详情</string>
+    <string name="update_now">立即更新</string>
+    <string name="update_latter">稍后更新</string>
+    <string name="update_content_title">更新内容</string>
+    <string name="find_new_version">发现新版本</string>
+    <string name="def_update_content">1.修复了已知BUG\n2.优化了一些体验；\n3.新增了功能</string>
 </resources>

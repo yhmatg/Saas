@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <include layout="@layout/title_layout"/>
+    <include layout="@layout/title_layout" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_20"
         android:layout_marginStart="@dimen/dp_9"
-        android:layout_marginEnd="@dimen/dp_9"
         android:layout_marginTop="@dimen/dp_110"
-        android:gravity="center"
-        android:background="@drawable/progress_backgroud">
+        android:layout_marginEnd="@dimen/dp_9"
+        android:background="@drawable/progress_backgroud"
+        android:gravity="center">
 
         <com.heiko.stripeprogressbar.StripeProgressBar
             android:id="@+id/pg_search"
@@ -22,10 +22,9 @@
             android:layout_height="@dimen/dp_6"
             android:layout_marginStart="@dimen/dp_10"
             android:layout_marginEnd="@dimen/dp_10"
-            app:progress_radius="10dp"
-            app:progress_max="50"
             app:progress_background="@color/white"
-            app:progress_image="@drawable/progress_bar" />
+            app:progress_image="@drawable/progress_bar"
+            app:progress_radius="10dp" />
     </LinearLayout>
 
     <ImageView
@@ -33,15 +32,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/dp_24"
-        android:background="@drawable/loading"/>
+        android:background="@drawable/loading" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_91"
         android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp_91"
+        android:text="@string/location_tips"
         android:textColor="#ff1a1a1a"
-        android:textSize="18sp"
-        android:text="@string/location_tips"/>
+        android:textSize="18sp" />
 
 </LinearLayout>

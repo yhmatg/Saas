@@ -18,6 +18,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionAssetInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionDetailInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionItemInfo;
+import com.common.esimrfid.core.bean.update.UpdateVersion;
 
 import java.util.HashMap;
 import java.util.List;
@@ -79,4 +80,6 @@ public interface HttpHelper {
     Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(Set<String> Epcs);
 
     Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId);
+
+    Observable<BaseResponse<UpdateVersion>> updateVersion();
 }
