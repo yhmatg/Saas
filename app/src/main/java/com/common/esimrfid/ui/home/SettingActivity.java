@@ -47,7 +47,8 @@ public class SettingActivity extends BaseActivity {
             case R.id.bt_loginout:
                 DataManager.getInstance().setLoginStatus(false);
                 EsimAndroidApp.getInstance().exitActivitys();
-                System.exit(0);
+                startLoginActivity();
+                //System.exit(0);
                 break;
             case R.id.title_back:
                 finish();

@@ -24,6 +24,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
 
     private static final String INV_ID = "inv_id";
     private static final String INV_NAME = "inv_name";
+    private static final String INV_STATUS = "inv_status";
     private static final String INTENT_FROM = "intent_from";
     private List<ResultInventoryOrder> mInvTaskorders;
     private Context mContext;
@@ -141,6 +142,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         Intent intent = new Intent();
         intent.putExtra(INV_ID, invOrder.getId());
         intent.putExtra(INV_NAME, invOrder.getInv_name());
+        intent.putExtra(INV_STATUS, invOrder.getInv_status());
         intent.putExtra(INTENT_FROM, "InvAssetAdapter");
         intent.setClass(mContext, InvdetialActivity.class);
         mContext.startActivity(intent);

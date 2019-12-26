@@ -95,7 +95,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     protected void initEventAndData() {
-        mPresenter.checkUpdateVersion();
+        //mPresenter.checkUpdateVersion();
         checkUserSatus();
         initRfid();
         if (!EventBus.getDefault().isRegistered(this)) {
@@ -120,6 +120,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         UserLoginResponse uerLogin = DataManager.getInstance().getUserLoginResponse();
         boolean loginStatus = DataManager.getInstance().getLoginStatus();
         if (loginStatus) {
+            mPresenter.checkUpdateVersion();
             EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
             mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
         } else {

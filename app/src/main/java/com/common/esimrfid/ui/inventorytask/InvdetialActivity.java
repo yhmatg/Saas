@@ -31,6 +31,7 @@ import butterknife.OnClick;
 public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implements InvDetailContract.View {
     public static final String INV_ID = "inv_id";
     public static final String INV_NAME = "inv_name";
+    private static final String INV_STATUS = "inv_status";
     private static final String INTENT_FROM = "intent_from";
     @BindView(R.id.title_content)
     TextView mTitle;
@@ -55,6 +56,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     RecyclerView mInvDetailRecyclerView;
     private String mInvId;
     private String mInvName;
+    private  int invStatus;
     private String userId;
     private String mFrom;
     //所有条目数据
@@ -88,10 +90,14 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
             mInvId = getIntent().getStringExtra(INV_ID);
             mInvName = getIntent().getStringExtra(INV_NAME);
             mFrom = getIntent().getStringExtra(INTENT_FROM);
+            invStatus = getIntent().getIntExtra(INV_STATUS,10);
             mInvTitle.setText(mInvName);
         }
         if("InvTaskAdapter".equals(mFrom)){
             mUnfinishOrNotsubmit.setText(R.string.asset_inventoried);
+        }
+        if(11 == invStatus){
+            mStartInv.setVisibility(View.GONE);
         }
         mAdapter = new InvDetailAdapter(mInventoryDetails, this);
         mInvDetailRecyclerView.setLayoutManager(new LinearLayoutManager(this));

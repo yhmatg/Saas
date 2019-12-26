@@ -25,6 +25,7 @@ public class InvTaskAdapter extends RecyclerView.Adapter<InvTaskAdapter.ViewHold
 
     private static final String INV_ID = "inv_id";
     private static final String INV_NAME = "inv_name";
+    private static final String INV_STATUS = "inv_status";
     private static final String INTENT_FROM = "intent_from";
     private List<ResultInventoryOrder> mInvTaskorders;
     private Context mContext;
@@ -105,6 +106,7 @@ public class InvTaskAdapter extends RecyclerView.Adapter<InvTaskAdapter.ViewHold
         Intent intent = new Intent();
         intent.putExtra(INV_ID, invOrder.getId());
         intent.putExtra(INV_NAME, invOrder.getInv_name());
+        intent.putExtra(INV_STATUS, invOrder.getInv_status());
         intent.putExtra(INTENT_FROM, "InvTaskAdapter");
         intent.setClass(mContext, InvdetialActivity.class);
         mContext.startActivity(intent);
