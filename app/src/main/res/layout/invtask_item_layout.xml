@@ -20,6 +20,18 @@
         android:textSize="@dimen/sp_15"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/invtask_code"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_2"
+        android:text="@string/invorder_code"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:textColor="@color/theme"
+        android:textSize="@dimen/sp_15"
+        android:textStyle="bold" />
+
     <View
         android:id="@+id/divider_one"
         android:layout_width="match_parent"

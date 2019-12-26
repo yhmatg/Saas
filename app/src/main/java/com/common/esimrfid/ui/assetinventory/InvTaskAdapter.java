@@ -47,6 +47,9 @@ public class InvTaskAdapter extends RecyclerView.Adapter<InvTaskAdapter.ViewHold
         String invName = TextUtils.isEmpty(invTaskItem.getInv_name()) ? "无信息" : invTaskItem.getInv_name();
         viewHolder.mInvTitle.setText(invName);
 
+        String invCode = TextUtils.isEmpty(invTaskItem.getInv_code()) ? "无信息" : invTaskItem.getInv_code();
+        viewHolder.mInvCode.setText(invCode);
+
         String userRealName = invTaskItem.getCreator() == null ? "无信息" : invTaskItem.getCreator().getUser_real_name();
         userRealName = TextUtils.isEmpty(userRealName) ? "无信息" : userRealName;
         viewHolder.mInvCreatorName.setText(userRealName);
@@ -75,6 +78,8 @@ public class InvTaskAdapter extends RecyclerView.Adapter<InvTaskAdapter.ViewHold
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.invtask_title)
         TextView mInvTitle;
+        @BindView(R.id.invtask_code)
+        TextView mInvCode;
         @BindView(R.id.inv_creator_name)
         TextView mInvCreatorName;
         @BindView(R.id.create_date)

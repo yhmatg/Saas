@@ -188,6 +188,7 @@
     <string name="search_assets_tips">你可以输入资产信息查找资产，也可通过手持机来查找附近的资产</string>
     <string name="not_submit">未提交</string>
     <string name="invorder_name">盘点单名称</string>
+    <string name="invorder_code">盘点单号</string>
     <string name="inv_creator">创建人</string>
     <string name="sync_data">同步数据</string>
     <string name="finish_inv">完成盘点</string>
