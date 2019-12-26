@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
 import com.common.esimrfid.ui.assetinventory.InvTaskAdapter;
 import com.common.esimrfid.ui.assetinventory.NewInventoryActivity;
+import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -177,6 +179,7 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     //资产盘点上传结果
     @Override
     public void handelUploadResult(BaseResponse baseResponse) {
+        dismissUpdateDialog();
         if (baseResponse.isSuccess()) {
             ResultInventoryOrder resultInventoryOrder = mUnFinishedTaskorders.get(mPosition);
             resultInventoryOrder.setInv_notsubmit_count(0);
@@ -185,16 +188,21 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
             resultInventoryOrder.setInv_finish_count(oldFinishCount + notSubmitEpcList.size() );*/
             //1223 end
             mAdapter.notifyItemChanged(mPosition);
-            dismissUpdateDialog();
+            showConfirmDialog(false,true);
+        }else {
+            showConfirmDialog(false,false);
         }
 
     }
 
     @Override
     public void handelFinishInvOrder(BaseResponse baseResponse) {
+        dismissUpdateDialog();
         if (baseResponse.isSuccess()) {
             mUnFinishedTaskorders.remove(mPosition);
-            dismissUpdateDialog();
+            showConfirmDialog(true,true);
+        }else {
+            showConfirmDialog(true,false);
         }
     }
 
@@ -289,5 +297,31 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         if (finishDialog != null && finishDialog.isShowing()) {
             finishDialog.dismiss();
         }
+    }
+
+    public void showConfirmDialog(boolean isFinish,boolean isSuccss){
+        BaseDialog baseDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.finish_confirm_dialog);
+        TextView context = baseDialog.findViewById(R.id.alert_context);
+        Button btSure = baseDialog.findViewById(R.id.bt_confirm);
+        if(isFinish){
+            if(isSuccss){
+                context.setText(R.string.finish_inv_confirm);
+            }else {
+                context.setText(R.string.finish_inv_fail);
+            }
+        }else {
+            if (isSuccss) {
+                context.setText(R.string.sync_data_confirm);
+            } else {
+                context.setText(R.string.sync_data_fail);
+            }
+        }
+        btSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                baseDialog.dismiss();
+            }
+        });
+        baseDialog.show();
     }
 }

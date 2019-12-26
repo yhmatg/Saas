@@ -92,6 +92,7 @@ public class NewInventoryPressnter extends BasePresenter<NewInventoryContract.Vi
 
     @Override
     public void createNewInventory(InventoryParameter invpara) {
+        mView.showDialog("loading...");
         addSubscribe(mDataManager.createNewInventory(invpara)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())

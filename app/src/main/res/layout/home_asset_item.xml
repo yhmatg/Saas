@@ -8,7 +8,9 @@
 
     <TextView
         android:id="@+id/location_name"
-        android:layout_width="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_width="@dimen/dp_80"
         android:layout_height="wrap_content"
         android:text="资产存放位置" />
 

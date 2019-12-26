@@ -490,6 +490,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
 
     @Override
     public void handlecreateNewInventory(CreateInvResult createInvResult) {
+        dismissDialog();
         if(createInvResult == null){
             showCreateSuccessDialog(R.string.save_newinv_fail);
         }else {

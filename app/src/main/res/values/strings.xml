@@ -209,4 +209,9 @@
     <string name="update_content_title">更新内容</string>
     <string name="find_new_version">发现新版本</string>
     <string name="def_update_content">1.修复了已知BUG\n2.优化了一些体验；\n3.新增了功能</string>
+    <string name="finish_inv_confirm">盘点任务已完成！</string>
+    <string name="sync_data_confirm">同步数据已完成！</string>
+    <string name="sync_data_fail">同步数据失败！</string>
+    <string name="finish_inv_fail">盘点任务失败！</string>
+    <string name="scan_all_confirm">所有资产已盘点，请同步数据后完成该盘点任务！</string>
 </resources>

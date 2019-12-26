@@ -28,6 +28,7 @@ import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.ui.home.AssetLocationNum;
+import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.utils.Utils;
 
@@ -201,6 +202,12 @@ public class InventoryScanActivity extends BaseActivity<InvDetailPresenter> impl
                             break;
                         }
                     }
+                    if(notScannedEpcList.size() == 0){
+                        showConfirmDialog();
+                        if(esimUhfService != null && esimUhfService.isStart()){
+                            esimUhfService.stopScanning();
+                        }
+                    }
                     break;
                 }
             }
@@ -285,5 +292,19 @@ public class InventoryScanActivity extends BaseActivity<InvDetailPresenter> impl
             ToastUtils.showShort(R.string.not_connect_prompt);
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void showConfirmDialog(){
+        BaseDialog baseDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.finish_confirm_dialog);
+        TextView context = baseDialog.findViewById(R.id.alert_context);
+        Button btSure = baseDialog.findViewById(R.id.bt_confirm);
+        context.setText(R.string.scan_all_confirm);
+        btSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                baseDialog.dismiss();
+            }
+        });
+        baseDialog.show();
     }
 }
