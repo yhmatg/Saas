@@ -104,6 +104,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         locationAssetAdapter = new LocationAssetAdapter(mAstLocaionNum, this, maxAssetNum);
         mLocationRecycle.setLayoutManager(new LinearLayoutManager(this));
         mLocationRecycle.setAdapter(locationAssetAdapter);
+        //mPresenter.getAssetsNmbDiffLocation();
+        //mPresenter.getAssetsNmbDiffStatus();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mPresenter.getAssetsNmbDiffLocation();
         mPresenter.getAssetsNmbDiffStatus();
     }

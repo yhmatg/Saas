@@ -495,6 +495,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             showCreateSuccessDialog(R.string.save_newinv_fail);
         }else {
             showCreateSuccessDialog(R.string.save_newinv_succ);
+            finish();
         }
     }
 

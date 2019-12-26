@@ -200,6 +200,7 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         dismissUpdateDialog();
         if (baseResponse.isSuccess()) {
             mUnFinishedTaskorders.remove(mPosition);
+            mAdapter.notifyDataSetChanged();
             showConfirmDialog(true,true);
         }else {
             showConfirmDialog(true,false);

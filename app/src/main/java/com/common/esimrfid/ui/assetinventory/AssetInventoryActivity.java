@@ -90,7 +90,7 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
             mPresenter.fetchAllIvnOrders(userId,true);
             isFirstOnResume = false;
         }else{
-            mPresenter.fetchAllIvnOrders(userId,false);
+            mPresenter.fetchAllIvnOrders(userId,true);
         }
 
     }

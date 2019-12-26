@@ -63,9 +63,11 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
         }
         mView.dismissDialog();
         if (mErrorMsg != null && !TextUtils.isEmpty(mErrorMsg)) {
-            mView.showErrorMsg(mErrorMsg);
+            //mView.showErrorMsg(mErrorMsg);
+            ToastUtils.showShort(mErrorMsg);
         } else if (e instanceof ServerException) {
-            mView.showErrorMsg(e.toString());
+            //mView.showErrorMsg(e.toString());
+            ToastUtils.showShort(e.toString());
         } else if (e instanceof HttpException) {
             ToastUtils.showShort(R.string.http_error);
         } else if (e instanceof TokenException) {
@@ -80,7 +82,8 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
         } else if (e instanceof WrongAccountOrPassException) {
             ToastUtils.showShort(R.string.wrong_account_or_pass);
         }else {
-            mView.showErrorMsg(EsimAndroidApp.getInstance().getString(R.string.unKnown_error));
+            //mView.showErrorMsg(EsimAndroidApp.getInstance().getString(R.string.unKnown_error));
+            ToastUtils.showShort(R.string.unKnown_error);
             LogHelper.d(e.toString());
         }
         if (isShowError) {

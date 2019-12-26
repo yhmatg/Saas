@@ -98,8 +98,8 @@ public interface GeeksApis {
     Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus();
 
     //查询所有管理员
-    //@GET("/user-server/sysusers/querymanager/unpage")
-    @GET("/user-server/emps/all/unpage")
+    @GET("/user-server/sysusers/querymanager/unpage")
+    //@GET("/user-server/emps/all/unpage")
     Observable<BaseResponse<List<MangerUser>>> getAllManagerUsers();
 
     //查询所有公司
