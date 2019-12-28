@@ -100,7 +100,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                             int orderStatus = 10;
                             invOrderByInvId.setInv_status(orderStatus);
                             //更新盘点单完成上传和没有提交数目
-                            //1223 start
+                            //1223 start 扫描到就算已经盘点
                            /* Integer finishCount = invOrderByInvId.getInv_finish_count() + invDetails.size();
                             invOrderByInvId.setInv_finish_count(finishCount);*/
                             //1223 end

@@ -66,6 +66,9 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     private MaterialDialog updateDialog;
     private MaterialDialog finishDialog;
     private boolean isFinish = false;
+    //modify 1228 start
+    private String finishInvId;
+    //modify 1228 end
 
     @Override
     public InvOrderPressnter initPresenter() {
@@ -134,9 +137,9 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         }
         mAdapter.notifyDataSetChanged();
         mRefreshLayout.finishRefresh();
-        if(mUnFinishedTaskorders.size() == 0){
+        if (mUnFinishedTaskorders.size() == 0) {
             mEmptyPage.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             mEmptyPage.setVisibility(View.GONE);
         }
 
@@ -165,10 +168,13 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         }
         //盘点数据上传服务器并且完成盘点单
         if (isFinish && CommonUtils.isNetworkConnected()) {
+            //modify 1228 start
+            finishInvId = mInventoryDetail.getId();
+            //modify 1228 end
             int totalFinishCount = notSubmitEpcList.size() + finishCount;
             if (totalFinishCount < totalCount) {
-                showFinishInvDialog(mInventoryDetail.getId(), notSubmitEpcList, notSubmitInvDetails, userId);
-            }else {
+                showFinishInvDialog(notSubmitEpcList, notSubmitInvDetails, userId);
+            } else {
                 showUpdateDialog();
                 mPresenter.finishInvOrderWithAsset(mInventoryDetail.getId(), notSubmitEpcList, notSubmitInvDetails, userId);
             }
@@ -188,9 +194,9 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
             resultInventoryOrder.setInv_finish_count(oldFinishCount + notSubmitEpcList.size() );*/
             //1223 end
             mAdapter.notifyItemChanged(mPosition);
-            showConfirmDialog(false,true);
-        }else {
-            showConfirmDialog(false,false);
+            showConfirmDialog(false, true);
+        } else {
+            showConfirmDialog(false, false);
         }
 
     }
@@ -201,9 +207,9 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         if (baseResponse.isSuccess()) {
             mUnFinishedTaskorders.remove(mPosition);
             mAdapter.notifyDataSetChanged();
-            showConfirmDialog(true,true);
-        }else {
-            showConfirmDialog(true,false);
+            showConfirmDialog(true, true);
+        } else {
+            showConfirmDialog(true, false);
         }
     }
 
@@ -237,9 +243,9 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     }
 
     public void showUpdateDialog() {
-        if(updateDialog != null){
+        if (updateDialog != null) {
             updateDialog.show();
-        }else {
+        } else {
             View contentView = LayoutInflater.from(this).inflate(R.layout.update_loading_dialog, null);
             updateDialog = new MaterialDialog.Builder(this)
                     .customView(contentView, false)
@@ -261,10 +267,10 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     }
 
 
-    public void showFinishInvDialog(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid) {
-        if(finishDialog != null){
+    public void showFinishInvDialog(List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid) {
+        if (finishDialog != null) {
             finishDialog.show();
-        }else {
+        } else {
             View contentView = LayoutInflater.from(this).inflate(R.layout.finish_inv_dialog, null);
             View cancleTv = contentView.findViewById(R.id.tv_cancel);
             View sureTv = contentView.findViewById(R.id.tv_sure);
@@ -272,7 +278,9 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
                 @Override
                 public void onClick(View v) {
                     showUpdateDialog();
-                    mPresenter.finishInvOrderWithAsset(orderId, invDetails, inventoryDetails, uid);
+                    //modify 1228 start
+                    mPresenter.finishInvOrderWithAsset(finishInvId, invDetails, inventoryDetails, uid);
+                    //modify 1228 end
                     finishDialog.dismiss();
                 }
             });
@@ -300,17 +308,17 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         }
     }
 
-    public void showConfirmDialog(boolean isFinish,boolean isSuccss){
+    public void showConfirmDialog(boolean isFinish, boolean isSuccss) {
         BaseDialog baseDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.finish_confirm_dialog);
         TextView context = baseDialog.findViewById(R.id.alert_context);
         Button btSure = baseDialog.findViewById(R.id.bt_confirm);
-        if(isFinish){
-            if(isSuccss){
+        if (isFinish) {
+            if (isSuccss) {
                 context.setText(R.string.finish_inv_confirm);
-            }else {
+            } else {
                 context.setText(R.string.finish_inv_fail);
             }
-        }else {
+        } else {
             if (isSuccss) {
                 context.setText(R.string.sync_data_confirm);
             } else {

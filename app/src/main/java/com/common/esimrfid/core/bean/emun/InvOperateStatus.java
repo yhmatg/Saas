@@ -1,5 +1,5 @@
 package com.common.esimrfid.core.bean.emun;
-
+//盘点单状态
 public enum InvOperateStatus {
 
     NOT_MODIFIED("未修改", 0),

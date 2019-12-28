@@ -1,5 +1,5 @@
 package com.common.esimrfid.core.bean.emun;
-
+//资产盘点状态
 public enum InventoryStatus {
 
     INIT("未盘点", 0),
