@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +49,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.password_invisible)
     ImageView ivEye;
     @BindView(R.id.tv_change_address)
-    TextView access_address;
+    LinearLayout access_address;
     private String TAG = "LoginActivity";
     private boolean isOpenEye = false;
 
@@ -153,6 +154,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //设置对话框的大小
         view.setMinimumHeight((int) (ScreenSizeUtils.getInstance(getApplication()).getScreenHeight() * 0.23f));
         Window dialogWindow = dialog.getWindow();
+        assert dialogWindow != null;
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         lp.width = (int) (ScreenSizeUtils.getInstance(getApplication()).getScreenWidth() * 0.75f);
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -171,10 +173,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 if (!newHostUrl.startsWith("http://")) {
                     ToastUtils.showShort(R.string.url_error);
                     return;
-                }
-                if (!newHostUrl.equals(hostUrl)) {
+                }else if(!newHostUrl.equals(hostUrl)){
                     mPresenter.saveHostUrl(newHostUrl);
                 }
+
+//                if (!newHostUrl.equals(hostUrl)) { }
                 dialog.dismiss();
             }
         });

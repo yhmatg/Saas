@@ -7,38 +7,18 @@
 
     <include layout="@layout/title_layout" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_20"
-        android:layout_marginStart="@dimen/dp_9"
-        android:layout_marginTop="@dimen/dp_110"
-        android:layout_marginEnd="@dimen/dp_9"
-        android:background="@drawable/progress_backgroud"
-        android:gravity="center">
-
-        <com.heiko.stripeprogressbar.StripeProgressBar
-            android:id="@+id/pg_search"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_6"
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_marginEnd="@dimen/dp_10"
-            app:progress_background="@color/white"
-            app:progress_image="@drawable/progress_bar"
-            app:progress_radius="10dp" />
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/dp_24"
-        android:background="@drawable/loading" />
+    <com.common.esimrfid.ui.assetsearch.EnergyView
+        android:id="@+id/energy"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="450dp"
+        android:layout_marginTop="@dimen/dp_50"
+        android:layout_gravity="center"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/dp_91"
+        android:layout_marginTop="@dimen/dp_30"
         android:text="@string/location_tips"
         android:textColor="#ff1a1a1a"
         android:textSize="18sp" />

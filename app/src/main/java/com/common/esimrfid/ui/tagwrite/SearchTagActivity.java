@@ -3,6 +3,7 @@ package com.common.esimrfid.ui.tagwrite;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -65,7 +66,6 @@ public class SearchTagActivity extends BaseActivity {
         getTagEpc = intent.getStringExtra(TAG_EPC);
         rotateAnim1();
         rotateAnim2();
-        setStatusBarTransparent();
         initRfidAndEvent();
     }
 
@@ -82,13 +82,6 @@ public class SearchTagActivity extends BaseActivity {
     @Override
     protected void initToolbar() {
 
-    }
-
-    //设置顶部状态栏透明
-    public void setStatusBarTransparent() {
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
     private void initRfidAndEvent() {
@@ -126,6 +119,7 @@ public class SearchTagActivity extends BaseActivity {
         dialog.setCanceledOnTouchOutside(true);
         view.setMinimumHeight((int) (ScreenSizeUtils.getInstance(getApplication()).getScreenHeight() * 0.23f));
         Window dialogWindow = dialog.getWindow();
+        assert dialogWindow != null;
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         lp.width = (int) (ScreenSizeUtils.getInstance(getApplication()).getScreenWidth() * 0.75f);
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -150,6 +144,7 @@ public class SearchTagActivity extends BaseActivity {
         dialog.setCanceledOnTouchOutside(true);
         view.setMinimumHeight((int) (ScreenSizeUtils.getInstance(getApplication()).getScreenHeight() * 0.23f));
         Window dialogWindow = dialog.getWindow();
+        assert dialogWindow != null;
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         lp.width = (int) (ScreenSizeUtils.getInstance(getApplication()).getScreenWidth() * 0.75f);
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -183,6 +178,7 @@ public class SearchTagActivity extends BaseActivity {
                 if (!scanEpcs.contains(scanTagEpc)) {
                     scanEpcs.add(scanTagEpc);
                 }
+                Log.e("hanldeEpc",scanTagEpc);
                 handleEpc();
                 break;
             case UhfMsgType.UHF_START:
@@ -226,7 +222,8 @@ public class SearchTagActivity extends BaseActivity {
             scan_outer.setVisibility(View.VISIBLE);
             identify.setText(R.string.identify_tags);
             isClick = false;
-        } else if (scanEpcs.size() == 0) {
+        } else {
+            scanEpcs.size();
             discern_success.setVisibility(View.GONE);
             scan_inner.setVisibility(View.VISIBLE);
             scan_outer.setVisibility(View.VISIBLE);

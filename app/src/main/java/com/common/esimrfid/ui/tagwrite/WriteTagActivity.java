@@ -77,7 +77,7 @@ public class WriteTagActivity extends BaseActivity<WriteTagPresenter> implements
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.titleLeft:
-                startActivity(new Intent(this, HomeActivity.class));
+                finish();
                 break;
             case R.id.edit_search:
                 searchAssets();

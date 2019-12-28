@@ -25,7 +25,7 @@ public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapte
     private static final String ASSETS_EPC="assets_epc";
     private Context context;
     private List<AssetsInfo> mData;
-    private OnItemClickListener mOnItemClickListener;
+    private String model = android.os.Build.MODEL;
 
     public AssetsSearchAdapter(Context context, List<AssetsInfo> Data) {
         this.context = context;
@@ -61,21 +61,25 @@ public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapte
         viewHolder.model.setText(astModel);
         String astLocation = assetsInfo.getLoc_info() == null ? "" : assetsInfo.getLoc_info().getLoc_name();
         viewHolder.location.setText(astLocation);
-        viewHolder.search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String epc=assetsInfo.getAst_epc_code();
-                if(!TextUtils.isEmpty(epc)){
-                    Intent intent1=new Intent();
-                    intent1.putExtra(ASSETS_EPC,epc);
-                    intent1.setClass(context, LocationSearchActivity.class);
-                    context.startActivity(intent1);
-                } else {
-                    ToastUtils.showShort("资产Epc为空！");
+        if("ESUR-H600".equals(model) || "SD60".equals(model)){
+            viewHolder.search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String epc=assetsInfo.getAst_epc_code();
+                    if(!TextUtils.isEmpty(epc)){
+                        Intent intent1=new Intent();
+                        intent1.putExtra(ASSETS_EPC,epc);
+                        intent1.setClass(context, LocationSearchActivity.class);
+                        context.startActivity(intent1);
+                    } else {
+                        ToastUtils.showShort("资产Epc为空！");
+                    }
                 }
+            });
+        }else {
+            viewHolder.search.setVisibility(View.GONE);
+        }
 
-            }
-        });
     }
 
     @Override
@@ -110,6 +114,5 @@ public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapte
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.mOnItemClickListener = onItemClickListener;
     }
 }

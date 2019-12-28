@@ -67,7 +67,6 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     private Set<String> scanEpcs = new HashSet<>();
     IEsimUhfService esimUhfService = null;
     private CircleAnimation animation;
-    private boolean isStart;
 
     @Override
     public AssetsSearchPresenter initPresenter() {
@@ -92,8 +91,9 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         super.onResume();
         EventBus.getDefault().register(this);
     }
+
     private void rotateAnim() {
-        animation = new CircleAnimation(40);
+        animation = new CircleAnimation(60);
         animation.setDuration(1000);
         animation.setRepeatCount(Animation.INFINITE);//设置动画重复次数 无限循环
         animation.setInterpolator(new LinearInterpolator());
@@ -119,7 +119,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.titleLeft:
-                startActivity(new Intent(this, HomeActivity.class));
+                finish();
                 break;
             case R.id.search_ast:
                 if (esimUhfService != null) {
@@ -194,13 +194,11 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
             case UhfMsgType.UHF_DISCONNECT:
                 break;
             case UhfMsgType.UHF_START:
-                isStart=true;
                 image_scan.startAnimation(animation);
                 search.setImageResource(R.drawable.stop_search);
                 scanEpcs.clear();
                 break;
             case UhfMsgType.UHF_STOP:
-                isStart=false;
                 image_scan.clearAnimation();
                 search.setImageResource(R.drawable.search_nearby_assets);
                 if (scanEpcs.size() != 0) {
@@ -220,7 +218,6 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     protected void onDestroy() {
         super.onDestroy();
     }
-
 
 
     @Override

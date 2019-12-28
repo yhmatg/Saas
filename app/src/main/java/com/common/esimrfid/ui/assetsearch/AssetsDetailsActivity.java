@@ -17,6 +17,8 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
 import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
 import com.common.esimrfid.utils.DateUtils;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +90,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     @BindView(R.id.title_content)
     TextView title;
     private List<AssetsDetailsInfo> mData = new ArrayList<>();
-    private String assetsId;
 
     @Override
     public AssetsDetailsPresenter initPresenter() {
@@ -99,7 +100,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     protected void initEventAndData() {
         title.setText(R.string.assets_details);
         Intent intent = getIntent();
-        assetsId = intent.getStringExtra(ASSETS_ID);
+        String assetsId = intent.getStringExtra(ASSETS_ID);
         mPresenter.getAssetsDetailsById(assetsId);
         empty_page.setVisibility(View.VISIBLE);
         content.setVisibility(View.GONE);
@@ -117,10 +118,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
     @OnClick({R.id.title_back})
     void perforeClick(View view) {
-        switch (view.getId()) {
-            case R.id.title_back:
-                finish();
-                break;
+        if (view.getId() == R.id.title_back) {
+            finish();
         }
     }
 
@@ -169,18 +168,26 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             String from = TextUtils.isEmpty(assetsDetailsInfo.getAst_source()) ? "" : assetsDetailsInfo.getAst_source();
             source.setText(from);
 
+            //资产购买日期
             long buy_date = assetsDetailsInfo.getAst_buy_date();
-            ast_buy_date.setText(DateUtils.long2String(buy_date, DateUtils.FORMAT_TYPE_1));
+            if(buy_date==0){
+                ast_buy_date.setText("");
+            }else {
+                ast_buy_date.setText(DateUtils.long2String(buy_date, DateUtils.FORMAT_TYPE_1));
+            }
 
-            int count = assetsDetailsInfo.getAst_price();
+
+            double count = assetsDetailsInfo.getAst_price();
+            NumberFormat nf = new DecimalFormat("¥#,###.##");//设置金额显示格式
+            String str = nf.format(count);
             if (count == 0) {
                 ast_count.setVisibility(View.GONE);
             } else {
-                ast_count.setText(String.valueOf(count));
+                ast_count.setText(str+"元");
             }
 
             String month = TextUtils.isEmpty(assetsDetailsInfo.getAst_expiration_months()) ? "" : assetsDetailsInfo.getAst_expiration_months();
-            use_months.setText(month);
+            use_months.setText(month+"个月");
 
             String company = assetsDetailsInfo.getOrg_usedcorp() == null ? "" : assetsDetailsInfo.getOrg_usedcorp().getOrg_name();
             company = TextUtils.isEmpty(company) ? "" : company;
@@ -195,7 +202,12 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             user.setText(Name);
 
             long req_date = assetsDetailsInfo.getAst_req_date();
-            requisition_date.setText(DateUtils.long2String(req_date, DateUtils.FORMAT_TYPE_1));
+            if(req_date==0){
+                requisition_date.setText("");
+            }else {
+                requisition_date.setText(DateUtils.long2String(req_date, DateUtils.FORMAT_TYPE_1));
+            }
+
 
             String text = TextUtils.isEmpty(assetsDetailsInfo.getAst_remark()) ? "" : assetsDetailsInfo.getAst_remark();
             remark.setText(text);
@@ -212,8 +224,14 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             figure = TextUtils.isEmpty(figure) ? "" : figure;
             contact_information.setText(figure);
 
-            Long end_date = assetsDetailsInfo.getWarranty_info().getWar_enddate();
-            maintenance_expire.setText(DateUtils.long2String(end_date, DateUtils.FORMAT_TYPE_1));
+            //维保日期
+            long end_date = assetsDetailsInfo.getWarranty_info().getWar_enddate();
+            if(end_date==0){
+                maintenance_expire.setText("");
+            }else {
+                maintenance_expire.setText(DateUtils.long2String(end_date, DateUtils.FORMAT_TYPE_1));
+            }
+
 
             String message = assetsDetailsInfo.getWarranty_info() == null ? "" : assetsDetailsInfo.getWarranty_info().getWar_message();
             message = TextUtils.isEmpty(message) ? "" : message;

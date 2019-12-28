@@ -64,7 +64,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                             setLoginPassword(passWord);
                             setToken(userLoginResponse.getToken());
                             mDataManager.setLoginStatus(true);
-//                            ToastUtils.showShort("登录成功！");
                             mView.startMainActivity();
                         }
 

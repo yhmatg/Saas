@@ -109,7 +109,7 @@
     <string name="assets_type">资产类型</string>
     <string name="brand">品牌</string>
     <string name="assets_status">资产状态</string>
-    <string name="rule_model">规则型号</string>
+    <string name="rule_model">规格型号</string>
     <string name="measuring_unit">计量单位</string>
     <string name="SN">SN号</string>
     <string name="ast_material">资产材质</string>
