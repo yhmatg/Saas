@@ -169,8 +169,14 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             String from = TextUtils.isEmpty(assetsDetailsInfo.getAst_source()) ? "" : assetsDetailsInfo.getAst_source();
             source.setText(from);
 
+            //资产购买日期
             long buy_date = assetsDetailsInfo.getAst_buy_date();
-            ast_buy_date.setText(DateUtils.long2String(buy_date, DateUtils.FORMAT_TYPE_1));
+            if(buy_date==0){
+                ast_buy_date.setText("");
+            }else {
+                ast_buy_date.setText(DateUtils.long2String(buy_date, DateUtils.FORMAT_TYPE_1));
+            }
+
 
             int count = assetsDetailsInfo.getAst_price();
             if (count == 0) {
@@ -195,7 +201,12 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             user.setText(Name);
 
             long req_date = assetsDetailsInfo.getAst_req_date();
-            requisition_date.setText(DateUtils.long2String(req_date, DateUtils.FORMAT_TYPE_1));
+            if(req_date==0){
+                requisition_date.setText("");
+            }else {
+                requisition_date.setText(DateUtils.long2String(req_date, DateUtils.FORMAT_TYPE_1));
+            }
+
 
             String text = TextUtils.isEmpty(assetsDetailsInfo.getAst_remark()) ? "" : assetsDetailsInfo.getAst_remark();
             remark.setText(text);
@@ -212,8 +223,14 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             figure = TextUtils.isEmpty(figure) ? "" : figure;
             contact_information.setText(figure);
 
-            Long end_date = assetsDetailsInfo.getWarranty_info().getWar_enddate();
-            maintenance_expire.setText(DateUtils.long2String(end_date, DateUtils.FORMAT_TYPE_1));
+            //维保日期
+            long end_date = assetsDetailsInfo.getWarranty_info().getWar_enddate();
+            if(end_date==0){
+                maintenance_expire.setText("");
+            }else {
+                maintenance_expire.setText(DateUtils.long2String(end_date, DateUtils.FORMAT_TYPE_1));
+            }
+
 
             String message = assetsDetailsInfo.getWarranty_info() == null ? "" : assetsDetailsInfo.getWarranty_info().getWar_message();
             message = TextUtils.isEmpty(message) ? "" : message;

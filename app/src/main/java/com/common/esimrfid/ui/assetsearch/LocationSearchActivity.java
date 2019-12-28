@@ -1,6 +1,8 @@
 package com.common.esimrfid.ui.assetsearch;
 
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,7 +21,6 @@ import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.utils.Utils;
-import com.heiko.stripeprogressbar.StripeProgressBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -31,8 +32,8 @@ import butterknife.OnClick;
 public class LocationSearchActivity extends BaseActivity {
     private static final String TAG = "LocationSearchActivity";
     private static final String ASSETS_EPC = "assets_epc";
-    @BindView(R.id.pg_search)
-    StripeProgressBar progressBar;
+    @BindView(R.id.energy)
+    EnergyView progressBar;
     @BindView(R.id.title_back)
     ImageView titltLeft;
     @BindView(R.id.title_content)
@@ -40,6 +41,9 @@ public class LocationSearchActivity extends BaseActivity {
     private String AssetsEpc;
     IEsimUhfService esimUhfService = null;
     private short maxValue = -30, minValue = -80; //RSSI的最大值和最小值
+    private SoundPool soundPool;
+    private int soundId;
+    private long currentMinute, oldMinute;
     private String content;
 
     @Override
@@ -51,10 +55,26 @@ public class LocationSearchActivity extends BaseActivity {
     protected void initEventAndData() {
         initRfidAndEvent();
         title.setText(R.string.location_search);
-        progressBar.setMax(50);
+        progressBar.setMaxProgress(50);
+        progressBar.clearProgress();
+        progressBar.setEmptyVisibility(View.GONE);
         Intent intent = getIntent();
         AssetsEpc = intent.getStringExtra(ASSETS_EPC);
+        setSound();
         filterSet();
+    }
+
+    private void setSound() {
+        AudioAttributes abs = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(10)   //设置允许同时播放的流的最大值
+                .setAudioAttributes(abs)   //完全可以设置为null
+                .build();
+
+        soundId = soundPool.load(this, R.raw.beep, 1);
     }
 
 
@@ -88,7 +108,7 @@ public class LocationSearchActivity extends BaseActivity {
                 handleEpc(epc);
                 break;
             case UhfMsgType.INV_TAG_NULL:
-                //progressBar.setProgress(0);
+//                progressBar.setProgress(0);
                 break;
             case UhfMsgType.UHF_START:
                 break;
@@ -125,6 +145,7 @@ public class LocationSearchActivity extends BaseActivity {
         }
         rssi -= minValue;
         progressBar.setProgress(rssi);
+        playSound(rssi);
     }
 
     private void filterSet() {
@@ -136,6 +157,29 @@ public class LocationSearchActivity extends BaseActivity {
         int len = 96;
         int val = 1;
         esimUhfService.setFilterData(val, ads, len, AssetsEpc, false);
+    }
+
+    //音源播放
+    private void playSound(int val) {
+        if (val > 20) {
+            //playSound();
+            soundPool.play(soundId, 1, 1, 0, 1, 1);
+            oldMinute = System.currentTimeMillis();
+        } else if (val > 10) {
+            currentMinute = System.currentTimeMillis();
+            if (currentMinute - oldMinute > 1000) {
+                //playSound();
+                soundPool.play(soundId, 0.7f, 0.7f, 0, 1, 1);
+                oldMinute = currentMinute;
+            }
+        } else if (val > 0) {
+            currentMinute = System.currentTimeMillis();
+            if (currentMinute - oldMinute > 1500) {
+                //playSound();
+                soundPool.play(soundId, 0.4f, 0.4f, 0, 1, 1);
+                oldMinute = currentMinute;
+            }
+        }
     }
 
     @Override
@@ -155,7 +199,7 @@ public class LocationSearchActivity extends BaseActivity {
         super.onDestroy();
         filterClear();
         EventBus.getDefault().unregister(this);
-        if(esimUhfService != null && esimUhfService.isStart()){
+        if (esimUhfService != null && esimUhfService.isStart()) {
             esimUhfService.stopScanning();
         }
     }

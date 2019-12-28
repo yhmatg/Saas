@@ -100,21 +100,25 @@
                         android:layout_height="2dp"
                         android:background="@color/line" />
                 </LinearLayout>
-
-
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
-    <TextView
+    <LinearLayout
         android:id="@+id/tv_change_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_50"
         android:layout_marginTop="@dimen/dp_52"
-        android:text="@string/access_address"
-        android:textColor="#ffa9b0c9"
-        android:textSize="14sp" />
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/access_address"
+            android:textColor="#ffa9b0c9"
+            android:textSize="14sp" />
+    </LinearLayout>
 
 </LinearLayout>

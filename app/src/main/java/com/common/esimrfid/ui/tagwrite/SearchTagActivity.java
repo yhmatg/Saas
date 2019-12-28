@@ -3,6 +3,7 @@ package com.common.esimrfid.ui.tagwrite;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -183,6 +184,7 @@ public class SearchTagActivity extends BaseActivity {
                 if (!scanEpcs.contains(scanTagEpc)) {
                     scanEpcs.add(scanTagEpc);
                 }
+                Log.e("hanldeEpc",scanTagEpc);
                 handleEpc();
                 break;
             case UhfMsgType.UHF_START:

@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/search_title"/>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center">
 
         <include layout="@layout/empty_page"/>
 
@@ -17,27 +16,13 @@
             android:id="@+id/search_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-<!--        <android.support.design.widget.FloatingActionButton-->
-<!--            android:id="@+id/btn_search_ast"-->
-<!--            android:layout_width="@dimen/dp_32"-->
-<!--            android:layout_height="@dimen/dp_32"-->
-<!--            android:layout_alignParentEnd="true"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_marginEnd="@dimen/dp_10"-->
-<!--            android:layout_marginBottom="@dimen/dp_180"-->
-<!--            android:src="@drawable/search_nearby_assets"-->
-<!--            android:layout_centerInParent="true"-->
-<!--            app:backgroundTint="@color/home_number"-->
-<!--            app:fabSize="mini"-->
-<!--            tools:srcCompat="@tools:sample/avatars" />-->
         <ImageView
             android:id="@+id/search_ast"
-            android:layout_width="@dimen/dp_32"
-            android:layout_height="@dimen/dp_32"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/dp_260"
+            android:layout_marginBottom="@dimen/dp_300"
             android:layout_marginEnd="@dimen/dp_10"
             android:src="@drawable/search_nearby_assets"
             />
@@ -48,8 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/dp_10"
-            android:layout_marginBottom="@dimen/dp_248"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:layout_marginBottom="@dimen/dp_288"
             android:layout_above="@+id/search_ast"
             android:src="@drawable/icon_search"
             />
