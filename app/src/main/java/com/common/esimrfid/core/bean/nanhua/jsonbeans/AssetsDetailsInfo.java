@@ -56,7 +56,7 @@ public class AssetsDetailsInfo {
     private String ast_measuring_unit;
     private String ast_model;
     private String ast_name;
-    private int ast_price;
+    private double ast_price;
     private String ast_remark;
     private long ast_req_date;
     private String ast_sn;
@@ -166,11 +166,11 @@ public class AssetsDetailsInfo {
         this.ast_name = ast_name;
     }
 
-    public int getAst_price() {
+    public double getAst_price() {
         return ast_price;
     }
 
-    public void setAst_price(int ast_price) {
+    public void setAst_price(double ast_price) {
         this.ast_price = ast_price;
     }
 

@@ -29,8 +29,8 @@
 
         <ImageView
             android:id="@+id/image_scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_23"
+            android:layout_height="@dimen/dp_26"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="@dimen/dp_15"

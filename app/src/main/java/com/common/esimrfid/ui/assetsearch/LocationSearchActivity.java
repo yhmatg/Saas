@@ -44,7 +44,6 @@ public class LocationSearchActivity extends BaseActivity {
     private SoundPool soundPool;
     private int soundId;
     private long currentMinute, oldMinute;
-    private String content;
 
     @Override
     public AbstractPresenter initPresenter() {
@@ -128,7 +127,7 @@ public class LocationSearchActivity extends BaseActivity {
         tmp[0] = text.substring(epclen, text.length() - 6);
         tmp[1] = text.substring(0, epclen);
         tmp[2] = text.substring(text.length() - 6, text.length() - 2);
-        content = tmp[1];
+        String content = tmp[1];
         if (4 != tmp[2].length()) {
             tmp[2] = "0000";
         } else {

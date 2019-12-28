@@ -25,7 +25,6 @@ public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapte
     private static final String ASSETS_EPC="assets_epc";
     private Context context;
     private List<AssetsInfo> mData;
-    private OnItemClickListener mOnItemClickListener;
     private String model = android.os.Build.MODEL;
 
     public AssetsSearchAdapter(Context context, List<AssetsInfo> Data) {
@@ -115,6 +114,5 @@ public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapte
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.mOnItemClickListener = onItemClickListener;
     }
 }

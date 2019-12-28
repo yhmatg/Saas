@@ -17,6 +17,8 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
 import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
 import com.common.esimrfid.utils.DateUtils;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +90,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     @BindView(R.id.title_content)
     TextView title;
     private List<AssetsDetailsInfo> mData = new ArrayList<>();
-    private String assetsId;
 
     @Override
     public AssetsDetailsPresenter initPresenter() {
@@ -99,7 +100,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     protected void initEventAndData() {
         title.setText(R.string.assets_details);
         Intent intent = getIntent();
-        assetsId = intent.getStringExtra(ASSETS_ID);
+        String assetsId = intent.getStringExtra(ASSETS_ID);
         mPresenter.getAssetsDetailsById(assetsId);
         empty_page.setVisibility(View.VISIBLE);
         content.setVisibility(View.GONE);
@@ -117,10 +118,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
     @OnClick({R.id.title_back})
     void perforeClick(View view) {
-        switch (view.getId()) {
-            case R.id.title_back:
-                finish();
-                break;
+        if (view.getId() == R.id.title_back) {
+            finish();
         }
     }
 
@@ -178,15 +177,17 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             }
 
 
-            int count = assetsDetailsInfo.getAst_price();
+            double count = assetsDetailsInfo.getAst_price();
+            NumberFormat nf = new DecimalFormat("¥#,###.##");//设置金额显示格式
+            String str = nf.format(count);
             if (count == 0) {
                 ast_count.setVisibility(View.GONE);
             } else {
-                ast_count.setText(String.valueOf(count));
+                ast_count.setText(str+"元");
             }
 
             String month = TextUtils.isEmpty(assetsDetailsInfo.getAst_expiration_months()) ? "" : assetsDetailsInfo.getAst_expiration_months();
-            use_months.setText(month);
+            use_months.setText(month+"个月");
 
             String company = assetsDetailsInfo.getOrg_usedcorp() == null ? "" : assetsDetailsInfo.getOrg_usedcorp().getOrg_name();
             company = TextUtils.isEmpty(company) ? "" : company;
