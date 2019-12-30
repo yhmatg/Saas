@@ -466,8 +466,16 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
 
     @Override
     public void handleAllDeparts(List<DepartmentBean> departmentBeans) {
+        //modify 20191230 bug 280 start
+        List<DepartmentBean> tempList= new ArrayList<>();
+        for (DepartmentBean departmentBean : departmentBeans) {
+            if(departmentBean.getOrg_type() == 0){
+                tempList.add(departmentBean);
+            }
+        }
+        //modify 20191230 bug 280 end
         mDepartmentBeans.clear();
-        mDepartmentBeans.addAll(departmentBeans);
+        mDepartmentBeans.addAll(tempList);
         pvCustomOptions.setPicker(mDepartmentBeans);
         pvCustomOptions.show();
     }

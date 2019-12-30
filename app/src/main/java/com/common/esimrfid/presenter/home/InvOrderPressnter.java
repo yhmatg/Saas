@@ -247,7 +247,12 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                            /* Integer finishCount = invOrderByInvId.getInv_finish_count() + invDetails.size();
                             invOrderByInvId.setInv_finish_count(finishCount);*/
                             //1223 end
-                            Integer notSubmitCount = invOrderByInvId.getInv_notsubmit_count() == null ? 0 : invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
+                            //modify bug 253 20191230 start
+                            int  notSubmitCount = invOrderByInvId.getInv_notsubmit_count() == null ? 0 : invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
+                            if(notSubmitCount < 0){
+                                notSubmitCount = 0;
+                            }
+                            //modify bug 253 20191230 end
                             invOrderByInvId.setInv_notsubmit_count(notSubmitCount);
                             resultInventoryOrderDao.updateItem(invOrderByInvId);
                             //跟新盘点子条目ResultInventoryDetail的盘点提交状态
@@ -289,7 +294,12 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                            /* Integer finishCount = invOrderByInvId.getInv_finish_count() + invDetails.size();
                             invOrderByInvId.setInv_finish_count(finishCount);*/
                             //1223 end
-                            Integer notSubmitCount = invOrderByInvId.getInv_notsubmit_count() == null ? 0 : invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
+                            //modify bug 253 20191230 start
+                            int notSubmitCount = invOrderByInvId.getInv_notsubmit_count() == null ? 0 : invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
+                            if(notSubmitCount < 0){
+                                notSubmitCount = 0;
+                            }
+                            //modify bug 253 20191230 end
                             invOrderByInvId.setInv_notsubmit_count(notSubmitCount);
                             resultInventoryOrderDao.updateItem(invOrderByInvId);
                             //跟新盘点子条目ResultInventoryDetail的盘点提交状态

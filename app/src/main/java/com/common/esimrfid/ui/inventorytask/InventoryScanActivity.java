@@ -178,8 +178,8 @@ public class InventoryScanActivity extends BaseActivity<InvDetailPresenter> impl
                 //盘点到新数据才更新到数据库
                 if (mResentUpdateInvDataList.size() > 0) {
                     mAdapter.notifyDataSetChanged();
+                    mPresenter.updateLocalInvDetailsState(mInvId, mResentUpdateInvDataList);
                 }
-                mPresenter.updateLocalInvDetailsState(mInvId, mResentUpdateInvDataList);
                 break;
         }
     }
