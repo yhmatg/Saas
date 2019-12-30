@@ -95,8 +95,6 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         }
         if("InvTaskAdapter".equals(mFrom)){
             mUnfinishOrNotsubmit.setText(R.string.asset_inventoried);
-        }
-        if(11 == invStatus){
             mStartInv.setVisibility(View.GONE);
         }
         mAdapter = new InvDetailAdapter(mInventoryDetails, this);

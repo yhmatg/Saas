@@ -275,7 +275,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         DownloadBuilder builder = AllenVersionChecker
                 .getInstance()
                 .downloadOnly(UIData.create()
-                        .setDownloadUrl("https://www.esimtekiot.com/load/file/asset.apk")
+                        .setDownloadUrl(updateInfo.getApp_download_url())
                         .setTitle("版本更新")
                         .setContent(UpdateContent)
                 );
