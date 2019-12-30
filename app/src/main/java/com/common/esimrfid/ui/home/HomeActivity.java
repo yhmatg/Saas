@@ -95,7 +95,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     protected void initEventAndData() {
-        //mPresenter.checkUpdateVersion();
         checkUserSatus();
         initRfid();
         if (!EventBus.getDefault().isRegistered(this)) {
@@ -104,8 +103,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         locationAssetAdapter = new LocationAssetAdapter(mAstLocaionNum, this, maxAssetNum);
         mLocationRecycle.setLayoutManager(new LinearLayoutManager(this));
         mLocationRecycle.setAdapter(locationAssetAdapter);
-        //mPresenter.getAssetsNmbDiffLocation();
-        //mPresenter.getAssetsNmbDiffStatus();
     }
 
     @Override
@@ -141,17 +138,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     //初始化连接rfid
     private void initRfid() {
-        String model = android.os.Build.MODEL;
-        IEsimUhfService iEsimUhfService;
-        if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
-            iEsimUhfService = new NewSpeedataUhfServiceImpl();
-        } else if ("common".equals(model) || "ESUR-H500".equals(model)) {
-            iEsimUhfService = new RodinbellUhfServiceImpl();
-        } else {
-            iEsimUhfService = new ZebraUhfServiceImpl();
-        }
-        iEsimUhfService.initRFID();
-        EsimAndroidApp.setIEsimUhfService(iEsimUhfService);
+        EsimAndroidApp.getInstance().initRfid();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
