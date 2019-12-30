@@ -103,6 +103,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
 
     private void initRfidAndEvent() {
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
+//        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -142,6 +143,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     String assetsId = editText.getText().toString();
+                    editText.setSelection(assetsId.length());
                     mPresenter.getSearchAssetsById(assetsId);
                     return true;
                 }
@@ -224,6 +226,13 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     protected void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
+        if(esimUhfService.isStart()){
+            esimUhfService.stopScanning();
+            image_scan.clearAnimation();
+            search.setImageResource(R.drawable.search_nearby_assets);
+        }
+
+
     }
 
     @Override

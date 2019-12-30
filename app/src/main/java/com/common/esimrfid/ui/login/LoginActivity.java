@@ -73,7 +73,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     private void initAccountState() {
         mAccountEdit.setText(mPresenter.getLoginAccount());
+        mAccountEdit.setSelection(mPresenter.getLoginAccount().length());
         mPasswordEdit.setText(mPresenter.getLoginPassword());
+        mPasswordEdit.setSelection(mPresenter.getLoginPassword().length());
     }
 
     @Override
@@ -146,9 +148,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         Button cancel = (Button) view.findViewById(R.id.btn_cancel);
         Button confirm = (Button) view.findViewById(R.id.btn_save);
         EditText editText = (EditText) view.findViewById(R.id.edit_url);
+        editText.setHint("http://");
         dialog.setContentView(view);
-//        mPresenter.saveHostUrl(editText.getText().toString());
         editText.setText(hostUrl);
+        editText.setSelection(hostUrl.length());
         //使得点击对话框外部不消失对话框
         dialog.setCanceledOnTouchOutside(true);
         //设置对话框的大小
@@ -176,8 +179,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 }else if(!newHostUrl.equals(hostUrl)){
                     mPresenter.saveHostUrl(newHostUrl);
                 }
-
-//                if (!newHostUrl.equals(hostUrl)) { }
                 dialog.dismiss();
             }
         });

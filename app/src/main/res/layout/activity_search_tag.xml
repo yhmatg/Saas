@@ -4,33 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_70"
-        android:background="@drawable/bg_search_backgroud"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/titleLeft"
-            android:layout_width="@dimen/dp_15"
-            android:layout_height="@dimen/dp_15"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="@dimen/dp_15"
-            android:layout_gravity="center"
-            android:src="@drawable/btn_back"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp_15"
-            android:text="@string/confirm_write"
-            android:textSize="@dimen/sp_18"
-            android:layout_marginEnd="@dimen/dp_30"
-            android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:gravity="center"/>
-    </LinearLayout>
-
+    <include layout="@layout/title_layout"></include>
     <RelativeLayout
         android:layout_width="@dimen/dp_160"
         android:layout_height="@dimen/dp_160"
@@ -69,7 +43,7 @@
             android:id="@+id/identify_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_25"
             android:textStyle="bold"
             android:textSize="@dimen/sp_18"
             android:text="@string/identify_tips"/>

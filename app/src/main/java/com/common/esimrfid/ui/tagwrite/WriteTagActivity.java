@@ -93,6 +93,7 @@ public class WriteTagActivity extends BaseActivity<WriteTagPresenter> implements
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     String assetsId = search.getText().toString();
+                    search.setSelection(assetsId.length());
                     mPresenter.getAssetsInfoById(assetsId);
                     return true;
                 }

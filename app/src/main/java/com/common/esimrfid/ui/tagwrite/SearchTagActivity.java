@@ -40,8 +40,10 @@ import butterknife.OnClick;
 
 
 public class SearchTagActivity extends BaseActivity {
-    @BindView(R.id.titleLeft)
-    ImageView titleLift;
+    @BindView(R.id.title_back)
+    ImageView titleLeft;
+    @BindView(R.id.title_content)
+    TextView title;
     @BindView(R.id.scan_outer)
     ImageView scan_outer;
     @BindView(R.id.sacn_inner)
@@ -62,6 +64,7 @@ public class SearchTagActivity extends BaseActivity {
 
     @Override
     protected void initEventAndData() {
+        title.setText("确认写入");
         Intent intent = getIntent();
         getTagEpc = intent.getStringExtra(TAG_EPC);
         rotateAnim1();
@@ -160,10 +163,10 @@ public class SearchTagActivity extends BaseActivity {
         dialog.show();
     }
 
-    @OnClick({R.id.btn_confirm_write, R.id.titleLeft})
+    @OnClick({R.id.title_back})
     void performClick(View view) {
         switch (view.getId()) {
-            case R.id.titleLeft:
+            case R.id.title_back:
                 finish();
                 break;
         }
