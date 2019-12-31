@@ -16,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +56,7 @@ import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.StringUtils;
+import com.example.gpio.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -88,6 +91,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private LocationAssetAdapter locationAssetAdapter;
     @BindString(R.string.def_update_content)
     String defUpdateContent;
+
     @Override
     public HomePresenter initPresenter() {
         return new HomePresenter(DataManager.getInstance());
@@ -269,7 +273,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     public void thirdUpdate(UpdateVersion updateInfo) {
         String UpdateContent = updateInfo.getApp_upgrade_message();
-        if (StringUtils.isEmpty(UpdateContent)){
+        if (StringUtils.isEmpty(UpdateContent)) {
             UpdateContent = defUpdateContent;
         }
         DownloadBuilder builder = AllenVersionChecker
@@ -279,7 +283,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                         .setTitle("版本更新")
                         .setContent(UpdateContent)
                 );
-        if(1 == updateInfo.getApp_must_upgrade() ){
+        if (1 == updateInfo.getApp_must_upgrade()) {
             builder.setCustomVersionDialogListener(createCustomDialogOne());
             builder.setForceUpdateListener(new ForceUpdateListener() {
                 @Override
@@ -287,7 +291,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                     finish();
                 }
             });
-        }else {
+        } else {
             builder.setCustomVersionDialogListener(createCustomDialogTwo());
         }
         builder.setShowNotification(false);
@@ -334,7 +338,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             public Dialog getCustomVersionDialog(Context context, UIData versionBundle) {
                 BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.must_update_dialog);
                 TextView textView = baseDialog.findViewById(R.id.update_content);
-                textView.setText(versionBundle.getContent());
+                String str = versionBundle.getContent();
+                String[] strArry = str.split("[；]");
+                String content = "";
+                for (int i = 0; i < strArry.length; i++) {
+                    content = content + strArry[i] + "\n";
+                }
+                textView.setText(content);
                 baseDialog.setCanceledOnTouchOutside(false);
                 baseDialog.setCancelable(false);
                 return baseDialog;
@@ -346,7 +356,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         return (context, versionBundle) -> {
             BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.update_version_dialog);
             TextView textView = baseDialog.findViewById(R.id.update_content);
-            textView.setText(versionBundle.getContent());
+            String str = versionBundle.getContent();
+            String[] strArry = str.split("[；]");
+            String content = "";
+            for (int i = 0; i < strArry.length; i++) {
+                content = content + strArry[i] + "\n";
+            }
+            textView.setText(content);
             baseDialog.setCanceledOnTouchOutside(false);
             baseDialog.setCancelable(false);
             return baseDialog;

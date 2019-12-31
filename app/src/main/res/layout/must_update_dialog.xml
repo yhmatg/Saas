@@ -50,7 +50,6 @@
         android:singleLine="false"
         android:text="1.修复了已知BUG；\n2.优化了一些体验；\n3.新增了功能"
         android:textSize="@dimen/sp_14" />
-
     <Button
         android:id="@+id/versionchecklib_version_dialog_commit"
         android:layout_width="match_parent"

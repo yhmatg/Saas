@@ -7,19 +7,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.common.esimrfid.R;
-import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +31,7 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View contentView = LayoutInflater.from(mContext).inflate(R.layout.asset_detail_tiem, viewGroup, false);
+        View contentView = LayoutInflater.from(mContext).inflate(R.layout.asset_detail_item, viewGroup, false);
         return new ViewHolder(contentView);
     }
 
@@ -62,10 +56,10 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
             viewHolder.tvInvStatus.setBackground(mContext.getDrawable(R.drawable.not_invted_bg));
         } else if (status == 1) {
             viewHolder.tvInvStatus.setText(R.string.ast_inved);
-            viewHolder.tvInvStatus.setBackground(mContext.getDrawable(R.drawable.asset_invstatus_bg));
+            viewHolder.tvInvStatus.setBackground(mContext.getDrawable(R.drawable.btn_background));
         } else if (status == 2) {
             viewHolder.tvInvStatus.setText(R.string.ast_inved);
-            viewHolder.tvInvStatus.setBackground(mContext.getDrawable(R.drawable.asset_invstatus_bg));
+            viewHolder.tvInvStatus.setBackground(mContext.getDrawable(R.drawable.btn_background));
         }
 
     }

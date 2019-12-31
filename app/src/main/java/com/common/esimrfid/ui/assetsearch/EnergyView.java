@@ -15,7 +15,7 @@ public class EnergyView extends RelativeLayout {
     private ImageView img;
 
 
-    private View empty;
+//    private View empty;
 
     public EnergyView(Context context) {
         this(context,null);
@@ -29,7 +29,7 @@ public class EnergyView extends RelativeLayout {
         LayoutInflater in = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         in.inflate(R.layout.energy_view, this, true);
         img = (ImageView) findViewById(R.id.img);
-        empty = findViewById(R.id.img_empty);
+//        empty = findViewById(R.id.img_empty);
 
     }
     private float currentProgress = 0;
@@ -55,9 +55,9 @@ public class EnergyView extends RelativeLayout {
         currentProgress = 0;
         img.setScrollY(0);
     }
-    public void setEmptyVisibility(int visibility) {
-        empty.setVisibility(visibility);
-    }
+//    public void setEmptyVisibility(int visibility) {
+//        empty.setVisibility(visibility);
+//    }
 
 
 }

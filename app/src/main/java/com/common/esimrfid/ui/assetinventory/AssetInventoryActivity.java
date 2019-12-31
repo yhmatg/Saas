@@ -114,8 +114,8 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 mAdapter.notifyDataSetChanged();
                 mFinishStart.setTextColor(getColor(R.color.gray_text));
                 mFinishedEnd.setTextColor(getColor(R.color.gray_text));
-                mUnFinishStart.setTextColor(getColor(R.color.theme));
-                mUnFinishedEnd.setTextColor(getColor(R.color.theme));
+                mUnFinishStart.setTextColor(getColor(R.color.search_background));
+                mUnFinishedEnd.setTextColor(getColor(R.color.search_background));
                 isShowUnfinish = true;
                 if(mShowTaskorders.size() == 0){
                     mEmptyPage.setVisibility(View.VISIBLE);
@@ -127,8 +127,8 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 mShowTaskorders.clear();
                 mShowTaskorders.addAll(mFinishedTaskorders);
                 mAdapter.notifyDataSetChanged();
-                mFinishStart.setTextColor(getColor(R.color.theme));
-                mFinishedEnd.setTextColor(getColor(R.color.theme));
+                mFinishStart.setTextColor(getColor(R.color.search_background));
+                mFinishedEnd.setTextColor(getColor(R.color.search_background));
                 mUnFinishStart.setTextColor(getColor(R.color.gray_text));
                 mUnFinishedEnd.setTextColor(getColor(R.color.gray_text));
                 isShowUnfinish = false;

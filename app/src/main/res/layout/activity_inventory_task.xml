@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="未完成("
-                android:textColor="@color/theme"
+                android:textColor="@color/search_background"
                 android:textSize="@dimen/sp_16" />
 
             <TextView
@@ -49,7 +49,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="个)"
-                android:textColor="@color/theme"
+                android:textColor="@color/search_background"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
 

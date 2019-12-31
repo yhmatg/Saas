@@ -5,7 +5,7 @@
     android:id="@+id/empty_page"
     android:background="@drawable/tips_background"
     android:orientation="vertical"
-    android:visibility="gone">
+    android:visibility="visible">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,21 +18,21 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/dp_270"
-            android:textSize="@dimen/dp_10" />
+            android:textColor="#ff1a1a1a"
+            android:textSize="@dimen/sp_12" />
 
         <TextView
             android:id="@+id/tv_tips"
-            android:layout_width="@dimen/dp_167"
-            android:layout_height="@dimen/dp_22"
-            android:layout_marginTop="@dimen/dp_25"
+            android:layout_width="@dimen/dp_170"
+            android:layout_height="@dimen/dp_30"
             android:text="@string/search_assets_tips"
-            android:layout_marginBottom="@dimen/dp_230"
+            android:layout_marginBottom="@dimen/dp_200"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:textColor="#ff999999"
             android:gravity="center"
-            android:visibility="gone"
-            android:textSize="9sp"
+            android:visibility="visible"
+            android:textSize="@dimen/sp_11"
             />
     </RelativeLayout>
 

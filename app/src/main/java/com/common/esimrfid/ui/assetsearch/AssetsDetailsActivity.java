@@ -186,8 +186,14 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 ast_count.setText(str+"元");
             }
 
-            String month = TextUtils.isEmpty(assetsDetailsInfo.getAst_expiration_months()) ? "" : assetsDetailsInfo.getAst_expiration_months();
-            use_months.setText(month+"个月");
+            String month=assetsDetailsInfo.getAst_expiration_months();
+            if(TextUtils.isEmpty(month)){
+                use_months.setText("");
+            }else {
+                use_months.setText(month+"个月");
+            }
+//            String month = TextUtils.isEmpty(assetsDetailsInfo.getAst_expiration_months()) ? "" : assetsDetailsInfo.getAst_expiration_months();
+//            use_months.setText(month+"个月");
 
             String company = assetsDetailsInfo.getOrg_usedcorp() == null ? "" : assetsDetailsInfo.getOrg_usedcorp().getOrg_name();
             company = TextUtils.isEmpty(company) ? "" : company;

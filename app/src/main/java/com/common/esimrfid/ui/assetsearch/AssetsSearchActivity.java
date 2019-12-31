@@ -188,7 +188,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
             case UhfMsgType.INV_TAG:
                 UhfTag uhfTag = (UhfTag) uhfMsgEvent.getData();
                 epc = uhfTag.getEpc();
-                Log.d(TAG, "epc=====: " + epc);
+                Log.e(TAG, "epc=====: " + epc);
                 handleEpc(epc);
                 break;
             case UhfMsgType.UHF_CONNECT:

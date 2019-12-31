@@ -4,22 +4,23 @@
     android:layout_width="match_parent"
     android:id="@+id/title_layout"
     android:background="@drawable/bg_search_backgroud"
-    android:paddingTop="@dimen/dp_30"
+    android:paddingTop="@dimen/dp_25"
     android:paddingBottom="@dimen/dp_8"
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/title_back"
-        android:padding="@dimen/dp_4"
+        android:padding="@dimen/dp_10"
         android:layout_marginStart="@dimen/dp_10"
-        android:layout_width="@dimen/dp_30"
-        android:layout_height="@dimen/dp_30"
-        android:src="@drawable/title_back"/>
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:src="@drawable/btn_back"/>
 
     <TextView
         android:id="@+id/title_content"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_6"
         android:text="标题"
         android:textSize="18sp"
         android:textColor="@color/white"/>

@@ -54,9 +54,9 @@ public class LocationSearchActivity extends BaseActivity {
     protected void initEventAndData() {
         initRfidAndEvent();
         title.setText(R.string.location_search);
-        progressBar.setMaxProgress(50);
+        progressBar.setMaxProgress(100);
         progressBar.clearProgress();
-        progressBar.setEmptyVisibility(View.GONE);
+//        progressBar.setEmptyVisibility(View.GONE);
         Intent intent = getIntent();
         AssetsEpc = intent.getStringExtra(ASSETS_EPC);
         setSound();
@@ -194,13 +194,19 @@ public class LocationSearchActivity extends BaseActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        filterClear();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        filterClear();
         EventBus.getDefault().unregister(this);
         if (esimUhfService != null && esimUhfService.isStart()) {
             esimUhfService.stopScanning();
         }
+        filterClear();
     }
 
     @Override
