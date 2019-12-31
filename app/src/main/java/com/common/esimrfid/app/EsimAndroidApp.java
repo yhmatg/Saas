@@ -10,6 +10,9 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.uhf.IEsimUhfService;
+import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
+import com.common.esimrfid.uhf.RodinbellUhfServiceImpl;
+import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.utils.Utils;
 import com.common.esimrfid.utils.logger.MyCrashListener;
 import com.common.esimrfid.utils.logger.TxtFormatStrategy;
@@ -126,6 +129,20 @@ public class EsimAndroidApp extends Application {
         for (int i = 0; i < activities.size(); i++) {
             activities.get(i).finish();
         }
+    }
+
+    public void initRfid() {
+        String model = android.os.Build.MODEL;
+        IEsimUhfService iEsimUhfService;
+        if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
+            iEsimUhfService = new NewSpeedataUhfServiceImpl();
+        } else if ("common".equals(model) || "ESUR-H500".equals(model)) {
+            iEsimUhfService = new RodinbellUhfServiceImpl();
+        } else {
+            iEsimUhfService = new ZebraUhfServiceImpl();
+        }
+        iEsimUhfService.initRFID();
+        EsimAndroidApp.setIEsimUhfService(iEsimUhfService);
     }
 
 }
