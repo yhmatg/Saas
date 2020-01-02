@@ -6,11 +6,11 @@
 
     <ImageView
         android:id="@+id/title_back"
-        android:layout_marginStart="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_30"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/title_back"/>
+        android:layout_marginTop="@dimen/dp_20"
+        android:padding="@dimen/dp_12"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:src="@drawable/btn_back"/>
 
     <FrameLayout
         android:id="@+id/fm_layout"

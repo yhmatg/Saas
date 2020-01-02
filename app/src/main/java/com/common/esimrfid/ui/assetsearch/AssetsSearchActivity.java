@@ -90,6 +90,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
+        filterClear();
     }
 
     private void rotateAnim() {
@@ -235,6 +236,12 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
 
     }
 
+    private void filterClear() {
+        int ads = 0;
+        int len = 0;
+        int val = 1;
+        esimUhfService.setFilterData(val, ads, len, "", false);
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (esimUhfService != null) {

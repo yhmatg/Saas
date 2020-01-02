@@ -91,19 +91,18 @@
                             android:layout_weight="1"
                             android:layout_height="@dimen/dp_50"
                             android:background="@null"
-                            android:drawableLeft="@drawable/icon_psd"
+                            android:drawableStart="@drawable/icon_psd"
                             android:drawablePadding="9.5dp"
                             android:hint="@string/user_passward"
                             android:inputType="textPassword" />
 
-
-                            <ImageView
-                                android:id="@+id/password_invisible"
-                                android:layout_width="@dimen/dp_50"
-                                android:layout_height="@dimen/dp_50"
-                                android:paddingStart="@dimen/dp_15"
-                                android:paddingEnd="@dimen/dp_15"
-                                android:src="@drawable/psd_invisible" />
+                        <ImageView
+                            android:id="@+id/password_invisible"
+                            android:layout_width="@dimen/dp_50"
+                            android:layout_height="@dimen/dp_50"
+                            android:paddingStart="@dimen/dp_15"
+                            android:paddingEnd="@dimen/dp_15"
+                            android:src="@drawable/psd_invisible" />
 
                     </LinearLayout>
 
