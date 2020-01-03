@@ -91,6 +91,10 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     AssetsLocation mSelectAssetsLocation;
     CompanyBean mSelectOwnCompany;
     Date mSelectDate;
+    boolean usersClickShow;
+    boolean companysClickShow;
+    boolean typesClickShow;
+    boolean locationsClickShow;
     @Override
     public NewInventoryPressnter initPresenter() {
         return new NewInventoryPressnter(DataManager.getInstance());
@@ -101,6 +105,15 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         mTitle.setText(R.string.new_inv_task);
         initCustomTimePicker();
         initCustomOptionPicker();
+        initOptions();
+    }
+
+    private void initOptions() {
+        mPresenter.getAllManagerUsers();
+        mPresenter.getAllCompany();
+        mPresenter.getAllAssetsType();
+        mPresenter.getAllAssetsLocation();
+        mPresenter.getAllCompany();
     }
 
     @Override
@@ -125,7 +138,14 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             case R.id.tv_inv_person:
                 tvTitle.setText(R.string.new_inv_persion);
                 currentOption = 0;
-                mPresenter.getAllManagerUsers();
+                if(mMangerUsers.size() == 0){
+                    usersClickShow = true;
+                    mPresenter.getAllManagerUsers();
+                }else {
+                    pvCustomOptions.setPicker(mMangerUsers);
+                    pvCustomOptions.show();
+                }
+
                 break;
             case R.id.tv_expfin_date:
                 tvTitle.setText(R.string.exp_finish_date);
@@ -134,7 +154,13 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             case R.id.tv_inv_usecom:
                 tvTitle.setText(R.string.inv_usecom);
                 currentOption = 1;
-                mPresenter.getAllCompany();
+                if(mCompanyBeans.size() == 0){
+                    companysClickShow = true;
+                    mPresenter.getAllCompany();
+                }else {
+                    pvCustomOptions.setPicker(mCompanyBeans);
+                    pvCustomOptions.show();
+                }
                 break;
             case R.id.tv_inv_usedepart:
                 if(mSelectUseCompany!= null && !TextUtils.isEmpty(mSelectUseCompany.getId())){
@@ -149,17 +175,37 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             case R.id.tv_inv_asstype:
                 tvTitle.setText(R.string.inv_asstype);
                 currentOption = 3;
-                mPresenter.getAllAssetsType();
+                if(mAssetsTypes.size() == 0){
+                    typesClickShow = true;
+                    mPresenter.getAllAssetsType();
+                }else {
+                    pvCustomOptions.setPicker(mAssetsTypes);
+                    pvCustomOptions.show();
+                }
+
                 break;
             case R.id.tv_inv_loc:
                 tvTitle.setText(R.string.inv_location);
                 currentOption = 4;
-                mPresenter.getAllAssetsLocation();
+                if(mAssetsLocations.size() == 0){
+                    locationsClickShow = true;
+                    mPresenter.getAllAssetsLocation();
+                }else {
+                    pvCustomOptions.setPicker(mAssetsLocations);
+                    pvCustomOptions.show();
+                }
+
                 break;
             case R.id.tv_inv_owncom:
                 tvTitle.setText(R.string.inv_owncom);
                 currentOption = 5;
-                mPresenter.getAllCompany();
+                if(mCompanyBeans.size() == 0){
+                    companysClickShow = true;
+                    mPresenter.getAllCompany();
+                }else {
+                    pvCustomOptions.setPicker(mCompanyBeans);
+                    pvCustomOptions.show();
+                }
                 break;
             case R.id.btn_submit:
                 creataInvtory();
@@ -418,6 +464,8 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 if(mCompanyBeans.size() > 0){
                     mSelectUseCompany = mCompanyBeans.get(options1);
                     mUseCom.setText(mSelectUseCompany.getOrg_name());
+                    mSelectDepartment = null;
+                    mUseDepart.setText("");
                 }
                 break;
             case USE_DEPARTMANET:
@@ -452,16 +500,24 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     public void handleAllManagerUsers(List<MangerUser> mangerUsers) {
         mMangerUsers.clear();
         mMangerUsers.addAll(mangerUsers);
-        pvCustomOptions.setPicker(mMangerUsers);
-        pvCustomOptions.show();
+        if(usersClickShow){
+            pvCustomOptions.setPicker(mMangerUsers);
+            pvCustomOptions.show();
+            usersClickShow = false;
+        }
+
     }
 
     @Override
     public void handleAllCompany(List<CompanyBean> companyBeans) {
         mCompanyBeans.clear();
         mCompanyBeans.addAll(companyBeans);
-        pvCustomOptions.setPicker(mCompanyBeans);
-        pvCustomOptions.show();
+        if(companysClickShow){
+            pvCustomOptions.setPicker(mCompanyBeans);
+            pvCustomOptions.show();
+            companysClickShow = false;
+        }
+
     }
 
     @Override
@@ -484,16 +540,23 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     public void handleAllAssetsType(List<AssetsType> assetsTypes) {
         mAssetsTypes.clear();
         mAssetsTypes.addAll(assetsTypes);
-        pvCustomOptions.setPicker(mAssetsTypes);
-        pvCustomOptions.show();
+        if(typesClickShow){
+            pvCustomOptions.setPicker(mAssetsTypes);
+            pvCustomOptions.show();
+            typesClickShow =false;
+        }
     }
 
     @Override
     public void handleAllAssetsLocation(List<AssetsLocation> assetsLocations) {
         mAssetsLocations.clear();
         mAssetsLocations.addAll(assetsLocations);
-        pvCustomOptions.setPicker(mAssetsLocations);
-        pvCustomOptions.show();
+        if(locationsClickShow){
+            pvCustomOptions.setPicker(mAssetsLocations);
+            pvCustomOptions.show();
+            locationsClickShow = false;
+        }
+
     }
 
     @Override

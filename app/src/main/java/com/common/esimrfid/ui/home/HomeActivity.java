@@ -291,7 +291,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                         .setContentTitle("一芯资产管理")
                         .setContentText(getString(R.string.update_message))
         );
-        builder.setDownloadAPKPath(Environment.getExternalStorageDirectory().toString() + "/Download/");
+        builder.setDownloadAPKPath(Environment.getExternalStorageDirectory().toString() + "/Download/Esim/");
         builder.setCustomDownloadingDialogListener(new CustomDownloadingDialogListener() {
             @Override
             public Dialog getCustomDownloadingDialog(Context context, int progress, UIData versionBundle) {
