@@ -99,6 +99,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
 
     List<AssetsLocation> selectLocations = new ArrayList<>();
     List<AssetsType> selectTypes = new ArrayList<>();
+    List<DepartmentBean> selectDeparts = new ArrayList<>();
 
     @Override
     public NewInventoryPressnter initPresenter() {
@@ -242,7 +243,10 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         }
         if (mSelectDepartment != null && !"-1".equals(mSelectDepartment.getId())) {
             ArrayList<String> userDepartment = new ArrayList<>();
-            userDepartment.add(mSelectDepartment.getId());
+            //userDepartment.add(mSelectDepartment.getId());
+            for (DepartmentBean selectDepart : selectDeparts) {
+                userDepartment.add(selectDepart.getId());
+            }
             inventoryParameter.setInv_used_dept_filter(userDepartment);
         }
         if (mSelectAssetsType != null && !"-1".equals(mSelectAssetsType.getId())) {
@@ -481,6 +485,10 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             case USE_DEPARTMANET:
                 if (mDepartmentBeans.size() > 0) {
                     mSelectDepartment = mDepartmentBeans.get(options1);
+                    //modify 0103 start
+                    selectDeparts.clear();
+                    selectDeparts = getSelectDeparts(mDepartmentBeans,mSelectDepartment.getId(),selectDeparts);
+                    //modify 0103 start
                     mUseDepart.setText(mSelectDepartment.getOrg_name());
                 }
                 break;
@@ -661,6 +669,21 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             }
         }
         return resultTypess;
+    }
+
+    public List<DepartmentBean> getSelectDeparts(List<DepartmentBean> allDeparts, String id, List<DepartmentBean> resultDeparts) {
+        for (DepartmentBean allDepart : allDeparts) {
+            String selId = allDepart.getId();
+            String pId = allDepart.getOrg_superid();
+            if (id.equals(selId) && !resultDeparts.contains(allDepart)) {
+                resultDeparts.add(allDepart);
+            }
+            if (pId != null && pId.equals(id) && !resultDeparts.contains(allDepart)) {
+                resultDeparts.add(allDepart);
+                getSelectDeparts(allDeparts, selId, resultDeparts);
+            }
+        }
+        return resultDeparts;
     }
 
 }
