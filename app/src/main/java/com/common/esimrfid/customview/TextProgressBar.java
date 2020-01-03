@@ -48,7 +48,7 @@ public class TextProgressBar extends ProgressBar {
                 mDrawTextStart = right;
             }
             mDrawTextEnd = (int) ((getHeight() / 2.0f) - ((textPaint.descent() + textPaint.ascent()) / 2.0f));
-            String progress =  "已经盘点" + getProgress();
+            String progress =  "已完成" + getProgress();
             canvas.drawText(progress, mDrawTextStart, mDrawTextEnd, textPaint);
         }
 

@@ -163,7 +163,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 }
                 break;
             case R.id.tv_inv_usedepart:
-                if(mSelectUseCompany!= null && !TextUtils.isEmpty(mSelectUseCompany.getId())){
+                if(mSelectUseCompany!= null && !TextUtils.isEmpty(mSelectUseCompany.getId()) && !"-1".equals(mSelectUseCompany.getId())){
                     tvTitle.setText(R.string.inv_usedepart);
                     currentOption = 2;
                     mPresenter.getAllDeparts(mSelectUseCompany.getId());
@@ -231,27 +231,27 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         inventoryParameter.setInv_name(mInvName.getText().toString());
         inventoryParameter.setInv_assigner_id(mSelectMangerUser.getId());
         inventoryParameter.setInv_exptfinish_date(mSelectDate);
-        if(mSelectUseCompany != null){
+        if(mSelectUseCompany != null && !"-1".equals(mSelectUseCompany.getId())){
             ArrayList<String> userCompany = new ArrayList<>();
             userCompany.add(mSelectUseCompany.getId());
             inventoryParameter.setInv_used_corp_filter(userCompany);
         }
-        if(mSelectDepartment != null){
+        if(mSelectDepartment != null && !"-1".equals(mSelectDepartment.getId())){
             ArrayList<String> userDepartment = new ArrayList<>();
             userDepartment.add(mSelectDepartment.getId());
             inventoryParameter.setInv_used_dept_filter(userDepartment);
         }
-        if(mSelectAssetsType != null){
+        if(mSelectAssetsType != null && !"-1".equals(mSelectAssetsType.getId())){
             ArrayList<String> assetsType = new ArrayList<>();
             assetsType.add(mSelectAssetsType.getId());
             inventoryParameter.setInv_type_filter(assetsType);
         }
-        if(mSelectAssetsLocation != null){
+        if(mSelectAssetsLocation != null && !"-1".equals(mSelectAssetsLocation.getId())){
             ArrayList<String> assetsLocation = new ArrayList<>();
             assetsLocation.add(mSelectAssetsLocation.getId());
             inventoryParameter.setInv_loc_filter(assetsLocation);
         }
-        if(mSelectOwnCompany != null){
+        if(mSelectOwnCompany != null && !"-1".equals(mSelectOwnCompany.getId())){
             ArrayList<String> ownCompany = new ArrayList<>();
             ownCompany.add(mSelectOwnCompany.getId());
             inventoryParameter.setInv_belong_corp_filter(ownCompany);
@@ -511,6 +511,12 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     @Override
     public void handleAllCompany(List<CompanyBean> companyBeans) {
         mCompanyBeans.clear();
+        //20200103 start
+        CompanyBean unKnowCompanyBean = new CompanyBean();
+        unKnowCompanyBean.setId("-1");
+        unKnowCompanyBean.setOrg_name("不限");
+        mCompanyBeans.add(unKnowCompanyBean);
+        //20200103 end
         mCompanyBeans.addAll(companyBeans);
         if(companysClickShow){
             pvCustomOptions.setPicker(mCompanyBeans);
@@ -531,6 +537,12 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         }
         //modify 20191230 bug 280 end
         mDepartmentBeans.clear();
+        //20200103 start
+        DepartmentBean unKnowDepartmentBean = new DepartmentBean();
+        unKnowDepartmentBean.setId("-1");
+        unKnowDepartmentBean.setOrg_name("不限");
+        mDepartmentBeans.add(unKnowDepartmentBean);
+        //20200103 end
         mDepartmentBeans.addAll(tempList);
         pvCustomOptions.setPicker(mDepartmentBeans);
         pvCustomOptions.show();
@@ -539,6 +551,12 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     @Override
     public void handleAllAssetsType(List<AssetsType> assetsTypes) {
         mAssetsTypes.clear();
+        //20200103 start
+        AssetsType unKnowAssetsType = new AssetsType();
+        unKnowAssetsType.setId("-1");
+        unKnowAssetsType.setType_name("不限");
+        mAssetsTypes.add(unKnowAssetsType);
+        //20200103 end
         mAssetsTypes.addAll(assetsTypes);
         if(typesClickShow){
             pvCustomOptions.setPicker(mAssetsTypes);
@@ -550,6 +568,12 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     @Override
     public void handleAllAssetsLocation(List<AssetsLocation> assetsLocations) {
         mAssetsLocations.clear();
+        //20200103 start
+        AssetsLocation unKnowAssetsLocation = new AssetsLocation();
+        unKnowAssetsLocation.setId("-1");
+        unKnowAssetsLocation.setLoc_name("不限");
+        mAssetsLocations.add(unKnowAssetsLocation);
+        //20200103 end
         mAssetsLocations.addAll(assetsLocations);
         if(locationsClickShow){
             pvCustomOptions.setPicker(mAssetsLocations);
