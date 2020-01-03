@@ -98,6 +98,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     boolean locationsClickShow;
 
     List<AssetsLocation> selectLocations = new ArrayList<>();
+    List<AssetsType> selectTypes = new ArrayList<>();
 
     @Override
     public NewInventoryPressnter initPresenter() {
@@ -246,7 +247,10 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         }
         if (mSelectAssetsType != null && !"-1".equals(mSelectAssetsType.getId())) {
             ArrayList<String> assetsType = new ArrayList<>();
-            assetsType.add(mSelectAssetsType.getId());
+            //assetsType.add(mSelectAssetsType.getId());
+            for (AssetsType selectType : selectTypes) {
+                assetsType.add(selectType.getId());
+            }
             inventoryParameter.setInv_type_filter(assetsType);
         }
         if (mSelectAssetsLocation != null && !"-1".equals(mSelectAssetsLocation.getId())) {
@@ -483,16 +487,20 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             case ASSETS_TYPE:
                 if (mAssetsTypes.size() > 0) {
                     mSelectAssetsType = mAssetsTypes.get(options1);
+                    //modify 0103 start
+                    selectTypes.clear();
+                    selectTypes = getSelectTypes(mAssetsTypes,mSelectAssetsType.getId(),selectTypes);
+                    //modify 0103 end
                     mAssType.setText(mSelectAssetsType.getType_name());
                 }
                 break;
             case ASSETS_LOCATION:
                 if (mAssetsLocations.size() > 0) {
                     mSelectAssetsLocation = mAssetsLocations.get(options1);
-                    //test start
+                    //modify 0103 start
                     selectLocations.clear();
                     selectLocations = getSelectLocations(mAssetsLocations, mSelectAssetsLocation.getId(), selectLocations);
-                    //test end
+                    //modify 0103 end
                     mAssLocation.setText(mSelectAssetsLocation.getLoc_name());
                 }
                 break;
@@ -638,6 +646,21 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             }
         }
         return resultLocations;
+    }
+
+    public List<AssetsType> getSelectTypes(List<AssetsType> allTypes, String id, List<AssetsType> resultTypess) {
+        for (AssetsType itemType : allTypes) {
+            String selId = itemType.getId();
+            String pId = itemType.getType_superid();
+            if (id.equals(selId) && !resultTypess.contains(itemType)) {
+                resultTypess.add(itemType);
+            }
+            if (pId != null && pId.equals(id) && !resultTypess.contains(itemType)) {
+                resultTypess.add(itemType);
+                getSelectTypes(allTypes, selId, resultTypess);
+            }
+        }
+        return resultTypess;
     }
 
 }

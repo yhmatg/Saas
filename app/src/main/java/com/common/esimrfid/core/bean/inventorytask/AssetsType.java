@@ -2,6 +2,8 @@ package com.common.esimrfid.core.bean.inventorytask;
 
 import com.contrarywind.interfaces.IPickerViewData;
 
+import java.util.Objects;
+
 public class AssetsType implements IPickerViewData {
 
     /**
@@ -18,6 +20,7 @@ public class AssetsType implements IPickerViewData {
     private String id;
     private String type_code;
     private String type_name;
+    private String type_superid;
 
 
     public String getId() {
@@ -43,6 +46,27 @@ public class AssetsType implements IPickerViewData {
 
     public void setType_name(String type_name) {
         this.type_name = type_name;
+    }
+
+    public String getType_superid() {
+        return type_superid;
+    }
+
+    public void setType_superid(String type_superid) {
+        this.type_superid = type_superid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AssetsType)) return false;
+        AssetsType that = (AssetsType) o;
+        return getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override
