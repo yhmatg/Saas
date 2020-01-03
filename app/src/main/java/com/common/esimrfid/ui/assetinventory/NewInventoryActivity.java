@@ -38,6 +38,7 @@ import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.DateUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.contrarywind.view.WheelView;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -95,6 +96,9 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     boolean companysClickShow;
     boolean typesClickShow;
     boolean locationsClickShow;
+
+    List<AssetsLocation> selectLocations = new ArrayList<>();
+
     @Override
     public NewInventoryPressnter initPresenter() {
         return new NewInventoryPressnter(DataManager.getInstance());
@@ -138,10 +142,10 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             case R.id.tv_inv_person:
                 tvTitle.setText(R.string.new_inv_persion);
                 currentOption = 0;
-                if(mMangerUsers.size() == 0){
+                if (mMangerUsers.size() == 0) {
                     usersClickShow = true;
                     mPresenter.getAllManagerUsers();
-                }else {
+                } else {
                     pvCustomOptions.setPicker(mMangerUsers);
                     pvCustomOptions.show();
                 }
@@ -154,20 +158,20 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             case R.id.tv_inv_usecom:
                 tvTitle.setText(R.string.inv_usecom);
                 currentOption = 1;
-                if(mCompanyBeans.size() == 0){
+                if (mCompanyBeans.size() == 0) {
                     companysClickShow = true;
                     mPresenter.getAllCompany();
-                }else {
+                } else {
                     pvCustomOptions.setPicker(mCompanyBeans);
                     pvCustomOptions.show();
                 }
                 break;
             case R.id.tv_inv_usedepart:
-                if(mSelectUseCompany!= null && !TextUtils.isEmpty(mSelectUseCompany.getId()) && !"-1".equals(mSelectUseCompany.getId())){
+                if (mSelectUseCompany != null && !TextUtils.isEmpty(mSelectUseCompany.getId()) && !"-1".equals(mSelectUseCompany.getId())) {
                     tvTitle.setText(R.string.inv_usedepart);
                     currentOption = 2;
                     mPresenter.getAllDeparts(mSelectUseCompany.getId());
-                }else {
+                } else {
                     ToastUtils.showShort("请先选择公司");
                 }
 
@@ -175,10 +179,10 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             case R.id.tv_inv_asstype:
                 tvTitle.setText(R.string.inv_asstype);
                 currentOption = 3;
-                if(mAssetsTypes.size() == 0){
+                if (mAssetsTypes.size() == 0) {
                     typesClickShow = true;
                     mPresenter.getAllAssetsType();
-                }else {
+                } else {
                     pvCustomOptions.setPicker(mAssetsTypes);
                     pvCustomOptions.show();
                 }
@@ -187,22 +191,21 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             case R.id.tv_inv_loc:
                 tvTitle.setText(R.string.inv_location);
                 currentOption = 4;
-                if(mAssetsLocations.size() == 0){
+                if (mAssetsLocations.size() == 0) {
                     locationsClickShow = true;
                     mPresenter.getAllAssetsLocation();
-                }else {
+                } else {
                     pvCustomOptions.setPicker(mAssetsLocations);
                     pvCustomOptions.show();
                 }
-
                 break;
             case R.id.tv_inv_owncom:
                 tvTitle.setText(R.string.inv_owncom);
                 currentOption = 5;
-                if(mCompanyBeans.size() == 0){
+                if (mCompanyBeans.size() == 0) {
                     companysClickShow = true;
                     mPresenter.getAllCompany();
-                }else {
+                } else {
                     pvCustomOptions.setPicker(mCompanyBeans);
                     pvCustomOptions.show();
                 }
@@ -215,43 +218,46 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
 
     private void creataInvtory() {
         InventoryParameter inventoryParameter = new InventoryParameter();
-        if(TextUtils.isEmpty(mInvName.getText().toString())){
+        if (TextUtils.isEmpty(mInvName.getText().toString())) {
             ToastUtils.showShort("请输入盘点单名称");
             return;
         }
-        if(mSelectMangerUser == null){
+        if (mSelectMangerUser == null) {
             ToastUtils.showShort("请选择盘点人");
             return;
         }
 
-        if(mSelectDate == null){
+        if (mSelectDate == null) {
             ToastUtils.showShort("请选择预计完成时间");
             return;
         }
         inventoryParameter.setInv_name(mInvName.getText().toString());
         inventoryParameter.setInv_assigner_id(mSelectMangerUser.getId());
         inventoryParameter.setInv_exptfinish_date(mSelectDate);
-        if(mSelectUseCompany != null && !"-1".equals(mSelectUseCompany.getId())){
+        if (mSelectUseCompany != null && !"-1".equals(mSelectUseCompany.getId())) {
             ArrayList<String> userCompany = new ArrayList<>();
             userCompany.add(mSelectUseCompany.getId());
             inventoryParameter.setInv_used_corp_filter(userCompany);
         }
-        if(mSelectDepartment != null && !"-1".equals(mSelectDepartment.getId())){
+        if (mSelectDepartment != null && !"-1".equals(mSelectDepartment.getId())) {
             ArrayList<String> userDepartment = new ArrayList<>();
             userDepartment.add(mSelectDepartment.getId());
             inventoryParameter.setInv_used_dept_filter(userDepartment);
         }
-        if(mSelectAssetsType != null && !"-1".equals(mSelectAssetsType.getId())){
+        if (mSelectAssetsType != null && !"-1".equals(mSelectAssetsType.getId())) {
             ArrayList<String> assetsType = new ArrayList<>();
             assetsType.add(mSelectAssetsType.getId());
             inventoryParameter.setInv_type_filter(assetsType);
         }
-        if(mSelectAssetsLocation != null && !"-1".equals(mSelectAssetsLocation.getId())){
+        if (mSelectAssetsLocation != null && !"-1".equals(mSelectAssetsLocation.getId())) {
             ArrayList<String> assetsLocation = new ArrayList<>();
-            assetsLocation.add(mSelectAssetsLocation.getId());
+            //assetsLocation.add(mSelectAssetsLocation.getId());
+            for (AssetsLocation selectLocation : selectLocations) {
+                assetsLocation.add(selectLocation.getId());
+            }
             inventoryParameter.setInv_loc_filter(assetsLocation);
         }
-        if(mSelectOwnCompany != null && !"-1".equals(mSelectOwnCompany.getId())){
+        if (mSelectOwnCompany != null && !"-1".equals(mSelectOwnCompany.getId())) {
             ArrayList<String> ownCompany = new ArrayList<>();
             ownCompany.add(mSelectOwnCompany.getId());
             inventoryParameter.setInv_belong_corp_filter(ownCompany);
@@ -454,14 +460,14 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     private void optionSelect(int options1) {
         switch (currentOption) {
             case MANFER_USER:
-                if(mMangerUsers.size() > 0){
+                if (mMangerUsers.size() > 0) {
                     mSelectMangerUser = mMangerUsers.get(options1);
                     mInvPersion.setText(mSelectMangerUser.getUser_real_name());
                 }
 
                 break;
             case USE_COMPANY:
-                if(mCompanyBeans.size() > 0){
+                if (mCompanyBeans.size() > 0) {
                     mSelectUseCompany = mCompanyBeans.get(options1);
                     mUseCom.setText(mSelectUseCompany.getOrg_name());
                     mSelectDepartment = null;
@@ -469,25 +475,29 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 }
                 break;
             case USE_DEPARTMANET:
-                if(mDepartmentBeans.size() > 0){
+                if (mDepartmentBeans.size() > 0) {
                     mSelectDepartment = mDepartmentBeans.get(options1);
                     mUseDepart.setText(mSelectDepartment.getOrg_name());
                 }
                 break;
             case ASSETS_TYPE:
-                if(mAssetsTypes.size() > 0){
+                if (mAssetsTypes.size() > 0) {
                     mSelectAssetsType = mAssetsTypes.get(options1);
                     mAssType.setText(mSelectAssetsType.getType_name());
                 }
                 break;
             case ASSETS_LOCATION:
-                if(mAssetsLocations.size() > 0){
+                if (mAssetsLocations.size() > 0) {
                     mSelectAssetsLocation = mAssetsLocations.get(options1);
+                    //test start
+                    selectLocations.clear();
+                    selectLocations = getSelectLocations(mAssetsLocations, mSelectAssetsLocation.getId(), selectLocations);
+                    //test end
                     mAssLocation.setText(mSelectAssetsLocation.getLoc_name());
                 }
                 break;
             case OWN_COMPANY:
-                if(mCompanyBeans.size() > 0){
+                if (mCompanyBeans.size() > 0) {
                     mSelectOwnCompany = mCompanyBeans.get(options1);
                     mOwnCom.setText(mSelectOwnCompany.getOrg_name());
                 }
@@ -500,7 +510,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     public void handleAllManagerUsers(List<MangerUser> mangerUsers) {
         mMangerUsers.clear();
         mMangerUsers.addAll(mangerUsers);
-        if(usersClickShow){
+        if (usersClickShow) {
             pvCustomOptions.setPicker(mMangerUsers);
             pvCustomOptions.show();
             usersClickShow = false;
@@ -518,7 +528,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         mCompanyBeans.add(unKnowCompanyBean);
         //20200103 end
         mCompanyBeans.addAll(companyBeans);
-        if(companysClickShow){
+        if (companysClickShow) {
             pvCustomOptions.setPicker(mCompanyBeans);
             pvCustomOptions.show();
             companysClickShow = false;
@@ -529,9 +539,9 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     @Override
     public void handleAllDeparts(List<DepartmentBean> departmentBeans) {
         //modify 20191230 bug 280 start
-        List<DepartmentBean> tempList= new ArrayList<>();
+        List<DepartmentBean> tempList = new ArrayList<>();
         for (DepartmentBean departmentBean : departmentBeans) {
-            if(departmentBean.getOrg_type() == 0){
+            if (departmentBean.getOrg_type() == 0) {
                 tempList.add(departmentBean);
             }
         }
@@ -558,10 +568,10 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         mAssetsTypes.add(unKnowAssetsType);
         //20200103 end
         mAssetsTypes.addAll(assetsTypes);
-        if(typesClickShow){
+        if (typesClickShow) {
             pvCustomOptions.setPicker(mAssetsTypes);
             pvCustomOptions.show();
-            typesClickShow =false;
+            typesClickShow = false;
         }
     }
 
@@ -575,7 +585,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         mAssetsLocations.add(unKnowAssetsLocation);
         //20200103 end
         mAssetsLocations.addAll(assetsLocations);
-        if(locationsClickShow){
+        if (locationsClickShow) {
             pvCustomOptions.setPicker(mAssetsLocations);
             pvCustomOptions.show();
             locationsClickShow = false;
@@ -586,15 +596,15 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     @Override
     public void handlecreateNewInventory(CreateInvResult createInvResult) {
         dismissDialog();
-        if(createInvResult == null){
+        if (createInvResult == null) {
             showCreateSuccessDialog(R.string.save_newinv_fail);
-        }else {
+        } else {
             showCreateSuccessDialog(R.string.save_newinv_succ);
             finish();
         }
     }
 
-    public void showCreateSuccessDialog(int message){
+    public void showCreateSuccessDialog(int message) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.login_success_dialog, null);
         TextView mContent = contentView.findViewById(R.id.tv_status);
         mContent.setText(message);
@@ -614,4 +624,20 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         pvCustomOptions = null;
         pvCustomTime = null;
     }
+
+    public List<AssetsLocation> getSelectLocations(List<AssetsLocation> allLocaions, String id, List<AssetsLocation> resultLocations) {
+        for (AssetsLocation resultLocation : allLocaions) {
+            String selId = resultLocation.getId();
+            String pId = resultLocation.getLoc_superid();
+            if (id.equals(selId) && !resultLocations.contains(resultLocation)) {
+                resultLocations.add(resultLocation);
+            }
+            if (pId != null && pId.equals(id) && !resultLocations.contains(resultLocation)) {
+                resultLocations.add(resultLocation);
+                getSelectLocations(allLocaions, selId, resultLocations);
+            }
+        }
+        return resultLocations;
+    }
+
 }
