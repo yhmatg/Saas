@@ -136,7 +136,7 @@
     <string name="tag_write">写入标签</string>
     <string name="base_info">基本信息</string>
     <string name="login_hint">手机/邮箱/用户名</string>
-    <string name="access_address">更改访问位置</string>
+    <string name="access_address">更改访问配置</string>
     <string name="welcom_user">欢迎您,管理员</string>
     <string name="welcom">欢迎您, </string>
     <string name="company_name">一芯智能</string>

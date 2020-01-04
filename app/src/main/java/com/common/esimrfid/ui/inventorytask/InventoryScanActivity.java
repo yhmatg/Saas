@@ -280,6 +280,9 @@ public class InventoryScanActivity extends BaseActivity<InvDetailPresenter> impl
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if(esimUhfService != null && esimUhfService.isStart()){
+            esimUhfService.stopScanning();
+        }
     }
 
     @Override
