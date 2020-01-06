@@ -61,9 +61,12 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                         //数据库同步删除盘点单
                         DbBank.getInstance().getResultInventoryOrderDao().deleteItems(tempLocal);
                         //数据库同步删除盘点单下的资产
+                        List<String> deleteIds = new ArrayList<>();
                         for (int i = 0; i < tempLocal.size(); i++) {
-                            DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvid(tempLocal.get(i).getId());
+                            deleteIds.add(tempLocal.get(i).getId());
+                            //DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvid(tempLocal.get(i).getId());
                         }
+                        DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvids(deleteIds);
                         //本地数据和服务器数据的交集，服务端删除盘点单，本地同步跟新显示
                         localOrders.retainAll(resultInventoryOrders);
                         //服务端新增的数据
