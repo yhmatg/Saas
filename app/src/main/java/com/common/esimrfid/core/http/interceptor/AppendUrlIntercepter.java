@@ -36,7 +36,7 @@ public class AppendUrlIntercepter implements Interceptor {
             String[] split = cacheHost.split(":");
             if(split.length>0) {
                 String cacheH = split[0];
-                String cacheP = split.length==2?split[1]:"80";
+                String cacheP = split.length==2?split[1]:"30020";
                 builder=builder.host(cacheH).port(Integer.valueOf(cacheP));
             }
         }
