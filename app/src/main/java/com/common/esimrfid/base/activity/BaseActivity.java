@@ -173,6 +173,7 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
     @Override
     public void startLoginActivity(){
         startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 
     public UserLoginResponse getUserLoginResponse(){
