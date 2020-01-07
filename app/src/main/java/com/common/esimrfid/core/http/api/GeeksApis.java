@@ -139,6 +139,7 @@ public interface GeeksApis {
     Observable<BaseResponse<UpdateVersion>> updateVersion();
 
     //获取公司信息详情
-    @GET("/user-server/orgs/selectCurrentOrg")
+    //@GET("/user-server/orgs/selectCurrentOrg")
+    @GET("/user-server/sysusers/selectCurrentOrg")
     Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
 }
