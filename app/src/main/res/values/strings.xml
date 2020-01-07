@@ -61,6 +61,7 @@
     <string name="asset_details">已领用详情:</string>
     <string name="search_asset_details">查询详情:</string>
     <string name="not_result_error">未获取到数据！</string>
+    <string name="not_company_info">未获取到公司信息！</string>
     <string name="not_find_asset">未查询到相关资产数据！</string>
     <string name="has_used_assets">已领用资产:无信息</string>
     <string name="error_page_text">未知错误，请重试！</string>
