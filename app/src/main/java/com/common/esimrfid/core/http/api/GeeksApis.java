@@ -8,6 +8,7 @@ import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
@@ -136,4 +137,8 @@ public interface GeeksApis {
     //版本更新
     @GET("/tagorder-server/appversions/latest")
     Observable<BaseResponse<UpdateVersion>> updateVersion();
+
+    //获取公司信息详情
+    @GET("/user-server/orgs/selectCurrentOrg")
+    Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
 }

@@ -9,6 +9,7 @@ import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
+import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
@@ -82,4 +83,6 @@ public interface HttpHelper {
     Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId);
 
     Observable<BaseResponse<UpdateVersion>> updateVersion();
+
+    Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
 }

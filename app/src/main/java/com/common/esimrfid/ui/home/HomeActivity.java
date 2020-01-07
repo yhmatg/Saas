@@ -39,6 +39,7 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.HomeConstract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
+import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
@@ -81,6 +82,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     TextView mInuseAssets;
     @BindView(R.id.free_number)
     TextView mFreeAssets;
+    @BindView(R.id.company_name)
+    TextView mCompanyName;
     @BindView(R.id.rv_assets_location)
     RecyclerView mLocationRecycle;
     @BindString(R.string.welcom)
@@ -114,6 +117,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         super.onResume();
         mPresenter.getAssetsNmbDiffLocation();
         mPresenter.getAssetsNmbDiffStatus();
+        mPresenter.getCompanyInfo();
     }
 
     //检查登录状态，未登录跳转登录界面
@@ -219,6 +223,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     public void handelCheckoutVersion(UpdateVersion updateInfo) {
         if (getAppVersionCode(this) < updateInfo.getApp_version_code() || !getAppVersionName(this).equals(updateInfo.getApp_version())) {
             thirdUpdate(updateInfo);
+        }
+    }
+
+    @Override
+    public void handleGetCompanyInfo(CompanyInfo companyInfo) {
+        if(!StringUtils.isEmpty(companyInfo.getOrg_name())){
+            mCompanyName.setText(companyInfo.getOrg_name());
+        }else {
+            mCompanyName.setVisibility(View.GONE);
         }
     }
 

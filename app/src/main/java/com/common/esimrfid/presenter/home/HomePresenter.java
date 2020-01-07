@@ -4,6 +4,7 @@ import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.HomeConstract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
+import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
@@ -54,6 +55,19 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                     @Override
                     public void onNext(UpdateVersion updateInfo) {
                         mView.handelCheckoutVersion(updateInfo);
+                    }
+                }));
+    }
+
+    @Override
+    public void getCompanyInfo() {
+        addSubscribe(mDataManager.getCompanyInfo()
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .subscribeWith(new BaseObserver<CompanyInfo>(mView, false) {
+                    @Override
+                    public void onNext(CompanyInfo companyInfo) {
+                        mView.handleGetCompanyInfo(companyInfo);
                     }
                 }));
     }

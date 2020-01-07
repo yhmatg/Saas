@@ -3,6 +3,7 @@ package com.common.esimrfid.contract.home;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
+import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 
 import java.util.HashMap;
@@ -14,6 +15,8 @@ public interface HomeConstract {
         void handleAssetsNmbDiffStatus(AssetStatusNum assetStatus);
 
         void handelCheckoutVersion(UpdateVersion updateInfo);
+
+        void handleGetCompanyInfo(CompanyInfo companyInfo);
     }
 
     interface Presenter extends AbstractPresenter<View> {
@@ -22,5 +25,7 @@ public interface HomeConstract {
         void getAssetsNmbDiffStatus();
 
         void checkUpdateVersion();
+
+        void getCompanyInfo();
     }
 }
