@@ -38,8 +38,6 @@ public class WriteTagActivity extends BaseActivity<WriteTagPresenter> implements
     RecyclerView recyclerView;
     @BindView(R.id.empty_page)
     LinearLayout empty_page;
-    @BindView(R.id.tv_tips)
-    TextView tips;
     IEsimUhfService esimUhfService = null;
     public static final String TAG = "WriteTagActivity";
     private List<AssetsInfo> mData = new ArrayList<>();
@@ -59,7 +57,6 @@ public class WriteTagActivity extends BaseActivity<WriteTagPresenter> implements
         recyclerView.setAdapter(adapter);
         empty_page.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
-        tips.setVisibility(View.GONE);
 
     }
 
@@ -126,11 +123,9 @@ public class WriteTagActivity extends BaseActivity<WriteTagPresenter> implements
         if (mData.size() == 0) {
             empty_page.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
-            tips.setVisibility(View.GONE);
         } else {
             empty_page.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-            tips.setVisibility(View.GONE);
         }
     }
 }

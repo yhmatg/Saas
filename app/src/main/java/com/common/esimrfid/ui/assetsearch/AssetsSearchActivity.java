@@ -60,8 +60,6 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     ImageView image_scan;
     @BindView(R.id.empty_page)
     LinearLayout empty_page;
-    @BindView(R.id.tv_tips)
-    TextView tips;
     private AssetsSearchAdapter assetsSearchAdapter;
     private List<AssetsInfo> mData = new ArrayList<>();
     private Set<String> scanEpcs = new HashSet<>();
@@ -82,7 +80,6 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         recyclerView.setAdapter(assetsSearchAdapter);
         empty_page.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
-        tips.setVisibility(View.VISIBLE);
         rotateAnim();
     }
 
@@ -172,11 +169,9 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     private void handleResultList(List<AssetsInfo> mData) {
         if (mData.size() > 0) {
             empty_page.setVisibility(View.GONE);
-            tips.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         } else {
             empty_page.setVisibility(View.VISIBLE);
-            tips.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         }
     }

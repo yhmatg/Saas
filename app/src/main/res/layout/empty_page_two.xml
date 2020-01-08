@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/empty_page"
-    android:background="@drawable/tips_background"
+    android:background="@drawable/tips_background_two"
     android:orientation="vertical"
     android:visibility="visible">
 
