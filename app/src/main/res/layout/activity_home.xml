@@ -42,7 +42,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginStart="@dimen/dp_20"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="2"
+        android:maxEms="32"
         android:textColor="@color/white"
         android:textSize="18sp" />
 
