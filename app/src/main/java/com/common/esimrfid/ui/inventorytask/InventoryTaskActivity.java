@@ -207,6 +207,11 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         if (baseResponse.isSuccess()) {
             mUnFinishedTaskorders.remove(mPosition);
             mAdapter.notifyDataSetChanged();
+            if (mUnFinishedTaskorders.size() == 0) {
+                mEmptyPage.setVisibility(View.VISIBLE);
+            } else {
+                mEmptyPage.setVisibility(View.GONE);
+            }
             showConfirmDialog(true, true);
         } else {
             showConfirmDialog(true, false);
