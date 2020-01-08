@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <include layout="@layout/empty_page_two"/>
+        <include layout="@layout/empty_page"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_recycler"
