@@ -240,7 +240,10 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         int ads = 0;
         int len = 0;
         int val = 1;
-        esimUhfService.setFilterData(val, ads, len, "", false);
+        if(esimUhfService != null){
+            esimUhfService.setFilterData(val, ads, len, "", false);
+        }
+
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

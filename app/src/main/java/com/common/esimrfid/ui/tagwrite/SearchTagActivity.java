@@ -178,7 +178,8 @@ public class SearchTagActivity extends BaseActivity {
             case UhfMsgType.INV_TAG:
                 UhfTag uhfTag = (UhfTag) uhfMsgEvent.getData();
                 scanTagEpc = uhfTag.getEpc();
-                if (!scanEpcs.contains(scanTagEpc)) {
+                //if (!scanEpcs.contains(scanTagEpc)) {
+                if (scanEpcs.size() == 0) {
                     scanEpcs.add(scanTagEpc);
                 }
                 Log.e("hanldeEpc",scanTagEpc);

@@ -19,6 +19,7 @@ import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
+import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.utils.Utils;
 
@@ -54,7 +55,7 @@ public class LocationSearchActivity extends BaseActivity {
     protected void initEventAndData() {
         initRfidAndEvent();
         title.setText(R.string.location_search);
-        progressBar.setMaxProgress(60);
+        progressBar.setMaxProgress(105);
         progressBar.clearProgress();
 //        progressBar.setEmptyVisibility(View.GONE);
         Intent intent = getIntent();
@@ -103,8 +104,15 @@ public class LocationSearchActivity extends BaseActivity {
         switch (uhfMsgEvent.getType()) {
             case UhfMsgType.INV_TAG:
                 UhfTag uhfTag = (UhfTag) uhfMsgEvent.getData();
-                epc = uhfTag.getAllData();
-                handleEpc(epc);
+                String model = android.os.Build.MODEL;
+                if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
+                    epc = uhfTag.getAllData();
+                    handleEpc(epc);
+                } else if ("common".equals(model) || "ESUR-H500".equals(model)) {
+
+                } else {
+                    zebraHandleData(uhfTag);
+                }
                 break;
             case UhfMsgType.INV_TAG_NULL:
 //                progressBar.setProgress(0);
@@ -113,6 +121,12 @@ public class LocationSearchActivity extends BaseActivity {
                 break;
             case UhfMsgType.UHF_STOP:
                 break;
+        }
+    }
+
+    private void zebraHandleData(UhfTag uhfTag) {
+        if(!StringUtils.isEmpty(uhfTag.getRssi())){
+            progressBar.setProgress(Integer.parseInt(uhfTag.getRssi()));
         }
     }
 
@@ -145,6 +159,7 @@ public class LocationSearchActivity extends BaseActivity {
         rssi -= minValue;//rssi+80转为正数
         String a=String.valueOf(rssi);
         Log.e("wzmmmmmmmmmm",a);
+        rssi = rssi * 2;
         progressBar.setProgress(rssi);
         playSound(rssi);
     }
@@ -157,7 +172,10 @@ public class LocationSearchActivity extends BaseActivity {
         int ads = 32;
         int len = 96;
         int val = 1;
-        esimUhfService.setFilterData(val, ads, len, AssetsEpc, false);
+        if(esimUhfService != null){
+            esimUhfService.setFilterData(val, ads, len, AssetsEpc, false);
+        }
+
     }
 
     //音源播放
@@ -192,7 +210,10 @@ public class LocationSearchActivity extends BaseActivity {
         int ads = 0;
         int len = 0;
         int val = 1;
-        esimUhfService.setFilterData(val, ads, len, "", false);
+        if(esimUhfService != null){
+            esimUhfService.setFilterData(val, ads, len, "", false);
+        }
+
     }
 
 //    @Override

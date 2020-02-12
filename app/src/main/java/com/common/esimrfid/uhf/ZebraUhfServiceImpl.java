@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.common.esimrfid.app.EsimAndroidApp;
+import com.common.esimrfid.utils.StringUtils;
 import com.zebra.rfid.api3.ACCESS_OPERATION_CODE;
 import com.zebra.rfid.api3.ACCESS_OPERATION_STATUS;
 import com.zebra.rfid.api3.Antennas;
@@ -50,6 +51,11 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     private int MAX_POWER = 270;
     String readername = "RFD8500";
     Application instance;
+    boolean locaitonStart = false;
+    String filterData;
+    //位置型号强度
+    private short dist;
+
     public ZebraUhfServiceImpl() {
         instance = EsimAndroidApp.getInstance();
         //initRFID();
@@ -116,7 +122,11 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 if (!isReaderConnected())
                     return false;
                 try {
-                    reader.Actions.Inventory.perform();
+                    if(!locaitonStart){
+                        reader.Actions.Inventory.perform();
+                    }else {
+                        reader.Actions.TagLocationing.Perform(filterData, null, null);
+                    }
                 } catch (InvalidUsageException e) {
                     e.printStackTrace();
                     return false;
@@ -144,7 +154,11 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         if (!isReaderConnected())
             return false;
         try {
-            reader.Actions.Inventory.stop();
+            if(!locaitonStart){
+                reader.Actions.Inventory.stop();
+            }else {
+                reader.Actions.TagLocationing.Stop();
+            }
         } catch (InvalidUsageException e) {
             e.printStackTrace();
             return false;
@@ -161,6 +175,13 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
 
     @Override
     public int setFilterData(int area, int start, int length, String data, boolean isSave) {
+        if(StringUtils.isEmpty(data)){
+           locaitonStart = false;
+            filterData = "";
+        }else {
+            locaitonStart = true;
+            filterData = data;
+        }
         return 0;
     }
 
@@ -352,7 +373,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                         }
                     }
                     if (myTags[index].isContainsLocationInfo()) {
-                        short dist = myTags[index].LocationInfo.getRelativeDistance();
+                        dist = myTags[index].LocationInfo.getRelativeDistance();
                         Log.d(TAG, "Tag relative distance " + dist);
                     }
                 }
@@ -402,6 +423,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
             //add yhm 20190711 start
             if(param.length > 0){
                 UhfTag utag=new UhfTag(param[0].getTagID());
+                utag.setRssi(dist + "");
                 UhfMsgEvent<UhfTag> uhfMsgEvent=new UhfMsgEvent<>(UhfMsgType.INV_TAG,utag);
                 EventBus.getDefault().post(uhfMsgEvent);
             }
