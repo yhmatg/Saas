@@ -1,22 +1,15 @@
 package com.common.esimrfid.ui.inventorytask;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
@@ -28,8 +21,6 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
-import com.common.esimrfid.ui.assetinventory.InvTaskAdapter;
-import com.common.esimrfid.ui.assetinventory.NewInventoryActivity;
 import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.ToastUtils;
@@ -257,10 +248,10 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
                     .show();
             Window window = updateDialog.getWindow();
             window.setBackgroundDrawableResource(android.R.color.transparent);
-            WindowManager.LayoutParams layoutParams = window.getAttributes();
+          /*  WindowManager.LayoutParams layoutParams = window.getAttributes();
             layoutParams.width = CommonUtils.dp2px(250);
             layoutParams.height = CommonUtils.dp2px(130);
-            window.setAttributes(layoutParams);
+            window.setAttributes(layoutParams);*/
         }
 
     }
@@ -300,10 +291,10 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
             finishDialog = builder.show();
             Window window = finishDialog.getWindow();
             window.setBackgroundDrawableResource(android.R.color.transparent);
-            WindowManager.LayoutParams layoutParams = window.getAttributes();
+           /* WindowManager.LayoutParams layoutParams = window.getAttributes();
             layoutParams.width = CommonUtils.dp2px(268);
             layoutParams.height = CommonUtils.dp2px(164);
-            window.setAttributes(layoutParams);
+            window.setAttributes(layoutParams);*/
         }
     }
 

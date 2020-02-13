@@ -285,9 +285,9 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
          */
         Calendar selectedDate = Calendar.getInstance();//系统当前时间
         Calendar startDate = Calendar.getInstance();
-        startDate.set(2014, 1, 23);
+        startDate.set(2018, 0, 1);
         Calendar endDate = Calendar.getInstance();
-        endDate.set(2050, 2, 28);
+        endDate.set(2050, 0, 1);
         //时间选择器 ，自定义布局
         pvCustomTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override

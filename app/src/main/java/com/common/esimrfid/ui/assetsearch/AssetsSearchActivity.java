@@ -2,7 +2,6 @@ package com.common.esimrfid.ui.assetsearch;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +28,6 @@ import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
-import com.common.esimrfid.ui.home.HomeActivity;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.utils.Utils;
 
@@ -227,7 +225,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     protected void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
-        if(esimUhfService.isStart()){
+        if(esimUhfService != null && esimUhfService.isStart()){
             esimUhfService.stopScanning();
             image_scan.clearAnimation();
             search.setImageResource(R.drawable.search_nearby_assets);
