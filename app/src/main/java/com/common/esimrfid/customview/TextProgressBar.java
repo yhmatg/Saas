@@ -1,33 +1,43 @@
 package com.common.esimrfid.customview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
-public class TextProgressBar extends ProgressBar {
+import com.common.esimrfid.R;
 
+public class TextProgressBar extends ProgressBar {
     Paint textPaint;
     float mDrawTextStart;
     float mDrawTextEnd;
     float mOffset = 3;
+    private int mTextSize;
     public TextProgressBar(Context context) {
         this(context, null);
     }
 
     public TextProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initAttrs(context, attrs);
         initData(context);
 
     }
 
     public TextProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initAttrs(context, attrs);
         initData(context);
     }
 
+    private void initAttrs(Context context, AttributeSet attrs) {
+        TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.TextProgressBar);
+        mTextSize = array.getDimensionPixelSize(R.styleable.TextProgressBar_por_text_size, dp2px(context, 15));
+        array.recycle();
+    }
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -58,7 +68,7 @@ public class TextProgressBar extends ProgressBar {
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setStrokeWidth(4);
-        textPaint.setTextSize(25);
+        textPaint.setTextSize(mTextSize);
         final float scale = context.getResources().getDisplayMetrics().density;
         mOffset = (int) (mOffset * scale + 0.5f);
     }
@@ -69,6 +79,10 @@ public class TextProgressBar extends ProgressBar {
         invalidate();
     }
 
+    public static int dp2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
 
 
 }
