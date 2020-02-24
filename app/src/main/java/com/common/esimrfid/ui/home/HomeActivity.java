@@ -280,7 +280,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 .getInstance()
                 .downloadOnly(UIData.create()
                         .setDownloadUrl(updateInfo.getApp_download_url())
-                        .setTitle("版本更新")
+                        .setTitle(updateInfo.getApp_version())
                         .setContent(UpdateContent)
                 );
         if (1 == updateInfo.getApp_must_upgrade()) {
@@ -338,6 +338,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             public Dialog getCustomVersionDialog(Context context, UIData versionBundle) {
                 BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.must_update_dialog);
                 TextView textView = baseDialog.findViewById(R.id.update_content);
+                TextView version = baseDialog.findViewById(R.id.version_num);
                 String str = versionBundle.getContent();
                 String[] strArry = str.split("[；]");
                 String content = "";
@@ -345,6 +346,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                     content = content + strArry[i] + "\n";
                 }
                 textView.setText(content);
+                String remoteVersion = versionBundle.getTitle();
+                if(!StringUtils.isEmpty(remoteVersion)){
+                    version.setText("v" + remoteVersion);
+                }
                 baseDialog.setCanceledOnTouchOutside(false);
                 baseDialog.setCancelable(false);
                 return baseDialog;
@@ -356,6 +361,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         return (context, versionBundle) -> {
             BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.update_version_dialog);
             TextView textView = baseDialog.findViewById(R.id.update_content);
+            TextView version = baseDialog.findViewById(R.id.version_num);
             String str = versionBundle.getContent();
             String[] strArry = str.split("[；]");
             String content = "";
@@ -363,6 +369,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 content = content + strArry[i] + "\n";
             }
             textView.setText(content);
+            String remoteVersion = versionBundle.getTitle();
+            if(!StringUtils.isEmpty(remoteVersion)){
+                version.setText("v" + remoteVersion);
+            }
             baseDialog.setCanceledOnTouchOutside(false);
             baseDialog.setCancelable(false);
             return baseDialog;
