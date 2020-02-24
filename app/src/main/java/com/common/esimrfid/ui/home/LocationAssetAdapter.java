@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,11 +25,13 @@ public class LocationAssetAdapter extends RecyclerView.Adapter<LocationAssetAdap
     private List<AssetLocationNum> mLocaitonAsset;
     private Context mContext;
     private int mMaxAssetNum;
+    private int mMaxProgressLength = 620;
 
     public LocationAssetAdapter(List<AssetLocationNum> mLocaitonAsset, Context mContext, int mMaxAssetNum) {
         this.mLocaitonAsset = mLocaitonAsset;
         this.mContext = mContext;
         this.mMaxAssetNum = mMaxAssetNum;
+        initMaxLength();
     }
 
     @NonNull
@@ -49,10 +53,10 @@ public class LocationAssetAdapter extends RecyclerView.Adapter<LocationAssetAdap
         if(mMaxAssetNum == 0){
             astNum = 0;
         }else {
-            astNum = (float)(astNum / mMaxAssetNum) * 620;
+            astNum = (float)(astNum / mMaxAssetNum) * mMaxProgressLength;
         }
-        if(astNum > 620){
-            linearParams.width = 620;
+        if(astNum > mMaxProgressLength){
+            linearParams.width = mMaxProgressLength;
         }else {
             linearParams.width = (int) astNum;
         }
@@ -95,5 +99,15 @@ public class LocationAssetAdapter extends RecyclerView.Adapter<LocationAssetAdap
 
     public void setmMaxAssetNum(int mMaxAssetNum) {
         this.mMaxAssetNum = mMaxAssetNum;
+    }
+
+
+    private void initMaxLength() {
+        final float scale = mContext.getResources().getDisplayMetrics().density;
+        int usedLength = (int)(150 * scale);
+        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+        int widthPixels = displayMetrics.widthPixels;
+        mMaxProgressLength = widthPixels - usedLength;
+
     }
 }
