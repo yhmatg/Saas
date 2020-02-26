@@ -92,7 +92,8 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     }
 
     private void rotateAnim() {
-        animation = new CircleAnimation(60);
+        int radii = (int)(20  * getResources().getDisplayMetrics().density);
+        animation = new CircleAnimation(radii);
         animation.setDuration(1000);
         animation.setRepeatCount(Animation.INFINITE);//设置动画重复次数 无限循环
         animation.setInterpolator(new LinearInterpolator());

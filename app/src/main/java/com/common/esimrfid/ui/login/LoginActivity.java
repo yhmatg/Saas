@@ -145,8 +145,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         final boolean isSoundOpen = mPresenter.getOpenSound();
         final Dialog dialog = new Dialog(this, R.style.SettingDialog);
         View view = View.inflate(this, R.layout.settingurl_dialog, null);
-        Button cancel = (Button) view.findViewById(R.id.btn_cancel);
-        Button confirm = (Button) view.findViewById(R.id.btn_save);
+        TextView cancel = (TextView) view.findViewById(R.id.btn_cancel);
+        TextView confirm = (TextView) view.findViewById(R.id.btn_save);
         EditText editText = (EditText) view.findViewById(R.id.edit_url);
         editText.setHint("http://");
         dialog.setContentView(view);

@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/topPanel"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_300"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_100"
         android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp_180"
+            android:layout_height="@dimen/dp_75"
             android:layout_gravity="center"
             android:src="@drawable/logo" />
     </LinearLayout>
 
 
     <RelativeLayout
+        android:id="@+id/loginPanel"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_244"
         android:layout_marginStart="@dimen/dp_20"
         android:layout_marginEnd="@dimen/dp_20"
-        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/topPanel"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_centerHorizontal="true"
         android:gravity="center">
 
         <Button
@@ -116,12 +121,14 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:layout_below="@+id/loginPanel"
         android:id="@+id/tv_change_address"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_50"
-        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/dp_20"
-        android:gravity="center"
+        android:gravity= "center"
         android:orientation="horizontal">
 
         <TextView
@@ -132,4 +139,4 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
