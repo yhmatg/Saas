@@ -148,7 +148,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         TextView cancel = (TextView) view.findViewById(R.id.btn_cancel);
         TextView confirm = (TextView) view.findViewById(R.id.btn_save);
         EditText editText = (EditText) view.findViewById(R.id.edit_url);
-        editText.setHint("http://");
+//        editText.setHint("http://");
         dialog.setContentView(view);
         editText.setText(hostUrl);
         editText.setSelection(hostUrl.length());
