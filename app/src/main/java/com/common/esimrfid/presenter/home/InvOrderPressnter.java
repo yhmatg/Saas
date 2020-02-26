@@ -53,7 +53,15 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                 .flatMap(new Function<List<ResultInventoryOrder>, ObservableSource<List<ResultInventoryOrder>>>() {
                     @Override
                     public ObservableSource<List<ResultInventoryOrder>> apply(List<ResultInventoryOrder> resultInventoryOrders) throws Exception {
+                        ArrayList<String> unInvedRemoteOrders = new ArrayList<>();
+                        for (ResultInventoryOrder resultInventoryOrder : resultInventoryOrders) {
+                             if(resultInventoryOrder.getInv_status() == 10){
+                                 unInvedRemoteOrders.add(resultInventoryOrder.getId());
+                             }
+                        }
+                        //根据服务端没有盘点完场的盘点单，获取本地没有盘点完场的盘点单，替换服务端中未完成的盘点单（本地可能做过盘点任务，但是数据没有上传）
                         List<ResultInventoryOrder> localOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrders();
+                        List<ResultInventoryOrder> notInvedLocalOrders = DbBank.getInstance().getResultInventoryOrderDao().findNotInvedInvOrders(unInvedRemoteOrders);
                         //本地同步服务端已经删除的数据
                         List<ResultInventoryOrder> tempLocal = new ArrayList<>();
                         tempLocal.addAll(localOrders);
@@ -68,12 +76,12 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                         }
                         DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvids(deleteIds);
                         //本地数据和服务器数据的交集，服务端删除盘点单，本地同步跟新显示
-                        localOrders.retainAll(resultInventoryOrders);
+                        notInvedLocalOrders.retainAll(resultInventoryOrders);
                         //服务端新增的数据
-                        resultInventoryOrders.removeAll(localOrders);
+                        resultInventoryOrders.removeAll(notInvedLocalOrders);
                         List<ResultInventoryOrder> tempRemount = new ArrayList<>();
                         tempRemount.addAll(resultInventoryOrders);
-                        tempRemount.addAll(localOrders);
+                        tempRemount.addAll(notInvedLocalOrders);
                         DbBank.getInstance().getResultInventoryOrderDao().insertItems(resultInventoryOrders);
                         return Observable.just(tempRemount);
                     }

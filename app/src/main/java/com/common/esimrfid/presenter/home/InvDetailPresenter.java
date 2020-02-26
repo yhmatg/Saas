@@ -52,11 +52,13 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                         if (resultInventoryDetail.getDetailResults() != null) {
                             //保存盘点单资产
                             DbBank.getInstance().getInventoryDetailDao().insertItems(resultInventoryDetail.getDetailResults());
-                            //盘点单资产状态设置为已经下载状态 1已下载 0 未下载
-                           /* ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
-                            ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
-                            invOrderByInvId.setIsDownLoad(1);
-                            resultInventoryOrderDao.updateItem(invOrderByInvId);*/
+                            //add 2020/02/17 start
+                            ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
+                            ResultInventoryOrder resultInvOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
+                            resultInvOrderByInvId.setInv_finish_count(resultInventoryDetail.getInv_finish_count());
+                            resultInventoryOrderDao.updateItem(resultInvOrderByInvId);
+                            //add 2020/02/17 end
+                            //
                         }
                     }
                 })

@@ -10,6 +10,7 @@ import com.common.esimrfid.utils.StringUtils;
 import com.zebra.rfid.api3.ACCESS_OPERATION_CODE;
 import com.zebra.rfid.api3.ACCESS_OPERATION_STATUS;
 import com.zebra.rfid.api3.Antennas;
+import com.zebra.rfid.api3.DYNAMIC_POWER_OPTIMIZATION;
 import com.zebra.rfid.api3.ENUM_TRANSPORT;
 import com.zebra.rfid.api3.ENUM_TRIGGER_MODE;
 import com.zebra.rfid.api3.HANDHELD_TRIGGER_EVENT_TYPE;
@@ -246,7 +247,9 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-//            textView.setText(result);
+            if(!isReaderConnected()){
+                EsimAndroidApp.setIEsimUhfService(null);
+            }
         }
     }
     // Enumerates SDK based on host device
@@ -333,6 +336,10 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 // set start and stop triggers
                 reader.Config.setStartTrigger(triggerInfo.StartTrigger);
                 reader.Config.setStopTrigger(triggerInfo.StopTrigger);
+                //modify 0220 start
+                reader.Config.setDPOState(DYNAMIC_POWER_OPTIMIZATION.DISABLE);
+                reader.Config.setUniqueTagReport(false);
+                //modify 0220 end
                 // power levels are index based so maximum power supported get the last one
                 MAX_POWER = reader.ReaderCapabilities.getTransmitPowerLevelValues().length - 1;
                 // set antenna configurations

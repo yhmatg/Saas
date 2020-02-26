@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import com.common.esimrfid.R;
@@ -25,8 +26,9 @@ public class MiniLoadingView extends View {
     private int mAnimateValue = 0;
     private ValueAnimator mAnimator;
     private Paint mPaint;
-    private static final int LINE_COUNT = 20;
-    private static final int DEGREE_PER_LINE = 360 / LINE_COUNT;
+    private  int LINE_COUNT = 20;
+    private  int DEGREE_PER_LINE = 360 / LINE_COUNT;
+    private  int radius = 8;
 
     public MiniLoadingView(Context context) {
         this(context, null);
@@ -50,6 +52,11 @@ public class MiniLoadingView extends View {
     }
 
     private void initAttrs(Context context, AttributeSet attrs, int defStyleAttr) {
+        float scale = context.getResources().getDisplayMetrics().density;
+        radius = (int)(3 * scale);
+        if(radius > 10){
+            radius = 10;
+        }
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.MiniLoadingView, defStyleAttr, 0);
         mSize = array.getDimensionPixelSize(R.styleable.MiniLoadingView_mlv_loading_view_size, dp2px(context, 32));
         mPaintColor = array.getColor(R.styleable.MiniLoadingView_mlv_loading_view_color, Color.WHITE);
@@ -117,7 +124,7 @@ public class MiniLoadingView extends View {
             mPaint.setAlpha((int) (255f * (i + 1) / LINE_COUNT));
             canvas.translate(0, -mSize / 2 + width / 2);
             //canvas.drawLine(0, 0, 0, height, mPaint);
-            canvas.drawCircle(0,0,8,mPaint);
+            canvas.drawCircle(0,0,radius,mPaint);
             canvas.translate(0, mSize / 2 - width / 2);
         }
     }
