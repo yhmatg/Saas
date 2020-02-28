@@ -12,7 +12,7 @@ public interface ResultInventoryOrderDao extends BaseDao<ResultInventoryOrder> {
     @Query("SELECT * FROM ResultInventoryOrder order by create_date desc")
     public List<ResultInventoryOrder> findInvOrders();
 
-    //根据服务端没有盘点完场的盘点单，获取本地没有盘点完场的盘点单
+    //鏍规嵁鏈嶅姟绔病鏈夌洏鐐瑰畬鍦虹殑鐩樼偣鍗曪紝鑾峰彇鏈湴娌℃湁鐩樼偣瀹屽満鐨勭洏鐐瑰崟
     @Query("SELECT * FROM ResultInventoryOrder where id in (:invIds)  order by create_date desc ")
     public List<ResultInventoryOrder> findNotInvedInvOrders(List<String> invIds);
 
