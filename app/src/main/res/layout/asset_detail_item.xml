@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_5"
         android:layout_toEndOf="@+id/head_rec"
-        android:text="资产编号"
+        android:text="@string/assets_id"
         android:textSize="@dimen/sp_13" />
 
     <TextView
@@ -42,7 +42,7 @@
         android:layout_alignParentEnd="true"
         android:background="@drawable/btn_background"
         android:gravity="center"
-        android:text="未盘"
+        android:text="@string/ast_not_inved"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_12" />
 
@@ -53,7 +53,7 @@
         android:layout_below="@+id/tv_num_name"
         android:layout_marginStart="@dimen/dp_5"
         android:layout_toEndOf="@+id/head_rec"
-        android:text="资产名称"
+        android:text="@string/assets_name"
         android:textSize="@dimen/sp_13" />
 
     <TextView
@@ -74,7 +74,7 @@
         android:layout_below="@+id/tv_name"
         android:layout_marginStart="@dimen/dp_5"
         android:layout_toEndOf="@+id/head_rec"
-        android:text="存放地点"
+        android:text="@string/store_location"
         android:textSize="@dimen/sp_13" />
 
     <TextView

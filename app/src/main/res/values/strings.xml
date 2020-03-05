@@ -116,7 +116,7 @@
     <string name="ast_material">资产材质</string>
     <string name="belong_company">所属公司</string>
     <string name="model">型号</string>
-    <string name="stroe_loaction">存放地点</string>
+    <string name="store_location">存放地点</string>
     <string name="manager">管理员</string>
     <string name="source">来源</string>
     <string name="buy_date">购入日期</string>
@@ -216,4 +216,10 @@
     <string name="sync_data_fail">同步数据失败！</string>
     <string name="finish_inv_fail">盘点任务失败！</string>
     <string name="scan_all_confirm">所有资产已盘点，请同步数据后完成该盘点任务！</string>
+    <string name="choose_date">选择日期</string>
+    <string name="asset_store_location">资产存放位置</string>
+    <string name="synchronizing">正在同步中...</string>
+    <string name="assets_count">资产数量</string>
+    <string name="found_inv_task">创建盘点任务</string>
+
 </resources>

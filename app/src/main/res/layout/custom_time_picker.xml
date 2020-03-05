@@ -20,9 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="17dp"
+            android:layout_marginStart="17dp"
             android:padding="8dp"
-            android:text="取消"
+            android:text="@string/cancel_opt"
             android:textColor="#52B7FD"
             android:textSize="@dimen/sp_16" />
 
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:padding="8dp"
-            android:text="选择日期"
+            android:text="@string/choose_date"
             android:textColor="#80000000"
             android:textSize="@dimen/sp_16" />
 
@@ -39,11 +39,11 @@
             android:id="@+id/tv_finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="17dp"
+            android:layout_marginEnd="17dp"
             android:padding="8dp"
-            android:text="确定"
+            android:text="@string/sure_opt"
             android:textColor="#52B7FD"
             android:textSize="@dimen/sp_16" />
 

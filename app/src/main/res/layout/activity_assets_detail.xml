@@ -13,7 +13,7 @@
         <LinearLayout
             android:id="@+id/assets_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -61,8 +61,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="资产编号"
+                        android:gravity="end"
+                        android:text="@string/assets_id"
                         android:textSize="@dimen/sp_14"/>
 
                 </LinearLayout>
@@ -88,8 +88,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="资产名称"
+                        android:gravity="end"
+                        android:text="@string/assets_name"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -114,8 +114,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="资产类型"
+                        android:gravity="end"
+                        android:text="@string/assets_type"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
 
@@ -141,8 +141,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="品牌"
+                        android:gravity="end"
+                        android:text="@string/brand"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
 
@@ -167,8 +167,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="资产状态"
+                        android:gravity="end"
+                        android:text="@string/assets_status"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
 
@@ -194,8 +194,8 @@
                         android:id="@+id/rule_model"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="规则型号"
+                        android:gravity="end"
+                        android:text="@string/rule_model"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
 
@@ -221,8 +221,8 @@
                         android:id="@+id/measuring_unit"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="计量单位"
+                        android:gravity="end"
+                        android:text="@string/measuring_unit"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
 
@@ -248,8 +248,8 @@
                         android:id="@+id/sn"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="SN"
+                        android:gravity="end"
+                        android:text="@string/SN"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -272,10 +272,10 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:layout_height="wrap_content"
                         android:id="@+id/ast_material"
-                        android:text="资产材质"
+                        android:text="@string/ast_material"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
 
@@ -301,8 +301,8 @@
                         android:id="@+id/belong_company"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="所属公司"
+                        android:gravity="end"
+                        android:text="@string/belong_company"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -319,7 +319,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/stroe_loaction"
+                        android:text="@string/store_location"
                         android:textSize="@dimen/sp_14"/>
 
                     <TextView
@@ -327,8 +327,8 @@
                         android:id="@+id/stroe_loaction"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="存放地点"
+                        android:gravity="end"
+                        android:text="@string/store_location"
                         android:textSize="@dimen/sp_14"/>
 
                 </LinearLayout>
@@ -354,8 +354,8 @@
                         android:id="@+id/manager"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="管理员"
+                        android:gravity="end"
+                        android:text="@string/manager"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
 
@@ -381,8 +381,8 @@
                         android:id="@+id/source"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="来源"
+                        android:gravity="end"
+                        android:text="@string/source"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
 
@@ -408,8 +408,8 @@
                         android:id="@+id/buy_date"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="购入日期"
+                        android:gravity="end"
+                        android:text="@string/buy_date"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -434,8 +434,8 @@
                         android:id="@+id/count"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="金额"
+                        android:gravity="end"
+                        android:text="@string/count"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
 
@@ -460,8 +460,8 @@
                         android:id="@+id/expiration_use_months"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="预计使用月数"
+                        android:gravity="end"
+                        android:text="@string/expiration_use_months"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
 
@@ -487,8 +487,8 @@
                         android:id="@+id/use_company"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="使用公司"
+                        android:gravity="end"
+                        android:text="@string/use_company"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -512,8 +512,8 @@
                         android:id="@+id/use_department"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="使用部门"
+                        android:gravity="end"
+                        android:text="@string/use_department"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -538,8 +538,8 @@
                         android:id="@+id/user"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="使用人"
+                        android:gravity="end"
+                        android:text="@string/user"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -564,8 +564,8 @@
                         android:id="@+id/requisition_date"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="领用日期"
+                        android:gravity="end"
+                        android:text="@string/requisition_date"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -590,8 +590,8 @@
                         android:id="@+id/remark"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="备注"
+                        android:gravity="end"
+                        android:text="@string/remark"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
 
@@ -646,8 +646,8 @@
                         android:id="@+id/supplier"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="供应商"
+                        android:gravity="end"
+                        android:text="@string/supplier"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -672,8 +672,8 @@
                         android:id="@+id/contacts"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="联系人"
+                        android:gravity="end"
+                        android:text="@string/contacts"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -698,8 +698,8 @@
                         android:id="@+id/contact_information"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="联系方式"
+                        android:gravity="end"
+                        android:text="@string/contact_information"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -724,7 +724,7 @@
                         android:id="@+id/maintenance_expiration"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View
@@ -749,7 +749,7 @@
                         android:id="@+id/maintenance_instructions"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="right"
+                        android:gravity="end"
                         android:textSize="@dimen/sp_14"/>
                 </LinearLayout>
                 <View

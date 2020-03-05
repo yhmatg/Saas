@@ -25,9 +25,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_20"
-            android:text="正在同步中..."
+            android:text="@string/synchronizing"
             android:textColor="#FF06E9E6"
-            android:textSize="10sp" />
+            android:textSize="@dimen/sp_10" />
     </LinearLayout>
 
 </LinearLayout>

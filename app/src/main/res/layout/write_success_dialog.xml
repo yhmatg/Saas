@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="@dimen/dp_120"
                 android:layout_height="@dimen/dp_30"
-                android:text="提示"
+                android:text="@string/prompt_title"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/dp_20"
