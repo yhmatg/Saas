@@ -1,6 +1,5 @@
 package com.common.esimrfid.ui.login;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -128,7 +127,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             ToastUtils.showShort("请输入密码！");
             return;
         }
-        if (TextUtils.isEmpty(mPresenter.getHostUrl()) || !mPresenter.getHostUrl().startsWith("http://")) {
+        if (TextUtils.isEmpty(mPresenter.getHostUrl()) || !(mPresenter.getHostUrl().startsWith("http://") || mPresenter.getHostUrl().startsWith("https://"))) {
             ToastUtils.showShort("请配置正确的服务器URL！");
             return;
         }
@@ -173,7 +172,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             @Override
             public void onClick(View v) {
                 String newHostUrl = editText.getText().toString();
-                if (!newHostUrl.startsWith("http://")) {
+                if (!(newHostUrl.startsWith("https://") || newHostUrl.startsWith("http://"))) {
                     ToastUtils.showShort(R.string.url_error);
                     return;
                 }else if(!newHostUrl.equals(hostUrl)){

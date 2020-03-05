@@ -30,14 +30,20 @@ public class AppendUrlIntercepter implements Interceptor {
         //add 20190729 start
         HttpUrl httpUrl = oldRequest.url();
         if (!StringUtils.isEmpty(cacheHost) && !baseUrl.equals(cacheHost)) {
+            if(cacheHost.startsWith("https")){
+                builder.scheme("https");
+            }else {
+                builder.scheme("http");
+            }
             cacheHost=cacheHost.replaceAll("http(s)?://","");
-            String host = httpUrl.host();
-            int port = httpUrl.port();
             String[] split = cacheHost.split(":");
-            if(split.length>0) {
+            if(split.length == 1){
                 String cacheH = split[0];
-                String cacheP = split.length==2?split[1]:"30020";
-                builder=builder.host(cacheH).port(Integer.valueOf(cacheP));
+                builder.host(cacheH);
+            }else if(split.length == 2){
+                String cacheH = split[0];
+                String cacheP = split[1];
+                builder.host(cacheH).port(Integer.valueOf(cacheP));
             }
         }
         Log.e("AppendUrlIntercepter","builder.build()===" + builder.build());
