@@ -47,14 +47,6 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
 
     @Override
     public boolean closeRFID() {
-        /*int i = driver.Close_Com();
-        if(i == 0){
-            UhfMsgEvent<UhfTag> uhfMsgEvent=new UhfMsgEvent<>(UhfMsgType.UHF_DISCONNECT);
-            EventBus.getDefault().post(uhfMsgEvent);
-            return true;
-        }else {
-            return false;
-        }*/
         try {
             newUHFDeviceControl.PowerOffDevice();
             UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_DISCONNECT);
@@ -64,8 +56,6 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
             e.printStackTrace();
             return false;
         }
-
-
     }
 
     @Override

@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
 import com.common.esimrfid.R;
-
+//自定义进度条，显示当前进度，支持进度字体大小设置
 public class TextProgressBar extends ProgressBar {
     Paint textPaint;
     float mDrawTextStart;

@@ -269,7 +269,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
         });
         return localInvDetailObservable;
     }
-
+    //除盘点状态外，资产的其他属性使用服务器上数据（用户可能修改过）
     public List<InventoryDetail> handleLocalAndRemountData(List<InventoryDetail> local, List<InventoryDetail> remount) {
         ArrayList<InventoryDetail> tempData = new ArrayList<>();
         if (local.size() == 0) {

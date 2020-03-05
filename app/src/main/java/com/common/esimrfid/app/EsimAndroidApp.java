@@ -31,7 +31,6 @@ import java.util.ArrayList;
  * @author yhm
  * @date 2017/11/27
  */
-//public class EsimAndroidApp extends Application implements HasActivityInjector {
 public class EsimAndroidApp extends Application {
 
 

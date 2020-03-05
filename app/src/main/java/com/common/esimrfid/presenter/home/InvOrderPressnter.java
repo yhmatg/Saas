@@ -108,6 +108,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     }
 
     //检查本地是否有盘点过未提交的数据
+    //暂未用到
     @Override
     public void checkLocalDataState() {
         addSubscribe(Observable.create(new ObservableOnSubscribe<List<ResultInventoryOrder>>() {
@@ -175,11 +176,6 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                         if (resultInventoryDetail.getDetailResults() != null) {
                             //保存盘点单资产
                             DbBank.getInstance().getInventoryDetailDao().insertItems(resultInventoryDetail.getDetailResults());
-                            //盘点单资产状态设置为已经下载状态 1已下载 0 未下载
-                           /* ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
-                            ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
-                            invOrderByInvId.setIsDownLoad(1);
-                            resultInventoryOrderDao.updateItem(invOrderByInvId);*/
                         }
                     }
                 })

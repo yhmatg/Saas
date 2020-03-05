@@ -7,15 +7,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+
 import com.common.esimrfid.R;
 
 
 /**
  * 用于显示 Loading 的 {@link View}，支持颜色和大小的设置。
- *
+ *  自定义加载进度圈
  * @author xuexiang
  * @since 2018/12/1 下午11:24
  */
