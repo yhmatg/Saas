@@ -89,14 +89,6 @@ public class LocationAssetAdapter extends RecyclerView.Adapter<LocationAssetAdap
         }
     }
 
-    public interface OnItemClickListener {
-        void onRightImgClick(String epc);
-    }
-
-    public int getmMaxAssetNum() {
-        return mMaxAssetNum;
-    }
-
     public void setmMaxAssetNum(int mMaxAssetNum) {
         this.mMaxAssetNum = mMaxAssetNum;
     }

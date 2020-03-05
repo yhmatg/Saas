@@ -22,6 +22,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -149,6 +151,12 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
 
     @Override
     public void showInvOrders(List<ResultInventoryOrder> resultInventoryOrders) {
+        Collections.sort(resultInventoryOrders, new Comparator<ResultInventoryOrder>() {
+            @Override
+            public int compare(ResultInventoryOrder o1, ResultInventoryOrder o2) {
+                return o2.getCreate_date().compareTo(o1.getCreate_date());
+            }
+        });
         mInvTaskorders.clear();
         mFinishedTaskorders.clear();
         mUnFinishedTaskorders.clear();

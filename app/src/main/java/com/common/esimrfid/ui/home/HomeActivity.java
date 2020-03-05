@@ -64,6 +64,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -208,6 +210,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }
             mAstLocaionNum.add(assetLocationNum);
         }
+        Collections.sort(mAstLocaionNum, new Comparator<AssetLocationNum>() {
+            @Override
+            public int compare(AssetLocationNum o1, AssetLocationNum o2) {
+                return o1.getNumber() - o2.getNumber();
+            }
+        });
         locationAssetAdapter.setmMaxAssetNum(maxAssetNum);
         locationAssetAdapter.notifyDataSetChanged();
 
