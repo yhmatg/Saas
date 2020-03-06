@@ -8,7 +8,6 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -57,6 +56,8 @@ public class LocationAssetAdapter extends RecyclerView.Adapter<LocationAssetAdap
         }
         if(astNum > mMaxProgressLength){
             linearParams.width = mMaxProgressLength;
+        }else if(astNum < 1){
+            linearParams.width = 1;
         }else {
             linearParams.width = (int) astNum;
         }
