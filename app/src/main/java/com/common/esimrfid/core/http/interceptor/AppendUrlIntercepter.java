@@ -20,7 +20,7 @@ public class AppendUrlIntercepter implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         String token = DataManager.getInstance().getToken();
         String cacheHost= DataManager.getInstance().getHostUrl();
-
+        int defalutPort = -1;
         Request oldRequest = chain.request();
         HttpUrl.Builder builder = oldRequest
                 .url()
@@ -32,14 +32,16 @@ public class AppendUrlIntercepter implements Interceptor {
         if (!StringUtils.isEmpty(cacheHost) && !baseUrl.equals(cacheHost)) {
             if(cacheHost.startsWith("https")){
                 builder.scheme("https");
+                defalutPort = 443;
             }else {
                 builder.scheme("http");
+                defalutPort = 80;
             }
             cacheHost=cacheHost.replaceAll("http(s)?://","");
             String[] split = cacheHost.split(":");
             if(split.length == 1){
                 String cacheH = split[0];
-                builder.host(cacheH);
+                builder.host(cacheH).port(defalutPort);
             }else if(split.length == 2){
                 String cacheH = split[0];
                 String cacheP = split[1];
