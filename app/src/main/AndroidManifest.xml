@@ -64,5 +64,8 @@
         <activity
             android:name=".ui.assetsearch.LocationSearchActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".utils.logger.CrashActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 </manifest>

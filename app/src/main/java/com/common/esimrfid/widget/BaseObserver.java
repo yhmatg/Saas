@@ -15,6 +15,8 @@ import com.common.esimrfid.utils.ToastUtils;
 
 import java.net.SocketTimeoutException;
 
+import javax.net.ssl.SSLHandshakeException;
+
 import io.reactivex.observers.ResourceObserver;
 import retrofit2.HttpException;
 
@@ -72,6 +74,8 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
             mView.startLoginActivity();
         } else if (e instanceof SocketTimeoutException) {
             ToastUtils.showShort(R.string.socket_time_out_error);
+        } else if (e instanceof SSLHandshakeException) {
+            ToastUtils.showShort(R.string.url_error);
         } else if (e instanceof ResultIsNullException) {
             ToastUtils.showShort(R.string.not_result_error);
         } else if (e instanceof ExpiredExpection) {
