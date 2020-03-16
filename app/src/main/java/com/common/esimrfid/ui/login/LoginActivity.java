@@ -194,7 +194,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         toast.setView(toast_view);
         toast.show();
         startActivity(new Intent(this, HomeActivity.class));
-        finish();
+//        finish();
     }
 
 

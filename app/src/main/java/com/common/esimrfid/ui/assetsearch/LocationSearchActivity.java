@@ -64,6 +64,7 @@ public class LocationSearchActivity extends BaseActivity {
         filterSet();
     }
 
+
     private void setSound() {
         AudioAttributes abs = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
@@ -125,7 +126,7 @@ public class LocationSearchActivity extends BaseActivity {
     }
 
     private void zebraHandleData(UhfTag uhfTag) {
-        if(!StringUtils.isEmpty(uhfTag.getRssi())){
+        if (!StringUtils.isEmpty(uhfTag.getRssi())) {
             progressBar.setProgress(Integer.parseInt(uhfTag.getRssi()));
         }
     }
@@ -157,8 +158,8 @@ public class LocationSearchActivity extends BaseActivity {
             rssi = minValue;
         }
         rssi -= minValue;//rssi+80转为正数
-        String a=String.valueOf(rssi);
-        Log.e("wzmmmmmmmmmm",a);
+        String a = String.valueOf(rssi);
+        Log.e("wzmmmmmmmmmm", a);
         rssi = rssi * 2;
         progressBar.setProgress(rssi);
         playSound(rssi);
@@ -172,7 +173,7 @@ public class LocationSearchActivity extends BaseActivity {
         int ads = 32;
         int len = 96;
         int val = 1;
-        if(esimUhfService != null){
+        if (esimUhfService != null) {
             esimUhfService.setFilterData(val, ads, len, AssetsEpc, false);
         }
 
@@ -210,30 +211,28 @@ public class LocationSearchActivity extends BaseActivity {
         int ads = 0;
         int len = 0;
         int val = 1;
-        if(esimUhfService != null){
+        if (esimUhfService != null && !esimUhfService.isStart()) {
             esimUhfService.setFilterData(val, ads, len, "", false);
         }
 
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        EventBus.getDefault().unregister(this);
-//        if (esimUhfService != null && esimUhfService.isStart()) {
-//            esimUhfService.stopScanning();
-//        }
-//        filterClear();
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (esimUhfService != null && esimUhfService.isStart()) {
+            esimUhfService.stopScanning();
+        }
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        if (esimUhfService != null && esimUhfService.isStart()) {
-            esimUhfService.stopScanning();
+        if (esimUhfService != null ) {
+            filterClear();
         }
-        filterClear();
+//        filterClear();
     }
 
     @Override

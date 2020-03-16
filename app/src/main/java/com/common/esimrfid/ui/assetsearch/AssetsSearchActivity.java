@@ -82,13 +82,14 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         recyclerView.setVisibility(View.GONE);
         tips.setVisibility(View.VISIBLE);
         rotateAnim();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        filterClear();
+//        filterClear();
     }
 
     private void rotateAnim() {
@@ -239,7 +240,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         int ads = 0;
         int len = 0;
         int val = 1;
-        if(esimUhfService != null){
+        if(esimUhfService != null && !esimUhfService.isStart()){
             esimUhfService.setFilterData(val, ads, len, "", false);
         }
 
