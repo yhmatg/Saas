@@ -229,10 +229,7 @@ public class LocationSearchActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        if (esimUhfService != null ) {
-            filterClear();
-        }
-//        filterClear();
+        filterClear();
     }
 
     @Override

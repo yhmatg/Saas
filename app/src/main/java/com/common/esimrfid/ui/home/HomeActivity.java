@@ -132,9 +132,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
             mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
         } else {
-//            startActivity(new Intent(this, LoginActivity.class));
-//            finish();
-            startLoginActivity();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }
     }
 

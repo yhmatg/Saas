@@ -51,6 +51,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     LinearLayout access_address;
     private String TAG = "LoginActivity";
     private boolean isOpenEye = false;
+    Toast toast;
 
     @Override
     protected int getLayoutId() {
@@ -188,13 +189,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //设置登录成功弹出框
         LayoutInflater inflater = LayoutInflater.from(this);
         View toast_view = inflater.inflate(R.layout.login_success_dialog, null);
-        Toast toast = new Toast(getApplication());
+        toast = new Toast(getApplication());
         toast.setDuration(Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 150);
         toast.setView(toast_view);
         toast.show();
         startActivity(new Intent(this, HomeActivity.class));
-//        finish();
+        finish();
     }
 
 
@@ -206,6 +207,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        toast.cancel();
     }
 
     @Override
