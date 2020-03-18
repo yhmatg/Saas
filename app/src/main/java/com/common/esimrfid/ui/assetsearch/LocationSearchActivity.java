@@ -211,7 +211,7 @@ public class LocationSearchActivity extends BaseActivity {
         int ads = 0;
         int len = 0;
         int val = 1;
-        if (esimUhfService != null && !esimUhfService.isStart()) {
+            if (esimUhfService != null ){
             esimUhfService.setFilterData(val, ads, len, "", false);
         }
 
