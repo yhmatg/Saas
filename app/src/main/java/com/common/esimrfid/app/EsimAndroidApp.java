@@ -2,6 +2,7 @@ package com.common.esimrfid.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.SystemProperties;
 import android.support.multidex.MultiDex;
 
 import com.bumptech.glide.Glide;
@@ -70,7 +71,6 @@ public class EsimAndroidApp extends Application {
         ///storage/emulated/0/Android/data/com.common.esimrfid/cache/crash_log
         XLog.init(this);
         CrashHandler.getInstance().setOnCrashListener(new MyCrashListener());
-
     }
 
     @Override
@@ -135,6 +135,7 @@ public class EsimAndroidApp extends Application {
         IEsimUhfService iEsimUhfService;
         if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
             iEsimUhfService = new NewSpeedataUhfServiceImpl();
+            SystemProperties.set("persist.sys.PistolKey", "uhf");
         } else if ("common".equals(model) || "ESUR-H500".equals(model)) {
             iEsimUhfService = new RodinbellUhfServiceImpl();
         } else {
