@@ -14,6 +14,8 @@ import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
+import com.common.esimrfid.uhf.IEsimUhfService;
+import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.utils.CommonUtils;
 
@@ -185,5 +187,12 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
         return loginResponse;
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IEsimUhfService iEsimUhfService = EsimAndroidApp.getIEsimUhfService();
+        if( iEsimUhfService instanceof ZebraUhfServiceImpl){
+            ((ZebraUhfServiceImpl)iEsimUhfService).setScanEnable();
+        }
+    }
 }

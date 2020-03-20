@@ -2,6 +2,7 @@ package com.common.esimrfid.uhf;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -59,6 +60,11 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
 
     public ZebraUhfServiceImpl() {
         instance = EsimAndroidApp.getInstance();
+        if(Build.MODEL.contains("TC20")){
+            readername = "RFD2000";
+        }else {
+            readername = "RFD8500";
+        }
         //initRFID();
 
     }
@@ -258,7 +264,11 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         protected Void doInBackground(Void... voids) {
             Log.d(TAG, "CreateInstanceTask");
             if (readers == null) {
-                readers = new Readers(instance, ENUM_TRANSPORT.BLUETOOTH);
+                if(Build.MODEL.contains("TC20")){
+                    readers = new Readers(instance, ENUM_TRANSPORT.SERVICE_SERIAL);
+                }else {
+                    readers = new Readers(instance, ENUM_TRANSPORT.BLUETOOTH);
+                }
             }
             return null;
         }
@@ -484,5 +494,45 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 }
             }
         }.execute();
+    }
+    private ScanEnableTask scanEnableTask;
+    public void setScanEnable(){
+        scanEnableTask = new ScanEnableTask(false);
+        scanEnableTask.execute();
+    }
+
+    public class ScanEnableTask extends AsyncTask<Void, Void, Boolean> {
+
+        private Boolean enable;
+
+        ScanEnableTask(Boolean scanenable) {
+            enable = scanenable;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... a) {
+            try {
+                if (enable) {
+                    //onPause
+                    if ( reader!= null && reader.isConnected())
+                        reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.BARCODE_MODE, true);
+                } else {
+                    //onResume
+                    if (reader != null && reader.isConnected())
+                        reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.RFID_MODE, true);
+                }
+            } catch (InvalidUsageException e) {
+                e.printStackTrace();
+            } catch (OperationFailureException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+
+        @Override
+        protected void onCancelled() {
+            scanEnableTask = null;
+            super.onCancelled();
+        }
     }
 }
