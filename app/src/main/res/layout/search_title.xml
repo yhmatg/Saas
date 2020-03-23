@@ -16,10 +16,10 @@
             android:src="@drawable/btn_back"/>
 
     <LinearLayout
-        android:layout_width="@dimen/dp_270"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_26"
         android:orientation="horizontal"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="@dimen/dp_50"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_gravity="center"
         android:background="@drawable/bg_search">

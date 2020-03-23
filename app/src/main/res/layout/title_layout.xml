@@ -10,7 +10,6 @@
     <ImageView
         android:id="@+id/title_back"
         android:padding="@dimen/dp_12"
-        android:layout_marginStart="@dimen/dp_10"
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
         android:src="@drawable/btn_back"/>
