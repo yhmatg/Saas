@@ -409,7 +409,9 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                         @Override
                         protected Void doInBackground(Void... voids) {
 //                            context.handleTriggerPress(true);
-                            startScanning();
+                            if(isEnable()){
+                                startScanning();
+                            }
                             return null;
                         }
                     }.execute();
@@ -419,7 +421,9 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                         @Override
                         protected Void doInBackground(Void... voids) {
 //                            context.handleTriggerPress(false);
-                            stopScanning();
+                            if (isEnable()){
+                                stopScanning();
+                            }
                             return null;
                         }
                     }.execute();

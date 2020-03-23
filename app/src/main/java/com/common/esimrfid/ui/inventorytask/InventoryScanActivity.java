@@ -2,7 +2,6 @@ package com.common.esimrfid.ui.inventorytask;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
-import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.contract.home.InvDetailContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.emun.InventoryStatus;
@@ -277,12 +275,28 @@ public class InventoryScanActivity extends BaseActivity<InvDetailPresenter> impl
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
+    protected void onResume() {
+        super.onResume();
+        if(esimUhfService != null ){
+            esimUhfService.setEnable(true);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         if(esimUhfService != null && esimUhfService.isStart()){
             esimUhfService.stopScanning();
         }
+        if(esimUhfService != null ){
+            esimUhfService.setEnable(false);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

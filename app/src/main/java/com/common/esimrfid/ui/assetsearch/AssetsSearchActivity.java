@@ -12,7 +12,6 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,6 +89,9 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
+        if(esimUhfService != null ){
+            esimUhfService.setEnable(true);
+        }
     }
 
     private void rotateAnim() {
@@ -232,7 +234,9 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
             image_scan.clearAnimation();
             search.setImageResource(R.drawable.search_nearby_assets);
         }
-
+        if(esimUhfService != null ){
+            esimUhfService.setEnable(false);
+        }
 
     }
 

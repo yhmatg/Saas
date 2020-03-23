@@ -18,6 +18,8 @@ public interface IEsimUhfService {
 
     boolean isEnable();
 
+    void setEnable(boolean invEnable);
+
     boolean isStart();
 
     void setSoundOpen(boolean isOpen);

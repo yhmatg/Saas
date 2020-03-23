@@ -2,7 +2,6 @@ package com.common.esimrfid.ui.tagwrite;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -275,5 +274,21 @@ public class SearchTagActivity extends BaseActivity {
             ToastUtils.showShort(R.string.not_connect_prompt);
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(esimUhfService != null ){
+            esimUhfService.setEnable(true);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(esimUhfService != null ){
+            esimUhfService.setEnable(false);
+        }
     }
 }

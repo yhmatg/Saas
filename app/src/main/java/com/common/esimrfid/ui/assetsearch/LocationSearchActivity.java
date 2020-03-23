@@ -223,6 +223,9 @@ public class LocationSearchActivity extends BaseActivity {
         if (esimUhfService != null && esimUhfService.isStart()) {
             esimUhfService.stopScanning();
         }
+        if(esimUhfService != null ){
+            esimUhfService.setEnable(false);
+        }
     }
 
     @Override
@@ -244,4 +247,11 @@ public class LocationSearchActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(esimUhfService != null ){
+            esimUhfService.setEnable(true);
+        }
+    }
 }

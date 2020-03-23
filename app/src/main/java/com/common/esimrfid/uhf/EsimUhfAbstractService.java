@@ -26,6 +26,12 @@ public abstract class EsimUhfAbstractService implements IEsimUhfService {
     public boolean isEnable(){
         return mEnable;
     }
+
+    @Override
+    public void setEnable(boolean invEnable) {
+        mEnable = invEnable;
+    }
+
     @Override
     public boolean isStart(){
         return isStart;
