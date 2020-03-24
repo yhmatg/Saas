@@ -60,7 +60,7 @@ public class SearchTagActivity extends BaseActivity {
     private String scanTagEpc = null;//扫描到的Epc
     private boolean isClick;
     private Animation anim1, anim2;
-
+    private Boolean canRfid = true;
     @Override
     protected void initEventAndData() {
         title.setText("确认写入");
@@ -266,14 +266,23 @@ public class SearchTagActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (esimUhfService != null) {
-            if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
-                esimUhfService.startStopScanning();
+        if(canRfid){
+            if (esimUhfService != null) {
+                if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
+                    esimUhfService.startStopScanning();
+                }
+            } else if (keyCode == Utils.getDiffDownKey()) {
+                ToastUtils.showShort(R.string.not_connect_prompt);
             }
-        } else if (keyCode == Utils.getDiffDownKey()) {
-            ToastUtils.showShort(R.string.not_connect_prompt);
+            canRfid = false;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        canRfid = true;
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override

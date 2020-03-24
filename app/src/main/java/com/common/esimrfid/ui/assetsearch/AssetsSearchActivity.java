@@ -65,7 +65,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     private Set<String> scanEpcs = new HashSet<>();
     IEsimUhfService esimUhfService = null;
     private CircleAnimation animation;
-
+    private Boolean canRfid = true;
     @Override
     public AssetsSearchPresenter initPresenter() {
         return new AssetsSearchPresenter(DataManager.getInstance());
@@ -242,13 +242,22 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (esimUhfService != null) {
-            if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
-                esimUhfService.startStopScanning();
+        if(canRfid){
+            if (esimUhfService != null) {
+                if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
+                    esimUhfService.startStopScanning();
+                }
+            } else if (keyCode == Utils.getDiffDownKey()) {
+                ToastUtils.showShort(R.string.not_connect_prompt);
             }
-        } else if (keyCode == Utils.getDiffDownKey()) {
-            ToastUtils.showShort(R.string.not_connect_prompt);
+            canRfid = false;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        canRfid = true;
+        return super.onKeyUp(keyCode, event);
     }
 }
