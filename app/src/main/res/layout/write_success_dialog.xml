@@ -11,8 +11,8 @@
         android:layout_height="@dimen/dp_165"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        app:cardCornerRadius="6dp"
-        app:cardElevation="3dp"
+        app:cardCornerRadius="@dimen/dp_6"
+        app:cardElevation="@dimen/dp_3"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -22,39 +22,38 @@
             android:gravity="center">
 
             <TextView
-                android:layout_width="@dimen/dp_120"
-                android:layout_height="@dimen/dp_30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/prompt_title"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/dp_20"
                 android:textColor="#ff1a1a1a"
-                android:textSize="18sp"/>
+                android:textSize="@dimen/sp_18"/>
 
             <TextView
                 android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_20"
+                android:layout_height="@dimen/dp_50"
                 android:textSize="@dimen/sp_14"
                 android:textColor="#ff1a1a1a"
-                android:layout_marginBottom="@dimen/dp_10"
-                android:text="@string/write_epc_sucess"/>
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dp_10"
+                android:text="@string/write_epc_fail"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_height="@dimen/dp_2"
                 android:background="@color/line" />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
                 >
                 <Button
                     android:id="@+id/btn_confirm"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_45"
+                    android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:textColor="@color/search_background"
                     android:text="@string/sure_opt"/>
