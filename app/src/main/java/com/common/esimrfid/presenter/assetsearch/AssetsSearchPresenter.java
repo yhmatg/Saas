@@ -54,11 +54,11 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
                 mView.dismissDialog();
                 mView.handleSearchAssets(assetsInfos);
             }
-            @Override
-            public void onError(Throwable e){
-                mView.dismissDialog();
-                ToastUtils.showShort(R.string.not_find_asset);
-            }
+//            @Override
+//            public void onError(Throwable e){
+//                mView.dismissDialog();
+//                ToastUtils.showShort(R.string.not_find_asset);
+//            }
         }));
     }
 }

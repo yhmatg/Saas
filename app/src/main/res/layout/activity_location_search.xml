@@ -10,8 +10,8 @@
     <com.common.esimrfid.ui.assetsearch.EnergyView
         android:id="@+id/energy"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_60"
+        android:layout_height="@dimen/dp_330"
+        android:layout_marginTop="@dimen/dp_59"
         android:gravity="center"
         android:background="@color/white"
         android:layout_gravity="center"/>
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_49"
         android:text="@string/identify_tips"
         android:textStyle="bold"
         android:textColor="@color/search_background"
