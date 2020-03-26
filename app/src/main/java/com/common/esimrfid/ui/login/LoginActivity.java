@@ -191,7 +191,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         View toast_view = inflater.inflate(R.layout.login_success_dialog, null);
         toast = new Toast(getApplication());
         toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 150);
+        toast.setGravity(Gravity.CENTER, 0, 350);
         toast.setView(toast_view);
         toast.show();
         startActivity(new Intent(this, HomeActivity.class));

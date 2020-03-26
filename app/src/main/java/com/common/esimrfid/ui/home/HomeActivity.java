@@ -15,14 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.allenliu.versionchecklib.core.http.AllenHttp;
@@ -40,24 +34,17 @@ import com.common.esimrfid.contract.home.HomeConstract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.presenter.home.HomePresenter;
-import com.common.esimrfid.uhf.IEsimUhfService;
-import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
-import com.common.esimrfid.uhf.RodinbellUhfServiceImpl;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
-import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
 import com.common.esimrfid.ui.assetsearch.AssetsSearchActivity;
 import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
-import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.StringUtils;
-import com.example.gpio.MainActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -67,7 +54,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -104,11 +90,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     protected void initEventAndData() {
-        checkUserSatus();
         //initRfid();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+        checkUserSatus();
         locationAssetAdapter = new LocationAssetAdapter(mAstLocaionNum, this, maxAssetNum);
         mLocationRecycle.setLayoutManager(new LinearLayoutManager(this));
         mLocationRecycle.setAdapter(locationAssetAdapter);
@@ -149,6 +135,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     //初始化连接rfid
     private void initRfid() {
+        if (!"ESUR-H600".equals(Build.MODEL)){
+            showConnectDialog();
+        }
         EsimAndroidApp.getInstance().initRfid();
     }
 
@@ -157,10 +146,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
         switch (uhfMsgEvent.getType()) {
             case UhfMsgType.UHF_CONNECT:
-
                 break;
             case UhfMsgType.UHF_DISCONNECT:
-
+                break;
+            case UhfMsgType.UHF_DISMISS_DIALOG:
+                dismissFinishDialog();
                 break;
         }
 
@@ -190,6 +180,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        dismissFinishDialog();
         if (EsimAndroidApp.getIEsimUhfService() != null) {
             EsimAndroidApp.getIEsimUhfService().closeRFID();
             EsimAndroidApp.setIEsimUhfService(null);
@@ -386,5 +377,22 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             baseDialog.setCancelable(false);
             return baseDialog;
         };
+    }
+
+    public void showConnectDialog() {
+        if (updateDialog != null) {
+            updateDialog.show();
+        } else {
+            View contentView = LayoutInflater.from(this).inflate(R.layout.connect_loading_dialog, null);
+            /*TextView content = contentView.findViewById(R.id.tv_status);
+            content.setVisibility(View.GONE);*/
+            updateDialog = new MaterialDialog.Builder(this)
+                    .customView(contentView, false)
+                    .canceledOnTouchOutside(false)
+                    .cancelable(false)
+                    .show();
+            Window window = updateDialog.getWindow();
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+        }
     }
 }

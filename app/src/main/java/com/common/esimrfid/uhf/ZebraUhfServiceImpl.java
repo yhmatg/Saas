@@ -1,8 +1,6 @@
 package com.common.esimrfid.uhf;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
@@ -10,7 +8,6 @@ import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.utils.StringUtils;
 import com.zebra.rfid.api3.ACCESS_OPERATION_CODE;
@@ -268,6 +265,8 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_DISMISS_DIALOG);
+            EventBus.getDefault().post(uhfMsgEvent);
             if (!isReaderConnected()) {
                 EsimAndroidApp.setIEsimUhfService(null);
             }

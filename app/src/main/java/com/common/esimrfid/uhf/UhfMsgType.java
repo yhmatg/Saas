@@ -9,4 +9,5 @@ public class UhfMsgType {
     public static final String UHF_DISCONNECT="uhf_disconnect";
     public static final String UHF_WRITE_SUC="uhf_write_suc";
     public static final String UHF_READ_FAIL="uhf_write_fail";
+    public static final String UHF_DISMISS_DIALOG="uhf_dismiss_dialog";
 }
