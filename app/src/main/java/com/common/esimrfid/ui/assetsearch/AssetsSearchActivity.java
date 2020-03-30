@@ -40,6 +40,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -60,6 +61,10 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     LinearLayout empty_page;
     @BindView(R.id.tv_tips)
     TextView tips;
+    @BindView(R.id.scan_num)
+    TextView scanNmuber;
+    @BindString(R.string.zero_str)
+    String stringNum;
     private AssetsSearchAdapter assetsSearchAdapter;
     private List<AssetsInfo> mData = new ArrayList<>();
     private Set<String> scanEpcs = new HashSet<>();
@@ -82,7 +87,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         recyclerView.setVisibility(View.GONE);
         tips.setVisibility(View.VISIBLE);
         rotateAnim();
-
+        scanNmuber.setText("查找到资产数量0个");
     }
 
     @Override
@@ -161,6 +166,8 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         mData.addAll(assetsSearchInfos);
         assetsSearchAdapter.notifyDataSetChanged();
         handleResultList(mData);
+        String formatNum = String.format(stringNum,mData.size());
+        scanNmuber.setText(formatNum);
     }
 
     @Override
@@ -169,6 +176,8 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         mData.addAll(searchInfos);
         assetsSearchAdapter.notifyDataSetChanged();
         handleResultList(mData);
+        String formatNum = String.format(stringNum,mData.size());
+        scanNmuber.setText(formatNum);
     }
 
     private void handleResultList(List<AssetsInfo> mData) {
@@ -209,6 +218,11 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                 if (scanEpcs.size() != 0) {
                     mPresenter.getScanAssetsByEpc(scanEpcs);
                 } else {
+                    mData.clear();
+                    assetsSearchAdapter.notifyDataSetChanged();
+                    handleResultList(mData);
+                    String formatNum = String.format(stringNum,0);
+                    scanNmuber.setText(formatNum);
                     ToastUtils.showShort(R.string.not_get_epc);
                 }
                 break;

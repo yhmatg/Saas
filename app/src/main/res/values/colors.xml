@@ -38,4 +38,5 @@
     <color name="location_four">#16D1DD</color>
     <color name="hint_color">#D4D4D4</color>
     <color name="green_color">#28A701</color>
+    <color name="search_unm_back">#e8e8e8</color>
 </resources>

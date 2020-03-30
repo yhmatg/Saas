@@ -42,7 +42,8 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.tagwrite.WriteTagActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity
             android:name=".ui.tagwrite.SearchTagActivity"
             android:screenOrientation="portrait"></activity>
