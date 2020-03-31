@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
 import com.common.esimrfid.utils.ToastUtils;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 
 public class WriteTagAdapter extends RecyclerView.Adapter<WriteTagAdapter.ViewHolder> {
     private static final String TAG_EPC = "tag_epc";
+    private static final String ASSETS_ID="assets_id";
     private List<AssetsInfo> Data;
     private Context context;
 
@@ -66,6 +68,15 @@ public class WriteTagAdapter extends RecyclerView.Adapter<WriteTagAdapter.ViewHo
 
             }
         });
+        viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent();
+                intent.putExtra(ASSETS_ID,assetsInfo.getId());
+                intent.setClass(context, AssetsDetailsActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -86,6 +97,8 @@ public class WriteTagAdapter extends RecyclerView.Adapter<WriteTagAdapter.ViewHo
         TextView location;
         @BindView(R.id.search_layout)
         LinearLayout search;
+        @BindView(R.id.res_layout)
+        LinearLayout itemLayout;
 
         public ViewHolder(@NonNull View view) {
             super(view);
