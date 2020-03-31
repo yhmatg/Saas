@@ -6,23 +6,17 @@
 
     <include layout="@layout/search_title" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/scan_num"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/search_unm_back"
-        android:padding="@dimen/dp_5"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_margin="5dp"
-            android:id="@+id/scan_num"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/zero_str"
-            android:textColor="#80027BE6"
-            android:textSize="@dimen/sp_16" />
-    </LinearLayout>
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="@dimen/dp_10"
+        android:text="@string/zero_str"
+        android:textColor="#80027BE6"
+        android:textSize="@dimen/sp_16" />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -168,6 +168,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         handleResultList(mData);
         String formatNum = String.format(stringNum,mData.size());
         scanNmuber.setText(formatNum);
+        scanNmuber.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -178,6 +179,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         handleResultList(mData);
         String formatNum = String.format(stringNum,mData.size());
         scanNmuber.setText(formatNum);
+        scanNmuber.setVisibility(View.VISIBLE);
     }
 
     private void handleResultList(List<AssetsInfo> mData) {
@@ -223,6 +225,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                     handleResultList(mData);
                     String formatNum = String.format(stringNum,0);
                     scanNmuber.setText(formatNum);
+                    scanNmuber.setVisibility(View.GONE);
                     ToastUtils.showShort(R.string.not_get_epc);
                 }
                 break;
