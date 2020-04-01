@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_layout" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_100"
+        android:src="@drawable/setting_logo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_50"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/version_name"
+            android:textSize="@dimen/sp_24" />
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/version_num"
+            android:textSize="@dimen/sp_24" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_loginout"
+        android:layout_width="@dimen/dp_270"
+        android:layout_height="@dimen/dp_40"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_50"
+        android:background="@drawable/setting_bt_bg"
+        android:text="@string/login_out"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14" />
+</LinearLayout>

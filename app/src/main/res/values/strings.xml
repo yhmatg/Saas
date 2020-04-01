@@ -223,5 +223,10 @@
     <string name="found_inv_task">创建盘点任务</string>
     <string name="rfid_connect">RFD设备连接中...</string>
     <string name="zero_str">查找到资产数量%1$d个</string>
+    <string name="power_setting">功率设置</string>
+    <string name="sound_setting">声音设置</string>
+    <string name="function_setting">功能设置</string>
+    <string name="about_handheld_machine">关于手持机</string>
+    <string name="corporation_name">上海一芯智能科技</string>
 
 </resources>

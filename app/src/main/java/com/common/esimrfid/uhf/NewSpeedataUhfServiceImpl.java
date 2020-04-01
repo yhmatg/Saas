@@ -1,10 +1,20 @@
 package com.common.esimrfid.uhf;
 
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.serialport.DeviceControlSpd;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.Toast;
+
+import com.common.esimrfid.R;
+import com.common.esimrfid.utils.SettingBeepUtil;
 import com.orhanobut.logger.Logger;
+
 import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
+
 import cn.com.example.rfid.driver.Driver;
 import cn.com.example.rfid.driver.RfidDriver;
 
@@ -19,6 +29,7 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
     private static final String TAG = "SpeedataUhfServiceImpl";
     private Driver driver;
     private DeviceControlSpd newUHFDeviceControl;
+    private static ToneGenerator toneGenerator;
 
     public NewSpeedataUhfServiceImpl() {
         driver = new RfidDriver();
@@ -38,6 +49,7 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
         if (1000 == status) {
             UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_CONNECT);
             EventBus.getDefault().post(uhfMsgEvent);
+            beeperSettings();
             return true;
         } else {
             return false;
@@ -109,6 +121,38 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
         return driver.Set_Filter_Data(area, start, length, data, isSave);
     }
 
+    //设置功率
+    @Override
+    public void setPower(int data) {
+        Log.e("wwwwzzzzmmmm","data===" + data);
+        int status = driver.setTxPowerOnce(data );
+        Log.e("wwwwzzzzmmmm","status===" + status);
+        if (-1000 == status || (-1020) == status || 0 == status) {
+            UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SETTING_POWER_FAIL);
+            EventBus.getDefault().post(uhfMsgEvent);
+        } else {
+            UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SETTING_POWER_SUCCESS);
+            EventBus.getDefault().post(uhfMsgEvent);
+        }
+    }
+
+    //获取当前功率
+    @Override
+    public int getPower() {
+        int power=driver.GetTxPower();
+        return power;
+    }
+
+    @Override
+    public int getBatteryLevel() {
+        return 0;
+    }
+
+    @Override
+    public void setBeeper(boolean hostBeeper, boolean sledBeeperEnable) {
+    }
+
+
     @Override
     public int getDownKey() {
         return KeyEvent.KEYCODE_F1;
@@ -161,10 +205,13 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
                     String len = strEpc.substring(0, 2);
                     int epclen = (Integer.parseInt(len, 16) / 8) * 4;
                     String finalEpc = text.substring(0, epclen);
-                    UhfTag utag = new UhfTag(finalEpc,null,null,strEpc);
+                    UhfTag utag = new UhfTag(finalEpc, null, null, strEpc);
                     UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.INV_TAG, utag);
                     EventBus.getDefault().post(uhfMsgEvent);
-                }else {
+                    if(SettingBeepUtil.isOpen()){
+                        beep();
+                    }
+                } else {
                     UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.INV_TAG_NULL);
                     EventBus.getDefault().post(uhfMsgEvent);
                 }
@@ -176,5 +223,16 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
 
             }
         }
+    }
+
+    public static void beeperSettings() {
+        int streamType = AudioManager.STREAM_DTMF;
+        int percantageVolume = 100;
+        toneGenerator = new ToneGenerator(streamType, percantageVolume);
+    }
+
+    public static void beep() {
+        int toneType = ToneGenerator.TONE_PROP_BEEP;
+        toneGenerator.startTone(toneType);
     }
 }

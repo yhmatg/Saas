@@ -17,6 +17,7 @@ import com.zebra.rfid.api3.BEEPER_VOLUME;
 import com.zebra.rfid.api3.DYNAMIC_POWER_OPTIMIZATION;
 import com.zebra.rfid.api3.ENUM_TRANSPORT;
 import com.zebra.rfid.api3.ENUM_TRIGGER_MODE;
+import com.zebra.rfid.api3.Events;
 import com.zebra.rfid.api3.HANDHELD_TRIGGER_EVENT_TYPE;
 import com.zebra.rfid.api3.INVENTORY_STATE;
 import com.zebra.rfid.api3.InvalidUsageException;
@@ -50,12 +51,11 @@ import java.util.TimerTask;
 public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Readers.RFIDReaderEventHandler {
     final static String TAG = "RFID_SAMPLE";
     // RFID Reader
+	public static BEEPER_VOLUME sledBeeperVolume = BEEPER_VOLUME.HIGH_BEEP;
     private static BEEPER_VOLUME beeperVolume = BEEPER_VOLUME.HIGH_BEEP;
     private static final int BEEP_DELAY_TIME_MIN = 0;
     private static final int BEEP_DELAY_TIME_MAX = 300;
-    private boolean beepONLocate;
-    private Timer locatebeep;
-    private static ToneGenerator toneGenerator;
+
     private static Readers readers;
     private static ArrayList<ReaderDevice> availableRFIDReaderList;
     private static ReaderDevice readerDevice;
@@ -68,6 +68,16 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     String filterData;
     //位置型号强度
     private short dist;
+	private boolean beepONLocate;
+	private boolean beepON = false;
+    private Timer locatebeep;
+	public Timer tbeep;
+    private static ToneGenerator toneGenerator;
+	private static Antennas.AntennaRfConfig config;
+    private static Events.BatteryData BatteryData = null;
+    private int level = 0;
+    private int percantageVolume = 100;
+    private boolean sledBeeperEnable = true;
 
     public ZebraUhfServiceImpl() {
         instance = EsimAndroidApp.getInstance();
@@ -358,6 +368,9 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 reader.Events.setTagReadEvent(true);
                 reader.Events.setAttachTagDataWithReadEvent(false);
                 reader.Events.setReaderDisconnectEvent(true);
+				//获取电量配置设置及启动
+                reader.Events.setBatteryEvent(true);
+                reader.Config.getDeviceStatus(true, false, false);
                 // set trigger mode as rfid so scanner beam will not come
                 reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.RFID_MODE, true);
                 // set start and stop triggers
@@ -384,6 +397,13 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 // delete any prefilters
                 reader.Actions.PreFilters.deleteAll();
                 beeperSettings();
+				if (readername.equals("RFD8500")) {
+                    sledBeeperEnable = true;
+//                    beeperVolume=BEEPER_VOLUME.QUIET_BEEP;
+                    sledBeeperVolume = reader.Config.getBeeperVolume();
+                } else {
+                    sledBeeperEnable = false;
+                }
                 //
             } catch (InvalidUsageException | OperationFailureException e) {
                 e.printStackTrace();
@@ -411,7 +431,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                         dist = myTags[index].LocationInfo.getRelativeDistance();
                         //Adaptive RFD2000 location finding sound
                         if (dist > 0 && readername.equals("RFD2000")) {
-                            StartLocationBeeping(dist);
+                            startLocationBeeping(dist);
                         }
                         Log.d(TAG, "Tag relative distance " + dist);
                     }
@@ -456,10 +476,15 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 EventBus.getDefault().post(uhfMsgEvent);
                 EsimAndroidApp.setIEsimUhfService(null);
             }
+			Log.e("wzmmmm", rfidStatusEvents.StatusEventData.getStatusEventType().toString());
+            if (rfidStatusEvents.StatusEventData.getStatusEventType() == STATUS_EVENT_TYPE.BATTERY_EVENT) {
+                final Events.BatteryData batteryData = rfidStatusEvents.StatusEventData.BatteryData;
+                BatteryData = batteryData;
+            }
         }
     }
 
-    private void StartLocationBeeping(short dist) {
+    private void startLocationBeeping(short dist) {
         if (beeperVolume != BEEPER_VOLUME.QUIET_BEEP) {
             int POLLING_INTERVAL1 = BEEP_DELAY_TIME_MIN + (((BEEP_DELAY_TIME_MAX - BEEP_DELAY_TIME_MIN) * (100 - dist)) / 100);
             if (!beepONLocate) {
@@ -492,7 +517,6 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
 
     private void beeperSettings() {
         int streamType = AudioManager.STREAM_DTMF;
-        int percantageVolume = 100;
         toneGenerator = new ToneGenerator(streamType, percantageVolume);
     }
 
@@ -512,6 +536,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 utag.setRssi(dist + "");
                 UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.INV_TAG, utag);
                 EventBus.getDefault().post(uhfMsgEvent);
+				startbeepingTimer();
             }
             //add yhm 20190711 end
             return null;
@@ -605,5 +630,167 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
             scanEnableTask = null;
             super.onCancelled();
         }
+    }
+	//设置功率
+    @Override
+    public void setPower(int data) {
+
+        int mData = data * 10;
+        new AsyncTask<Void, Void, Boolean>() {
+            private OperationFailureException operationFailureException;
+            private InvalidUsageException invalidUsageException;
+
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                Antennas.AntennaRfConfig antennaRfConfig;
+                try {
+                    antennaRfConfig = reader.Config.Antennas.getAntennaRfConfig(1);
+                    antennaRfConfig.setTransmitPowerIndex(mData);
+                    reader.Config.Antennas.setAntennaRfConfig(1, antennaRfConfig);//设置功率www
+                    config = antennaRfConfig;
+                    return true;
+                } catch (InvalidUsageException e) {
+                    e.printStackTrace();
+                    invalidUsageException = e;
+                } catch (OperationFailureException e) {
+                    e.printStackTrace();
+                    operationFailureException = e;
+                }
+                return false;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                super.onPostExecute(result);
+                if (!result) {
+                    UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SETTING_POWER_FAIL);
+                    EventBus.getDefault().post(uhfMsgEvent);
+                } else {
+                    UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SETTING_POWER_SUCCESS);
+                    EventBus.getDefault().post(uhfMsgEvent);
+                }
+            }
+        }.execute();
+    }
+
+    //得到当前设备功率
+    @Override
+    public int getPower() {
+        int[] powerLevels;
+        int power = 0;
+        if (config != null && reader != null) {
+            powerLevels = reader.ReaderCapabilities.getTransmitPowerLevelValues();
+            power = powerLevels[config.getTransmitPowerIndex()] / 10;
+        }
+        return power;
+    }
+
+    @Override
+    public int getBatteryLevel() {
+        if (BatteryData != null) {
+            level = BatteryData.getLevel();
+        }
+        return level;
+    }
+
+    @Override
+    public void setBeeper(boolean hostBeeper, boolean sledBeeper) {
+        new AsyncTask<Void, Void, Boolean>() {
+            private OperationFailureException operationFailureException;
+            private InvalidUsageException invalidUsageException;
+            private int volume = 0;
+
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                boolean result = true;
+                if (reader != null) {
+                    if (sledBeeperEnable) {
+                        if (sledBeeper) {
+                            try {
+                                reader.Config.setBeeperVolume(BEEPER_VOLUME.HIGH_BEEP);
+                                sledBeeperVolume = BEEPER_VOLUME.HIGH_BEEP;
+                                volume = 1;
+                            } catch (InvalidUsageException e) {
+                                e.printStackTrace();
+                                result = false;
+                            } catch (OperationFailureException e) {
+                                e.printStackTrace();
+                                result = false;
+                            }
+                        } else {
+                            try {
+                                if (reader != null) {
+                                    reader.Config.setBeeperVolume(BEEPER_VOLUME.QUIET_BEEP);
+                                    volume = 0;
+                                }
+                            } catch (InvalidUsageException e) {
+                                e.printStackTrace();
+                                result = false;
+                            } catch (OperationFailureException e) {
+                                e.printStackTrace();
+                                result = false;
+                            }
+                        }
+                    }
+                    if (hostBeeper) {
+                        beeperVolume = BEEPER_VOLUME.HIGH_BEEP;
+                        volume = 1;
+                        percantageVolume = 100;
+                    } else {
+                        beeperVolume = BEEPER_VOLUME.QUIET_BEEP;
+                        volume = 0;
+                        percantageVolume = 0;
+                    }
+                }
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                super.onPostExecute(result);
+                if (!result) {
+                    if (invalidUsageException != null && operationFailureException != null) {
+                        UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SETTING_SOUND_FAIL);
+                        EventBus.getDefault().post(uhfMsgEvent);
+                    }
+                } else {
+                    beeperSettings();
+                    UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SETTING_SOUND_SUCCESS);
+                    EventBus.getDefault().post(uhfMsgEvent);
+                }
+            }
+        }.execute();
+    }
+
+    public void startbeepingTimer() {
+        if (beeperVolume != BEEPER_VOLUME.QUIET_BEEP) {
+            if (!beepON) {
+                beepON = true;
+                beep();
+                if (tbeep == null) {
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            stopbeepingTimer();
+                            beepON = false;
+                        }
+                    };
+                    tbeep = new Timer();
+                    tbeep.schedule(task, 10);
+                }
+            }
+        }
+    }
+
+    /**
+     * method to stop timer
+     */
+    public void stopbeepingTimer() {
+        if (tbeep != null) {
+            toneGenerator.stopTone();
+            tbeep.cancel();
+            tbeep.purge();
+        }
+        tbeep = null;
     }
 }

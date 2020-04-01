@@ -1,11 +1,13 @@
 package com.common.esimrfid.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
@@ -25,6 +27,8 @@ public class SettingActivity extends BaseActivity {
     TextView mTitle;
     @BindView(R.id.tv_version)
     TextView mVersion;
+    @BindView(R.id.function_setting)
+    LinearLayout right;
 
     @Override
     public AbstractPresenter initPresenter() {
@@ -50,7 +54,7 @@ public class SettingActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.bt_loginout, R.id.title_back})
+    @OnClick({R.id.bt_loginout, R.id.title_back,R.id.function_setting})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.bt_loginout:
@@ -61,6 +65,9 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.title_back:
                 finish();
+                break;
+            case R.id.function_setting:
+                startActivity(new Intent(this,FunctionActivity.class));
                 break;
         }
     }

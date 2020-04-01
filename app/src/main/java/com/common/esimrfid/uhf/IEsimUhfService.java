@@ -31,4 +31,12 @@ public interface IEsimUhfService {
     void writeEpcTag(String selectEpc, String epcData);
 
     int setFilterData(int area, int start, int length, String data, boolean isSave);
+
+    void setPower(int data);
+
+    int getPower();
+
+    int getBatteryLevel();
+
+    void setBeeper(boolean hostBeeper,boolean sledBeeper);
 }

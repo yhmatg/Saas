@@ -118,6 +118,26 @@ public class RodinbellUhfServiceImpl extends EsimUhfAbstractService{
         return 0;
     }
 
+    @Override
+    public void setPower(int data) {
+
+    }
+
+    @Override
+    public int getPower() {
+        return 0;
+    }
+
+    @Override
+    public int getBatteryLevel() {
+        return 0;
+    }
+
+    @Override
+    public void setBeeper(boolean hostBeeper, boolean sledBeeperEnable) {
+
+    }
+
     private RXObserver rxObserver = new RXObserver() {
         @Override
         protected void onInventoryTag(RXInventoryTag tag) {
