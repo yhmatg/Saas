@@ -1,12 +1,14 @@
 package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 
 import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.util.Date;
 
 //资产详情
+@Entity
 public class AssetsInfo {
 
     /**
@@ -45,6 +47,8 @@ public class AssetsInfo {
     private Integer ast_used_status;
     private Date create_date;
     private String creator_id;
+    @PrimaryKey
+    @NonNull
     private String id;
     private String loc_id;
     @Embedded

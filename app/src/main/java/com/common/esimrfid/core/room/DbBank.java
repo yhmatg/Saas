@@ -10,8 +10,10 @@ import android.support.annotation.NonNull;
 
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.core.bean.nanhua.DbUser;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.dao.AssetsinfoDao;
 import com.common.esimrfid.core.dao.DbUserDao;
 import com.common.esimrfid.core.dao.InventoryDetailDao;
 import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
@@ -20,7 +22,7 @@ import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
         InventoryDetail.class,
         DbUser.class,
         ResultInventoryOrder.class,
-
+        AssetsInfo.class
         }
         , version = 1)
 @TypeConverters(DateConverter.class)
@@ -60,5 +62,7 @@ public abstract class DbBank extends RoomDatabase {
     public abstract DbUserDao getDbUserDao();
 
     public abstract ResultInventoryOrderDao getResultInventoryOrderDao();
+
+    public abstract AssetsinfoDao getAssetsinfoDao();
 
 }
