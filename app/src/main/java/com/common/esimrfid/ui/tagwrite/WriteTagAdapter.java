@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.common.esimrfid.R;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
 import java.util.List;
@@ -71,10 +72,13 @@ public class WriteTagAdapter extends RecyclerView.Adapter<WriteTagAdapter.ViewHo
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
-                intent.putExtra(ASSETS_ID,assetsInfo.getId());
-                intent.setClass(context, AssetsDetailsActivity.class);
-                context.startActivity(intent);
+                if(CommonUtils.isNetworkConnected()){
+                    Intent intent=new Intent();
+                    intent.putExtra(ASSETS_ID,assetsInfo.getId());
+                    intent.setClass(context, AssetsDetailsActivity.class);
+                    context.startActivity(intent);
+                }
+
             }
         });
     }
