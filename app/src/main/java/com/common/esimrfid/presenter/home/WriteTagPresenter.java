@@ -11,6 +11,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
+import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
@@ -40,8 +41,10 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
         .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
             @Override
             public void onNext(List<AssetsInfo> assetsInfos) {
-                DbBank.getInstance().getAssetsinfoDao().deleteAllData();
-                DbBank.getInstance().getAssetsinfoDao().insertItems(assetsInfos);
+                if(StringUtils.isEmpty(assetsId) && CommonUtils.isNetworkConnected()){
+                    DbBank.getInstance().getAssetsinfoDao().deleteAllData();
+                    DbBank.getInstance().getAssetsinfoDao().insertItems(assetsInfos);
+                }
                 mView.dismissDialog();
                 mView.handleAssetsById(assetsInfos);
             }
