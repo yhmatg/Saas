@@ -27,5 +27,9 @@ public interface HomeConstract {
         void checkUpdateVersion();
 
         void getCompanyInfo();
+
+        void  fetchAllIvnOrders( String userId,boolean online);
+
+        void getAssetsInfoById(String assetsId);
     }
 }

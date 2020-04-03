@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -128,6 +127,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             mPresenter.checkUpdateVersion();
             EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
             mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
+            mPresenter.getAssetsInfoById("");
+            mPresenter.fetchAllIvnOrders(uerLogin.getUserinfo().getId(),true);
+
         } else {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
