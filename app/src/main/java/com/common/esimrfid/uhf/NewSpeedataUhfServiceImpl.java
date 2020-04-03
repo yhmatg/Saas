@@ -149,7 +149,7 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
     }
 
     @Override
-    public void setBeeper(boolean hostBeeper, boolean sledBeeperEnable) {
+    public void setBeeper() {
     }
 
 

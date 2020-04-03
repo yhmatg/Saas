@@ -73,6 +73,12 @@ public class Constants {
 
     public static final String USERLOGINRESPONSE = "userLoginResponse";
 
+    public static final String OPEN="open";
+
+    public static final String SLEDBEEPER="sledBeeper";
+
+    public static final String HOSTBEEPER="hostBeeper";
+
     //add yhm 20190707 end
 
 

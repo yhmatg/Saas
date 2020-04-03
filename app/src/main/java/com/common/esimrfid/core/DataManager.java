@@ -159,6 +159,36 @@ public class DataManager implements HttpHelper, PreferenceHelper {
         mPreferenceHelper.removeUserLoginResponse();
     }
 
+    @Override
+    public void setOpenBeeper(boolean isOpen) {
+        mPreferenceHelper.setOpenBeeper(isOpen);
+    }
+
+    @Override
+    public boolean getOpenBeeper() {
+        return mPreferenceHelper.getOpenBeeper();
+    }
+
+    @Override
+    public void setSledBeeper(boolean isSledBeeper) {
+        mPreferenceHelper.setSledBeeper(isSledBeeper);
+    }
+
+    @Override
+    public boolean getSledBeeper() {
+        return mPreferenceHelper.getSledBeeper();
+    }
+
+    @Override
+    public void setHostBeeper(boolean isHostBeeper) {
+        mPreferenceHelper.setHostBeeper(isHostBeeper);
+    }
+
+    @Override
+    public boolean getHostBeeper() {
+        return mPreferenceHelper.getHostBeeper();
+    }
+
 
     @Override
     public Observable<BaseResponse<UserLoginResponse>> login(UserInfo userInfo) {

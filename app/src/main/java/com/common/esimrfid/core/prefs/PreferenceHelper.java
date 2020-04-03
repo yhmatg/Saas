@@ -101,4 +101,16 @@ public interface PreferenceHelper {
 
     void removeUserLoginResponse();
 
+    void setOpenBeeper(boolean isOpen);
+
+    boolean getOpenBeeper();
+
+    void setSledBeeper(boolean isSledBeeper);
+
+    boolean getSledBeeper();
+
+    void setHostBeeper(boolean isHostBeeper);
+
+    boolean getHostBeeper();
+
 }

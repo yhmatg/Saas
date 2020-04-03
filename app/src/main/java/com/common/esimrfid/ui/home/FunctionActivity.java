@@ -1,8 +1,5 @@
 package com.common.esimrfid.ui.home;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +11,7 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
+import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
@@ -43,6 +41,8 @@ public class FunctionActivity extends BaseActivity {
     TextView num;
     @BindView(R.id.seekbar)
     SeekBar seekBar;
+    @BindView(R.id.seekbar_zebar)
+    SeekBar seekBar_zebra;
     @BindView(R.id.sound_setting1)
     LinearLayout setting1;
     @BindView(R.id.sound_setting2)
@@ -63,95 +63,131 @@ public class FunctionActivity extends BaseActivity {
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void initEventAndData() {
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
         mTitle.setText("功能设置");
         initData();
-        seekBar.setMax(25);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                total = progress + 5;
-                num.setText(String.valueOf(total));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
     }
 
     private void initData() {
-        //判断手持机是否连接成功
+        if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
+            setting1.setVisibility(View.VISIBLE);
+            setting2.setVisibility(View.GONE);
+            seekBar.setVisibility(View.VISIBLE);
+            seekBar_zebra.setVisibility(View.GONE);
+        } else if ("TC20".equals(model)) {
+            seekBar_zebra.setVisibility(View.VISIBLE);
+            seekBar.setVisibility(View.GONE);
+            setting1.setVisibility(View.VISIBLE);
+            setting2.setVisibility(View.GONE);
+        } else {
+            seekBar_zebra.setVisibility(View.VISIBLE);
+            seekBar.setVisibility(View.GONE);
+            setting1.setVisibility(View.GONE);
+            setting2.setVisibility(View.VISIBLE);
+        }
         if (esimUhfService != null) {
-            total = esimUhfService.getPower();
-            if (total >= 30) {
-                total = 30;
-            } else if (total <= 0) {
-                total = 0;
-            }
-            seekBar.setProgress(total - 5);
-            num.setText(String.valueOf(total));
             plus.setClickable(true);
             reduce.setClickable(true);
             seekBar.setEnabled(true);
+            seekBar_zebra.setEnabled(true);
             sound.setClickable(true);
             sled.setClickable(true);
             host.setClickable(true);
+            if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
+                total = esimUhfService.getPower();
+                if (total >= 30) {
+                    total = 30;
+                } else if (total <= 0) {
+                    total = 0;
+                }
+                seekBar.setMax(25);
+                seekBar.setProgress(total - 5);
+                num.setText(String.valueOf(total));
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        total = progress + 5;
+                        num.setText(String.valueOf(total));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+            } else {
+                seekBar_zebra.setMax(300);
+                total = esimUhfService.getPower();
+                if (total >= 300) {
+                    total = 300;
+                } else if (total <= 0) {
+                    total = 0;
+                }
+                seekBar_zebra.setProgress(total);
+                num.setText(String.valueOf(total));
+                seekBar_zebra.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        total = progress;
+                        num.setText(String.valueOf(total));
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+            }
         } else {
             num.setText("0");
             plus.setClickable(false);
             reduce.setClickable(false);
             seekBar.setEnabled(false);
+            seekBar_zebra.setEnabled(false);
             sound.setClickable(false);
             host.setClickable(false);
             sled.setClickable(false);
         }
 
         if (SettingBeepUtil.isOpen()) {
-            isOpen=true;
+            isOpen = true;
             sound.setImageResource(R.drawable.img_open);
         } else {
-            isOpen=false;
+            isOpen = false;
             sound.setImageResource(R.drawable.img_close);
         }
 
-        if(SettingBeepUtil.isHostOpen()){
-            hostOpen=true;
+        if (SettingBeepUtil.isHostOpen()) {
+            hostOpen = true;
             host.setImageResource(R.drawable.img_open);
-        }else {
-            hostOpen=false;
-            host.setImageResource(R.drawable.img_close);
-        }
-
-        if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
-            setting1.setVisibility(View.VISIBLE);
-            setting2.setVisibility(View.GONE);
-            seekBar.setMax(25);
         } else {
-            setting1.setVisibility(View.GONE);
-            setting2.setVisibility(View.VISIBLE);
+            hostOpen = false;
+            host.setImageResource(R.drawable.img_close);
         }
 
         if ("TC20".equals(model)) {
             sled.setEnabled(false);
             sledOpen = false;
+            SettingBeepUtil.setSledOpen(false);
             sled.setImageResource(R.drawable.img_close);
-        }else {
-            if(SettingBeepUtil.isSledOpen()){
-                sledOpen=true;
+        } else {
+            if (SettingBeepUtil.isSledOpen()) {
+                sledOpen = true;
                 sled.setImageResource(R.drawable.img_open);
-            }else {
-                sledOpen=false;
+            } else {
+                sledOpen = false;
                 sled.setImageResource(R.drawable.img_close);
             }
         }
@@ -168,7 +204,7 @@ public class FunctionActivity extends BaseActivity {
             case R.id.title_back:
                 if (esimUhfService != null) {
                     esimUhfService.setPower(total);
-                    esimUhfService.setBeeper(hostOpen, sledOpen);
+                    esimUhfService.setBeeper();
                     ToastUtils.showShort(R.string.save_newinv_succ);
                 }
                 finish();
@@ -176,10 +212,12 @@ public class FunctionActivity extends BaseActivity {
             case R.id.img_plus:
                 total = total + 1;
                 seekBar.setProgress(total - 5);
+                seekBar_zebra.setProgress(total);
                 break;
             case R.id.img_reduce:
                 total = total - 1;
                 seekBar.setProgress(total - 5);
+                seekBar_zebra.setProgress(total);
                 break;
             case R.id.sound_set:
                 setSoundOpen();
@@ -195,13 +233,13 @@ public class FunctionActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleUhfMsg(UhfMsgEvent<UhfTag> uhfMsgEvent) {
-        String epc = null;
         switch (uhfMsgEvent.getType()) {
             case UhfMsgType.SETTING_SOUND_FAIL:
                 ToastUtils.showShort("手持机声音设置失败，请检查连接退出重试！");
                 break;
         }
     }
+
     private void setHostOpen() {
         if (hostOpen) {
             hostOpen = false;
@@ -250,12 +288,21 @@ public class FunctionActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DataManager.getInstance().setOpenBeeper(SettingBeepUtil.isOpen());
+        DataManager.getInstance().setSledBeeper(SettingBeepUtil.isSledOpen());
+        DataManager.getInstance().setHostBeeper(SettingBeepUtil.isHostOpen());
+
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (esimUhfService != null) {
                 esimUhfService.setPower(total);
                 ToastUtils.showShort(R.string.save_newinv_succ);
-                esimUhfService.setBeeper(hostOpen, sledOpen);
+                esimUhfService.setBeeper();
             }
         }
         return super.onKeyDown(keyCode, event);

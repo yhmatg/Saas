@@ -109,9 +109,9 @@
     <LinearLayout
         android:id="@+id/bt_loginout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_30"
+        android:layout_height="@dimen/dp_50"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_20"
         android:background="@drawable/home_item_background"
         android:gravity="center">
 

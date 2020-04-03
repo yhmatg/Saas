@@ -38,5 +38,5 @@ public interface IEsimUhfService {
 
     int getBatteryLevel();
 
-    void setBeeper(boolean hostBeeper,boolean sledBeeper);
+    void setBeeper();
 }

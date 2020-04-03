@@ -61,7 +61,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public void setLoginStatus(boolean isLogin) {
-        mPreferences.edit().putBoolean(Constants.LOGIN_STATUS, isLogin).commit();
+        mPreferences.edit().putBoolean(Constants.LOGIN_STATUS, isLogin).apply();
     }
 
     @Override
@@ -139,6 +139,36 @@ public class PreferenceHelperImpl implements PreferenceHelper {
     @Override
     public void removeUserLoginResponse() {
         mPreferences.edit().remove(Constants.USERLOGINRESPONSE).commit();
+    }
+
+    @Override
+    public void setOpenBeeper(boolean isOpen) {
+        mPreferences.edit().putBoolean(Constants.OPEN,isOpen).apply();
+    }
+
+    @Override
+    public boolean getOpenBeeper() {
+        return mPreferences.getBoolean(Constants.OPEN,true);
+    }
+
+    @Override
+    public void setSledBeeper(boolean isSledBeeper) {
+        mPreferences.edit().putBoolean(Constants.SLEDBEEPER,isSledBeeper).apply();
+    }
+
+    @Override
+    public boolean getSledBeeper() {
+        return mPreferences.getBoolean(Constants.SLEDBEEPER,true);
+    }
+
+    @Override
+    public void setHostBeeper(boolean isHostBeeper) {
+        mPreferences.edit().putBoolean(Constants.HOSTBEEPER,isHostBeeper).apply();
+    }
+
+    @Override
+    public boolean getHostBeeper() {
+        return mPreferences.getBoolean(Constants.HOSTBEEPER,true);
     }
 
 

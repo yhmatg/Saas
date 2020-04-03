@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -37,6 +38,7 @@ import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.presenter.home.HomePresenter;
+import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
@@ -44,6 +46,7 @@ import com.common.esimrfid.ui.assetsearch.AssetsSearchActivity;
 import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
+import com.common.esimrfid.utils.SettingBeepUtil;
 import com.common.esimrfid.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -82,6 +85,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private LocationAssetAdapter locationAssetAdapter;
     @BindString(R.string.def_update_content)
     String defUpdateContent;
+    IEsimUhfService esimUhfService=null;
 
     @Override
     public HomePresenter initPresenter() {
@@ -95,9 +99,16 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             EventBus.getDefault().register(this);
         }
         checkUserSatus();
+        esimUhfService = EsimAndroidApp.getIEsimUhfService();
         locationAssetAdapter = new LocationAssetAdapter(mAstLocaionNum, this, maxAssetNum);
         mLocationRecycle.setLayoutManager(new LinearLayoutManager(this));
         mLocationRecycle.setAdapter(locationAssetAdapter);
+        SettingBeepUtil.setOpen(DataManager.getInstance().getOpenBeeper());
+        SettingBeepUtil.setSledOpen(DataManager.getInstance().getSledBeeper());
+        SettingBeepUtil.setHostOpen(DataManager.getInstance().getHostBeeper());
+        if(esimUhfService!=null){
+            esimUhfService.setBeeper();
+        }
     }
 
     @Override

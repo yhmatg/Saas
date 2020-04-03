@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 
 import com.common.esimrfid.app.EsimAndroidApp;
+import com.common.esimrfid.utils.SettingBeepUtil;
 import com.common.esimrfid.utils.StringUtils;
 import com.zebra.rfid.api3.ACCESS_OPERATION_CODE;
 import com.zebra.rfid.api3.ACCESS_OPERATION_STATUS;
@@ -51,7 +52,7 @@ import java.util.TimerTask;
 public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Readers.RFIDReaderEventHandler {
     final static String TAG = "RFID_SAMPLE";
     // RFID Reader
-	public static BEEPER_VOLUME sledBeeperVolume = BEEPER_VOLUME.HIGH_BEEP;
+    public static BEEPER_VOLUME sledBeeperVolume = BEEPER_VOLUME.HIGH_BEEP;
     private static BEEPER_VOLUME beeperVolume = BEEPER_VOLUME.HIGH_BEEP;
     private static final int BEEP_DELAY_TIME_MIN = 0;
     private static final int BEEP_DELAY_TIME_MAX = 300;
@@ -62,18 +63,18 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     private static RFIDReader reader;
     private EventHandler eventHandler;
     private int MAX_POWER = 270;
-    String readername = "RFD8500";
-    Application instance;
-    boolean locaitonStart = false;
-    String filterData;
+    private String readername = "RFD8500";
+    private Application instance;
+    private boolean locaitonStart = false;
+    private String filterData;
     //位置型号强度
     private short dist;
-	private boolean beepONLocate;
-	private boolean beepON = false;
+    private boolean beepONLocate;
+    private boolean beepON = false;
     private Timer locatebeep;
-	public Timer tbeep;
+    private Timer tbeep;
     private static ToneGenerator toneGenerator;
-	private static Antennas.AntennaRfConfig config;
+    private static Antennas.AntennaRfConfig config;
     private static Events.BatteryData BatteryData = null;
     private int level = 0;
     private int percantageVolume = 100;
@@ -368,7 +369,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 reader.Events.setTagReadEvent(true);
                 reader.Events.setAttachTagDataWithReadEvent(false);
                 reader.Events.setReaderDisconnectEvent(true);
-				//获取电量配置设置及启动
+                //获取电量配置设置及启动
                 reader.Events.setBatteryEvent(true);
                 reader.Config.getDeviceStatus(true, false, false);
                 // set trigger mode as rfid so scanner beam will not come
@@ -376,15 +377,12 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 // set start and stop triggers
                 reader.Config.setStartTrigger(triggerInfo.StartTrigger);
                 reader.Config.setStopTrigger(triggerInfo.StopTrigger);
-                //modify 0220 start
                 reader.Config.setDPOState(DYNAMIC_POWER_OPTIMIZATION.DISABLE);
                 reader.Config.setUniqueTagReport(false);
-                //modify 0220 end
                 // power levels are index based so maximum power supported get the last one
                 MAX_POWER = reader.ReaderCapabilities.getTransmitPowerLevelValues().length - 1;
                 // set antenna configurations
-                Antennas.AntennaRfConfig config = reader.Config.Antennas.getAntennaRfConfig(1);
-                config.setTransmitPowerIndex(MAX_POWER);
+                config = reader.Config.Antennas.getAntennaRfConfig(1);
                 config.setrfModeTableIndex(0);
                 config.setTari(0);
                 reader.Config.Antennas.setAntennaRfConfig(1, config);
@@ -397,7 +395,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 // delete any prefilters
                 reader.Actions.PreFilters.deleteAll();
                 beeperSettings();
-				if (readername.equals("RFD8500")) {
+                if (readername.equals("RFD8500")) {
                     sledBeeperEnable = true;
 //                    beeperVolume=BEEPER_VOLUME.QUIET_BEEP;
                     sledBeeperVolume = reader.Config.getBeeperVolume();
@@ -429,10 +427,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                     }
                     if (myTags[index].isContainsLocationInfo()) {
                         dist = myTags[index].LocationInfo.getRelativeDistance();
-                        //Adaptive RFD2000 location finding sound
-                        if (dist > 0 && readername.equals("RFD2000")) {
-                            startLocationBeeping(dist);
-                        }
+                        stopbeepingTimer();
                         Log.d(TAG, "Tag relative distance " + dist);
                     }
                 }
@@ -476,7 +471,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 EventBus.getDefault().post(uhfMsgEvent);
                 EsimAndroidApp.setIEsimUhfService(null);
             }
-			Log.e("wzmmmm", rfidStatusEvents.StatusEventData.getStatusEventType().toString());
+            Log.e("wzmmmm", rfidStatusEvents.StatusEventData.getStatusEventType().toString());
             if (rfidStatusEvents.StatusEventData.getStatusEventType() == STATUS_EVENT_TYPE.BATTERY_EVENT) {
                 final Events.BatteryData batteryData = rfidStatusEvents.StatusEventData.BatteryData;
                 BatteryData = batteryData;
@@ -536,9 +531,12 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 utag.setRssi(dist + "");
                 UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.INV_TAG, utag);
                 EventBus.getDefault().post(uhfMsgEvent);
-				startbeepingTimer();
+                if(locaitonStart){
+                    startLocationBeeping(dist);
+                }else {
+                    startbeepingTimer();
+                }
             }
-            //add yhm 20190711 end
             return null;
         }
     }
@@ -631,11 +629,10 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
             super.onCancelled();
         }
     }
-	//设置功率
+
+    //设置功率
     @Override
     public void setPower(int data) {
-
-        int mData = data * 10;
         new AsyncTask<Void, Void, Boolean>() {
             private OperationFailureException operationFailureException;
             private InvalidUsageException invalidUsageException;
@@ -644,10 +641,13 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
             protected Boolean doInBackground(Void... voids) {
                 Antennas.AntennaRfConfig antennaRfConfig;
                 try {
-                    antennaRfConfig = reader.Config.Antennas.getAntennaRfConfig(1);
-                    antennaRfConfig.setTransmitPowerIndex(mData);
-                    reader.Config.Antennas.setAntennaRfConfig(1, antennaRfConfig);//设置功率www
-                    config = antennaRfConfig;
+//                    antennaRfConfig = reader.Config.Antennas.getAntennaRfConfig(1);
+//                    antennaRfConfig.setTransmitPowerIndex(mData);
+//                    reader.Config.Antennas.setAntennaRfConfig(1, antennaRfConfig);//设置功率www
+//                    config = antennaRfConfig;
+                    config.setTransmitPowerIndex(data);
+                    reader.Config.Antennas.setAntennaRfConfig(1, config);//设置功率www
+
                     return true;
                 } catch (InvalidUsageException e) {
                     e.printStackTrace();
@@ -680,7 +680,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         int power = 0;
         if (config != null && reader != null) {
             powerLevels = reader.ReaderCapabilities.getTransmitPowerLevelValues();
-            power = powerLevels[config.getTransmitPowerIndex()] / 10;
+            power = powerLevels[config.getTransmitPowerIndex()];
         }
         return power;
     }
@@ -694,11 +694,16 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     }
 
     @Override
-    public void setBeeper(boolean hostBeeper, boolean sledBeeper) {
+    public void setBeeper() {
+        boolean hostBeeper = SettingBeepUtil.isHostOpen();
+        boolean sledBeeper = SettingBeepUtil.isSledOpen();
+        if (readername.equals("RFD2000")) {
+            hostBeeper = SettingBeepUtil.isOpen();
+        }
+        boolean finalHostBeeper = hostBeeper;
         new AsyncTask<Void, Void, Boolean>() {
             private OperationFailureException operationFailureException;
             private InvalidUsageException invalidUsageException;
-            private int volume = 0;
 
             @Override
             protected Boolean doInBackground(Void... voids) {
@@ -709,36 +714,37 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                             try {
                                 reader.Config.setBeeperVolume(BEEPER_VOLUME.HIGH_BEEP);
                                 sledBeeperVolume = BEEPER_VOLUME.HIGH_BEEP;
-                                volume = 1;
                             } catch (InvalidUsageException e) {
                                 e.printStackTrace();
                                 result = false;
+                                invalidUsageException = e;
+
                             } catch (OperationFailureException e) {
                                 e.printStackTrace();
                                 result = false;
+                                operationFailureException = e;
                             }
                         } else {
                             try {
                                 if (reader != null) {
                                     reader.Config.setBeeperVolume(BEEPER_VOLUME.QUIET_BEEP);
-                                    volume = 0;
                                 }
                             } catch (InvalidUsageException e) {
                                 e.printStackTrace();
                                 result = false;
+                                invalidUsageException = e;
                             } catch (OperationFailureException e) {
                                 e.printStackTrace();
                                 result = false;
+                                operationFailureException = e;
                             }
                         }
                     }
-                    if (hostBeeper) {
+                    if (finalHostBeeper) {
                         beeperVolume = BEEPER_VOLUME.HIGH_BEEP;
-                        volume = 1;
                         percantageVolume = 100;
                     } else {
                         beeperVolume = BEEPER_VOLUME.QUIET_BEEP;
-                        volume = 0;
                         percantageVolume = 0;
                     }
                 }
@@ -762,7 +768,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         }.execute();
     }
 
-    public void startbeepingTimer() {
+    private void startbeepingTimer() {
         if (beeperVolume != BEEPER_VOLUME.QUIET_BEEP) {
             if (!beepON) {
                 beepON = true;
@@ -785,7 +791,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     /**
      * method to stop timer
      */
-    public void stopbeepingTimer() {
+    private void stopbeepingTimer() {
         if (tbeep != null) {
             toneGenerator.stopTone();
             tbeep.cancel();
@@ -793,4 +799,5 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         }
         tbeep = null;
     }
+
 }
