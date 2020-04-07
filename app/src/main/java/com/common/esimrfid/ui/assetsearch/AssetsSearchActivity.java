@@ -168,7 +168,11 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         handleResultList(mData);
         String formatNum = String.format(stringNum,mData.size());
         scanNmuber.setText(formatNum);
-        scanNmuber.setVisibility(View.VISIBLE);
+        if(mData.size()>0){
+            scanNmuber.setVisibility(View.VISIBLE);
+        }else
+            scanNmuber.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -179,7 +183,10 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         handleResultList(mData);
         String formatNum = String.format(stringNum,mData.size());
         scanNmuber.setText(formatNum);
-        scanNmuber.setVisibility(View.VISIBLE);
+        if(mData.size()>0){
+            scanNmuber.setVisibility(View.VISIBLE);
+        }else
+            scanNmuber.setVisibility(View.GONE);
     }
 
     private void handleResultList(List<AssetsInfo> mData) {

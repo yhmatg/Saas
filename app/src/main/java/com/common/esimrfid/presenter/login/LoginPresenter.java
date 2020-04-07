@@ -86,7 +86,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                 mDataManager.setLoginStatus(true);
                 mView.startMainActivity();
             }else {
-                ToastUtils.showShort("账号或者密码不正确");
+                ToastUtils.showShort(R.string.http_error);
             }
 
         }
