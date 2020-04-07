@@ -61,7 +61,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public void setLoginStatus(boolean isLogin) {
-        mPreferences.edit().putBoolean(Constants.LOGIN_STATUS, isLogin).apply();
+        mPreferences.edit().putBoolean(Constants.LOGIN_STATUS, isLogin).commit();
     }
 
     @Override

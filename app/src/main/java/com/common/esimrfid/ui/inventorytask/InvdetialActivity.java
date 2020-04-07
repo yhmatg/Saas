@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
@@ -54,6 +55,8 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     Button mStartInv;
     @BindView(R.id.rv_inventory_detail)
     RecyclerView mInvDetailRecyclerView;
+    @BindView(R.id.empty_page)
+    LinearLayout empty_layout;
     private String mInvId;
     private String mInvName;
     private  int invStatus;
@@ -159,6 +162,13 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         //如果有网络直接提交本地盘点过的数据
         if (CommonUtils.isNetworkConnected() && notSubmitInvDetails.size() > 0) {
             mPresenter.upLoadInvDetails(mInvId, notSubmitEpcList, notSubmitInvDetails, userId);
+        }
+        if(mInventoryDetails.size()>0){
+            mInvDetailRecyclerView.setVisibility(View.VISIBLE);
+            empty_layout.setVisibility(View.GONE);
+        }else {
+            mInvDetailRecyclerView.setVisibility(View.GONE);
+            empty_layout.setVisibility(View.VISIBLE);
         }
 
     }

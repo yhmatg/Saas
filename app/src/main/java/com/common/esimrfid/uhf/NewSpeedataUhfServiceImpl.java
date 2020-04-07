@@ -124,9 +124,7 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
     //设置功率
     @Override
     public void setPower(int data) {
-        Log.e("wwwwzzzzmmmm","data===" + data);
-        int status = driver.setTxPowerOnce(data );
-        Log.e("wwwwzzzzmmmm","status===" + status);
+        int status = driver.setTxPowerOnce(data);
         if (-1000 == status || (-1020) == status || 0 == status) {
             UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SETTING_POWER_FAIL);
             EventBus.getDefault().post(uhfMsgEvent);
@@ -139,7 +137,7 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
     //获取当前功率
     @Override
     public int getPower() {
-        int power=driver.GetTxPower();
+        int power = driver.GetTxPower();
         return power;
     }
 
@@ -208,7 +206,7 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
                     UhfTag utag = new UhfTag(finalEpc, null, null, strEpc);
                     UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.INV_TAG, utag);
                     EventBus.getDefault().post(uhfMsgEvent);
-                    if(SettingBeepUtil.isOpen()){
+                    if (SettingBeepUtil.isOpen()) {
                         beep();
                     }
                 } else {

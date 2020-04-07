@@ -5,20 +5,15 @@
     android:id="@+id/empty_page"
     android:background="@drawable/tips_background"
     android:orientation="vertical"
-    android:visibility="visible">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:visibility="visible"
+    android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_message"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dp_270"
             android:textColor="#ff1a1a1a"
+            android:layout_marginTop="@dimen/dp_120"
             android:textSize="@dimen/sp_12" />
 
         <TextView
@@ -26,14 +21,11 @@
             android:layout_width="@dimen/dp_170"
             android:layout_height="@dimen/dp_30"
             android:text="@string/search_assets_tips"
-            android:layout_marginBottom="@dimen/dp_200"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_20"
             android:textColor="#ff999999"
             android:gravity="center"
             android:visibility="gone"
             android:textSize="@dimen/sp_11"
             />
-    </RelativeLayout>
 
 </LinearLayout>

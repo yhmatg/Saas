@@ -639,12 +639,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
 
             @Override
             protected Boolean doInBackground(Void... voids) {
-                Antennas.AntennaRfConfig antennaRfConfig;
                 try {
-//                    antennaRfConfig = reader.Config.Antennas.getAntennaRfConfig(1);
-//                    antennaRfConfig.setTransmitPowerIndex(mData);
-//                    reader.Config.Antennas.setAntennaRfConfig(1, antennaRfConfig);//设置功率www
-//                    config = antennaRfConfig;
                     config.setTransmitPowerIndex(data);
                     reader.Config.Antennas.setAntennaRfConfig(1, config);//设置功率www
 

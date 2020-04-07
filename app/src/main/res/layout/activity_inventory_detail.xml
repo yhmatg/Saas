@@ -140,12 +140,19 @@
             android:textSize="@dimen/sp_13" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_inventory_detail"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bt_start_inv"
-        android:layout_below="@+id/rl_top_layout" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top_layout"
+        android:layout_above="@+id/bt_start_inv">
+
+        <include layout="@layout/empty_page"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_inventory_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
 
     <Button
         android:id="@+id/bt_start_inv"
