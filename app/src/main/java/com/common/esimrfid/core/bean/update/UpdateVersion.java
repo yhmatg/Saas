@@ -1,7 +1,5 @@
 package com.common.esimrfid.core.bean.update;
 
-import java.util.Date;
-
 public class UpdateVersion {
 
     /**
@@ -20,9 +18,6 @@ public class UpdateVersion {
     private String app_upgrade_message;
     private String app_version;
     private int app_version_code;
-    private Date create_date;
-    private String id;
-    private Date update_date;
 
     public String getApp_download_url() {
         return app_download_url;
@@ -62,29 +57,5 @@ public class UpdateVersion {
 
     public void setApp_version_code(int app_version_code) {
         this.app_version_code = app_version_code;
-    }
-
-    public Date getCreate_date() {
-        return create_date;
-    }
-
-    public void setCreate_date(Date create_date) {
-        this.create_date = create_date;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getUpdate_date() {
-        return update_date;
-    }
-
-    public void setUpdate_date(Date update_date) {
-        this.update_date = update_date;
     }
 }

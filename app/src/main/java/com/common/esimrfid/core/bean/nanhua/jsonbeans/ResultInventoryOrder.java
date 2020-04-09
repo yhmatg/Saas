@@ -41,26 +41,20 @@ public class ResultInventoryOrder {
     private Date create_date;
     @Embedded(prefix = "mcreator_")
     private Creator creator;
-    private String creator_id;
     @PrimaryKey
     @NonNull
     private String id;
-    private String inv_assigner_id;
     private String inv_code;
-    private String inv_creator_id;
     private Date inv_exptfinish_date;
+    private Date inv_finish_date;
     private Integer inv_finish_count;
     private Integer inv_notsubmit_count;
-    private String inv_finish_remark;
     private String inv_name;
-    private String inv_remark;
     private Integer inv_status;
     private Integer inv_total_count;
-    private Date update_date;
-    @Embedded(prefix = "mupdater_")
-    private Updater updater;
-    private String updater_id;
+    //本地添加的盘点单状态，非服务器返回
     private Integer opt_status;
+
     public Assigner getAssigner() {
         return assigner;
     }
@@ -85,13 +79,6 @@ public class ResultInventoryOrder {
         this.creator = creator;
     }
 
-    public String getCreator_id() {
-        return creator_id;
-    }
-
-    public void setCreator_id(String creator_id) {
-        this.creator_id = creator_id;
-    }
 
     public String getId() {
         return id;
@@ -101,13 +88,6 @@ public class ResultInventoryOrder {
         this.id = id;
     }
 
-    public String getInv_assigner_id() {
-        return inv_assigner_id;
-    }
-
-    public void setInv_assigner_id(String inv_assigner_id) {
-        this.inv_assigner_id = inv_assigner_id;
-    }
 
     public String getInv_code() {
         return inv_code;
@@ -117,20 +97,20 @@ public class ResultInventoryOrder {
         this.inv_code = inv_code;
     }
 
-    public String getInv_creator_id() {
-        return inv_creator_id;
-    }
-
-    public void setInv_creator_id(String inv_creator_id) {
-        this.inv_creator_id = inv_creator_id;
-    }
-
     public Date getInv_exptfinish_date() {
         return inv_exptfinish_date;
     }
 
     public void setInv_exptfinish_date(Date inv_exptfinish_date) {
         this.inv_exptfinish_date = inv_exptfinish_date;
+    }
+
+    public Date getInv_finish_date() {
+        return inv_finish_date;
+    }
+
+    public void setInv_finish_date(Date inv_finish_date) {
+        this.inv_finish_date = inv_finish_date;
     }
 
     public Integer getInv_finish_count() {
@@ -149,14 +129,6 @@ public class ResultInventoryOrder {
         this.inv_notsubmit_count = inv_notsubmit_count;
     }
 
-    public String getInv_finish_remark() {
-        return inv_finish_remark;
-    }
-
-    public void setInv_finish_remark(String inv_finish_remark) {
-        this.inv_finish_remark = inv_finish_remark;
-    }
-
     public String getInv_name() {
         return inv_name;
     }
@@ -165,13 +137,6 @@ public class ResultInventoryOrder {
         this.inv_name = inv_name;
     }
 
-    public String getInv_remark() {
-        return inv_remark;
-    }
-
-    public void setInv_remark(String inv_remark) {
-        this.inv_remark = inv_remark;
-    }
 
     public Integer getInv_status() {
         return inv_status;
@@ -187,30 +152,6 @@ public class ResultInventoryOrder {
 
     public void setInv_total_count(Integer inv_total_count) {
         this.inv_total_count = inv_total_count;
-    }
-
-    public Date getUpdate_date() {
-        return update_date;
-    }
-
-    public void setUpdate_date(Date update_date) {
-        this.update_date = update_date;
-    }
-
-    public Updater getUpdater() {
-        return updater;
-    }
-
-    public void setUpdater(Updater updater) {
-        this.updater = updater;
-    }
-
-    public String getUpdater_id() {
-        return updater_id;
-    }
-
-    public void setUpdater_id(String updater_id) {
-        this.updater_id = updater_id;
     }
 
     public Integer getOpt_status() {
@@ -259,43 +200,6 @@ public class ResultInventoryOrder {
     }
 
     public static class Creator {
-        /**
-         * id : admin_id
-         * user_name : admin
-         * user_real_name : 张三
-         */
-        @PrimaryKey
-        @NonNull
-        private String id;
-        private String user_name;
-        private String user_real_name;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getUser_name() {
-            return user_name;
-        }
-
-        public void setUser_name(String user_name) {
-            this.user_name = user_name;
-        }
-
-        public String getUser_real_name() {
-            return user_real_name;
-        }
-
-        public void setUser_real_name(String user_real_name) {
-            this.user_real_name = user_real_name;
-        }
-    }
-
-    public static class Updater {
         /**
          * id : admin_id
          * user_name : admin

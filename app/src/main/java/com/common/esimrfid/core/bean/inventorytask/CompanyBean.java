@@ -18,9 +18,6 @@ public class CompanyBean implements IPickerViewData {
 
     private String id;
     private String org_name;
-    private String org_superid;
-    private int org_type;
-
 
     public String getId() {
         return id;
@@ -37,22 +34,6 @@ public class CompanyBean implements IPickerViewData {
 
     public void setOrg_name(String org_name) {
         this.org_name = org_name;
-    }
-
-    public String getOrg_superid() {
-        return org_superid;
-    }
-
-    public void setOrg_superid(String org_superid) {
-        this.org_superid = org_superid;
-    }
-
-    public int getOrg_type() {
-        return org_type;
-    }
-
-    public void setOrg_type(int org_type) {
-        this.org_type = org_type;
     }
 
     @Override

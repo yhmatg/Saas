@@ -45,24 +45,8 @@ public class UserLoginResponse {
          * user_real_name : 超级管理员
          * user_status : 0
          */
-
-        private long create_date;
         private String id;
-        private String tenant_id;
-        private long update_date;
-        private String user_mobile;
-        private String user_name;
-        private String user_password;
         private String user_real_name;
-        private String user_status;
-
-        public long getCreate_date() {
-            return create_date;
-        }
-
-        public void setCreate_date(long create_date) {
-            this.create_date = create_date;
-        }
 
         public String getId() {
             return id;
@@ -70,46 +54,6 @@ public class UserLoginResponse {
 
         public void setId(String id) {
             this.id = id;
-        }
-
-        public String getTenant_id() {
-            return tenant_id;
-        }
-
-        public void setTenant_id(String tenant_id) {
-            this.tenant_id = tenant_id;
-        }
-
-        public long getUpdate_date() {
-            return update_date;
-        }
-
-        public void setUpdate_date(long update_date) {
-            this.update_date = update_date;
-        }
-
-        public String getUser_mobile() {
-            return user_mobile;
-        }
-
-        public void setUser_mobile(String user_mobile) {
-            this.user_mobile = user_mobile;
-        }
-
-        public String getUser_name() {
-            return user_name;
-        }
-
-        public void setUser_name(String user_name) {
-            this.user_name = user_name;
-        }
-
-        public String getUser_password() {
-            return user_password;
-        }
-
-        public void setUser_password(String user_password) {
-            this.user_password = user_password;
         }
 
         public String getUser_real_name() {
@@ -120,12 +64,5 @@ public class UserLoginResponse {
             this.user_real_name = user_real_name;
         }
 
-        public String getUser_status() {
-            return user_status;
-        }
-
-        public void setUser_status(String user_status) {
-            this.user_status = user_status;
-        }
     }
 }

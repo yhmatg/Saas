@@ -8,17 +8,14 @@ import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionAssetInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionDetailInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionItemInfo;
-import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 
 import java.util.HashMap;
@@ -60,19 +57,10 @@ public interface GeeksApis {
     @GET("inventory-server/inventoryorders/{orderId}/detail")
     Observable<BaseResponse<ResultInventoryDetail>>  fetchAllInvDetails(@Path("orderId") String orderId);
 
-    //完成盘点
-    //@param orderId 盘点单id
-    //@param uid 用户id
-    //@param remark 盘点单备注
-    //@return 操作结果
-
-    @POST("inventory-server/inventoryorders/{orderId}/finish")
-    Observable<BaseResponse> finishInvOrder(@Path("orderId")String orderId,@Query("uid")String uid,@Query("finish_remark")String remark);
-
     //完成盘点携带资产编号id
     //@param orderId 盘点单id
     //@param uid 用户id
-    //@param invDetails 已盘点资产id集合
+    //@param invDetails 已盘点资产id集合finishwithinfo
     //@return 操作结果
 
     @POST("inventory-server/inventoryorders/{orderId}/finishwithinfo")
@@ -86,48 +74,6 @@ public interface GeeksApis {
 
     @POST("inventory-server/inventoryorders/{orderId}/commit")
     Observable<BaseResponse> uploadInvDetails(@Path("orderId")String orderId,@Body List<String> invDetails ,@Query("uid")String uid);
-
-    //获取查询数据
-    //@param ecps 资产EPC集合
-    //@return 资产详情集合
-
-    @POST("assets-server/assets/byrfids")
-    Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssetsInfons(@Body Set<String> ecps);
-
-    //获取领用单列表
-    //@return 领用单列表
-
-    @GET("/assets-server/requisitions/unpage")
-    Observable<BaseResponse<List<RequisitionItemInfo>>> fetchAllRequisitions();
-
-    //通过单号获取领用单详情
-    //@param odrId 领用单id
-    //@return 领用单详情
-
-    @GET("/assets-server/requisitions/{odrId}")
-    Observable<BaseResponse<RequisitionDetailInfo>> fetchRequsitionDetailByid(@Path("odrId")String odrId);
-
-    //模糊查询资产详情
-    //@param patternName 资产过滤信息
-    //@return 查询资产列表
-
-    @GET("/assets-server/assets/unpage")
-    Observable<BaseResponse<List<RequisitionAssetInfo>>> fetchRequestAssetsInfos(@Query("pattern_name")String patternName);
-
-    //确认领用资产后上传 id 领用单id
-    //@param requestId 领用单id
-    //@param epcs 领用的资产id
-    //@return 操作结果
-
-    @POST("/assets-server/requisitions/{id}/reqAssets")
-    Observable<BaseResponse> uploadResAssets(@Path("id")String requestId,@Body List<String> epcs);
-
-    //根据epc获取资产详情
-    //@param ecps 资产EPC
-    //@return 资产列表
-
-    @POST("assets-server/assets/byrfids")
-    Observable<BaseResponse<List<RequisitionAssetInfo>>> getRequisitionInfons(@Body Set<String> ecps);
 
     //获取不同位置下资产数量
     //@return 位置和对应资产数目

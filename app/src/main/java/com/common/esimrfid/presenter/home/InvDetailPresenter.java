@@ -150,37 +150,6 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                 }));
     }
 
-    //完成盘点后，状态上传到服务器
-    @Override
-    public void finishInvOrder(String orderId, String uid, String remark) {
-        addSubscribe(mDataManager.finishInvOrder(orderId, uid, remark)
-                .compose(RxUtils.rxSchedulerHelper())
-                .compose(RxUtils.handleBaseResponse())
-                .observeOn(Schedulers.io())
-                .doOnNext(new Consumer<BaseResponse>() {
-                    @Override
-                    public void accept(BaseResponse baseResponse) throws Exception {
-                        if (baseResponse.isSuccess()) {
-                            ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
-                            ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
-                            invOrderByInvId.setOpt_status(InvOperateStatus.FINISHED.getIndex());
-                            invOrderByInvId.setInv_finish_remark(remark);
-                            int orderStatus = 11;
-                            invOrderByInvId.setInv_status(orderStatus);
-                            resultInventoryOrderDao.updateItem(invOrderByInvId);
-                        } else {
-                        }
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
-                    @Override
-                    public void onNext(BaseResponse baseResponse) {
-                        mView.handelFinishInvorder(baseResponse);
-                    }
-                }));
-    }
-
     //一次完整扫描后数据库跟新盘点状态
     @Override
     public void updateLocalInvDetailsState(String orderId, List<InventoryDetail> inventoryDetails) {

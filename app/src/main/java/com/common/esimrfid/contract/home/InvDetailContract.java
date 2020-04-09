@@ -28,8 +28,6 @@ public interface InvDetailContract {
 
         void findLocalInvDetailByInvid(String invId);
 
-        void finishInvOrder(String orderId,String uid, String remark);
-
         void updateLocalInvDetailsState(String orderId,List<InventoryDetail> inventoryDetails);
 
         void updateLocalInvDetailState(String orderId,InventoryDetail inventoryDetail);

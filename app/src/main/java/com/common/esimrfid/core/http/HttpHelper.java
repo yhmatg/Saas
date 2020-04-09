@@ -11,14 +11,11 @@ import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionAssetInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionDetailInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionItemInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 
 import java.util.HashMap;
@@ -26,8 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import io.reactivex.Observable;
-import retrofit2.http.Body;
-import retrofit2.http.Path;
 
 /**
  * @author yhm
@@ -43,20 +38,6 @@ public interface HttpHelper {
     Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(String orderId);
 
     Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails, String uid);
-
-    Observable<BaseResponse> finishInvOrder(String orderId, String uid, String remark);
-
-    Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssetsInfons(Set<String> ecps);
-
-    Observable<BaseResponse<List<RequisitionItemInfo>>> fetchAllRequisitions();
-
-    Observable<BaseResponse<List<RequisitionAssetInfo>>> getRequisitionInfons(Set<String> ecps);
-
-    Observable<BaseResponse<List<RequisitionAssetInfo>>> fetchRequestAssetsInfos(String patternName);
-
-    Observable<BaseResponse<RequisitionDetailInfo>> fetchRequsitionDetailByid(String odrId);
-
-    Observable<BaseResponse> uploadResAssets(String requestId, List<String> epcs);
 
     Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation();
 

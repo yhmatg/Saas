@@ -9,20 +9,9 @@ public class AssetStatusNum {
      * tra : 10
      * total : 1220
      */
-
-    private int maintain;
     private int instore;
     private int inused;
-    private int tra;
     private int total;
-
-    public int getMaintain() {
-        return maintain;
-    }
-
-    public void setMaintain(int maintain) {
-        this.maintain = maintain;
-    }
 
     public int getInstore() {
         return instore;
@@ -38,14 +27,6 @@ public class AssetStatusNum {
 
     public void setInused(int inused) {
         this.inused = inused;
-    }
-
-    public int getTra() {
-        return tra;
-    }
-
-    public void setTra(int tra) {
-        this.tra = tra;
     }
 
     public int getTotal() {

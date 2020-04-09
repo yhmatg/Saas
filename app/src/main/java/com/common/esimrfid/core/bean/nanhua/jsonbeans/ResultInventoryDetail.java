@@ -30,10 +30,10 @@ public class ResultInventoryDetail {
      */
     private Date create_date;
     private Date inv_exptfinish_date;
+    private Date inv_finish_date;
     private String id;
     private int inv_finish_count;
     private int inv_total_count;
-    private Date update_date;
     private List<InventoryDetail> detailResults;
 
     public Date getCreate_date() {
@@ -50,6 +50,14 @@ public class ResultInventoryDetail {
 
     public void setInv_exptfinish_date(Date inv_exptfinish_date) {
         this.inv_exptfinish_date = inv_exptfinish_date;
+    }
+
+    public Date getInv_finish_date() {
+        return inv_finish_date;
+    }
+
+    public void setInv_finish_date(Date inv_finish_date) {
+        this.inv_finish_date = inv_finish_date;
     }
 
     public String getId() {
@@ -75,14 +83,6 @@ public class ResultInventoryDetail {
 
     public void setInv_total_count(int inv_total_count) {
         this.inv_total_count = inv_total_count;
-    }
-
-    public Date getUpdate_date() {
-        return update_date;
-    }
-
-    public void setUpdate_date(Date update_date) {
-        this.update_date = update_date;
     }
 
     public List<InventoryDetail> getDetailResults() {

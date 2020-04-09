@@ -4,7 +4,7 @@ import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-import java.util.Date;
+
 import java.util.Objects;
 
 //一条盘点资产详情
@@ -23,16 +23,12 @@ public class InventoryDetail {
     @Embedded(prefix = "assetsInfos_")
     private AssetsInfo assetsInfos;
     private String ast_id;
-    @Embedded(prefix = "mcreator_")
-    private Creator creator;
-    private String creator_id;
     @PrimaryKey
     @NonNull
     private String id;
     private String inv_id;
     @Embedded
     private InvdtStatus invdt_status;
-    private Date update_date;
 
     public AssetsInfo getAssetsInfos() {
         return assetsInfos;
@@ -48,22 +44,6 @@ public class InventoryDetail {
 
     public void setAst_id(String ast_id) {
         this.ast_id = ast_id;
-    }
-
-    public Creator getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Creator creator) {
-        this.creator = creator;
-    }
-
-    public String getCreator_id() {
-        return creator_id;
-    }
-
-    public void setCreator_id(String creator_id) {
-        this.creator_id = creator_id;
     }
 
     public String getId() {
@@ -90,51 +70,6 @@ public class InventoryDetail {
         this.invdt_status = invdt_status;
     }
 
-    public Date getUpdate_date() {
-        return update_date;
-    }
-
-    public void setUpdate_date(Date update_date) {
-        this.update_date = update_date;
-    }
-
-    public static class Creator {
-        /**
-         * id : admin_id
-         * user_name : admin
-         * user_real_name : 张三
-         */
-        @PrimaryKey
-        @NonNull
-        private String id;
-        private String user_name;
-        private String user_real_name;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getUser_name() {
-            return user_name;
-        }
-
-        public void setUser_name(String user_name) {
-            this.user_name = user_name;
-        }
-
-        public String getUser_real_name() {
-            return user_real_name;
-        }
-
-        public void setUser_real_name(String user_real_name) {
-            this.user_real_name = user_real_name;
-        }
-    }
-
     public static class InvdtStatus {
         /**
          * code : 1
@@ -144,7 +79,6 @@ public class InventoryDetail {
         @PrimaryKey
         @NonNull
         private Integer code;
-        private Integer index;
         private String name;
 
         public Integer getCode() {
@@ -153,14 +87,6 @@ public class InventoryDetail {
 
         public void setCode(Integer code) {
             this.code = code;
-        }
-
-        public Integer getIndex() {
-            return index;
-        }
-
-        public void setIndex(Integer index) {
-            this.index = index;
         }
 
         public String getName() {

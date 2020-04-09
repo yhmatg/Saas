@@ -12,14 +12,11 @@ import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionAssetInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionDetailInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.RequisitionItemInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.core.http.api.GeeksApis;
 import com.common.esimrfid.core.http.client.RetrofitClient;
@@ -81,41 +78,6 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails, String uid) {
         return mGeeksApis.uploadInvDetails(orderId, invDetails, uid);
-    }
-
-    @Override
-    public Observable<BaseResponse> finishInvOrder(String orderId, String uid, String remark) {
-        return mGeeksApis.finishInvOrder(orderId, uid, remark);
-    }
-
-    @Override
-    public Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssetsInfons(Set<String> ecps) {
-        return mGeeksApis.fetchScanAssetsInfons(ecps);
-    }
-
-    @Override
-    public Observable<BaseResponse<List<RequisitionItemInfo>>> fetchAllRequisitions() {
-        return mGeeksApis.fetchAllRequisitions();
-    }
-
-    @Override
-    public Observable<BaseResponse<List<RequisitionAssetInfo>>> getRequisitionInfons(Set<String> ecps) {
-        return mGeeksApis.getRequisitionInfons(ecps);
-    }
-
-    @Override
-    public Observable<BaseResponse<List<RequisitionAssetInfo>>> fetchRequestAssetsInfos(String patternName) {
-        return mGeeksApis.fetchRequestAssetsInfos(patternName);
-    }
-
-    @Override
-    public Observable<BaseResponse<RequisitionDetailInfo>> fetchRequsitionDetailByid(String odrId) {
-        return mGeeksApis.fetchRequsitionDetailByid(odrId);
-    }
-
-    @Override
-    public Observable<BaseResponse> uploadResAssets(String requestId, List<String> epcs) {
-        return mGeeksApis.uploadResAssets(requestId, epcs);
     }
 
     @Override
