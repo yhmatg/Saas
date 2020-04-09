@@ -197,6 +197,7 @@
     <string name="asset_not_inventoried">待盘点</string>
     <string name="inv_create_date">创建日期</string>
     <string name="inv_expect_finish_date">预计完成日期</string>
+    <string name="inv_finish_date">完成日期</string>
     <string name="inv_all_num">盘点总数</string>
     <string name="ast_inved">已盘</string>
     <string name="ast_not_inved">未盘</string>
@@ -222,6 +223,7 @@
     <string name="assets_count">资产数量</string>
     <string name="found_inv_task">创建盘点任务</string>
     <string name="rfid_connect">RFD设备连接中...</string>
+    <string name="rfid_connect_fail">设备连接失败</string>
     <string name="zero_str">查找到资产数量%1$d个</string>
     <string name="power_setting">功率设置</string>
     <string name="sound_setting">声音设置</string>

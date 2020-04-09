@@ -280,6 +280,8 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
             EventBus.getDefault().post(uhfMsgEvent);
             if (!isReaderConnected()) {
                 EsimAndroidApp.setIEsimUhfService(null);
+                UhfMsgEvent<UhfTag> uhfMsgEvent1=new UhfMsgEvent<>(UhfMsgType.UHF_CONNECT_FAIL);
+                EventBus.getDefault().post(uhfMsgEvent1);
             }
         }
     }

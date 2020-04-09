@@ -47,6 +47,7 @@ import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
 import com.common.esimrfid.utils.SettingBeepUtil;
 import com.common.esimrfid.utils.StringUtils;
+import com.common.esimrfid.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -84,7 +85,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private LocationAssetAdapter locationAssetAdapter;
     @BindString(R.string.def_update_content)
     String defUpdateContent;
-    IEsimUhfService esimUhfService=null;
+    IEsimUhfService esimUhfService = null;
 
     @Override
     public HomePresenter initPresenter() {
@@ -105,7 +106,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         SettingBeepUtil.setOpen(DataManager.getInstance().getOpenBeeper());
         SettingBeepUtil.setSledOpen(DataManager.getInstance().getSledBeeper());
         SettingBeepUtil.setHostOpen(DataManager.getInstance().getHostBeeper());
-        if(esimUhfService!=null){
+        if (esimUhfService != null) {
             esimUhfService.setBeeper();
         }
     }
@@ -128,7 +129,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
             mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
             mPresenter.getAssetsInfoById("");
-            mPresenter.fetchAllIvnOrders(uerLogin.getUserinfo().getId(),true);
+            mPresenter.fetchAllIvnOrders(uerLogin.getUserinfo().getId(), true);
 
         } else {
             startActivity(new Intent(this, LoginActivity.class));
@@ -148,7 +149,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     //初始化连接rfid
     private void initRfid() {
-        if (!"ESUR-H600".equals(Build.MODEL)){
+        if (!"ESUR-H600".equals(Build.MODEL)) {
             showConnectDialog();
         }
         EsimAndroidApp.getInstance().initRfid();
@@ -164,6 +165,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 break;
             case UhfMsgType.UHF_DISMISS_DIALOG:
                 dismissFinishDialog();
+                break;
+            case UhfMsgType.UHF_CONNECT_FAIL:
+                ToastUtils.showShort(R.string.rfid_connect_fail);
                 break;
         }
 
@@ -241,9 +245,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public void handleGetCompanyInfo(CompanyInfo companyInfo) {
-        if(!StringUtils.isEmpty(companyInfo.getOrg_name())){
+        if (!StringUtils.isEmpty(companyInfo.getOrg_name())) {
             mCompanyName.setText(companyInfo.getOrg_name());
-        }else {
+        } else {
             mCompanyName.setVisibility(View.GONE);
         }
     }
@@ -360,7 +364,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 }
                 textView.setText(content);
                 String remoteVersion = versionBundle.getTitle();
-                if(!StringUtils.isEmpty(remoteVersion)){
+                if (!StringUtils.isEmpty(remoteVersion)) {
                     version.setText("v" + remoteVersion);
                 }
                 baseDialog.setCanceledOnTouchOutside(false);
@@ -383,7 +387,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }
             textView.setText(content);
             String remoteVersion = versionBundle.getTitle();
-            if(!StringUtils.isEmpty(remoteVersion)){
+            if (!StringUtils.isEmpty(remoteVersion)) {
                 version.setText("v" + remoteVersion);
             }
             baseDialog.setCanceledOnTouchOutside(false);

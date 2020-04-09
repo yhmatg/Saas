@@ -56,7 +56,14 @@ public class InvTaskAdapter extends RecyclerView.Adapter<InvTaskAdapter.ViewHold
         viewHolder.mInvCreatorName.setText(userRealName);
 
         viewHolder.mCreateDate.setText(DateUtils.date2String(invTaskItem.getCreate_date()));
-        viewHolder.mExpFinishDate.setText(DateUtils.date2String(invTaskItem.getInv_exptfinish_date()));
+        String date=DateUtils.date2String(invTaskItem.getInv_finish_date());
+        if(date.equals("")){
+            viewHolder.text.setText(R.string.inv_expect_finish_date);
+            viewHolder.mExpFinishDate.setText(DateUtils.date2String(invTaskItem.getInv_exptfinish_date()));
+        }else {
+            viewHolder.text.setText(R.string.inv_finish_date);
+            viewHolder.mExpFinishDate.setText(date);
+        }
         Integer inv_total_count = invTaskItem.getInv_total_count();
         Integer inv_finish_count = invTaskItem.getInv_finish_count();
         viewHolder.mAllNum.setText(String.valueOf(inv_total_count));
@@ -87,6 +94,8 @@ public class InvTaskAdapter extends RecyclerView.Adapter<InvTaskAdapter.ViewHold
         TextView mCreateDate;
         @BindView(R.id.expect_finish_date)
         TextView mExpFinishDate;
+        @BindView(R.id.tv_text)
+        TextView text;
         @BindView(R.id.inv_all_num)
         TextView mAllNum;
         @BindView(R.id.unfinished_num)

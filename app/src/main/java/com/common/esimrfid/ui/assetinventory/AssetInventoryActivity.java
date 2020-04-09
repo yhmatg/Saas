@@ -70,7 +70,7 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
     protected void initEventAndData() {
         mTitle.setText(R.string.ast_inv);
         userId = getUserLoginResponse().getUserinfo().getId();
-        mAdapter = new InvTaskAdapter(mShowTaskorders,this);
+        mAdapter = new InvTaskAdapter(mShowTaskorders, this);
         mInvTaskRecycleview.setLayoutManager(new LinearLayoutManager(this));
         mInvTaskRecycleview.setAdapter(mAdapter);
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -88,11 +88,11 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
     protected void onResume() {
         super.onResume();
         //初始化或者更新本地盘点的状态
-        if(isFirstOnResume){
-            mPresenter.fetchAllIvnOrders(userId,true);
+        if (isFirstOnResume) {
+            mPresenter.fetchAllIvnOrders(userId, true);
             isFirstOnResume = false;
-        }else{
-            mPresenter.fetchAllIvnOrders(userId,true);
+        } else {
+            mPresenter.fetchAllIvnOrders(userId, true);
         }
 
     }
@@ -119,7 +119,7 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 mUnFinishStart.setTextColor(getColor(R.color.search_background));
                 mUnFinishedEnd.setTextColor(getColor(R.color.search_background));
                 isShowUnfinish = true;
-                if(mShowTaskorders.size() == 0){
+                if (mShowTaskorders.size() == 0) {
                     mEmptyPage.setVisibility(View.VISIBLE);
                 } else {
                     mEmptyPage.setVisibility(View.GONE);
@@ -134,7 +134,7 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 mUnFinishStart.setTextColor(getColor(R.color.gray_text));
                 mUnFinishedEnd.setTextColor(getColor(R.color.gray_text));
                 isShowUnfinish = false;
-                if(mShowTaskorders.size() == 0){
+                if (mShowTaskorders.size() == 0) {
                     mEmptyPage.setVisibility(View.VISIBLE);
                 } else {
                     mEmptyPage.setVisibility(View.GONE);
@@ -144,7 +144,7 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 finish();
                 break;
             case R.id.create_invtask:
-                startActivity(new Intent(this,NewInventoryActivity.class));
+                startActivity(new Intent(this, NewInventoryActivity.class));
                 break;
         }
     }
@@ -164,22 +164,22 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
         mInvTaskorders.addAll(resultInventoryOrders);
         for (int i = 0; i < mInvTaskorders.size(); i++) {
             ResultInventoryOrder resultInventoryOrder = mInvTaskorders.get(i);
-            if(resultInventoryOrder.getInv_status() == 10){
+            if (resultInventoryOrder.getInv_status() == 10) {
                 mUnFinishedTaskorders.add(resultInventoryOrder);
-            }else if(resultInventoryOrder.getInv_status() == 11){
+            } else if (resultInventoryOrder.getInv_status() == 11) {
                 mFinishedTaskorders.add(resultInventoryOrder);
             }
         }
-        if(isShowUnfinish){
+        if (isShowUnfinish) {
             mShowTaskorders.addAll(mUnFinishedTaskorders);
-        }else {
+        } else {
             mShowTaskorders.addAll(mFinishedTaskorders);
         }
         mUnFinishedNum.setText(String.valueOf(mUnFinishedTaskorders.size()));
         mFinishedNum.setText(String.valueOf(mFinishedTaskorders.size()));
         mAdapter.notifyDataSetChanged();
         mRefreshLayout.finishRefresh();
-        if(mShowTaskorders.size() == 0){
+        if (mShowTaskorders.size() == 0) {
             mEmptyPage.setVisibility(View.VISIBLE);
         } else {
             mEmptyPage.setVisibility(View.GONE);
