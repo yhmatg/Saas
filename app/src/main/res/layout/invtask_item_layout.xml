@@ -17,8 +17,7 @@
         android:layout_marginBottom="@dimen/dp_2"
         android:text="@string/invorder_name"
         android:textColor="@color/search_background"
-        android:textSize="@dimen/sp_15"
-        android:textStyle="bold" />
+        android:textSize="@dimen/sp_15"/>
 
     <TextView
         android:id="@+id/invtask_code"
@@ -29,8 +28,7 @@
         android:text="@string/invorder_code"
         android:layout_marginEnd="@dimen/dp_10"
         android:textColor="@color/search_background"
-        android:textSize="@dimen/sp_15"
-        android:textStyle="bold" />
+        android:textSize="@dimen/sp_15"/>
 
     <View
         android:id="@+id/divider_one"

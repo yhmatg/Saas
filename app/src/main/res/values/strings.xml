@@ -222,8 +222,8 @@
     <string name="synchronizing">正在同步中...</string>
     <string name="assets_count">资产数量</string>
     <string name="found_inv_task">创建盘点任务</string>
-    <string name="rfid_connect">RFD设备连接中...</string>
-    <string name="rfid_connect_fail">设备连接失败</string>
+    <string name="rfid_connect">RFID设备连接中...</string>
+    <string name="rfid_connect_fail">RFID连接失败</string>
     <string name="zero_str">查找到资产数量%1$d个</string>
     <string name="power_setting">功率设置</string>
     <string name="sound_setting">声音设置</string>

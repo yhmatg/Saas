@@ -52,6 +52,8 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
             beeperSettings();
             return true;
         } else {
+            UhfMsgEvent<UhfTag> uhfMsgEvent1=new UhfMsgEvent<>(UhfMsgType.UHF_CONNECT_FAIL);
+            EventBus.getDefault().post(uhfMsgEvent1);
             return false;
         }
 
