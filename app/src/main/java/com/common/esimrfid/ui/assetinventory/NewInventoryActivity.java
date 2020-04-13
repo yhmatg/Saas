@@ -96,6 +96,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     boolean companysClickShow;
     boolean typesClickShow;
     boolean locationsClickShow;
+    Date currentDate;
 
     List<AssetsLocation> selectLocations = new ArrayList<>();
     List<AssetsType> selectTypes = new ArrayList<>();
@@ -112,6 +113,17 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         initCustomTimePicker();
         initCustomOptionPicker();
         initOptions();
+        initDate();
+    }
+
+    private void initDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND,0);
+        currentDate = calendar.getTime();
     }
 
     private void initOptions() {
@@ -362,8 +374,13 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     }
 
     private void expDateSelect(Date date) {
-        mSelectDate = date;
-        mExpFinData.setText(DateUtils.date2String(mSelectDate));
+        if(date.getTime() < currentDate.getTime() ){
+            ToastUtils.showShort(R.string.finish_time_alert);
+        }else {
+            mSelectDate = date;
+            mExpFinData.setText(DateUtils.date2String(mSelectDate));
+        }
+
 
     }
 

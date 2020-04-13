@@ -230,5 +230,5 @@
     <string name="function_setting">功能设置</string>
     <string name="about_handheld_machine">关于手持机</string>
     <string name="corporation_name">上海一芯智能科技</string>
-
+    <string name="finish_time_alert">预计完成时间不能早于创建时间</string>
 </resources>
