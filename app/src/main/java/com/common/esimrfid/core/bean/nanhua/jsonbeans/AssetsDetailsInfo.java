@@ -1,5 +1,7 @@
 package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 
+import java.util.HashMap;
+
 /**
  * 资产详细信息（all）
  */
@@ -85,6 +87,16 @@ public class AssetsDetailsInfo {
     private UserInfoBean user_info;
     private String warranty_id;
     private WarrantyInfoBean warranty_info;
+
+    public HashMap<String, String> getAst_append_info() {
+        return ast_append_info;
+    }
+
+    public void setAst_append_info(HashMap<String, String> ast_append_info) {
+        this.ast_append_info = ast_append_info;
+    }
+
+    private HashMap<String,String> ast_append_info;
 
     public String getAst_barcode() {
         return ast_barcode;

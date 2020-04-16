@@ -47,6 +47,7 @@ public class UserLoginResponse {
          */
         private String id;
         private String user_real_name;
+        private String user_name;
 
         public String getId() {
             return id;
@@ -64,5 +65,12 @@ public class UserLoginResponse {
             this.user_real_name = user_real_name;
         }
 
+        public String getUser_name() {
+            return user_name;
+        }
+
+        public void setUser_name(String user_name) {
+            this.user_name = user_name;
+        }
     }
 }
