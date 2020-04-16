@@ -98,17 +98,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
+        SettingBeepUtil.setOpen(DataManager.getInstance().getOpenBeeper());
+        SettingBeepUtil.setSledOpen(DataManager.getInstance().getSledBeeper());
+        SettingBeepUtil.setHostOpen(DataManager.getInstance().getHostBeeper());
         checkUserSatus();
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
         locationAssetAdapter = new LocationAssetAdapter(mAstLocaionNum, this, maxAssetNum);
         mLocationRecycle.setLayoutManager(new LinearLayoutManager(this));
         mLocationRecycle.setAdapter(locationAssetAdapter);
-        SettingBeepUtil.setOpen(DataManager.getInstance().getOpenBeeper());
-        SettingBeepUtil.setSledOpen(DataManager.getInstance().getSledBeeper());
-        SettingBeepUtil.setHostOpen(DataManager.getInstance().getHostBeeper());
-        if (esimUhfService != null) {
-            esimUhfService.setBeeper();
-        }
     }
 
     @Override

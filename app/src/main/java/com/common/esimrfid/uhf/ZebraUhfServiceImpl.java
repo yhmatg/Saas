@@ -56,7 +56,6 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     private static BEEPER_VOLUME beeperVolume = BEEPER_VOLUME.HIGH_BEEP;
     private static final int BEEP_DELAY_TIME_MIN = 0;
     private static final int BEEP_DELAY_TIME_MAX = 300;
-
     private static Readers readers;
     private static ArrayList<ReaderDevice> availableRFIDReaderList;
     private static ReaderDevice readerDevice;
@@ -280,7 +279,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
             EventBus.getDefault().post(uhfMsgEvent);
             if (!isReaderConnected()) {
                 EsimAndroidApp.setIEsimUhfService(null);
-                UhfMsgEvent<UhfTag> uhfMsgEvent1=new UhfMsgEvent<>(UhfMsgType.UHF_CONNECT_FAIL);
+                UhfMsgEvent<UhfTag> uhfMsgEvent1 = new UhfMsgEvent<>(UhfMsgType.UHF_CONNECT_FAIL);
                 EventBus.getDefault().post(uhfMsgEvent1);
             }
         }
@@ -399,12 +398,16 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 beeperSettings();
                 if (readername.equals("RFD8500")) {
                     sledBeeperEnable = true;
-//                    beeperVolume=BEEPER_VOLUME.QUIET_BEEP;
                     sledBeeperVolume = reader.Config.getBeeperVolume();
+                    if (sledBeeperVolume.equals(BEEPER_VOLUME.QUIET_BEEP)) {
+                        SettingBeepUtil.setSledOpen(false);
+                    } else {
+                        SettingBeepUtil.setSledOpen(true);
+                    }
                 } else {
                     sledBeeperEnable = false;
                 }
-                //
+                setBeeper();
             } catch (InvalidUsageException | OperationFailureException e) {
                 e.printStackTrace();
             }
@@ -533,9 +536,9 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 utag.setRssi(dist + "");
                 UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.INV_TAG, utag);
                 EventBus.getDefault().post(uhfMsgEvent);
-                if(locaitonStart){
+                if (locaitonStart) {
                     startLocationBeeping(dist);
-                }else {
+                } else {
                     startbeepingTimer();
                 }
             }
@@ -723,9 +726,8 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                             }
                         } else {
                             try {
-                                if (reader != null) {
-                                    reader.Config.setBeeperVolume(BEEPER_VOLUME.QUIET_BEEP);
-                                }
+                                reader.Config.setBeeperVolume(BEEPER_VOLUME.QUIET_BEEP);
+                                sledBeeperVolume = BEEPER_VOLUME.QUIET_BEEP;
                             } catch (InvalidUsageException e) {
                                 e.printStackTrace();
                                 result = false;
