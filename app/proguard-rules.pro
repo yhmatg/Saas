@@ -167,7 +167,7 @@
 
 -keep class com.odm.tools.Tools { *; }
 
--keep class com.common.esimrfid.core.bean.** { *; }
+-keep class com.ddcommon.esimrfid.core.bean.** { *; }
 
 -keep class com.nativec.tools.** { *; }
 
@@ -187,3 +187,7 @@
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
+
+-dontwarn com.zebra.rfid.**
+
+-keep class com.zebra.rfid.** { *; }

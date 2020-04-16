@@ -14,7 +14,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.common.esimrfid.customview.MiniLoadingView
+        <com.ddcommon.esimrfid.customview.MiniLoadingView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:mlv_loading_view_color="#1583d0"

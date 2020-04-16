@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="@string/asset_store_location" />
 
-    <com.common.esimrfid.customview.TextProgressBar
+    <com.ddcommon.esimrfid.customview.TextProgressBar
         android:id="@+id/location_assets"
         style="?android:attr/progressBarStyleHorizontal"
         app:por_text_size="@dimen/dp_10"
