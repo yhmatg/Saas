@@ -148,7 +148,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public boolean getOpenBeeper() {
-        return mPreferences.getBoolean(Constants.OPEN,true);
+        return mPreferences.getBoolean(Constants.OPEN,false);
     }
 
     @Override
@@ -158,7 +158,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public boolean getSledBeeper() {
-        return mPreferences.getBoolean(Constants.SLEDBEEPER,true);
+        return mPreferences.getBoolean(Constants.SLEDBEEPER,false);
     }
 
     @Override
@@ -168,7 +168,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public boolean getHostBeeper() {
-        return mPreferences.getBoolean(Constants.HOSTBEEPER,true);
+        return mPreferences.getBoolean(Constants.HOSTBEEPER,false);
     }
 
 
