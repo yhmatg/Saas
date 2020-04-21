@@ -177,16 +177,18 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
 
     @Override
     public boolean stopScanning() {
-
-        isStart = false;
-
-        if (!isReaderConnected())
-            return false;
         try {
-            if (!locaitonStart) {
-                reader.Actions.Inventory.stop();
-            } else {
-                reader.Actions.TagLocationing.Stop();
+            if(isStart){
+                isStart = false;
+                if (!isReaderConnected())
+                    return false;
+                if (!locaitonStart) {
+                    reader.Actions.Inventory.stop();
+                } else {
+                    reader.Actions.TagLocationing.Stop();
+                }
+                UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_STOP);
+                EventBus.getDefault().post(uhfMsgEvent);
             }
         } catch (InvalidUsageException e) {
             e.printStackTrace();
@@ -195,10 +197,6 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
             e.printStackTrace();
             return false;
         }
-
-        UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_STOP);
-        EventBus.getDefault().post(uhfMsgEvent);
-
         return true;
     }
 
@@ -451,7 +449,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                         @Override
                         protected Void doInBackground(Void... voids) {
 //                            context.handleTriggerPress(true);
-                            if (isEnable()) {
+                            if (isEnable() && !isStart) {
                                 startScanning();
                             }
                             return null;
@@ -463,7 +461,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                         @Override
                         protected Void doInBackground(Void... voids) {
 //                            context.handleTriggerPress(false);
-                            if (isEnable()) {
+                            if (isEnable() && isStart) {
                                 stopScanning();
                             }
                             return null;
@@ -790,7 +788,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     /**
      * method to stop timer
      */
-    private void stopbeepingTimer() {
+    private synchronized void stopbeepingTimer() {
         if (tbeep != null) {
             toneGenerator.stopTone();
             tbeep.cancel();
