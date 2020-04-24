@@ -40,7 +40,8 @@ public interface GeeksApis {
     //@param UserInfo 用户账号 用户密码
     //@return 用户基本信息,token
 
-    @POST("user-server/userauth/loginwithinfo")
+    //@POST("user-server/userauth/loginwithinfo")
+    @POST("user-server/userauth/app/loginwithinfo")
     Observable<BaseResponse<UserLoginResponse>> login(@Body UserInfo userInfo);
 
     //获取盘点数据
@@ -96,7 +97,8 @@ public interface GeeksApis {
     //查询所有公司
     //@return 所有公司信息
 
-    @GET("/user-server/orgs/corps")
+    //@GET("/user-server/orgs/corps")
+    @GET("/user-server/orgs/allcorps")
     Observable<BaseResponse<List<CompanyBean>>> getAllCompany();
 
     //获取公司下的所有部门

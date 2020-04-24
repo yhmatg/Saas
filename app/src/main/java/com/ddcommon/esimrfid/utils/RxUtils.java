@@ -2,6 +2,7 @@ package com.ddcommon.esimrfid.utils;
 
 import com.ddcommon.esimrfid.core.bean.nanhua.BaseResponse;
 import com.ddcommon.esimrfid.core.http.exception.ExpiredExpection;
+import com.ddcommon.esimrfid.core.http.exception.NoAssetInCreateInvException;
 import com.ddcommon.esimrfid.core.http.exception.OtherException;
 import com.ddcommon.esimrfid.core.http.exception.ResultIsNullException;
 import com.ddcommon.esimrfid.core.http.exception.TokenException;
@@ -78,8 +79,11 @@ public class RxUtils {
                                 return Observable.error(new TokenException());
                             } else if("909003".equals(baseResponse.getCode())){//试用过期
                                 return Observable.error(new ExpiredExpection());
-                            } else if("200001".equals(baseResponse.getCode())){//密码账号错误
+                            //} else if("200001".equals(baseResponse.getCode())){//密码账号错误
+                            } else if("301101".equals(baseResponse.getCode())){
                                 return Observable.error(new WrongAccountOrPassException());
+                            }else if("401704".equals(baseResponse.getCode())){//创建盘点单资产为空时提示
+                                return Observable.error(new NoAssetInCreateInvException());
                             }else if(baseResponse.getResult() == null){
                                 return Observable.error(new ResultIsNullException());
                             }else{

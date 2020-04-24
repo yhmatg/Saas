@@ -98,7 +98,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public String getHostUrl() {
-        return mPreferences.getString(Constants.HOSTURL, "https://www.assettag.vip");
+        return mPreferences.getString(Constants.HOSTURL, "http://ddforword.myrfid.vip");
     }
 
     @Override
