@@ -244,6 +244,9 @@ public class FunctionActivity extends BaseActivity {
             case UhfMsgType.SETTING_POWER_SUCCESS:
                 ToastUtils.showShort(R.string.save_newinv_succ);
                 break;
+            case UhfMsgType.SETTING_POWER_FAIL:
+                ToastUtils.showShort(R.string.save_newinv_fail);
+                break;
         }
     }
 

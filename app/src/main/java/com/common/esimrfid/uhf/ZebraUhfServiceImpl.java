@@ -190,6 +190,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 }
                 UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_STOP);
                 EventBus.getDefault().post(uhfMsgEvent);
+                return true;
             }
         } catch (InvalidUsageException e) {
             e.printStackTrace();
@@ -198,7 +199,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
             e.printStackTrace();
             return false;
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -275,8 +276,6 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             if (operationException != null && operationException.getResults() == RFIDResults.RFID_BATCHMODE_IN_PROGRESS){
-                isStart = true;
-                stopScanning();
                 new ReconnectTask().execute();
             }
             UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_DISMISS_DIALOG);
@@ -312,10 +311,12 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
 
     }
 
-    private class ReconnectTask extends AsyncTask<Void, Void, Void> {
+    private class ReconnectTask extends AsyncTask<Void, Void, Boolean> {
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Boolean doInBackground(Void... voids) {
             try {
+                isStart = true;
+                stopScanning();
                 if (eventHandler == null){
                     eventHandler = new EventHandler();
                 }
@@ -346,6 +347,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                     sledBeeperEnable = false;
                 }
                 setBeeper();
+                return true;
             } catch (InvalidUsageException e) {
                 e.printStackTrace();
             } catch (OperationFailureException e) {
@@ -354,9 +356,19 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 Log.d(TAG, "null pointer ");
                 e.printStackTrace();
             }
-            return null;
+            return false;
         }
 
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(!result){
+                EsimAndroidApp.setIEsimUhfService(null);
+                UhfMsgEvent<UhfTag> uhfMsgEvent1 = new UhfMsgEvent<>(UhfMsgType.UHF_CONNECT_FAIL);
+                EventBus.getDefault().post(uhfMsgEvent1);
+            }
+
+        }
     }
 
     private synchronized void GetAvailableReader() {
@@ -394,12 +406,12 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 }
             } catch (InvalidUsageException e) {
                 e.printStackTrace();
+                return "InvalidUsageException";
             } catch (OperationFailureException e) {
                 e.printStackTrace();
                 Log.d(TAG, "OperationFailureException " + e.getVendorMessage());
-                String des = e.getResults().toString();
                 operationException = e;
-                return "Connection failed" + e.getVendorMessage() + " " + des;
+                return "OperationFailureException";
             }
         }
         return "";
