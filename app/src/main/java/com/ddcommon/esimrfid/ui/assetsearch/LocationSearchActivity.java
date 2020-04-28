@@ -173,7 +173,7 @@ public class LocationSearchActivity extends BaseActivity {
         int ads = 32;
         int len = 96;
         int val = 1;
-        if (esimUhfService != null) {
+        if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
             esimUhfService.setFilterData(val, ads, len, AssetsEpc, false);
         }
 
@@ -211,7 +211,7 @@ public class LocationSearchActivity extends BaseActivity {
         int ads = 0;
         int len = 0;
         int val = 1;
-            if (esimUhfService != null ){
+            if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
             esimUhfService.setFilterData(val, ads, len, "", false);
         }
 
@@ -220,10 +220,10 @@ public class LocationSearchActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (esimUhfService != null && esimUhfService.isStart()) {
+        if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()) {
             esimUhfService.stopScanning();
         }
-        if(esimUhfService != null ){
+        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
             esimUhfService.setEnable(false);
         }
     }
@@ -238,7 +238,7 @@ public class LocationSearchActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(canRfid){
-            if (esimUhfService != null) {
+            if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                 if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
                     esimUhfService.startStopScanning();
                 }
@@ -259,7 +259,7 @@ public class LocationSearchActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(esimUhfService != null ){
+        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
             esimUhfService.setEnable(true);
         }
     }

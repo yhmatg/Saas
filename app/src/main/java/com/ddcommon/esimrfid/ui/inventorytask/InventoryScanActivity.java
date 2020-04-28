@@ -139,7 +139,7 @@ public class InventoryScanActivity extends BaseActivity<InvDetailPresenter> impl
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.bt_start_scan:
-                if (esimUhfService != null) {
+                if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                     esimUhfService.startStopScanning();
                 } else {
                     ToastUtils.showShort(R.string.not_connect_prompt);
@@ -163,6 +163,8 @@ public class InventoryScanActivity extends BaseActivity<InvDetailPresenter> impl
             case UhfMsgType.UHF_CONNECT:
                 break;
             case UhfMsgType.UHF_DISCONNECT:
+                mScanButton.setText(R.string.start_inv);
+                stopAnim();
                 break;
             case UhfMsgType.UHF_START:
                 mScanButton.setText(R.string.stop_inv);
@@ -202,7 +204,7 @@ public class InventoryScanActivity extends BaseActivity<InvDetailPresenter> impl
                     }
                     if(notScannedEpcList.size() == 0){
                         showConfirmDialog();
-                        if(esimUhfService != null && esimUhfService.isStart()){
+                        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()){
                             esimUhfService.stopScanning();
                         }
                     }
@@ -277,7 +279,7 @@ public class InventoryScanActivity extends BaseActivity<InvDetailPresenter> impl
     @Override
     protected void onResume() {
         super.onResume();
-        if(esimUhfService != null ){
+        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
             esimUhfService.setEnable(true);
         }
     }
@@ -285,10 +287,10 @@ public class InventoryScanActivity extends BaseActivity<InvDetailPresenter> impl
     @Override
     protected void onPause() {
         super.onPause();
-        if(esimUhfService != null && esimUhfService.isStart()){
+        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()){
             esimUhfService.stopScanning();
         }
-        if(esimUhfService != null ){
+        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
             esimUhfService.setEnable(false);
         }
     }
@@ -302,7 +304,7 @@ public class InventoryScanActivity extends BaseActivity<InvDetailPresenter> impl
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(canRfid){
-            if (esimUhfService != null) {
+            if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                 if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
                     esimUhfService.startStopScanning();
                 }

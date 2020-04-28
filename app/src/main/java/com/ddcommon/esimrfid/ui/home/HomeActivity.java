@@ -86,6 +86,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @BindString(R.string.def_update_content)
     String defUpdateContent;
     IEsimUhfService esimUhfService = null;
+    private boolean isCommonClose = false;
 
     @Override
     public HomePresenter initPresenter() {
@@ -163,6 +164,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             case UhfMsgType.UHF_CONNECT:
                 break;
             case UhfMsgType.UHF_DISCONNECT:
+                if(!isCommonClose){
+                    ToastUtils.showShort(R.string.not_connect_prompt);
+                }
                 break;
             case UhfMsgType.UHF_DISMISS_DIALOG:
                 dismissFinishDialog();
@@ -200,6 +204,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         super.onDestroy();
         dismissFinishDialog();
         if (EsimAndroidApp.getIEsimUhfService() != null) {
+            isCommonClose = true;
             EsimAndroidApp.getIEsimUhfService().closeRFID();
             EsimAndroidApp.setIEsimUhfService(null);
         }

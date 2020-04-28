@@ -25,6 +25,7 @@ import com.zebra.rfid.api3.InvalidUsageException;
 import com.zebra.rfid.api3.MEMORY_BANK;
 import com.zebra.rfid.api3.OperationFailureException;
 import com.zebra.rfid.api3.RFIDReader;
+import com.zebra.rfid.api3.RFIDResults;
 import com.zebra.rfid.api3.ReaderDevice;
 import com.zebra.rfid.api3.Readers;
 import com.zebra.rfid.api3.RfidEventsListener;
@@ -78,6 +79,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     private int level = 0;
     private int percantageVolume = 100;
     private boolean sledBeeperEnable = true;
+    private OperationFailureException operationException;
 
     public ZebraUhfServiceImpl() {
         instance = EsimAndroidApp.getInstance();
@@ -189,6 +191,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 }
                 UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_STOP);
                 EventBus.getDefault().post(uhfMsgEvent);
+                return true;
             }
         } catch (InvalidUsageException e) {
             e.printStackTrace();
@@ -197,7 +200,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
             e.printStackTrace();
             return false;
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -273,6 +276,9 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            if (operationException != null && operationException.getResults() == RFIDResults.RFID_BATCHMODE_IN_PROGRESS){
+                new ReconnectTask().execute();
+            }
             UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_DISMISS_DIALOG);
             EventBus.getDefault().post(uhfMsgEvent);
             if (!isReaderConnected()) {
@@ -304,6 +310,66 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
             new ConnectionTask().execute();
         }
 
+    }
+
+    private class ReconnectTask extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                isStart = true;
+                stopScanning();
+                if (eventHandler == null){
+                    eventHandler = new EventHandler();
+                }
+                reader.PostConnectReaderUpdate();
+                reader.Events.addEventsListener(eventHandler);
+                // HH event
+                reader.Events.setHandheldEvent(true);
+                // tag event with tag data
+                reader.Events.setTagReadEvent(true);
+                reader.Events.setAttachTagDataWithReadEvent(false);
+                reader.Events.setReaderDisconnectEvent(true);
+                //获取电量配置设置及启动
+                reader.Events.setBatteryEvent(true);
+                config = reader.Config.Antennas.getAntennaRfConfig(1);
+                config.setrfModeTableIndex(0);
+                config.setTari(0);
+                reader.Config.Antennas.setAntennaRfConfig(1, config);
+                beeperSettings();
+                if (readername.equals("RFD8500")) {
+                    sledBeeperEnable = true;
+                    sledBeeperVolume = reader.Config.getBeeperVolume();
+                    if (sledBeeperVolume.equals(BEEPER_VOLUME.QUIET_BEEP)) {
+                        SettingBeepUtil.setSledOpen(false);
+                    } else {
+                        SettingBeepUtil.setSledOpen(true);
+                    }
+                } else {
+                    sledBeeperEnable = false;
+                }
+                setBeeper();
+                return true;
+            } catch (InvalidUsageException e) {
+                e.printStackTrace();
+            } catch (OperationFailureException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e) {
+                Log.d(TAG, "null pointer ");
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if(!result){
+                EsimAndroidApp.setIEsimUhfService(null);
+                UhfMsgEvent<UhfTag> uhfMsgEvent1 = new UhfMsgEvent<>(UhfMsgType.UHF_CONNECT_FAIL);
+                EventBus.getDefault().post(uhfMsgEvent1);
+            }
+
+        }
     }
 
     private synchronized void GetAvailableReader() {
@@ -341,11 +407,12 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 }
             } catch (InvalidUsageException e) {
                 e.printStackTrace();
+                return "InvalidUsageException";
             } catch (OperationFailureException e) {
                 e.printStackTrace();
                 Log.d(TAG, "OperationFailureException " + e.getVendorMessage());
-                String des = e.getResults().toString();
-                return "Connection failed" + e.getVendorMessage() + " " + des;
+                operationException = e;
+                return "OperationFailureException";
             }
         }
         return "";
@@ -406,7 +473,9 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                     sledBeeperEnable = false;
                 }
                 setBeeper();
-            } catch (InvalidUsageException | OperationFailureException e) {
+            } catch (InvalidUsageException e) {
+                e.printStackTrace();
+            } catch (OperationFailureException e) {
                 e.printStackTrace();
             }
         }

@@ -94,7 +94,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        if(esimUhfService != null ){
+        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
             esimUhfService.setEnable(true);
         }
     }
@@ -131,7 +131,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                 finish();
                 break;
             case R.id.search_ast:
-                if (esimUhfService != null) {
+                if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                     esimUhfService.startStopScanning();
                 } else {
                     ToastUtils.showShort(R.string.not_connect_prompt);
@@ -215,6 +215,8 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
             case UhfMsgType.UHF_CONNECT:
                 break;
             case UhfMsgType.UHF_DISCONNECT:
+                image_scan.clearAnimation();
+                search.setImageResource(R.drawable.search_nearby_assets);
                 break;
             case UhfMsgType.UHF_START:
                 image_scan.startAnimation(animation);
@@ -253,12 +255,12 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     protected void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
-        if(esimUhfService != null && esimUhfService.isStart()){
+        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()){
             esimUhfService.stopScanning();
             image_scan.clearAnimation();
             search.setImageResource(R.drawable.search_nearby_assets);
         }
-        if(esimUhfService != null ){
+        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
             esimUhfService.setEnable(false);
         }
 
@@ -267,7 +269,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(canRfid){
-            if (esimUhfService != null) {
+            if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                 if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
                     esimUhfService.startStopScanning();
                 }

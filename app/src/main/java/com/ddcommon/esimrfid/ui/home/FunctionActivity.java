@@ -87,7 +87,7 @@ public class FunctionActivity extends BaseActivity {
             setting1.setVisibility(View.GONE);
             setting2.setVisibility(View.VISIBLE);
         }
-        if (esimUhfService != null) {
+        if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
             plus.setClickable(true);
             reduce.setClickable(true);
             seekBar.setEnabled(true);
@@ -202,7 +202,7 @@ public class FunctionActivity extends BaseActivity {
     void perform(View view) {
         switch (view.getId()) {
             case R.id.title_back:
-                if (esimUhfService != null) {
+                if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                     esimUhfService.setPower(total);
                     esimUhfService.setBeeper();
                     ToastUtils.showShort(R.string.save_newinv_succ);
@@ -299,7 +299,7 @@ public class FunctionActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (esimUhfService != null) {
+            if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                 esimUhfService.setPower(total);
                 ToastUtils.showShort(R.string.save_newinv_succ);
                 esimUhfService.setBeeper();
