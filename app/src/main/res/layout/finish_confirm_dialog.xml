@@ -5,6 +5,7 @@
     android:layout_gravity="center"
     android:background="@drawable/bg_login_success">
 
+
     <TextView
         android:id="@+id/alert_title"
         android:layout_width="wrap_content"
@@ -21,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/alert_title"
         android:layout_centerHorizontal="true"
-       android:layout_margin="@dimen/dp_10"
+        android:layout_margin="@dimen/dp_10"
         android:text="@string/finish_inv_confirm"
         android:textSize="@dimen/sp_16" />
 
@@ -32,6 +33,7 @@
         android:layout_below="@+id/alert_context"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
         android:background="@color/white"
         android:gravity="center"
         android:text="@string/sure_opt"
