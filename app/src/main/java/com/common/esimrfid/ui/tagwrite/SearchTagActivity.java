@@ -244,7 +244,7 @@ public class SearchTagActivity extends BaseActivity {
             confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (esimUhfService != null) {
+                    if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                         esimUhfService.writeEpcTag(scanTagEpc, getTagEpc);
                     } else {
                         ToastUtils.showShort(R.string.not_connect_prompt);
@@ -267,7 +267,7 @@ public class SearchTagActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(canRfid){
-            if (esimUhfService != null) {
+            if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                 if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
                     esimUhfService.startStopScanning();
                 }
@@ -288,7 +288,7 @@ public class SearchTagActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(esimUhfService != null ){
+        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
             esimUhfService.setEnable(true);
         }
     }
@@ -296,7 +296,7 @@ public class SearchTagActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(esimUhfService != null ){
+        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
             esimUhfService.setEnable(false);
         }
     }
