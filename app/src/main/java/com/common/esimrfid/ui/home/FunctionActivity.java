@@ -19,6 +19,7 @@ import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.utils.SettingBeepUtil;
 import com.common.esimrfid.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -65,6 +66,9 @@ public class FunctionActivity extends BaseActivity {
 
     @Override
     protected void initEventAndData() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
         mTitle.setText("功能设置");
         initData();
@@ -237,6 +241,9 @@ public class FunctionActivity extends BaseActivity {
             case UhfMsgType.SETTING_SOUND_FAIL:
                 ToastUtils.showShort("手持机声音设置失败，请检查连接退出重试！");
                 break;
+            case UhfMsgType.SETTING_POWER_SUCCESS:
+                ToastUtils.showShort(R.string.save_newinv_succ);
+                break;
         }
     }
 
@@ -293,6 +300,7 @@ public class FunctionActivity extends BaseActivity {
         DataManager.getInstance().setOpenBeeper(SettingBeepUtil.isOpen());
         DataManager.getInstance().setSledBeeper(SettingBeepUtil.isSledOpen());
         DataManager.getInstance().setHostBeeper(SettingBeepUtil.isHostOpen());
+        EventBus.getDefault().unregister(this);
 
     }
 
@@ -301,7 +309,6 @@ public class FunctionActivity extends BaseActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                 esimUhfService.setPower(total);
-                ToastUtils.showShort(R.string.save_newinv_succ);
                 esimUhfService.setBeeper();
             }
         }
