@@ -207,6 +207,17 @@ public class FunctionActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.title_back:
                 if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
+                    if("ESUR-H600".equals(model) || "SD60".equals(model)){
+                        if(total>30)
+                            total=30;
+                        else if(total<5)
+                            total=5;
+                    }else {
+                        if(total>300)
+                            total=300;
+                        else if (total<0)
+                            total=0;
+                    }
                     esimUhfService.setPower(total);
                     esimUhfService.setBeeper();
                     ToastUtils.showShort(R.string.save_newinv_succ);
@@ -300,9 +311,11 @@ public class FunctionActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        DataManager.getInstance().setOpenBeeper(SettingBeepUtil.isOpen());
-        DataManager.getInstance().setSledBeeper(SettingBeepUtil.isSledOpen());
-        DataManager.getInstance().setHostBeeper(SettingBeepUtil.isHostOpen());
+        if(esimUhfService!=null){
+            DataManager.getInstance().setOpenBeeper(SettingBeepUtil.isOpen());
+            DataManager.getInstance().setSledBeeper(SettingBeepUtil.isSledOpen());
+            DataManager.getInstance().setHostBeeper(SettingBeepUtil.isHostOpen());
+        }
         EventBus.getDefault().unregister(this);
 
     }
@@ -311,6 +324,17 @@ public class FunctionActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
+                if("ESUR-H600".equals(model) || "SD60".equals(model)){
+                    if(total>30)
+                        total=30;
+                    else if(total<5)
+                        total=5;
+                }else {
+                    if(total>300)
+                        total=300;
+                    else if (total<0)
+                        total=0;
+                }
                 esimUhfService.setPower(total);
                 esimUhfService.setBeeper();
             }
