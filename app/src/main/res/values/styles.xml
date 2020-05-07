@@ -31,15 +31,6 @@
         <item name="borderWidth">1dp</item>
     </style>
 
-    <style name="CustomSpinner">
-        <item name="met_baseColor">#0056d3</item>
-        <item name="met_iconPadding">0dp</item>
-        <item name="met_primaryColor">#0056d3</item>
-        <item name="met_floatingLabel">normal</item>
-        <item name="met_textColor">#666</item>
-        <item name="android:lines">1</item>
-    </style>
-
     <style name="test1">
         <item name="android:elevation">4dp</item>
     </style>
