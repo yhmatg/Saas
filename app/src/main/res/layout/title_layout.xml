@@ -9,10 +9,10 @@
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/title_back"
-        android:padding="@dimen/dp_12"
+        android:padding="@dimen/dp_10"
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
-        android:src="@drawable/btn_back"/>
+        android:src="@drawable/left_arrow"/>
 
     <TextView
         android:id="@+id/title_content"
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_8"
-        android:text="标题"
+        android:text="@string/title"
         android:textSize="18sp"
         android:textColor="@color/white"/>
 
