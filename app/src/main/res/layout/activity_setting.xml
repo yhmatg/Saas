@@ -103,7 +103,7 @@
             android:layout_height="@dimen/dp_30"
             android:padding="@dimen/dp_7"
             android:layout_gravity="center"
-            android:src="@drawable/img_right"/>
+            android:src="@drawable/right_arrow"/>
 
     </LinearLayout>
 
