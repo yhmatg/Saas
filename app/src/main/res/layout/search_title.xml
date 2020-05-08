@@ -9,11 +9,11 @@
 
         <ImageView
             android:id="@+id/titleLeft"
-            android:padding="@dimen/dp_10"
+            android:padding="@dimen/dp_12"
             android:layout_gravity="center_vertical"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
-            android:src="@drawable/left_arrow"/>
+            android:src="@drawable/btn_back"/>
 
     <LinearLayout
         android:layout_width="match_parent"
