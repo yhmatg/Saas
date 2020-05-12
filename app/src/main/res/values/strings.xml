@@ -172,8 +172,9 @@
     <string name="inv_usecom_hint">请选择使用公司</string>
     <string name="inv_usecom">使用公司</string>
     <string name="new_inv_task">新建盘点任务</string>
-    <string name="save_newinv_succ">保存成功</string>
-    <string name="save_newinv_fail">保存失败</string>
+    <string name="sound_setting_fail">手持机声音设置失败，请检查连接退出重试！</string>
+    <string name="save_newinv_succ">设置成功</string>
+    <string name="save_newinv_fail">设置失败</string>
     <string name="version_name">当前版本</string>
     <string name="version_num">v1.1.0</string>
     <string name="login_out">退出登录</string>
@@ -231,4 +232,6 @@
     <string name="about_handheld_machine">关于手持机</string>
     <string name="corporation_name">上海一芯智能科技</string>
     <string name="finish_time_alert">预计完成时间不能早于创建时间</string>
+    <string name="sled">Sled Beeper</string>
+    <string name="host">Host Beeper</string>
 </resources>

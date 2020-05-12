@@ -170,6 +170,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             case UhfMsgType.UHF_CONNECT_FAIL:
                 ToastUtils.showShort(R.string.rfid_connect_fail);
                 break;
+			case UhfMsgType.SETTING_SOUND_FAIL:
+                ToastUtils.showShort(R.string.sound_setting_fail);
+                break;
+            case UhfMsgType.SETTING_POWER_SUCCESS:
+                ToastUtils.showShort(R.string.save_newinv_succ);
+                break;
+            case UhfMsgType.SETTING_POWER_FAIL:
+                ToastUtils.showShort(R.string.save_newinv_fail);
+                break;
         }
 
     }

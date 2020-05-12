@@ -31,8 +31,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
     @Override
     public void getScanAssetsByEpc(Set<String> Epcs) {
         mView.showDialog("loading...");
-        Set<String> mTempEpcs = new HashSet<>();
-        mTempEpcs.addAll(Epcs);
+        Set<String> mTempEpcs = new HashSet<>(Epcs);
         //addSubscribe(dataManager.fetchScanAssets(mTempEpcs)
         addSubscribe(Observable.concat(getLocalAssetsObservable(mTempEpcs),dataManager.fetchScanAssets(mTempEpcs))
         .compose(RxUtils.handleResult())
@@ -76,7 +75,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
         }));
     }
 
-    public Observable<BaseResponse<List<AssetsInfo>>> getLocalAssetsObservable(String para) {
+    private Observable<BaseResponse<List<AssetsInfo>>> getLocalAssetsObservable(String para) {
         Observable<BaseResponse<List<AssetsInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsInfo>>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<List<AssetsInfo>>> emitter) throws Exception {
@@ -96,7 +95,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
         return invOrderObservable;
     }
 
-    public Observable<BaseResponse<List<AssetsInfo>>> getLocalAssetsObservable(Set<String> epcs) {
+    private Observable<BaseResponse<List<AssetsInfo>>> getLocalAssetsObservable(Set<String> epcs) {
         Observable<BaseResponse<List<AssetsInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsInfo>>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<List<AssetsInfo>>> emitter) throws Exception {
