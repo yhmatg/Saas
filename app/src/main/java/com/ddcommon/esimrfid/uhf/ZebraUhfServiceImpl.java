@@ -112,6 +112,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         Log.d(TAG, "disconnect " + reader);
         try {
             if (reader != null) {
+                reader.Config.saveConfig();
                 reader.Events.removeEventsListener(eventHandler);
                 reader.disconnect();
                 UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_DISCONNECT);
