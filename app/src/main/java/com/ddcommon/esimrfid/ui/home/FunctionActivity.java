@@ -66,9 +66,6 @@ public class FunctionActivity extends BaseActivity {
 
     @Override
     protected void initEventAndData() {
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
         mTitle.setText("功能设置");
         initData();
@@ -220,7 +217,6 @@ public class FunctionActivity extends BaseActivity {
                     }
                     esimUhfService.setPower(total);
                     esimUhfService.setBeeper();
-                    ToastUtils.showShort(R.string.save_newinv_succ);
                 }
                 finish();
                 break;
@@ -242,21 +238,6 @@ public class FunctionActivity extends BaseActivity {
                 break;
             case R.id.host_set:
                 setHostOpen();
-                break;
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleUhfMsg(UhfMsgEvent<UhfTag> uhfMsgEvent) {
-        switch (uhfMsgEvent.getType()) {
-            case UhfMsgType.SETTING_SOUND_FAIL:
-                ToastUtils.showShort("手持机声音设置失败，请检查连接退出重试！");
-                break;
-            case UhfMsgType.SETTING_POWER_SUCCESS:
-                ToastUtils.showShort(R.string.save_newinv_succ);
-                break;
-            case UhfMsgType.SETTING_POWER_FAIL:
-                ToastUtils.showShort(R.string.save_newinv_fail);
                 break;
         }
     }
@@ -316,8 +297,6 @@ public class FunctionActivity extends BaseActivity {
             DataManager.getInstance().setSledBeeper(SettingBeepUtil.isSledOpen());
             DataManager.getInstance().setHostBeeper(SettingBeepUtil.isHostOpen());
         }
-        EventBus.getDefault().unregister(this);
-
     }
 
     @Override
