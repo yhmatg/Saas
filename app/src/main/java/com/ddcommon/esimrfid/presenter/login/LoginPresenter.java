@@ -12,9 +12,16 @@ import com.ddcommon.esimrfid.utils.RxUtils;
 import com.ddcommon.esimrfid.utils.ToastUtils;
 import com.ddcommon.esimrfid.widget.BaseObserver;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
+import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.SSLPeerUnverifiedException;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.HttpException;
 
 
 /**
@@ -74,6 +81,10 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                             super.onError(e);
                             //取消提示框
                             mView.dismissDialog();
+                            if (e instanceof SocketTimeoutException || e instanceof SSLHandshakeException || e instanceof UnknownHostException
+                                    || e instanceof SSLPeerUnverifiedException || e instanceof HttpException) {
+                               mView.showUrlSettingDialog();
+                            }
                         }
                     }));
         }else {

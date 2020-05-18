@@ -198,6 +198,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         finish();
     }
 
+    @Override
+    public void showUrlSettingDialog() {
+        showSettingDialog();
+    }
+
 
     @Override
     public LoginPresenter initPresenter() {

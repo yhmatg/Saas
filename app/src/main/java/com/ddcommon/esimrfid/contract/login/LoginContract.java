@@ -21,6 +21,8 @@ public interface LoginContract {
         void showLoginSuccess();
 
         void startMainActivity();
+
+        void showUrlSettingDialog();
     }
 
     interface Presenter extends AbstractPresenter<View> {
