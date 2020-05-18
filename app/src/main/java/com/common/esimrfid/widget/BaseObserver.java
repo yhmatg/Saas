@@ -14,8 +14,10 @@ import com.common.esimrfid.utils.LogHelper;
 import com.common.esimrfid.utils.ToastUtils;
 
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.SSLPeerUnverifiedException;
 
 import io.reactivex.observers.ResourceObserver;
 import retrofit2.HttpException;
@@ -74,7 +76,7 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
             mView.startLoginActivity();
         } else if (e instanceof SocketTimeoutException) {
             ToastUtils.showShort(R.string.socket_time_out_error);
-        } else if (e instanceof SSLHandshakeException) {
+        } else if (e instanceof SSLHandshakeException || e instanceof SSLPeerUnverifiedException || e instanceof UnknownHostException) {
             ToastUtils.showShort(R.string.url_error);
         } else if (e instanceof ResultIsNullException) {
             ToastUtils.showShort(R.string.not_result_error);
