@@ -232,6 +232,6 @@
     <string name="about_handheld_machine">关于手持机</string>
     <string name="corporation_name">上海一芯智能科技</string>
     <string name="finish_time_alert">预计完成时间不能早于创建时间</string>
-    <string name="sled">Sled Beeper</string>
-    <string name="host">Host Beeper</string>
+    <string name="sled">手持机声音</string>
+    <string name="host">手机声音</string>
 </resources>
