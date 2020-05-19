@@ -114,7 +114,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         super.onResume();
         mPresenter.getAssetsNmbDiffLocation();
         mPresenter.getAssetsNmbDiffStatus();
-        mPresenter.getCompanyInfo();
+        //mPresenter.getCompanyInfo();
     }
 
     //检查登录状态，未登录跳转登录界面
@@ -125,7 +125,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             initRfid();
             mPresenter.checkUpdateVersion();
             EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
-            mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
+            if(uerLogin.getUserinfo().getUser_real_name() != null) {
+                mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
+            }
+            if(uerLogin.getUserinfo().getCorpName() != null){
+                mCompanyName.setText(uerLogin.getUserinfo().getCorpName());
+            }
             mPresenter.getAssetsInfoById("");
             mPresenter.fetchAllIvnOrders(uerLogin.getUserinfo().getId(), true);
 

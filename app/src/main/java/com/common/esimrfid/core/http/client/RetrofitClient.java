@@ -66,7 +66,7 @@ public class RetrofitClient {
     private RetrofitClient() {
         url = PreferenceHelperImpl.getInstance().getHostUrl();
         if(StringUtils.isEmpty(url)){
-            url ="https://www.assettag.vip";
+            url ="https://cloud.assettag.vip";
         }
         retrofit = createRetrofit(provideClient(), url);
 
