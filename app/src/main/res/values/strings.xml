@@ -99,7 +99,7 @@
     <string name="ast_code">资产编号：</string>
     <string name="expiration_reminder">您的系统已过期，请购买后再使用！</string>
     <string name="wrong_account_or_pass">账户或密码不正确！</string>
-
+    <string name="no_asset_in_new_inv">新建盘点单中无符合条件资产！</string>
 
     <!--    NEW       -->
 

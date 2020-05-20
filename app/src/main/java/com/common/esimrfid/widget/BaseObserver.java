@@ -6,6 +6,7 @@ import android.util.Log;
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.http.exception.ExpiredExpection;
+import com.common.esimrfid.core.http.exception.NoAssetInCreateInvException;
 import com.common.esimrfid.core.http.exception.ResultIsNullException;
 import com.common.esimrfid.core.http.exception.ServerException;
 import com.common.esimrfid.core.http.exception.TokenException;
@@ -84,6 +85,8 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
             ToastUtils.showShort(R.string.expiration_reminder);
         } else if (e instanceof WrongAccountOrPassException) {
             ToastUtils.showShort(R.string.wrong_account_or_pass);
+        } else if(e instanceof NoAssetInCreateInvException){
+            ToastUtils.showShort(R.string.no_asset_in_new_inv);
         }else {
             ToastUtils.showShort(R.string.unKnown_error);
             LogHelper.d(e.toString());

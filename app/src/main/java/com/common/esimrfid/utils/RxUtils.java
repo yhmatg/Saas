@@ -2,6 +2,7 @@ package com.common.esimrfid.utils;
 
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.http.exception.ExpiredExpection;
+import com.common.esimrfid.core.http.exception.NoAssetInCreateInvException;
 import com.common.esimrfid.core.http.exception.OtherException;
 import com.common.esimrfid.core.http.exception.ResultIsNullException;
 import com.common.esimrfid.core.http.exception.TokenException;
@@ -23,6 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by chao.qu at 2017/10/20
+ *
  * @author yhm
  */
 
@@ -30,6 +32,7 @@ public class RxUtils {
 
     /**
      * 统一线程处理
+     *
      * @param <T> 指定的泛型类型
      * @return FlowableTransformer
      */
@@ -45,6 +48,7 @@ public class RxUtils {
 
     /**
      * 统一线程处理
+     *
      * @param <T> 指定的泛型类型
      * @return ObservableTransformer
      */
@@ -60,6 +64,7 @@ public class RxUtils {
 
     /**
      * 统一返回结果处理
+     *
      * @param <T> 指定的泛型类型
      * @return ObservableTransformer
      */
@@ -74,15 +79,17 @@ public class RxUtils {
                                 && baseResponse.getResult() != null) {
                             return createData(baseResponse.getResult());
                         } else {
-                            if("2000A0".equals(baseResponse.getCode())){//token过期
+                            if ("2000A0".equals(baseResponse.getCode())) {//token过期
                                 return Observable.error(new TokenException());
-                            } else if("909003".equals(baseResponse.getCode())){//试用过期
+                            } else if ("909003".equals(baseResponse.getCode())) {//试用过期
                                 return Observable.error(new ExpiredExpection());
-                            } else if("200001".equals(baseResponse.getCode())){//密码账号错误
+                            } else if ("200001".equals(baseResponse.getCode())) {//密码账号错误
                                 return Observable.error(new WrongAccountOrPassException());
-                            }else if(baseResponse.getResult() == null){
+                            } else if ("401704".equals(baseResponse.getCode())) {//新建盘点单中无附条件资产
+                                return Observable.error(new NoAssetInCreateInvException());
+                            } else if (baseResponse.getResult() == null) {
                                 return Observable.error(new ResultIsNullException());
-                            }else{
+                            } else {
                                 return Observable.error(new OtherException());
                             }
                         }
@@ -94,18 +101,19 @@ public class RxUtils {
 
     /**
      * 统一返回结果处理(没有result)
+     *
      * @return ObservableTransformer
      */
-    public static  ObservableTransformer<BaseResponse, BaseResponse> handleBaseResponse() {
+    public static ObservableTransformer<BaseResponse, BaseResponse> handleBaseResponse() {
         return new ObservableTransformer<BaseResponse, BaseResponse>() {
             @Override
             public ObservableSource<BaseResponse> apply(Observable<BaseResponse> upstream) {
                 return upstream.flatMap(new Function<BaseResponse, ObservableSource<BaseResponse>>() {
                     @Override
                     public ObservableSource<BaseResponse> apply(BaseResponse baseResponse) throws Exception {
-                        if(CommonUtils.isNetworkConnected()){
+                        if (CommonUtils.isNetworkConnected()) {
                             return createData(baseResponse);
-                        }else {
+                        } else {
                             return Observable.error(new OtherException());
                         }
 
@@ -117,6 +125,7 @@ public class RxUtils {
 
     /**
      * 得到 Observable
+     *
      * @param <T> 指定的泛型类型
      * @return Observable
      */
