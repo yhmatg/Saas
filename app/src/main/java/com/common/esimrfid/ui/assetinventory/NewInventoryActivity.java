@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -62,18 +63,32 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     EditText mInvName;
     @BindView(R.id.tv_inv_person)
     TextView mInvPersion;
+    @BindView(R.id.rl_assign_name)
+    RelativeLayout rInvPersion;
     @BindView(R.id.tv_expfin_date)
     TextView mExpFinData;
+    @BindView(R.id.rl_expect_date)
+    RelativeLayout rExpFinData;
     @BindView(R.id.tv_inv_usecom)
     TextView mUseCom;
+    @BindView(R.id.rl_use_company)
+    RelativeLayout rUseCom;
     @BindView(R.id.tv_inv_usedepart)
     TextView mUseDepart;
+    @BindView(R.id.rl_use_depart)
+    RelativeLayout rUseDepart;
     @BindView(R.id.tv_inv_asstype)
     TextView mAssType;
+    @BindView(R.id.rl_ast_type)
+    RelativeLayout rAssType;
     @BindView(R.id.tv_inv_loc)
     TextView mAssLocation;
+    @BindView(R.id.rl_store_location)
+    RelativeLayout rAssLocation;
     @BindView(R.id.tv_inv_owncom)
     TextView mOwnCom;
+    @BindView(R.id.rl_own_company)
+    RelativeLayout rOwnCom;
     @BindView(R.id.btn_submit)
     Button mSubmit;
     int currentOption;
@@ -144,8 +159,8 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
 
     }
 
-    @OnClick({R.id.title_back, R.id.ev_inv_name, R.id.tv_inv_person, R.id.tv_expfin_date, R.id.tv_inv_usecom,
-            R.id.tv_inv_usedepart, R.id.tv_inv_asstype, R.id.tv_inv_loc, R.id.tv_inv_owncom, R.id.btn_submit})
+    @OnClick({R.id.title_back, R.id.ev_inv_name, R.id.rl_assign_name, R.id.rl_expect_date, R.id.rl_use_company,
+            R.id.rl_use_depart, R.id.rl_ast_type, R.id.rl_store_location, R.id.rl_own_company, R.id.btn_submit})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.title_back:
@@ -153,7 +168,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 break;
             case R.id.ev_inv_name:
                 break;
-            case R.id.tv_inv_person:
+            case R.id.rl_assign_name:
                 tvTitle.setText(R.string.new_inv_persion);
                 currentOption = 0;
                 if (mMangerUsers.size() == 0) {
@@ -165,11 +180,11 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 }
 
                 break;
-            case R.id.tv_expfin_date:
+            case R.id.rl_expect_date:
                 tvTitle.setText(R.string.exp_finish_date);
                 pvCustomTime.show();
                 break;
-            case R.id.tv_inv_usecom:
+            case R.id.rl_use_company:
                 tvTitle.setText(R.string.inv_usecom);
                 currentOption = 1;
                 if (mCompanyBeans.size() == 0) {
@@ -180,7 +195,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                     pvCustomOptions.show();
                 }
                 break;
-            case R.id.tv_inv_usedepart:
+            case R.id.rl_use_depart:
                 if (mSelectUseCompany != null && !TextUtils.isEmpty(mSelectUseCompany.getId()) && !"-1".equals(mSelectUseCompany.getId())) {
                     tvTitle.setText(R.string.inv_usedepart);
                     currentOption = 2;
@@ -190,7 +205,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 }
 
                 break;
-            case R.id.tv_inv_asstype:
+            case R.id.rl_ast_type:
                 tvTitle.setText(R.string.inv_asstype);
                 currentOption = 3;
                 if (mAssetsTypes.size() == 0) {
@@ -202,7 +217,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 }
 
                 break;
-            case R.id.tv_inv_loc:
+            case R.id.rl_store_location:
                 tvTitle.setText(R.string.inv_location);
                 currentOption = 4;
                 if (mAssetsLocations.size() == 0) {
@@ -213,7 +228,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                     pvCustomOptions.show();
                 }
                 break;
-            case R.id.tv_inv_owncom:
+            case R.id.rl_own_company:
                 tvTitle.setText(R.string.inv_owncom);
                 currentOption = 5;
                 if (mCompanyBeans.size() == 0) {
