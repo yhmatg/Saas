@@ -190,9 +190,5 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
     @Override
     protected void onResume() {
         super.onResume();
-        IEsimUhfService iEsimUhfService = EsimAndroidApp.getIEsimUhfService();
-        if( iEsimUhfService instanceof ZebraUhfServiceImpl){
-            ((ZebraUhfServiceImpl)iEsimUhfService).setScanEnable();
-        }
     }
 }

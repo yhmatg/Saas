@@ -66,4 +66,6 @@ public interface HttpHelper {
     Observable<BaseResponse<UpdateVersion>> updateVersion();
 
     Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
+
+    Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(String astCode);
 }

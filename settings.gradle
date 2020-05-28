@@ -1,1 +1,1 @@
-include ':app', ':RFIDAPI3Library'
+include ':app', ':RFIDAPI3Library', ':barcode_scanner_library_v2.5.3.0'

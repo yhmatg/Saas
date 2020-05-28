@@ -8,6 +8,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
 import com.common.esimrfid.app.EsimAndroidApp;
+import com.common.esimrfid.ui.identity.IDcsSdkApiDelegateImp;
 import com.common.esimrfid.utils.SettingBeepUtil;
 import com.common.esimrfid.utils.StringUtils;
 import com.zebra.rfid.api3.ACCESS_OPERATION_CODE;
@@ -38,12 +39,17 @@ import com.zebra.rfid.api3.STOP_TRIGGER_TYPE;
 import com.zebra.rfid.api3.TagAccess;
 import com.zebra.rfid.api3.TagData;
 import com.zebra.rfid.api3.TriggerInfo;
+import com.zebra.scannercontrol.DCSSDKDefs;
+import com.zebra.scannercontrol.DCSScannerInfo;
+import com.zebra.scannercontrol.SDKHandler;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.zebra.scannercontrol.DCSSDKDefs.DCSSDK_MODE.DCSSDK_OPMODE_BT_NORMAL;
 
 /**
  * @author rylai
@@ -79,6 +85,13 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     private int percantageVolume = 100;
     private boolean sledBeeperEnable = true;
     private OperationFailureException operationException;
+    //scanner
+    private ArrayList<DCSScannerInfo> scannerTreeList = new ArrayList<>();
+    private SDKHandler sdkHandler;
+    private int scannerId;
+    private  ScanAsyncTask cmdExecTask = null;
+    private int notifications_mask = 0;
+    private boolean keyScanEnable;
 
     public ZebraUhfServiceImpl() {
         instance = EsimAndroidApp.getInstance();
@@ -110,6 +123,9 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
 
         Log.d(TAG, "disconnect " + reader);
         try {
+            if (readername.equals("RFD8500")) {
+                desconnectScanner();
+            }
             if (reader != null) {
                 reader.Config.saveConfig();
                 reader.Events.removeEventsListener(eventHandler);
@@ -401,6 +417,9 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                     // Establish connection to the RFID Reader
                     reader.connect();
                     ConfigureReader();
+                    if (readername.equals("RFD8500")) {
+                        initScanner();
+                    }
                     UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.UHF_CONNECT);
                     EventBus.getDefault().post(uhfMsgEvent);
                     return "Connected";
@@ -514,28 +533,18 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
             Log.d(TAG, "Status Notification: " + rfidStatusEvents.StatusEventData.getStatusEventType());
             if (rfidStatusEvents.StatusEventData.getStatusEventType() == STATUS_EVENT_TYPE.HANDHELD_TRIGGER_EVENT) {
                 if (rfidStatusEvents.StatusEventData.HandheldTriggerEventData.getHandheldEvent() == HANDHELD_TRIGGER_EVENT_TYPE.HANDHELD_TRIGGER_PRESSED) {
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... voids) {
-//                            context.handleTriggerPress(true);
-                            if (isEnable() && !isStart) {
-                                startScanning();
-                            }
-                            return null;
-                        }
-                    }.execute();
+                    if(keyScanEnable && readername.equals("RFD8500")){
+                        pullTrigger();
+                    }else if (isEnable() && !isStart) {
+                        startScanning();
+                    }
                 }
                 if (rfidStatusEvents.StatusEventData.HandheldTriggerEventData.getHandheldEvent() == HANDHELD_TRIGGER_EVENT_TYPE.HANDHELD_TRIGGER_RELEASED) {
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... voids) {
-//                            context.handleTriggerPress(false);
-                            if (isEnable() && isStart) {
-                                stopScanning();
-                            }
-                            return null;
-                        }
-                    }.execute();
+                    if(keyScanEnable && readername.equals("RFD8500")){
+                        releaseTrigger();
+                    }else if (isEnable() && isStart) {
+                        stopScanning();
+                    }
                 }
             }
             if (rfidStatusEvents.StatusEventData.getStatusEventType() == STATUS_EVENT_TYPE.DISCONNECTION_EVENT) {
@@ -662,7 +671,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
 
     private ScanEnableTask scanEnableTask;
 
-    public void setScanEnable() {
+    public void setScanEnable(Boolean enable) {
         scanEnableTask = new ScanEnableTask(false);
         scanEnableTask.execute();
     }
@@ -866,4 +875,118 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         tbeep = null;
     }
 
+    private void initScanner() {
+        notifications_mask |= DCSSDKDefs.DCSSDK_EVENT.DCSSDK_EVENT_BARCODE.value;
+        sdkHandler = new SDKHandler(EsimAndroidApp.getInstance());
+        DCSSDKDefs.DCSSDK_RESULT result = sdkHandler.dcssdkSetOperationalMode(DCSSDK_OPMODE_BT_NORMAL);
+        sdkHandler.dcssdkSubsribeForEvents(notifications_mask);
+        sdkHandler.dcssdkGetAvailableScannersList(scannerTreeList);
+        sdkHandler.dcssdkSetDelegate(new IDcsSdkApiDelegateImp() {
+            @Override
+            public void dcssdkEventBarcode(byte[] bytes, int i, int i1) {
+                super.dcssdkEventBarcode(bytes, i, i1);
+                Log.e("statatat", "data==" + new String(bytes));
+                if(bytes != null){
+                    UhfTag uhfTag = new UhfTag();
+                    uhfTag.setBarcode(new String(bytes));
+                    UhfMsgEvent<UhfTag> scanTagUhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SCAN_DATA, uhfTag);
+                    EventBus.getDefault().post(scanTagUhfMsgEvent);
+                }
+            }
+        });
+        for (DCSScannerInfo dcsScannerInfo : scannerTreeList) {
+            if (dcsScannerInfo.getScannerName().startsWith("RFD8500")) {
+                scannerId = dcsScannerInfo.getScannerID();
+            }
+        }
+        new ConnectScanner(scannerId).execute();
+    }
+
+    private class ConnectScanner extends AsyncTask<Void, Void, Boolean> {
+        int scannerId;
+
+        public ConnectScanner(int scannerId) {
+            this.scannerId = scannerId;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            DCSSDKDefs.DCSSDK_RESULT result = sdkHandler.dcssdkEstablishCommunicationSession(scannerId);
+            if(result== DCSSDKDefs.DCSSDK_RESULT.DCSSDK_RESULT_SUCCESS){
+                return true;
+            }
+            else if(result== DCSSDKDefs.DCSSDK_RESULT.DCSSDK_RESULT_FAILURE){
+                return false;
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            Log.e("Scanner","Scanner Connect result == " + result);
+        }
+    }
+
+    private class ScanAsyncTask extends AsyncTask<String, Integer, Boolean> {
+        int scannerId;
+        StringBuilder outXML;
+        DCSSDKDefs.DCSSDK_COMMAND_OPCODE opcode;
+
+        public ScanAsyncTask(int scannerId, DCSSDKDefs.DCSSDK_COMMAND_OPCODE opcode, StringBuilder outXML) {
+            this.scannerId = scannerId;
+            this.opcode = opcode;
+            this.outXML = outXML;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            return executeCommand(opcode, strings[0], outXML, scannerId);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean b) {
+            super.onPostExecute(b);
+        }
+
+        private boolean executeCommand(DCSSDKDefs.DCSSDK_COMMAND_OPCODE opCode, String inXML, StringBuilder outXML, int scannerID) {
+            if (sdkHandler != null) {
+                if (outXML == null) {
+                    outXML = new StringBuilder();
+                }
+                DCSSDKDefs.DCSSDK_RESULT result = sdkHandler.dcssdkExecuteCommandOpCodeInXMLForScanner(opCode, inXML, outXML, scannerID);
+                if (result == DCSSDKDefs.DCSSDK_RESULT.DCSSDK_RESULT_SUCCESS)
+                    return true;
+                else if (result == DCSSDKDefs.DCSSDK_RESULT.DCSSDK_RESULT_FAILURE)
+                    return false;
+            }
+            return false;
+        }
+    }
+
+    private void pullTrigger() {
+        String in_xml = "<inArgs><scannerID>" + scannerId + "</scannerID></inArgs>";
+        cmdExecTask = new ScanAsyncTask(scannerId, DCSSDKDefs.DCSSDK_COMMAND_OPCODE.DCSSDK_DEVICE_PULL_TRIGGER, null);
+        cmdExecTask.execute(in_xml);
+    }
+
+    private void releaseTrigger() {
+        String in_xml = "<inArgs><scannerID>" + scannerId + "</scannerID></inArgs>";
+        cmdExecTask = new ScanAsyncTask(scannerId,DCSSDKDefs.DCSSDK_COMMAND_OPCODE.DCSSDK_DEVICE_RELEASE_TRIGGER,null);
+        cmdExecTask.execute(in_xml);
+    }
+
+    private void desconnectScanner() {
+        if (sdkHandler != null) {
+            sdkHandler.dcssdkTerminateCommunicationSession(scannerId);
+        }
+    }
+
+    public void setPressScan(Boolean enable){
+        keyScanEnable = enable;
+    }
+
+    public Boolean isTc20(){
+        return readername.equals("RFD2000");
+    }
 }

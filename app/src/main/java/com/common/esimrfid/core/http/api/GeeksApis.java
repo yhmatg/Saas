@@ -165,4 +165,14 @@ public interface GeeksApis {
 
     @GET("/user-server/sysusers/selectCurrentOrg")
     Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
+
+    //通过二维码，资产编码，资产id获取资产详情
+
+    /**
+     *
+     * @param astCode 二维码
+     * @return
+     */
+    @GET("/assets-server/assets/detail")
+    Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(@Query("ast_code")String astCode);
 }

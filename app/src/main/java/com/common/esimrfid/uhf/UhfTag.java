@@ -5,6 +5,7 @@ public class UhfTag {
     private String  tid;
     private String rssi;
     private String allData;
+    private String barcode;
 
     public UhfTag(String epc, String tid, String rssi, String allData) {
         this.epc = epc;
@@ -61,5 +62,13 @@ public class UhfTag {
 
     public void setAllData(String allData) {
         this.allData = allData;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 }

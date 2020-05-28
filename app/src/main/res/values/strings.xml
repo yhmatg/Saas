@@ -234,4 +234,6 @@
     <string name="finish_time_alert">预计完成时间不能早于创建时间</string>
     <string name="sled">手持机声音</string>
     <string name="host">手机声音</string>
+    <string name="ast_idntity">资产识别</string>
+    <string name="ast_repair">资产保修</string>
 </resources>

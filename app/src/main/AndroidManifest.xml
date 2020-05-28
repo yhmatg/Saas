@@ -68,8 +68,11 @@
         <activity
             android:name=".utils.logger.CrashActivity"
             android:screenOrientation="portrait"></activity>
-	<activity
+        <activity
             android:name=".ui.home.FunctionActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.identity.IdentityActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 </manifest>

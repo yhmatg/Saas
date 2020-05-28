@@ -15,4 +15,5 @@ public class UhfMsgType {
     public static final String SETTING_SOUND_FAIL="setting_sound_fail";
     public static final String UHF_DISMISS_DIALOG="uhf_dismiss_dialog";
     public static final String UHF_CONNECT_FAIL="uhf_connect_fail";
+    public static final String SCAN_DATA="scan_barcode_data";
 }

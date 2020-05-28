@@ -150,4 +150,9 @@ public class HttpHelperImpl implements HttpHelper {
         return mGeeksApis.getCompanyInfo();
     }
 
+    @Override
+    public Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(String astCode) {
+        return mGeeksApis.getAstInfo(astCode);
+    }
+
 }
