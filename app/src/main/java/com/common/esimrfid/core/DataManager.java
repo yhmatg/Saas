@@ -276,4 +276,9 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     public Observable<BaseResponse<CompanyInfo>> getCompanyInfo() {
         return mHttpHelper.getCompanyInfo();
     }
+
+    @Override
+    public Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(String astCode) {
+        return mHttpHelper.getAstInfo(astCode);
+    }
 }
