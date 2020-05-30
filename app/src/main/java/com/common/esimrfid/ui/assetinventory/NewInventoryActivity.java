@@ -1,7 +1,10 @@
 package com.common.esimrfid.ui.assetinventory;
 
 import android.app.Dialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,8 +40,11 @@ import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.presenter.assetinventory.NewInventoryPressnter;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.DateUtils;
+import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.contrarywind.view.WheelView;
+import com.multilevel.treelist.Node;
+import com.multilevel.treelist.TreeRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -117,6 +123,17 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     List<AssetsType> selectTypes = new ArrayList<>();
     List<DepartmentBean> selectDeparts = new ArrayList<>();
 
+    private MaterialDialog multipleDialog;
+    private TextView mulTipleTvTitle;
+    private RecyclerView multiRecycle;
+    protected List<Node> multiDatas = new ArrayList<>();
+    private TreeRecyclerAdapter multiAdapter;
+    private View multiContentView;
+    private List<Node> checkedDeparts = new ArrayList<>();
+    private List<Node> checkedTypes = new ArrayList<>();
+    private List<Node> checkedLocations = new ArrayList<>();
+    private int preOption = -1;
+
     @Override
     public NewInventoryPressnter initPresenter() {
         return new NewInventoryPressnter(DataManager.getInstance());
@@ -129,6 +146,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         initCustomOptionPicker();
         initOptions();
         initDate();
+        initMultiDialogView();
     }
 
     private void initDate() {
@@ -197,7 +215,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 break;
             case R.id.rl_use_depart:
                 if (mSelectUseCompany != null && !TextUtils.isEmpty(mSelectUseCompany.getId()) && !"-1".equals(mSelectUseCompany.getId())) {
-                    tvTitle.setText(R.string.inv_usedepart);
+                    mulTipleTvTitle.setText(R.string.inv_usedepart);
                     currentOption = 2;
                     mPresenter.getAllDeparts(mSelectUseCompany.getId());
                 } else {
@@ -206,26 +224,27 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
 
                 break;
             case R.id.rl_ast_type:
-                tvTitle.setText(R.string.inv_asstype);
+                mulTipleTvTitle.setText(R.string.inv_asstype);
                 currentOption = 3;
                 if (mAssetsTypes.size() == 0) {
                     typesClickShow = true;
                     mPresenter.getAllAssetsType();
                 } else {
-                    pvCustomOptions.setPicker(mAssetsTypes);
-                    pvCustomOptions.show();
+                   /* pvCustomOptions.setPicker(mAssetsTypes);
+                    pvCustomOptions.show();*/
+                   showMultipleDialog();
                 }
-
                 break;
             case R.id.rl_store_location:
-                tvTitle.setText(R.string.inv_location);
+                mulTipleTvTitle.setText(R.string.inv_location);
                 currentOption = 4;
                 if (mAssetsLocations.size() == 0) {
                     locationsClickShow = true;
                     mPresenter.getAllAssetsLocation();
                 } else {
-                    pvCustomOptions.setPicker(mAssetsLocations);
-                    pvCustomOptions.show();
+                    /*pvCustomOptions.setPicker(mAssetsLocations);
+                    pvCustomOptions.show();*/
+                    showMultipleDialog();
                 }
                 break;
             case R.id.rl_own_company:
@@ -268,27 +287,48 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             userCompany.add(mSelectUseCompany.getId());
             inventoryParameter.setInv_used_corp_filter(userCompany);
         }
-        if (mSelectDepartment != null && !"-1".equals(mSelectDepartment.getId())) {
+        /*if (mSelectDepartment != null && !"-1".equals(mSelectDepartment.getId())) {
             ArrayList<String> userDepartment = new ArrayList<>();
             //userDepartment.add(mSelectDepartment.getId());
             for (DepartmentBean selectDepart : selectDeparts) {
                 userDepartment.add(selectDepart.getId());
             }
             inventoryParameter.setInv_used_dept_filter(userDepartment);
-        }
-        if (mSelectAssetsType != null && !"-1".equals(mSelectAssetsType.getId())) {
+        }*/
+       /* if (mSelectAssetsType != null && !"-1".equals(mSelectAssetsType.getId())) {
             ArrayList<String> assetsType = new ArrayList<>();
             //assetsType.add(mSelectAssetsType.getId());
             for (AssetsType selectType : selectTypes) {
                 assetsType.add(selectType.getId());
             }
-            inventoryParameter.setInv_type_filter(assetsType);
-        }
-        if (mSelectAssetsLocation != null && !"-1".equals(mSelectAssetsLocation.getId())) {
+            inventoryParameter.setInv_type_filter(checkedTypes);
+        }*/
+        /*if (mSelectAssetsLocation != null && !"-1".equals(mSelectAssetsLocation.getId())) {
             ArrayList<String> assetsLocation = new ArrayList<>();
             //assetsLocation.add(mSelectAssetsLocation.getId());
             for (AssetsLocation selectLocation : selectLocations) {
                 assetsLocation.add(selectLocation.getId());
+            }
+            inventoryParameter.setInv_loc_filter(assetsLocation);
+        }*/
+        if (checkedDeparts.size() > 0) {
+            ArrayList<String> userDepartment = new ArrayList<>();
+            for (Node checkedDepart : checkedDeparts) {
+                userDepartment.add((String) checkedDepart.getId());
+            }
+            inventoryParameter.setInv_used_dept_filter(userDepartment);
+        }
+        if (checkedTypes.size() > 0) {
+            ArrayList<String> assetsType = new ArrayList<>();
+            for (Node checkedType : checkedTypes) {
+                assetsType.add((String) checkedType.getId());
+            }
+            inventoryParameter.setInv_type_filter(assetsType);
+        }
+        if (checkedLocations.size() > 0) {
+            ArrayList<String> assetsLocation = new ArrayList<>();
+            for (Node checkedLocation : checkedLocations) {
+                assetsLocation.add((String)checkedLocation.getId());
             }
             inventoryParameter.setInv_loc_filter(assetsLocation);
         }
@@ -587,23 +627,29 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     @Override
     public void handleAllDeparts(List<DepartmentBean> departmentBeans) {
         //modify 20191230 bug 280 start
+        //公司所有部门，不包含子公司的部门
         List<DepartmentBean> tempList = new ArrayList<>();
         for (DepartmentBean departmentBean : departmentBeans) {
-            if (departmentBean.getOrg_type() == 0) {
-                tempList.add(departmentBean);
+            if (departmentBean.getOrg_type() == 0  && departmentBean.getOrg_superid().equals(mSelectUseCompany.getId())) {
+                //公司一个部门下的所有部门
+                List<DepartmentBean>  oneDeparts= new ArrayList<>();
+                oneDeparts = getSelectDeparts(departmentBeans,departmentBean.getId(),oneDeparts);
+                tempList.addAll(oneDeparts);
             }
         }
         //modify 20191230 bug 280 end
         mDepartmentBeans.clear();
         //20200103 start
         DepartmentBean unKnowDepartmentBean = new DepartmentBean();
-        unKnowDepartmentBean.setId("-1");
-        unKnowDepartmentBean.setOrg_name("不限");
+        unKnowDepartmentBean.setId(mSelectUseCompany.getId());
+        unKnowDepartmentBean.setOrg_superid("-2");
+        unKnowDepartmentBean.setOrg_name("全部");
         mDepartmentBeans.add(unKnowDepartmentBean);
         //20200103 end
         mDepartmentBeans.addAll(tempList);
-        pvCustomOptions.setPicker(mDepartmentBeans);
-        pvCustomOptions.show();
+        /*pvCustomOptions.setPicker(mDepartmentBeans);
+        pvCustomOptions.show();*/
+        showMultipleDialog();
     }
 
     @Override
@@ -612,14 +658,16 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         //20200103 start
         AssetsType unKnowAssetsType = new AssetsType();
         unKnowAssetsType.setId("-1");
-        unKnowAssetsType.setType_name("不限");
+        unKnowAssetsType.setType_superid("-2");
+        unKnowAssetsType.setType_name("全部");
         mAssetsTypes.add(unKnowAssetsType);
         //20200103 end
         mAssetsTypes.addAll(assetsTypes);
         if (typesClickShow) {
-            pvCustomOptions.setPicker(mAssetsTypes);
-            pvCustomOptions.show();
-            typesClickShow = false;
+           /* pvCustomOptions.setPicker(mAssetsTypes);
+            pvCustomOptions.show();*/
+           showMultipleDialog();
+           typesClickShow = false;
         }
     }
 
@@ -629,16 +677,17 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         //20200103 start
         AssetsLocation unKnowAssetsLocation = new AssetsLocation();
         unKnowAssetsLocation.setId("-1");
-        unKnowAssetsLocation.setLoc_name("不限");
+        unKnowAssetsLocation.setLoc_superid("-2");
+        unKnowAssetsLocation.setLoc_name("全部");
         mAssetsLocations.add(unKnowAssetsLocation);
         //20200103 end
         mAssetsLocations.addAll(assetsLocations);
         if (locationsClickShow) {
-            pvCustomOptions.setPicker(mAssetsLocations);
-            pvCustomOptions.show();
+            /*pvCustomOptions.setPicker(mAssetsLocations);
+            pvCustomOptions.show();*/
+            showMultipleDialog();
             locationsClickShow = false;
         }
-
     }
 
     @Override
@@ -718,4 +767,157 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         return resultDeparts;
     }
 
+    public void showMultipleDialog(){
+        if(preOption != currentOption){
+            updateMultiAdapterData();
+            preOption = currentOption;
+        }
+        if (multipleDialog != null) {
+            multipleDialog.show();
+        } else {
+            multipleDialog = new MaterialDialog.Builder(this)
+                    .customView(multiContentView, false)
+                    .show();
+            Window dialogWindow = multipleDialog.getWindow();
+            if (dialogWindow != null) {
+                dialogWindow.setWindowAnimations(com.bigkoo.pickerview.R.style.picker_view_slide_anim);//修改动画样式
+                dialogWindow.setGravity(Gravity.BOTTOM);//改成Bottom,底部显示
+                dialogWindow.setDimAmount(0.3f);
+            }
+            //设置dialog宽度沾满全屏
+            Window window = multipleDialog.getWindow();
+            // 把 DecorView 的默认 padding 取消，同时 DecorView 的默认大小也会取消
+            window.getDecorView().setPadding(0, 0, 0, 0);
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            // 设置宽度
+            layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+            window.setAttributes(layoutParams);
+        }
+    }
+
+    public void initMultiDialogView(){
+        multiContentView = LayoutInflater.from(this).inflate(R.layout.multiple_choice_dialog, null);
+        TextView tvSubmit = (TextView) multiContentView.findViewById(R.id.tv_finish);
+        TextView tvCancel = (TextView) multiContentView.findViewById(R.id.tv_cancle);
+        multiRecycle = (RecyclerView) multiContentView.findViewById(R.id.multi_recycle);
+        multiRecycle.setLayoutManager(new LinearLayoutManager(this));
+        multiAdapter = new SimpleTreeRecyclerAdapter(multiRecycle, NewInventoryActivity.this,
+                multiDatas, 2,R.drawable.tree_ex,R.drawable.tree_ec);
+        multiRecycle.setAdapter(multiAdapter);
+        mulTipleTvTitle = (TextView) multiContentView.findViewById(R.id.tv_title);
+        tvSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Node> allNodes = multiAdapter.getAllNodes();
+                switch (currentOption){
+                    case 2:
+                        checkedDeparts.clear();
+                        for (Node node : allNodes) {
+                            if(isAllChildenChecked(node)){
+                                checkedDeparts.add(node);
+                            }
+                        }
+                        String currentDep = "不限";
+                        if(checkedDeparts.size() == 1){
+                            currentDep = checkedDeparts.get(0).getName();
+                        }else if(checkedDeparts.size() > 1){
+                            currentDep = checkedDeparts.get(0).getName() + "+" + (checkedDeparts.size() -1);
+                        }
+                        if(!StringUtils.isEmpty(currentDep)){
+                            mUseDepart.setText(currentDep);
+                        }
+                        break;
+                    case 3:
+                        checkedTypes.clear();
+                        for (Node node : allNodes) {
+                            if(isAllChildenChecked(node)){
+                                checkedTypes.add(node);
+                            }
+                        }
+                        String currentType = "不限";
+                        if(checkedTypes.size() == 1){
+                            currentType = checkedTypes.get(0).getName();
+                        }else if(checkedTypes.size() > 1){
+                            currentType = checkedTypes.get(0).getName() + "+" + (checkedTypes.size() -1);
+                        }
+                       if(!StringUtils.isEmpty(currentType)){
+                           mAssType.setText(currentType);
+                       }
+                        break;
+                    case 4:
+                        checkedLocations.clear();
+                        for (Node node : allNodes) {
+                            if(isAllChildenChecked(node)){
+                                checkedLocations.add(node);
+                            }
+                        }
+                        String currentLoc = "不限";
+                        if(checkedLocations.size() == 1){
+                            currentLoc = checkedLocations.get(0).getName();
+                        }else if(checkedLocations.size() > 1){
+                            currentLoc = checkedLocations.get(0).getName() + "+" + (checkedLocations.size() -1);
+                        }
+                        if(!StringUtils.isEmpty(currentLoc)){
+                            mAssLocation.setText(currentLoc);
+                        }
+                        break;
+                }
+                if(multipleDialog != null){
+                    multipleDialog.dismiss();
+                }
+                Log.e("部门",checkedDeparts.toString() + checkedDeparts.size());
+                Log.e("类型",checkedTypes.toString() + checkedTypes.size());
+                Log.e("位置",checkedLocations.toString() + checkedLocations.size());
+            }
+        });
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(multipleDialog != null){
+                    multipleDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    public void updateMultiAdapterData(){
+        multiAdapter.removeData(multiDatas);
+        multiDatas.clear();
+        switch (currentOption){
+            case 2:
+                for (DepartmentBean mDepartmentBean : mDepartmentBeans) {
+                    String pId = StringUtils.isEmpty(mDepartmentBean.getOrg_superid())? "-1" : mDepartmentBean.getOrg_superid();
+                    multiDatas.add(new Node(mDepartmentBean.getId(),pId,mDepartmentBean.getOrg_name()));
+                }
+                break;
+            case 3:
+                for (AssetsType mAssetsType : mAssetsTypes) {
+                    String pId = StringUtils.isEmpty(mAssetsType.getType_superid()) ? "-1" : mAssetsType.getType_superid();
+                    multiDatas.add(new Node(mAssetsType.getId(),pId,mAssetsType.getType_name()));
+                }
+                break;
+            case 4:
+                for (AssetsLocation mAssetsLoc : mAssetsLocations) {
+                    String pId = StringUtils.isEmpty(mAssetsLoc.getLoc_superid()) ? "-1" : mAssetsLoc.getLoc_superid();
+                    multiDatas.add(new Node(mAssetsLoc.getId(), pId, mAssetsLoc.getLoc_name()));
+                }
+                break;
+        }
+
+        multiAdapter.addData(multiDatas);
+    }
+
+    boolean isAllChildenChecked(Node node){
+        if(!node.isLeaf()){
+            List<Node> children = node.getChildren();
+            for (Node child : children) {
+                if(!isAllChildenChecked(child)){
+                    return false;
+                }
+            }
+            return true;
+        }else {
+            return node.isChecked();
+        }
+    }
 }

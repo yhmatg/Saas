@@ -21,7 +21,15 @@ public class AssetsType implements IPickerViewData {
     private String type_code;
     private String type_name;
     private String type_superid;
+    private Integer type_isleaf;
 
+    public Integer getType_isleaf() {
+        return type_isleaf;
+    }
+
+    public void setType_isleaf(Integer type_isleaf) {
+        this.type_isleaf = type_isleaf;
+    }
 
     public String getId() {
         return id;
