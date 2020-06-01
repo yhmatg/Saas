@@ -235,5 +235,19 @@
     <string name="sled">手持机声音</string>
     <string name="host">手机声音</string>
     <string name="ast_idntity">资产识别</string>
-    <string name="ast_repair">资产保修</string>
+    <string name="ast_repair">资产报修</string>
+    <string name="repair_person_hint">请选择报修人</string>
+    <string name="repair_person">报修人</string>
+    <string name="repair_cost_hint">0.00</string>
+    <string name="repair_date">维修日期</string>
+    <string name="repair_date_hint">请选择报修日期</string>
+    <string name="repair_direction">维修说明</string>
+    <string name="repair_direc_hint">请输入维修说明</string>
+    <string name="repair_cost_str">维修花费(元)</string>
+    <string name="scan_add">扫码添加</string>
+    <string name="choose_add">选择资产</string>
+    <string name="sure_str">确认</string>
+    <string name="select_count">资产明细(%1$d)</string>
+    <string name="submit_success">提交成功！</string>
+    <string name="submit_failed">提交失败！</string>
 </resources>

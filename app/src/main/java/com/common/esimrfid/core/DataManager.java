@@ -21,6 +21,7 @@ import com.common.esimrfid.core.http.HttpHelper;
 import com.common.esimrfid.core.http.HttpHelperImpl;
 import com.common.esimrfid.core.prefs.PreferenceHelper;
 import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
+import com.common.esimrfid.ui.assetrepair.AssetRepairParameter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -280,5 +281,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(String astCode) {
         return mHttpHelper.getAstInfo(astCode);
+    }
+
+    @Override
+    public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {
+        return mHttpHelper.createNewRepairOrder(repairParameter);
     }
 }

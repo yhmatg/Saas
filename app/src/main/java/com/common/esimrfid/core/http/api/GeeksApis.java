@@ -17,6 +17,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
+import com.common.esimrfid.ui.assetrepair.AssetRepairParameter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -175,4 +176,13 @@ public interface GeeksApis {
      */
     @GET("/assets-server/assets/detail")
     Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(@Query("ast_code")String astCode);
+
+    //新建报修单
+    /**
+     *
+     * @param repairParameter
+     * @return
+     */
+    @POST("/assets-server/repairs/bymanager")
+    Observable<BaseResponse> createNewRepairOrder(@Body AssetRepairParameter repairParameter);
 }

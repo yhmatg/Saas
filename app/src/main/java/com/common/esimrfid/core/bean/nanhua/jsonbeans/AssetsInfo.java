@@ -2,8 +2,11 @@ package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+
+import java.util.Objects;
 
 //资产详情
 @Entity
@@ -43,6 +46,12 @@ public class AssetsInfo {
     private String id;
     @Embedded
     private LocInfo loc_info;
+    @Ignore
+    private int ast_used_status;
+    @Ignore
+    private TypeInfo type_info;
+    @Ignore
+    private boolean isSelected;
 
     public String getAst_brand() {
         return ast_brand;
@@ -100,6 +109,30 @@ public class AssetsInfo {
         this.loc_info = loc_info;
     }
 
+    public int getAst_used_status() {
+        return ast_used_status;
+    }
+
+    public void setAst_used_status(int ast_used_status) {
+        this.ast_used_status = ast_used_status;
+    }
+
+    public TypeInfo getType_info() {
+        return type_info;
+    }
+
+    public void setType_info(TypeInfo type_info) {
+        this.type_info = type_info;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     public static class LocInfo {
         /**
          * loc_code : 0004
@@ -124,5 +157,38 @@ public class AssetsInfo {
         public void setLoc_name(String loc_name) {
             this.loc_name = loc_name;
         }
+    }
+
+    public static class TypeInfo {
+        /**
+         * id : a5c29aeb932d11eaabcf00163e0a6695
+         * type_code : 00110002
+         * type_name : 在售货物
+         * type_superid : cb29a6b16e5811eaabcf00163e0a6695
+         */
+
+        private String type_name;
+
+        public String getType_name() {
+            return type_name;
+        }
+
+        public void setType_name(String type_name) {
+            this.type_name = type_name;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AssetsInfo)) return false;
+        AssetsInfo that = (AssetsInfo) o;
+        return getAst_barcode().equals(that.getAst_barcode()) &&
+                getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAst_barcode(), getId());
     }
 }

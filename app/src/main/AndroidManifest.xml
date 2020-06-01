@@ -74,5 +74,11 @@
         <activity
             android:name=".ui.identity.IdentityActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.assetrepair.AssetRepairActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.assetrepair.ChooseRepairAstActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 </manifest>

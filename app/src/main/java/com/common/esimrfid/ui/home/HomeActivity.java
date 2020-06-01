@@ -41,6 +41,7 @@ import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
+import com.common.esimrfid.ui.assetrepair.AssetRepairActivity;
 import com.common.esimrfid.ui.assetsearch.AssetsSearchActivity;
 import com.common.esimrfid.ui.identity.IdentityActivity;
 import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
@@ -189,7 +190,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     }
 
-    @OnClick({R.id.inv_task, R.id.ast_inv, R.id.ast_search, R.id.write_tag, R.id.home_setting, R.id.ast_identity})
+    @OnClick({R.id.inv_task, R.id.ast_inv, R.id.ast_search, R.id.write_tag, R.id.home_setting, R.id.ast_identity, R.id.ast_repair})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.inv_task:
@@ -209,6 +210,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 break;
             case R.id.ast_identity:
                 startActivity(new Intent(this, IdentityActivity.class));
+                break;
+            case R.id.ast_repair:
+                startActivity(new Intent(this, AssetRepairActivity.class));
                 break;
         }
     }

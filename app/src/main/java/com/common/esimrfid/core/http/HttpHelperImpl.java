@@ -20,6 +20,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.core.http.api.GeeksApis;
 import com.common.esimrfid.core.http.client.RetrofitClient;
+import com.common.esimrfid.ui.assetrepair.AssetRepairParameter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -153,6 +154,11 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(String astCode) {
         return mGeeksApis.getAstInfo(astCode);
+    }
+
+    @Override
+    public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {
+        return mGeeksApis.createNewRepairOrder(repairParameter);
     }
 
 }
