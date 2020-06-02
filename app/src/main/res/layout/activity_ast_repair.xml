@@ -14,11 +14,21 @@
         android:padding="@dimen/dp_10">
 
         <TextView
+            android:id="@+id/tv_tag1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/xing_tag_str"
+            android:textColor="#ffff0000"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_repair"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_tag1"
             android:gravity="center_vertical"
             android:text="@string/repair_person"
-            android:textColor="#1A1A1A"
+            android:textColor="@color/repair_text"
             android:textSize="@dimen/sp_15" />
 
         <TextView
@@ -61,9 +71,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_5"
             android:gravity="center_vertical"
             android:text="@string/repair_cost_str"
-            android:textColor="#1A1A1A"
+            android:textColor="@color/repair_text"
             android:textSize="@dimen/sp_15" />
 
         <EditText
@@ -73,7 +84,7 @@
             android:layout_marginEnd="@dimen/dp_18"
             android:background="@null"
             android:gravity="end"
-            android:hint="@string/repair_cost_hint"
+            android:text="@string/repair_cost_hint"
             android:textColorHint="@color/gray_text"
             android:textSize="@dimen/sp_14" />
     </LinearLayout>
@@ -96,9 +107,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_5"
             android:gravity="center_vertical"
             android:text="@string/repair_date"
-            android:textColor="#1A1A1A"
+            android:textColor="@color/repair_text"
             android:textSize="@dimen/sp_15" />
 
         <TextView
@@ -108,7 +120,6 @@
             android:layout_marginEnd="@dimen/dp_6"
             android:layout_toStartOf="@+id/iv_date_arrow"
             android:gravity="end"
-            android:hint="@string/repair_date_hint"
             android:textColorHint="@color/gray_text"
             android:textSize="@dimen/sp_14" />
 
@@ -128,7 +139,7 @@
         android:layout_below="@+id/rl_repair_date"
         android:background="#F2F2F2" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_repair_direction"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_100"
@@ -139,24 +150,36 @@
         android:padding="@dimen/dp_10">
 
         <TextView
+            android:id="@+id/tv_tag2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="*"
+            android:textColor="#ffff0000"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_repair_dir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_tag2"
             android:gravity="center_vertical"
             android:text="@string/repair_direction"
-            android:textColor="#1A1A1A"
+            android:textColor="@color/repair_text"
             android:textSize="@dimen/sp_15" />
 
         <EditText
             android:id="@+id/ev_repair_direc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_repair_dir"
+            android:layout_alignStart="@+id/tv_repair_dir"
             android:layout_marginTop="@dimen/dp_5"
             android:layout_marginEnd="@dimen/dp_18"
             android:background="@null"
             android:hint="@string/repair_direc_hint"
             android:textColorHint="@color/gray_text"
             android:textSize="@dimen/sp_14" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:id="@+id/divider_four"
@@ -183,7 +206,7 @@
             android:paddingTop="@dimen/dp_16"
             android:paddingBottom="@dimen/dp_10"
             android:text="@string/scan_add"
-            android:textColor="#1A1A1A"
+            android:textColor="@color/repair_text"
             android:textSize="@dimen/sp_16" />
 
         <View
@@ -202,7 +225,7 @@
             android:paddingTop="@dimen/dp_16"
             android:paddingBottom="@dimen/dp_10"
             android:text="@string/choose_add"
-            android:textColor="#1A1A1A"
+            android:textColor="@color/repair_text"
             android:textSize="@dimen/sp_16" />
     </LinearLayout>
 
@@ -214,13 +237,14 @@
         android:background="#F2F2F2" />
 
     <TextView
-        android:padding="@dimen/dp_10"
         android:id="@+id/tv_select_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/divider_five"
+        android:padding="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_5"
         android:text="@string/select_count"
-        android:textColor="#1A1A1A"
+        android:textColor="@color/repair_text"
         android:textSize="@dimen/sp_15" />
 
     <android.support.v7.widget.RecyclerView

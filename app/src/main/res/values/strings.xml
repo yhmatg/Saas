@@ -250,4 +250,5 @@
     <string name="select_count">资产明细(%1$d)</string>
     <string name="submit_success">提交成功！</string>
     <string name="submit_failed">提交失败！</string>
+    <string name="xing_tag_str">*</string>
 </resources>

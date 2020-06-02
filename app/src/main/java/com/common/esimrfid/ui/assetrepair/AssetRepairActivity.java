@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
@@ -87,7 +86,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     List<MangerUser> mMangerUsers = new ArrayList<>();
     MangerUser mSelectMangerUser;
     boolean usersClickShow;
-    Date mSelectDate;
+    Date mSelectDate = new Date();
     ArrayList<AssetsInfo> selectedAssets = new ArrayList<>();
     private AssetsRepairAdapter repairAdapter;
 
@@ -100,6 +99,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     protected void initEventAndData() {
         mTitle.setText(R.string.ast_repair);
         mSelectedCount.setText("资产明细(0)");
+        mTvRepairDate.setText(DateUtils.date2String(mSelectDate));
         EventBus.getDefault().register(this);
         repairAdapter = new AssetsRepairAdapter(this, selectedAssets,"AssetRepairActivity");
         repairAdapter.setOnDeleteClickListener(this);
@@ -157,9 +157,12 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
                 finish();
                 break;
             case R.id.tv_scan_add:
-
+                mScanAdd.setTextColor(getColor(R.color.repair_way));
+                mChooseAdd.setTextColor(getColor(R.color.repair_text));
                 break;
             case R.id.tv_choose_add:
+                mScanAdd.setTextColor(getColor(R.color.repair_text));
+                mChooseAdd.setTextColor(getColor(R.color.repair_way));
                 startActivity(new Intent(this,ChooseRepairAstActivity.class));
                 break;
             case R.id.btn_submit:
@@ -174,15 +177,11 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
             ToastUtils.showShort("请选择盘点人");
             return;
         }
-        Pattern pattern= Pattern.compile("^(([1-9]{1}\\d*)|(0{1}))(\\.\\d{2})$"); // 判断小数点后2位的数字的正则表达式
+        Pattern pattern= Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$"); // 判断小数点后2位的数字的正则表达式
         String costString = mRepairCost.getText().toString();
         Matcher matcher = pattern.matcher(costString);
         if(!matcher.matches()){
             ToastUtils.showShort("请输入正确的金额，可保留小数点后两位");
-            return;
-        }
-        if (mSelectDate == null) {
-            ToastUtils.showShort("请选择预计完成时间");
             return;
         }
         if (StringUtils.isEmpty(mRepairDirection.getText().toString())){

@@ -39,4 +39,6 @@
     <color name="hint_color">#D4D4D4</color>
     <color name="green_color">#28A701</color>
     <color name="search_unm_back">#e8e8e8</color>
+    <color name="repair_way">#1F85E0</color>
+    <color name="repair_text">#1A1A1A</color>
 </resources>
