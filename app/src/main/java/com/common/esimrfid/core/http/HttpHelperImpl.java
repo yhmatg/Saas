@@ -1,6 +1,8 @@
 package com.common.esimrfid.core.http;
 
 
+import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
+import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
@@ -149,6 +151,16 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse<CompanyInfo>> getCompanyInfo() {
         return mGeeksApis.getCompanyInfo();
+    }
+
+	@Override
+    public Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astId) {
+        return mGeeksApis.fetchAssetsResume(astId);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid) {
+        return mGeeksApis.fetchAssetsRepair(astid);
     }
 
     @Override

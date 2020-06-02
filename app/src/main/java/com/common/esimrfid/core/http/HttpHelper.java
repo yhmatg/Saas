@@ -1,5 +1,7 @@
 package com.common.esimrfid.core.http;
 
+import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
+import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
@@ -72,4 +74,8 @@ public interface HttpHelper {
     Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(String astCode);
 
     Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter);
+
+	Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astId);
+
+    Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid);
 }

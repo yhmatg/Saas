@@ -3,9 +3,14 @@ package com.common.esimrfid.presenter.assetsearch;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
+import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
+import java.util.List;
+import java.util.Observable;
 
 public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.View> implements AssetsDetailsContract.Presenter {
     private DataManager mDataManager;
@@ -28,4 +33,35 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
             }
         }));
     }
+
+    @Override
+    public void getAssetsResumeById(String astId) {
+        mView.showDialog("loading...");
+       addSubscribe(mDataManager.fetchAssetResume(astId)
+       .compose(RxUtils.rxSchedulerHelper())
+       .compose(RxUtils.handleResult())
+       .subscribeWith(new BaseObserver<List<AssetResume>>(mView, false) {
+           @Override
+           public void onNext(List<AssetResume> assetResumes) {
+               mView.dismissDialog();
+               mView.handleAssetsResume(assetResumes);
+           }
+       }));
+    }
+
+    @Override
+    public void getAssetsRepairById(String astid) {
+        mView.showDialog("loading...");
+        addSubscribe(mDataManager.fetchAssetRepair(astid)
+        .compose(RxUtils.rxSchedulerHelper())
+        .compose(RxUtils.handleResult())
+        .subscribeWith(new BaseObserver<List<AssetRepair>>(mView, false) {
+            @Override
+            public void onNext(List<AssetRepair> assetRepairs) {
+                mView.dismissDialog();
+                mView.handleAssetsRepair(assetRepairs);
+            }
+        }));
+    }
+
 }

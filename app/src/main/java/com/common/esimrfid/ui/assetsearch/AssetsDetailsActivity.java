@@ -1,16 +1,26 @@
 package com.common.esimrfid.ui.assetsearch;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
+import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.emun.AssetsMaterial;
 import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
@@ -20,10 +30,14 @@ import com.common.esimrfid.utils.DateUtils;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> implements AssetsDetailsContract.View {
 
@@ -81,15 +95,40 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     TextView maintenance_expire;
     @BindView(R.id.maintenance_instructions)
     TextView instructions;
-    @BindView(R.id.assets_content)
-    LinearLayout content;
     @BindView(R.id.empty_page)
     LinearLayout empty_page;
     @BindView(R.id.title_back)
     ImageView titleLeft;
     @BindView(R.id.title_content)
     TextView title;
-    private List<AssetsDetailsInfo> mData = new ArrayList<>();
+    @BindView(R.id.asset_tab)
+    RadioGroup title_tab;
+    @BindView(R.id.asset_detail)
+    RadioButton asset_detail;
+    @BindView(R.id.mainten_info)
+    RadioButton mainten_info;
+    @BindView(R.id.repair_record)
+    RadioButton record;
+    @BindView(R.id.asset_resume)
+    RadioButton resume;
+    @BindView(R.id.assets_detail)
+    LinearLayout li_assetDetail;
+    @BindView(R.id.maintenance_info)
+    LinearLayout li_maintenance;
+    @BindView(R.id.li_repair_record)
+    LinearLayout li_repair;
+    @BindView(R.id.li_asset_resume)
+    LinearLayout li_resume;
+    @BindView(R.id.assets_detail_content)
+    LinearLayout detail_content;
+    @BindView(R.id.resume_recycler)
+    RecyclerView resume_recycler;
+    @BindView(R.id.repair_recycler)
+    RecyclerView repair_recycler;
+    private List<AssetResume> mResumeData = new ArrayList<>();//资产履历
+    private List<AssetRepair> mRepairData=new ArrayList<>();//维保信息
+    private AssetsResumeAdapter assetsResumeAdapter;
+    private AssetsRepairAdapter assetsRepairAdapter;
 
     @Override
     public AssetsDetailsPresenter initPresenter() {
@@ -102,8 +141,22 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         Intent intent = getIntent();
         String assetsId = intent.getStringExtra(ASSETS_ID);
         mPresenter.getAssetsDetailsById(assetsId);
+        mPresenter.getAssetsResumeById(assetsId);
+        mPresenter.getAssetsRepairById(assetsId);
         empty_page.setVisibility(View.VISIBLE);
-        content.setVisibility(View.GONE);
+        li_assetDetail.setVisibility(View.GONE);
+        li_maintenance.setVisibility(View.GONE);
+        li_repair.setVisibility(View.GONE);
+        li_resume.setVisibility(View.GONE);
+        assetsResumeAdapter = new AssetsResumeAdapter(this, mResumeData);
+        resume_recycler.setLayoutManager(new LinearLayoutManager(this));
+        resume_recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        resume_recycler.setAdapter(assetsResumeAdapter);
+
+        assetsRepairAdapter=new AssetsRepairAdapter(this,mRepairData);
+        repair_recycler.setLayoutManager(new LinearLayoutManager(this));
+        repair_recycler.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        repair_recycler.setAdapter(assetsRepairAdapter);
     }
 
     @Override
@@ -116,18 +169,57 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
     }
 
-    @OnClick({R.id.title_back})
+    @OnClick({R.id.title_back, R.id.asset_detail, R.id.mainten_info, R.id.repair_record, R.id.asset_resume, R.id.asset_tab})
     void perforeClick(View view) {
-        if (view.getId() == R.id.title_back) {
-            finish();
+        switch (view.getId()) {
+            case R.id.title_back:
+                finish();
+                break;
+            case R.id.asset_detail:
+                title_tab.clearCheck();
+                title_tab.check(R.id.asset_detail);
+                empty_page.setVisibility(View.GONE);
+                li_assetDetail.setVisibility(View.VISIBLE);
+                li_maintenance.setVisibility(View.GONE);
+                li_repair.setVisibility(View.GONE);
+                li_resume.setVisibility(View.GONE);
+                break;
+            case R.id.mainten_info:
+                title_tab.clearCheck();
+                title_tab.check(R.id.mainten_info);
+                empty_page.setVisibility(View.GONE);
+                li_assetDetail.setVisibility(View.GONE);
+                li_maintenance.setVisibility(View.VISIBLE);
+                li_repair.setVisibility(View.GONE);
+                li_resume.setVisibility(View.GONE);
+                break;
+            case R.id.repair_record:
+                title_tab.clearCheck();
+                title_tab.check(R.id.repair_record);
+                empty_page.setVisibility(View.GONE);
+                li_assetDetail.setVisibility(View.GONE);
+                li_maintenance.setVisibility(View.GONE);
+                li_repair.setVisibility(View.VISIBLE);
+                li_resume.setVisibility(View.GONE);
+                break;
+            case R.id.asset_resume:
+                title_tab.clearCheck();
+                title_tab.check(R.id.asset_resume);
+                empty_page.setVisibility(View.GONE);
+                li_assetDetail.setVisibility(View.GONE);
+                li_maintenance.setVisibility(View.GONE);
+                li_repair.setVisibility(View.GONE);
+                li_resume.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
     @Override
     public void handleAssetsDetails(AssetsDetailsInfo assetsDetailsInfo) {
         if (assetsDetailsInfo != null) {
+            title_tab.check(R.id.asset_detail);
             empty_page.setVisibility(View.GONE);
-            content.setVisibility(View.VISIBLE);
+            li_assetDetail.setVisibility(View.VISIBLE);
             String code = TextUtils.isEmpty(assetsDetailsInfo.getAst_barcode()) ? "" : assetsDetailsInfo.getAst_barcode();
             barcode.setText(code);
             String name = TextUtils.isEmpty(assetsDetailsInfo.getAst_name()) ? "" : assetsDetailsInfo.getAst_name();
@@ -170,12 +262,11 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
             //资产购买日期
             long buy_date = assetsDetailsInfo.getAst_buy_date();
-            if(buy_date==0){
+            if (buy_date == 0) {
                 ast_buy_date.setText("");
-            }else {
+            } else {
                 ast_buy_date.setText(DateUtils.long2String(buy_date, DateUtils.FORMAT_TYPE_1));
             }
-
 
             double count = assetsDetailsInfo.getAst_price();
             NumberFormat nf = new DecimalFormat("¥#,###.##");//设置金额显示格式
@@ -183,14 +274,14 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             if (count == 0) {
                 ast_count.setVisibility(View.GONE);
             } else {
-                ast_count.setText(str+"元");
+                ast_count.setText(str + "元");
             }
 
-            String month=assetsDetailsInfo.getAst_expiration_months();
-            if(TextUtils.isEmpty(month)){
+            String month = assetsDetailsInfo.getAst_expiration_months();
+            if (TextUtils.isEmpty(month)) {
                 use_months.setText("");
-            }else {
-                use_months.setText(month+"个月");
+            } else {
+                use_months.setText(month + "个月");
             }
 //            String month = TextUtils.isEmpty(assetsDetailsInfo.getAst_expiration_months()) ? "" : assetsDetailsInfo.getAst_expiration_months();
 //            use_months.setText(month+"个月");
@@ -208,15 +299,51 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             user.setText(Name);
 
             long req_date = assetsDetailsInfo.getAst_req_date();
-            if(req_date==0){
+            if (req_date == 0) {
                 requisition_date.setText("");
-            }else {
+            } else {
                 requisition_date.setText(DateUtils.long2String(req_date, DateUtils.FORMAT_TYPE_1));
             }
-
-
             String text = TextUtils.isEmpty(assetsDetailsInfo.getAst_remark()) ? "" : assetsDetailsInfo.getAst_remark();
             remark.setText(text);
+
+            //扩展字段信息
+            int appendItems = assetsDetailsInfo.getAst_append_info().size();
+            for (int n = 0; n < appendItems; n++) {
+                List<String> Keys = new ArrayList<>();
+                //取出所有的key值
+                Iterator i = assetsDetailsInfo.getAst_append_info().keySet().iterator();
+                while (i.hasNext()) {
+                    String key = i.next().toString();
+                    Keys.add(key);
+                }
+                String type_id = Keys.get(n);
+                String content = assetsDetailsInfo.getAst_append_info().get(type_id);
+                LinearLayout linearLayout = new LinearLayout(this);
+                TextView textView1 = new TextView(this);
+                TextView textView2 = new TextView(this);
+                View view = new View(this);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, dip2px(this, 45));
+                LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(0, MATCH_PARENT, 1);
+                LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT);
+                LinearLayout.LayoutParams layoutParams3 = new LinearLayout.LayoutParams(MATCH_PARENT, dip2px(this, 1));
+                linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                textView1.setTextSize(14);
+                textView1.setText(type_id);
+                textView1.setGravity(Gravity.CENTER_VERTICAL);
+                textView2.setTextSize(14);
+                textView2.setText(content);
+                textView2.setGravity(Gravity.CENTER_VERTICAL);
+                view.setBackgroundColor(getColor(R.color.line));
+
+                //将控件加入布局
+                linearLayout.addView(textView1, layoutParams1);
+                linearLayout.addView(textView2, layoutParams2);
+                detail_content.addView(view, layoutParams3);
+                detail_content.addView(linearLayout, layoutParams);
+
+            }
+
             //维保信息
             String Supplier = assetsDetailsInfo.getWarranty_info() == null ? "" : assetsDetailsInfo.getWarranty_info().getSupplier_name();
             Supplier = TextUtils.isEmpty(Supplier) ? "" : Supplier;
@@ -232,17 +359,37 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
             //维保日期
             long end_date = assetsDetailsInfo.getWarranty_info().getWar_enddate();
-            if(end_date==0){
+            if (end_date == 0) {
                 maintenance_expire.setText("");
-            }else {
+            } else {
                 maintenance_expire.setText(DateUtils.long2String(end_date, DateUtils.FORMAT_TYPE_1));
             }
-
-
             String message = assetsDetailsInfo.getWarranty_info() == null ? "" : assetsDetailsInfo.getWarranty_info().getWar_message();
             message = TextUtils.isEmpty(message) ? "" : message;
             instructions.setText(message);
 
         }
+    }
+
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    @Override
+    public void handleAssetsResume(List<AssetResume> data) {
+        mResumeData.clear();
+        mResumeData.addAll(data);
+        assetsResumeAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void handleAssetsRepair(List<AssetRepair> assetRepairs) {
+        mRepairData.clear();
+        mRepairData.addAll(assetRepairs);
+        assetsRepairAdapter.notifyDataSetChanged();
     }
 }

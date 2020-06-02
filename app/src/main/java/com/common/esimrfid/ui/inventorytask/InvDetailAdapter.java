@@ -1,17 +1,21 @@
 package com.common.esimrfid.ui.inventorytask;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
+import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
+import com.common.esimrfid.utils.CommonUtils;
 
 import java.util.List;
 
@@ -20,6 +24,7 @@ import butterknife.ButterKnife;
 
 public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.ViewHolder> {
 
+    private static final String ASSETS_ID="assets_id";
     private List<InventoryDetail> mInventoryDetails;
     private Context mContext;
 
@@ -61,6 +66,17 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
             viewHolder.tvInvStatus.setText(R.string.ast_inved);
             viewHolder.tvInvStatus.setBackground(mContext.getDrawable(R.drawable.btn_background));
         }
+        viewHolder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(CommonUtils.isNetworkConnected()){
+                    Intent intent=new Intent();
+                    intent.putExtra(ASSETS_ID,assetsInfo.getId());
+                    intent.setClass(mContext, AssetsDetailsActivity.class);
+                    mContext.startActivity(intent);
+                }
+            }
+        });
 
     }
 
@@ -70,6 +86,8 @@ public class InvDetailAdapter extends RecyclerView.Adapter<InvDetailAdapter.View
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.item_detail)
+        RelativeLayout item;
         @BindView(R.id.tv_asset_num)
         TextView tvAssetId;
         @BindView(R.id.tv_asset_name)

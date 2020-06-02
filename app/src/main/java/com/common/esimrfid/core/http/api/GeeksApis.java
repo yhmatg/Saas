@@ -1,5 +1,7 @@
 package com.common.esimrfid.core.http.api;
 
+import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
+import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
@@ -152,8 +154,9 @@ public interface GeeksApis {
     //@param astid 资产id
     //@return 资产详情信息
 
-    @GET("/assets-server/assets/{astid}")
-    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfoById(@Path("astid") String astid);
+   
+	 @GET("/assets-server/assets/detail")
+    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfoById(@Query("ast_id") String astId);
 
     //版本更新
     //@return 版本更新详情
@@ -166,7 +169,15 @@ public interface GeeksApis {
 
     @GET("/user-server/sysusers/selectCurrentOrg")
     Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
+	
+	 //根据资产id查询资产履历
+    @GET("assets-server/assets/{id}/optrecord")
+    Observable<BaseResponse<List<AssetResume>>> fetchAssetsResume(@Path("id") String astId);
 
+	//根据资产id获取资产维修信息
+	 @GET("/assets-server/assets/{astid}/reprecords/unpage")
+    Observable<BaseResponse<List<AssetRepair>>> fetchAssetsRepair(@Path("astid") String astid);
+	
     //通过二维码，资产编码，资产id获取资产详情
 
     /**
