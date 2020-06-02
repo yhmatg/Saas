@@ -248,8 +248,8 @@
     <string name="choose_add">选择资产</string>
     <string name="sure_str">确认</string>
     <string name="select_count">资产明细(%1$d)</string>
-    <string name="submit_success">提交成功！</string>
-    <string name="submit_failed">提交失败！</string>
+    <string name="submit_success">报修成功！</string>
+    <string name="submit_failed">报修失败！</string>
     <string name="xing_tag_str">*</string>
     <string name="scan_remind">请将扫描头对准标签上的二维码进行扫描</string>
 </resources>

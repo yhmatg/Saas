@@ -30,9 +30,12 @@ import butterknife.OnClick;
 
 public class IdentityActivity extends BaseActivity {
     private static final String ASSETS_CODE = "assets_code";
+    private static final String WHERE_FROM = "where_from";
     IEsimUhfService esimUhfService = null;
     @BindView(R.id.title_content)
     TextView mTitle;
+    private String from;
+
     @Override
     public AbstractPresenter initPresenter() {
         return null;
@@ -42,6 +45,8 @@ public class IdentityActivity extends BaseActivity {
     protected void initEventAndData() {
         mTitle.setText(R.string.ast_idntity);
         EventBus.getDefault().register(this);
+        Intent intent = getIntent();
+        from = intent.getStringExtra(WHERE_FROM);
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
         if( esimUhfService instanceof NewSpeedataUhfServiceImpl){
             SystemProperties.set("persist.sys.PistolKey", "scan");
@@ -122,8 +127,12 @@ public class IdentityActivity extends BaseActivity {
     public void startDetailActivity(String assetsCode){
         Intent intent=new Intent();
         intent.putExtra(ASSETS_CODE,assetsCode);
+        intent.putExtra(WHERE_FROM,from);
         intent.setClass(this, AssetsDetailsActivity.class);
         startActivity(intent);
+        if("AssetRepairActivity".equals(from)){
+            finish();
+        }
     }
 
 }

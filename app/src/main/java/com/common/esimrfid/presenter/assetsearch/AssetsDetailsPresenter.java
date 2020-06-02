@@ -46,6 +46,11 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
                mView.dismissDialog();
                mView.handleAssetsResume(assetResumes);
            }
+
+           @Override
+           public void onError(Throwable e) {
+
+           }
        }));
     }
 
@@ -60,6 +65,11 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
             public void onNext(List<AssetRepair> assetRepairs) {
                 mView.dismissDialog();
                 mView.handleAssetsRepair(assetRepairs);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
             }
         }));
     }

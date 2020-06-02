@@ -31,6 +31,7 @@ import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.presenter.assetrepair.AssetRepairPresenter;
+import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
 import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.ui.identity.IdentityActivity;
 import com.common.esimrfid.utils.DateUtils;
@@ -52,6 +53,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> implements AssetRepairContract.View, AssetsRepairAdapter.OnDeleteClickListener {
+    private static final String WHERE_FROM = "where_from";
     @BindView(R.id.title_back)
     ImageView mBackImg;
     @BindView(R.id.title_content)
@@ -160,7 +162,10 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
             case R.id.tv_scan_add:
                 mScanAdd.setTextColor(getColor(R.color.repair_way));
                 mChooseAdd.setTextColor(getColor(R.color.repair_text));
-                startActivity(new Intent(this, IdentityActivity.class));
+                Intent intent=new Intent();
+                intent.putExtra(WHERE_FROM,"AssetRepairActivity");
+                intent.setClass(this, IdentityActivity.class);
+                startActivity(intent);
                 break;
             case R.id.tv_choose_add:
                 mScanAdd.setTextColor(getColor(R.color.repair_text));

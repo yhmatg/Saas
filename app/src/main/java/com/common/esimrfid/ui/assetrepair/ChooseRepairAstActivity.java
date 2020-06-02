@@ -62,6 +62,7 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
         empty_page.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
         tips.setVisibility(View.GONE);
+        mPresenter.getAssetsInfoById("01");
     }
 
     private void initRfidAndEvent() {

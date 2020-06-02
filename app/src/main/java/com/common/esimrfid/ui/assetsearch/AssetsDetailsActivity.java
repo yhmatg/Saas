@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -24,8 +25,12 @@ import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.emun.AssetsMaterial;
 import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
+import com.common.esimrfid.ui.assetrepair.RepairAssetEvent;
 import com.common.esimrfid.utils.DateUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -44,6 +49,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private static final String TAG = "AssetsDetailsActivity";
     private static final String ASSETS_ID = "assets_id";
     private static final String ASSETS_CODE = "assets_code";
+    private static final String WHERE_FROM = "where_from";
     @BindView(R.id.ast_code)
     TextView barcode;
     @BindView(R.id.ast_name)
@@ -126,10 +132,13 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     RecyclerView resume_recycler;
     @BindView(R.id.repair_recycler)
     RecyclerView repair_recycler;
+    @BindView(R.id.btn_submit)
+    Button addButton;
     private List<AssetResume> mResumeData = new ArrayList<>();//资产履历
     private List<AssetRepair> mRepairData=new ArrayList<>();//维保信息
     private AssetsResumeAdapter assetsResumeAdapter;
     private AssetsRepairAdapter assetsRepairAdapter;
+    private AssetsInfo repairAsset = new AssetsInfo();
 
     @Override
     public AssetsDetailsPresenter initPresenter() {
@@ -151,6 +160,10 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             mPresenter.getAssetsDetailsById(null,assetsCode);
             mPresenter.getAssetsResumeById(null,assetsCode);
             mPresenter.getAssetsRepairById(null,assetsCode);
+        }
+        String from = intent.getStringExtra(WHERE_FROM);
+        if("AssetRepairActivity".equals(from)){
+            addButton.setVisibility(View.VISIBLE);
         }
         empty_page.setVisibility(View.VISIBLE);
         li_assetDetail.setVisibility(View.GONE);
@@ -176,7 +189,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
     }
 
-    @OnClick({R.id.title_back, R.id.asset_detail, R.id.mainten_info, R.id.repair_record, R.id.asset_resume, R.id.asset_tab})
+    @OnClick({R.id.title_back, R.id.asset_detail, R.id.mainten_info, R.id.repair_record, R.id.asset_resume, R.id.asset_tab, R.id.btn_submit})
     void perforeClick(View view) {
         switch (view.getId()) {
             case R.id.title_back:
@@ -219,6 +232,13 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 li_repair.setVisibility(View.GONE);
                 li_resume.setVisibility(View.VISIBLE);
                 resume_recycler.setAdapter(assetsResumeAdapter);
+                break;
+            case R.id.btn_submit:
+                List<AssetsInfo> assetsInfos = new ArrayList<>();
+                assetsInfos.add(repairAsset);
+                RepairAssetEvent repairAssetEvent = new RepairAssetEvent(assetsInfos);
+                EventBus.getDefault().post(repairAssetEvent);
+                finish();
                 break;
         }
     }
@@ -350,7 +370,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 linearLayout.addView(textView2, layoutParams2);
                 detail_content.addView(view, layoutParams3);
                 detail_content.addView(linearLayout, layoutParams);
-
             }
 
             //维保信息
@@ -376,7 +395,15 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             String message = assetsDetailsInfo.getWarranty_info() == null ? "" : assetsDetailsInfo.getWarranty_info().getWar_message();
             message = TextUtils.isEmpty(message) ? "" : message;
             instructions.setText(message);
-
+            repairAsset.setId(assetsDetailsInfo.getId());
+            repairAsset.setAst_used_status(assetsDetailsInfo.getAst_used_status());
+            repairAsset.setAst_name(assetsDetailsInfo.getAst_name());
+            repairAsset.setAst_barcode(assetsDetailsInfo.getAst_barcode());
+            AssetsInfo.TypeInfo typeInfo = new AssetsInfo.TypeInfo();
+            typeInfo.setType_name(assetsDetailsInfo.getType_info().getType_name());
+            repairAsset.setType_info(typeInfo);
+            repairAsset.setAst_brand(assetsDetailsInfo.getAst_brand());
+            repairAsset.setAst_model(assetsDetailsInfo.getAst_model());
         }
     }
 

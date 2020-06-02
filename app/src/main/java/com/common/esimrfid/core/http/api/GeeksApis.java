@@ -155,7 +155,7 @@ public interface GeeksApis {
     //@return 资产详情信息
    
 	 @GET("/assets-server/assets/detail")
-    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(@Query("ast_id") String astId,@Query("ast_code") String astCode);
+    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(@Query("ast_id") String astId,@Query("ast_barcode") String astCode);
 
     //版本更新
     //@return 版本更新详情
@@ -171,11 +171,11 @@ public interface GeeksApis {
 	
 	 //根据资产id查询资产履历
     @GET("assets-server/assets/astoptrecord")
-    Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(@Query("ast_id") String astid,@Query("ast_code") String astCode);
+    Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(@Query("ast_id") String astid,@Query("ast_barcode") String astCode);
 
 	//根据资产id或者二维码获取资产维修信息
 	 @GET("/assets-server/assets/reprecords/unpage")
-    Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(@Query("ast_id") String astid,@Query("ast_code") String astCode);
+    Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(@Query("ast_id") String astid,@Query("ast_barcode") String astCode);
 
     //新建报修单
     /**
