@@ -54,21 +54,27 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
             JSONArray jsonArray=JSONArray.parseArray(tv_content);
             if(jsonArray.size()>0){
                 for(int n = 0 ;n < jsonArray.size() ; n++){
-                    String changefrom=jsonArray.getJSONObject(n).getString("changefrom");
-                    if (changefrom.isEmpty()){
-                        changefrom="<空>" ;
-                    }
                     String changeto=jsonArray.getJSONObject(n).getString("changeto");
                     if(changeto.isEmpty()){
                         changeto="<空>";
                     }
                     String fieldname=jsonArray.getJSONObject(n).getString("fieldname");
-                    stringBuilder.append("【"+fieldname+"】")
-                            .append("字段由")
-                            .append(changefrom)
-                            .append("变更为")
-                            .append(" \""+changeto+" \"")
-                            .append("\n");
+                    if(jsonArray.getJSONObject(n).containsKey("changefrom")){
+                        String changefrom=jsonArray.getJSONObject(n).getString("changefrom");
+                        if (changefrom.isEmpty()){
+                            changefrom="<空>" ;
+                        }
+                        stringBuilder.append("【").append(fieldname).append("】")
+                                .append("字段由")
+                                .append(changefrom)
+                                .append("变更为").append(" \"").append(changeto).append(" \"")
+                                .append("\n");
+                    }else {
+                        stringBuilder.append(fieldname)
+                                .append(":").append(changeto)
+                                .append("\n");
+                    }
+
                 }
             }
         }

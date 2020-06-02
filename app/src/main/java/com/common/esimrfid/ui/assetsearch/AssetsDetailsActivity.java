@@ -141,8 +141,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         Intent intent = getIntent();
         String assetsId = intent.getStringExtra(ASSETS_ID);
         mPresenter.getAssetsDetailsById(assetsId);
-        mPresenter.getAssetsResumeById(assetsId);
         mPresenter.getAssetsRepairById(assetsId);
+        mPresenter.getAssetsResumeById(assetsId);
         empty_page.setVisibility(View.VISIBLE);
         li_assetDetail.setVisibility(View.GONE);
         li_maintenance.setVisibility(View.GONE);
@@ -151,12 +151,10 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         assetsResumeAdapter = new AssetsResumeAdapter(this, mResumeData);
         resume_recycler.setLayoutManager(new LinearLayoutManager(this));
         resume_recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        resume_recycler.setAdapter(assetsResumeAdapter);
-
         assetsRepairAdapter=new AssetsRepairAdapter(this,mRepairData);
         repair_recycler.setLayoutManager(new LinearLayoutManager(this));
         repair_recycler.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        repair_recycler.setAdapter(assetsRepairAdapter);
+
     }
 
     @Override
@@ -201,6 +199,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 li_maintenance.setVisibility(View.GONE);
                 li_repair.setVisibility(View.VISIBLE);
                 li_resume.setVisibility(View.GONE);
+                repair_recycler.setAdapter(assetsRepairAdapter);
                 break;
             case R.id.asset_resume:
                 title_tab.clearCheck();
@@ -210,6 +209,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 li_maintenance.setVisibility(View.GONE);
                 li_repair.setVisibility(View.GONE);
                 li_resume.setVisibility(View.VISIBLE);
+                resume_recycler.setAdapter(assetsResumeAdapter);
                 break;
         }
     }

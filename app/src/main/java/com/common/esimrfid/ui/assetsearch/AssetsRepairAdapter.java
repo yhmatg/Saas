@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
@@ -16,7 +15,6 @@ import com.common.esimrfid.utils.DateUtils;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,7 +43,7 @@ public class AssetsRepairAdapter extends RecyclerView.Adapter<AssetsRepairAdapte
         String tv_name=assetRepair.getTransactor()==null?"":assetRepair.getTransactor().getUser_real_name();
         tv_name=TextUtils.isEmpty(tv_code)?"":tv_name;
         viewHolder.name.setText(tv_name);
-        String rep_name=assetRepair.getRepUser()==null?"":assetRepair.getRepUser().getUser_name();
+        String rep_name=assetRepair.getRepUser()==null?"":assetRepair.getRepUser().getUser_real_name();
         rep_name=TextUtils.isEmpty(rep_name)?"":rep_name;
         viewHolder.repair_name.setText(rep_name);
         double tv_cost=assetRepair.getMaintain_price();

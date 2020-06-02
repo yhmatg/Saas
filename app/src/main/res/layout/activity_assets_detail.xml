@@ -20,6 +20,7 @@
         <include layout="@layout/content_maintenance_info"/>
         <include layout="@layout/content_repair_record"/>
         <include layout="@layout/content_asset_resume"/>
+
     </RelativeLayout>
 
 
