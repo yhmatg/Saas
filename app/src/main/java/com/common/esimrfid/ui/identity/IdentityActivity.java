@@ -19,6 +19,7 @@ import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
+import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,11 +29,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class IdentityActivity extends BaseActivity {
+    private static final String ASSETS_CODE = "assets_code";
     IEsimUhfService esimUhfService = null;
     @BindView(R.id.title_content)
     TextView mTitle;
-    @BindView(R.id.tv_barcode)
-    TextView barcodeData;
     @Override
     public AbstractPresenter initPresenter() {
         return null;
@@ -72,7 +72,7 @@ public class IdentityActivity extends BaseActivity {
             case UhfMsgType.SCAN_DATA:
                 UhfTag scanTag = (UhfTag) uhfMsgEvent.getData();
                 String barcode = scanTag.getBarcode();
-                barcodeData.setText(barcode);
+                startDetailActivity(barcode);
                 break;
         }
     }
@@ -110,13 +110,20 @@ public class IdentityActivity extends BaseActivity {
                 byte[] bytes = intent.getByteArrayExtra("se4500_byte");
                 if (data != null) {
                     Log.e("BindTagActivity","stringdata====" + data);
-                    barcodeData.setText(data);
+                    startDetailActivity(data);
                 }
             }else if("com.esimScanner.ACTION".equals(action)){
                 String data = intent.getStringExtra("com.symbol.datawedge.data_string");
-                barcodeData.setText(data);
+                startDetailActivity(data);
             }
         }
     };
+
+    public void startDetailActivity(String assetsCode){
+        Intent intent=new Intent();
+        intent.putExtra(ASSETS_CODE,assetsCode);
+        intent.setClass(this, AssetsDetailsActivity.class);
+        startActivity(intent);
+    }
 
 }

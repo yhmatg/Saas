@@ -4,12 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/title_layout" />
+    <ImageView
+        android:layout_marginTop="@dimen/dp_160"
+       android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/scan_remind"/>
+
     <TextView
-        android:id="@+id/tv_barcode"
-        android:textSize="@dimen/dp_25"
+        android:layout_marginTop="@dimen/dp_50"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:hint="二维码数据"/>
+        android:text="@string/scan_remind"/>
 
 </LinearLayout>

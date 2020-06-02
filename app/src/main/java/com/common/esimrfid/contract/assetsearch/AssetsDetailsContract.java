@@ -16,8 +16,8 @@ public interface AssetsDetailsContract {
     }
 
     interface Presenter extends AbstractPresenter<View> {
-        void getAssetsDetailsById(String astId);
-        void getAssetsResumeById(String astId);
-        void getAssetsRepairById(String astid);
+        void getAssetsDetailsById(String astId,String astCode);
+        void getAssetsResumeById(String astId,String astCode);
+        void getAssetsRepairById(String astid,String astCode);
     }
 }

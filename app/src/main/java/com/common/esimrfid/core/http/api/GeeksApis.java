@@ -150,13 +150,12 @@ public interface GeeksApis {
     @POST("/assets-server/assets/byrfids")
     Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(@Body Set<String> Epcs);
 
-    //根据资产id获取资产详情
-    //@param astid 资产id
+    //根据资产id或者二维码获取资产详情
+    //@param ast_id 资产id ast_code 资产二维码
     //@return 资产详情信息
-
    
 	 @GET("/assets-server/assets/detail")
-    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfoById(@Query("ast_id") String astId);
+    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(@Query("ast_id") String astId,@Query("ast_code") String astCode);
 
     //版本更新
     //@return 版本更新详情
@@ -171,22 +170,12 @@ public interface GeeksApis {
     Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
 	
 	 //根据资产id查询资产履历
-    @GET("assets-server/assets/{id}/optrecord")
-    Observable<BaseResponse<List<AssetResume>>> fetchAssetsResume(@Path("id") String astId);
+    @GET("assets-server/assets/astoptrecord")
+    Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(@Query("ast_id") String astid,@Query("ast_code") String astCode);
 
-	//根据资产id获取资产维修信息
-	 @GET("/assets-server/assets/{astid}/reprecords/unpage")
-    Observable<BaseResponse<List<AssetRepair>>> fetchAssetsRepair(@Path("astid") String astid);
-	
-    //通过二维码，资产编码，资产id获取资产详情
-
-    /**
-     *
-     * @param astCode 二维码
-     * @return
-     */
-    @GET("/assets-server/assets/detail")
-    Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(@Query("ast_code")String astCode);
+	//根据资产id或者二维码获取资产维修信息
+	 @GET("/assets-server/assets/reprecords/unpage")
+    Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(@Query("ast_id") String astid,@Query("ast_code") String astCode);
 
     //新建报修单
     /**

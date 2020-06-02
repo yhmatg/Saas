@@ -266,9 +266,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId) {
-        return mHttpHelper.fetchAssetsInfo(astId);
+    public Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId, String astCode) {
+        return mHttpHelper.fetchAssetsInfo(astId,astCode);
     }
+
 
     @Override
     public Observable<BaseResponse<UpdateVersion>> updateVersion() {
@@ -281,22 +282,20 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(String astCode) {
-        return mHttpHelper.getAstInfo(astCode);
-    }
-
-    @Override
     public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {
         return mHttpHelper.createNewRepairOrder(repairParameter);
     }
-	
-	 @Override
-    public Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astId) {
-        return mHttpHelper.fetchAssetResume(astId);
-    }
 
     @Override
-    public Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid) {
-        return mHttpHelper.fetchAssetRepair(astid);
+    public Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astid, String astCode) {
+        return mHttpHelper.fetchAssetResume(astid,astCode);
     }
+
+
+    @Override
+    public Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid, String astCode) {
+        return mHttpHelper.fetchAssetRepair(astid,astCode);
+    }
+
+
 }

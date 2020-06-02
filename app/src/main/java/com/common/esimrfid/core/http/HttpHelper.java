@@ -65,17 +65,15 @@ public interface HttpHelper {
 
     Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(Set<String> Epcs);
 
-    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId);
+    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId, String astCode);
 
     Observable<BaseResponse<UpdateVersion>> updateVersion();
 
     Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
 
-    Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(String astCode);
-
     Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter);
 
-	Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astId);
+    Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astid, String astCode);
 
-    Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid);
+    Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid, String astCode);
 }

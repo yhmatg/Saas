@@ -139,9 +139,10 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId) {
-        return mGeeksApis.fetchAssetsInfoById(astId);
+    public Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId, String astCode) {
+        return mGeeksApis.fetchAssetsInfo(astId,astCode);
     }
+
 
     @Override
     public Observable<BaseResponse<UpdateVersion>> updateVersion() {
@@ -153,24 +154,22 @@ public class HttpHelperImpl implements HttpHelper {
         return mGeeksApis.getCompanyInfo();
     }
 
-	@Override
-    public Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astId) {
-        return mGeeksApis.fetchAssetsResume(astId);
-    }
+
 
     @Override
-    public Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid) {
-        return mGeeksApis.fetchAssetsRepair(astid);
+    public Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid, String astCode) {
+        return mGeeksApis.fetchAssetRepair(astid,astCode);
     }
 
-    @Override
-    public Observable<BaseResponse<AssetsDetailsInfo>> getAstInfo(String astCode) {
-        return mGeeksApis.getAstInfo(astCode);
-    }
 
     @Override
     public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {
         return mGeeksApis.createNewRepairOrder(repairParameter);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astid, String astCode) {
+        return mGeeksApis.fetchAssetResume(astid,astCode);
     }
 
 }

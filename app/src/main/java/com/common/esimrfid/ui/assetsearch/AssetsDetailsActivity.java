@@ -43,6 +43,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
     private static final String TAG = "AssetsDetailsActivity";
     private static final String ASSETS_ID = "assets_id";
+    private static final String ASSETS_CODE = "assets_code";
     @BindView(R.id.ast_code)
     TextView barcode;
     @BindView(R.id.ast_name)
@@ -140,9 +141,17 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         title.setText(R.string.assets_details);
         Intent intent = getIntent();
         String assetsId = intent.getStringExtra(ASSETS_ID);
-        mPresenter.getAssetsDetailsById(assetsId);
-        mPresenter.getAssetsRepairById(assetsId);
-        mPresenter.getAssetsResumeById(assetsId);
+        if(assetsId != null && !assetsId.isEmpty()){
+            mPresenter.getAssetsDetailsById(assetsId,null);
+            mPresenter.getAssetsResumeById(assetsId,null);
+            mPresenter.getAssetsRepairById(assetsId,null);
+        }
+        String assetsCode = intent.getStringExtra(ASSETS_CODE);
+        if(assetsCode != null && !assetsCode.isEmpty()){
+            mPresenter.getAssetsDetailsById(null,assetsCode);
+            mPresenter.getAssetsResumeById(null,assetsCode);
+            mPresenter.getAssetsRepairById(null,assetsCode);
+        }
         empty_page.setVisibility(View.VISIBLE);
         li_assetDetail.setVisibility(View.GONE);
         li_maintenance.setVisibility(View.GONE);

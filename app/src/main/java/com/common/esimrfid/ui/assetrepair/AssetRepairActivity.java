@@ -32,6 +32,7 @@ import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.presenter.assetrepair.AssetRepairPresenter;
 import com.common.esimrfid.ui.home.BaseDialog;
+import com.common.esimrfid.ui.identity.IdentityActivity;
 import com.common.esimrfid.utils.DateUtils;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
@@ -159,6 +160,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
             case R.id.tv_scan_add:
                 mScanAdd.setTextColor(getColor(R.color.repair_way));
                 mChooseAdd.setTextColor(getColor(R.color.repair_text));
+                startActivity(new Intent(this, IdentityActivity.class));
                 break;
             case R.id.tv_choose_add:
                 mScanAdd.setTextColor(getColor(R.color.repair_text));

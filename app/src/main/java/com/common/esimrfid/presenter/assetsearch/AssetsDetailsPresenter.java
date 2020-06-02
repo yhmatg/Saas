@@ -20,9 +20,9 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
     }
 
     @Override
-    public void getAssetsDetailsById(String astId) {
+    public void getAssetsDetailsById(String astId,String astCode) {
         mView.showDialog("loading...");
-        addSubscribe(mDataManager.fetchAssetsInfo(astId)
+        addSubscribe(mDataManager.fetchAssetsInfo(astId,astCode)
         .compose(RxUtils.rxSchedulerHelper())
         .compose(RxUtils.handleResult())
         .subscribeWith(new BaseObserver<AssetsDetailsInfo>(mView, false) {
@@ -35,9 +35,9 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
     }
 
     @Override
-    public void getAssetsResumeById(String astId) {
+    public void getAssetsResumeById(String astId,String astCode) {
         mView.showDialog("loading...");
-       addSubscribe(mDataManager.fetchAssetResume(astId)
+       addSubscribe(mDataManager.fetchAssetResume(astId,astCode)
        .compose(RxUtils.rxSchedulerHelper())
        .compose(RxUtils.handleResult())
        .subscribeWith(new BaseObserver<List<AssetResume>>(mView, false) {
@@ -50,9 +50,9 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
     }
 
     @Override
-    public void getAssetsRepairById(String astid) {
+    public void getAssetsRepairById(String astid,String astCode) {
         mView.showDialog("loading...");
-        addSubscribe(mDataManager.fetchAssetRepair(astid)
+        addSubscribe(mDataManager.fetchAssetRepair(astid,astCode)
         .compose(RxUtils.rxSchedulerHelper())
         .compose(RxUtils.handleResult())
         .subscribeWith(new BaseObserver<List<AssetRepair>>(mView, false) {
