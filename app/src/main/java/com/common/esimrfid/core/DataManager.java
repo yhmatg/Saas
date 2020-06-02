@@ -23,7 +23,7 @@ import com.common.esimrfid.core.http.HttpHelper;
 import com.common.esimrfid.core.http.HttpHelperImpl;
 import com.common.esimrfid.core.prefs.PreferenceHelper;
 import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
-import com.common.esimrfid.ui.assetrepair.AssetRepairParameter;
+import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 
 import java.util.HashMap;
 import java.util.List;

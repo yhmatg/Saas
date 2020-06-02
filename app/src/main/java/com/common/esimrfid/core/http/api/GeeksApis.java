@@ -19,7 +19,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
-import com.common.esimrfid.ui.assetrepair.AssetRepairParameter;
+import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 
 import java.util.HashMap;
 import java.util.List;

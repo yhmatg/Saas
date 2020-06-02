@@ -1,4 +1,4 @@
-package com.common.esimrfid.ui.assetrepair;
+package com.common.esimrfid.core.bean.assetdetail;
 
 import java.util.Date;
 import java.util.List;
