@@ -43,8 +43,6 @@ public final class Utils {
         String model=android.os.Build.MODEL;
         if("ESUR-H600".equals(model)|| "SD60".equals(model)){
             key = KeyEvent.KEYCODE_F1;
-        }else if("common".equals(model)|| "ESUR-H500".equals(model)){
-            key = KeyEvent.KEYCODE_F4;
         }
         return key;
     }

@@ -109,9 +109,7 @@ public class LocationSearchActivity extends BaseActivity {
                 if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
                     epc = uhfTag.getAllData();
                     handleEpc(epc);
-                } else if ("common".equals(model) || "ESUR-H500".equals(model)) {
-
-                } else {
+                }else {
                     zebraHandleData(uhfTag);
                 }
                 break;

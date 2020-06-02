@@ -78,14 +78,6 @@ public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapte
                 }
             }
         });
-        if("ESUR-H600".equals(model) || "SD60".equals(model)){
-            viewHolder.search.setVisibility(View.VISIBLE);
-        }else if("common".equals(model) || "ESUR-H500".equals(model)){
-            viewHolder.search.setVisibility(View.GONE);
-        }else {
-            viewHolder.search.setVisibility(View.VISIBLE);
-        }
-
     }
 
     @Override

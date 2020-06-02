@@ -12,7 +12,6 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
-import com.common.esimrfid.uhf.RodinbellUhfServiceImpl;
 import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.utils.Utils;
 import com.common.esimrfid.utils.logger.MyCrashListener;
@@ -136,9 +135,7 @@ public class EsimAndroidApp extends Application {
         if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
             iEsimUhfService = new NewSpeedataUhfServiceImpl();
             SystemProperties.set("persist.sys.PistolKey", "uhf");
-        } else if ("common".equals(model) || "ESUR-H500".equals(model)) {
-            iEsimUhfService = new RodinbellUhfServiceImpl();
-        } else {
+        }else {
             iEsimUhfService = new ZebraUhfServiceImpl();
         }
         iEsimUhfService.initRFID();
