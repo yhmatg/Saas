@@ -82,7 +82,6 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     RecyclerView mSelectedRecy;
     @BindView(R.id.btn_submit)
     Button mSubmit;
-    int currentOption;
     private TimePickerView pvCustomTime;
     private OptionsPickerView pvCustomOptions;
     List<MangerUser> mMangerUsers = new ArrayList<>();
@@ -425,8 +424,16 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
             @Override
             public void onClick(View v) {
                 baseDialog.dismiss();
+                clearData();
             }
         });
         baseDialog.show();
+    }
+
+    public void clearData(){
+        mRepairPerson.setText("");
+        mRepairCost.setText("0.00");
+        mTvRepairDate.setText(DateUtils.date2String(new Date()));
+        mRepairDirection.setText("");
     }
 }
