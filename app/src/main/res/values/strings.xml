@@ -143,7 +143,7 @@
     <string name="company_name">一芯智能</string>
     <string name="all_assets">总资产</string>
     <string name="assets_inuse">在用资产</string>
-    <string name="assets_free">空闲资产</string>
+    <string name="assets_free">闲置资产</string>
     <string name="assets_manager">资产管理</string>
     <string name="inv_task">盘点任务</string>
     <string name="ast_inv">资产盘点</string>

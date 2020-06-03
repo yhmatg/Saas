@@ -9,7 +9,8 @@ public enum AssetsUseStatus {
     IN_IDEL("闲置",0),
     IN_USED("在用", 1),
     IN_REPAIR("维修中", 2),
-    IN_Transfer("调拨中",3);
+    IN_Transfer("调拨中",3),
+    IN_BORROW("借用",6);
 
 
     // 成员变量

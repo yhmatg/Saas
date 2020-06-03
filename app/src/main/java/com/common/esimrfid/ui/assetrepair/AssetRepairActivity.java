@@ -178,7 +178,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     private void createRepairOrder() {
         AssetRepairParameter assetRepairParameter = new AssetRepairParameter();
         if (mSelectMangerUser == null) {
-            ToastUtils.showShort("请选择盘点人");
+            ToastUtils.showShort("请选择报修人");
             return;
         }
         Pattern pattern= Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$"); // 判断小数点后2位的数字的正则表达式
@@ -435,5 +435,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
         mRepairCost.setText("0.00");
         mTvRepairDate.setText(DateUtils.date2String(new Date()));
         mRepairDirection.setText("");
+        selectedAssets.clear();
+        repairAdapter.notifyDataSetChanged();
     }
 }

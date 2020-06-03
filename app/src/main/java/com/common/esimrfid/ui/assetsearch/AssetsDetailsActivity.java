@@ -432,5 +432,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     @Override
     public void handleAssetsNoDetail() {
         addButton.setVisibility(View.GONE);
+        finish();
     }
 }
