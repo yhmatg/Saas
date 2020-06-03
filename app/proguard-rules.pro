@@ -188,6 +188,6 @@
     <init>(java.lang.Throwable);
 }
 
--dontwarn com.zebra.rfid.**
+-dontwarn com.zebra.**
 
--keep class com.zebra.rfid.** { *; }
+-keep class com.zebra.** { *; }
