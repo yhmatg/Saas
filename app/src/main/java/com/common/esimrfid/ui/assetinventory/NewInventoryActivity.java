@@ -205,6 +205,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             case R.id.rl_use_company:
                 tvTitle.setText(R.string.inv_usecom);
                 currentOption = 1;
+                preOption = 1;
                 if (mCompanyBeans.size() == 0) {
                     companysClickShow = true;
                     mPresenter.getAllCompany();
@@ -250,6 +251,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             case R.id.rl_own_company:
                 tvTitle.setText(R.string.inv_owncom);
                 currentOption = 5;
+                preOption = 5;
                 if (mCompanyBeans.size() == 0) {
                     companysClickShow = true;
                     mPresenter.getAllCompany();
