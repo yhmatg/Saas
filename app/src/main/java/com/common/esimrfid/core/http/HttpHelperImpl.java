@@ -161,6 +161,11 @@ public class HttpHelperImpl implements HttpHelper {
         return mGeeksApis.fetchAssetRepair(astid,astCode);
     }
 
+    @Override
+    public Observable<BaseResponse<List<MangerUser>>> getAllEmpUsers() {
+        return mGeeksApis.getAllEmpUsers();
+    }
+
 
     @Override
     public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {

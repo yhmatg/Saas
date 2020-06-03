@@ -85,7 +85,6 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     int currentOption;
     private TimePickerView pvCustomTime;
     private OptionsPickerView pvCustomOptions;
-    private TextView tvTitle;
     List<MangerUser> mMangerUsers = new ArrayList<>();
     MangerUser mSelectMangerUser;
     boolean usersClickShow;
@@ -125,7 +124,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     }
 
     @Override
-    public void handleAllManagerUsers(List<MangerUser> mangerUsers) {
+    public void handleAllEmpUsers(List<MangerUser> mangerUsers) {
         mMangerUsers.clear();
         mMangerUsers.addAll(mangerUsers);
         if (usersClickShow) {
@@ -146,14 +145,13 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
             case R.id.rl_repair_person:
                 if (mMangerUsers.size() == 0) {
                     usersClickShow = true;
-                    mPresenter.getAllManagerUsers();
+                    mPresenter.getAllEmpUsers();
                 } else {
                     pvCustomOptions.setPicker(mMangerUsers);
                     pvCustomOptions.show();
                 }
                 break;
             case R.id.rl_repair_date:
-                tvTitle.setText(R.string.exp_finish_date);
                 pvCustomTime.show();
                 break;
             case R.id.title_back:
@@ -196,7 +194,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
             return;
         }
         if (selectedAssets.size() < 1){
-            ToastUtils.showShort("请选择保修资产");
+            ToastUtils.showShort("请选择报修资产");
             return;
         }
         assetRepairParameter.setRep_user_id(mSelectMangerUser.getId());
@@ -230,7 +228,6 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
                     public void customLayout(View v) {
                         TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
                         TextView tvCancel = (TextView) v.findViewById(R.id.tv_cancle);
-                        tvTitle = (TextView) v.findViewById(R.id.tv_title);
                         tvSubmit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -385,7 +382,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     }
 
     private void initOptions() {
-        mPresenter.getAllManagerUsers();
+        mPresenter.getAllEmpUsers();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

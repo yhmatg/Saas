@@ -75,4 +75,6 @@ public interface HttpHelper {
     Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astid, String astCode);
 
     Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid, String astCode);
+
+    Observable<BaseResponse<List<MangerUser>>> getAllEmpUsers();
 }

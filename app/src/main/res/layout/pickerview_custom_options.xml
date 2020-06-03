@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:padding="8dp"
-            android:text="@string/new_inv_persion"
+            android:text="@string/repair_person"
             android:textColor="#80000000"
             android:textSize="@dimen/sp_16" />
 

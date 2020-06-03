@@ -185,4 +185,7 @@ public interface GeeksApis {
      */
     @POST("/assets-server/repairs/bymanager")
     Observable<BaseResponse> createNewRepairOrder(@Body AssetRepairParameter repairParameter);
+
+    @GET("/user-server/emps/unpage")
+    Observable<BaseResponse<List<MangerUser>>> getAllEmpUsers();
 }

@@ -297,5 +297,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
         return mHttpHelper.fetchAssetRepair(astid,astCode);
     }
 
+    @Override
+    public Observable<BaseResponse<List<MangerUser>>> getAllEmpUsers() {
+        return mHttpHelper.getAllEmpUsers();
+    }
+
 
 }

@@ -21,14 +21,14 @@ public class AssetRepairPresenter extends BasePresenter<AssetRepairContract.View
     }
 
     @Override
-    public void getAllManagerUsers() {
-        addSubscribe(mDataManager.getAllManagerUsers()
+    public void getAllEmpUsers() {
+        addSubscribe(mDataManager.getAllEmpUsers()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<MangerUser>>(mView, false) {
                     @Override
                     public void onNext(List<MangerUser> mangerUsers) {
-                        mView.handleAllManagerUsers(mangerUsers);
+                        mView.handleAllEmpUsers(mangerUsers);
                     }
                 }));
     }

@@ -10,13 +10,13 @@ import java.util.List;
 
 public interface AssetRepairContract {
     interface View extends AbstractView {
-        void handleAllManagerUsers(List<MangerUser> mangerUsers);
+        void handleAllEmpUsers(List<MangerUser> mangerUsers);
 
         void handleCreateNewRepairOrder(BaseResponse baseResponse);
     }
 
     interface Presenter extends AbstractPresenter<View> {
-        void getAllManagerUsers();
+        void getAllEmpUsers();
 
         void createNewRepairOrder(AssetRepairParameter repairParameter);
     }
