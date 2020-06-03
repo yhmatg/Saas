@@ -31,6 +31,12 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
                 mView.dismissDialog();
                 mView.handleAssetsDetails(assetsDetailsInfo);
             }
+
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                mView.handleAssetsNoDetail();
+            }
         }));
     }
 

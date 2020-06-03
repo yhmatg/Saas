@@ -13,6 +13,7 @@ public interface AssetsDetailsContract {
         void handleAssetsDetails(AssetsDetailsInfo assetsDetailsInfo);
         void handleAssetsResume(List<AssetResume> data);
         void handleAssetsRepair(List<AssetRepair> assetRepairs);
+        void handleAssetsNoDetail();
     }
 
     interface Presenter extends AbstractPresenter<View> {

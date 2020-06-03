@@ -428,4 +428,9 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         mRepairData.addAll(assetRepairs);
         assetsRepairAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void handleAssetsNoDetail() {
+        addButton.setVisibility(View.GONE);
+    }
 }
