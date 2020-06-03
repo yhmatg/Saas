@@ -15,6 +15,7 @@ import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
@@ -122,15 +123,15 @@ public class HttpHelperImpl implements HttpHelper {
     public Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara) {
         return mGeeksApis.createNewInventory(invpara);
     }
-	
-	@Override
+
+    @Override
     public Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName) {
         return mGeeksApis.fetchWriteAssetsInfos(patternName);
     }
 
     @Override
     public Observable<BaseResponse> finishInvOrderWithAsset(String orderId, String uid, List<String> invDetails) {
-        return mGeeksApis.finishInvOrderWithAsset(orderId,uid,invDetails);
+        return mGeeksApis.finishInvOrderWithAsset(orderId, uid, invDetails);
     }
 
     @Override
@@ -140,7 +141,7 @@ public class HttpHelperImpl implements HttpHelper {
 
     @Override
     public Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId, String astCode) {
-        return mGeeksApis.fetchAssetsInfo(astId,astCode);
+        return mGeeksApis.fetchAssetsInfo(astId, astCode);
     }
 
 
@@ -155,15 +156,24 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
 
-
     @Override
     public Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid, String astCode) {
-        return mGeeksApis.fetchAssetRepair(astid,astCode);
+        return mGeeksApis.fetchAssetRepair(astid, astCode);
     }
 
     @Override
     public Observable<BaseResponse<List<MangerUser>>> getAllEmpUsers() {
         return mGeeksApis.getAllEmpUsers();
+    }
+
+    @Override
+    public Observable<BaseResponse<AssetsListPage>> getAllAssetsByOptPage(String optType, Integer size, Integer page, String patternName) {
+        return mGeeksApis.getAllAssetsByOptPage(optType, size, page, patternName);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<AssetsInfo>>> getAllAssetsByOpt(String optType, String patternName) {
+        return mGeeksApis.getAllAssetsByOpt(optType,patternName);
     }
 
 
@@ -174,7 +184,7 @@ public class HttpHelperImpl implements HttpHelper {
 
     @Override
     public Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astid, String astCode) {
-        return mGeeksApis.fetchAssetResume(astid,astCode);
+        return mGeeksApis.fetchAssetResume(astid, astCode);
     }
 
 }

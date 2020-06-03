@@ -9,6 +9,7 @@ import com.common.esimrfid.contract.home.WriteTagContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
@@ -50,5 +51,25 @@ public class ChooseRepairPresenter extends BasePresenter<ChooseRepairContract.Vi
                 ToastUtils.showShort(R.string.not_find_asset);
             }
         }));
+    }
+
+    @Override
+    public void getAllAssetsByOpt(String optType,String patternName) {
+        mView.showDialog("loading...");
+        addSubscribe(mDataManager.getAllAssetsByOpt(optType,patternName)
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
+                    @Override
+                    public void onNext(List<AssetsInfo> assetsInfos) {
+                        mView.dismissDialog();
+                        mView.handleAllAssetsByOpt(assetsInfos);
+                    }
+                    @Override
+                    public void onError(Throwable e){
+                        mView.dismissDialog();
+                        ToastUtils.showShort(R.string.not_find_asset);
+                    }
+                }));
     }
 }

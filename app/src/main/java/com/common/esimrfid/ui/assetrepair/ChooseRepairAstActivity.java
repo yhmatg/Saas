@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -19,6 +20,7 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetrepair.ChooseRepairContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.presenter.assetrepair.ChooseRepairPresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 
@@ -62,7 +64,7 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
         empty_page.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
         tips.setVisibility(View.GONE);
-        mPresenter.getAssetsInfoById("01");
+        mPresenter.getAllAssetsByOpt("REPAIR","");
     }
 
     private void initRfidAndEvent() {
@@ -101,7 +103,7 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     String assetsId = search.getText().toString();
                     search.setSelection(assetsId.length());
-                    mPresenter.getAssetsInfoById(assetsId);
+                    mPresenter.getAllAssetsByOpt("REPAIR",assetsId);
                     return true;
                 }
                 return false;
@@ -122,6 +124,14 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
 
     @Override
     public void handleAssetsById(List<AssetsInfo> assetsInfos) {
+        mData.clear();
+        mData.addAll(assetsInfos);
+        adapter.notifyDataSetChanged();
+        handleResultList(mData);
+    }
+
+    @Override
+    public void handleAllAssetsByOpt(List<AssetsInfo> assetsInfos) {
         mData.clear();
         mData.addAll(assetsInfos);
         adapter.notifyDataSetChanged();

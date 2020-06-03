@@ -14,6 +14,7 @@ import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
@@ -249,8 +250,8 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     public Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara) {
         return mHttpHelper.createNewInventory(invpara);
     }
-	
-	@Override
+
+    @Override
     public Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName) {
         return mHttpHelper.fetchWriteAssetsInfo(patternName);
     }
@@ -267,7 +268,7 @@ public class DataManager implements HttpHelper, PreferenceHelper {
 
     @Override
     public Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId, String astCode) {
-        return mHttpHelper.fetchAssetsInfo(astId,astCode);
+        return mHttpHelper.fetchAssetsInfo(astId, astCode);
     }
 
 
@@ -288,13 +289,13 @@ public class DataManager implements HttpHelper, PreferenceHelper {
 
     @Override
     public Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astid, String astCode) {
-        return mHttpHelper.fetchAssetResume(astid,astCode);
+        return mHttpHelper.fetchAssetResume(astid, astCode);
     }
 
 
     @Override
     public Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid, String astCode) {
-        return mHttpHelper.fetchAssetRepair(astid,astCode);
+        return mHttpHelper.fetchAssetRepair(astid, astCode);
     }
 
     @Override
@@ -302,5 +303,13 @@ public class DataManager implements HttpHelper, PreferenceHelper {
         return mHttpHelper.getAllEmpUsers();
     }
 
+    @Override
+    public Observable<BaseResponse<AssetsListPage>> getAllAssetsByOptPage(String optType, Integer size, Integer page, String patternName) {
+        return mHttpHelper.getAllAssetsByOptPage(optType, size, page, patternName);
+    }
 
+    @Override
+    public Observable<BaseResponse<List<AssetsInfo>>> getAllAssetsByOpt(String optType, String patternName) {
+        return mHttpHelper.getAllAssetsByOpt(optType, patternName);
+    }
 }

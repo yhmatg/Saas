@@ -14,6 +14,7 @@ import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
@@ -77,4 +78,8 @@ public interface HttpHelper {
     Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid, String astCode);
 
     Observable<BaseResponse<List<MangerUser>>> getAllEmpUsers();
+
+    Observable<BaseResponse<AssetsListPage>> getAllAssetsByOptPage(String optType, Integer size, Integer page, String patternName);
+
+    Observable<BaseResponse<List<AssetsInfo>>> getAllAssetsByOpt( String optType,  String patternName);
 }
