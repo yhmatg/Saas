@@ -60,6 +60,11 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
                         .append("\"").append(tv_name).append("\"")
                         .append("发起调拨,");
                 state=1;
+            }else if(tv_method.equals("新增资产")){
+                stringBuilder.append("有管理员")
+                        .append("\"").append(tv_name).append("\"")
+                        .append("复制新增")
+                        .append("\n");
             }
             if(jsonArray.size()>0){
                 for(int n = 0 ;n < jsonArray.size() ; n++){
@@ -135,6 +140,11 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
         }else if(tv_method.equals("资产复制")){
             stringBuilder.append("由管理员")
                     .append("\" ").append(tv_name).append("\" ")
+                    .append("复制新增")
+                    .append("\n");
+        } else if(tv_method.equals("新增资产")){
+            stringBuilder.append("有管理员")
+                    .append("\"").append(tv_name).append("\"")
                     .append("复制新增")
                     .append("\n");
         }else if(tv_method.equals("批量导入资产信息")){
