@@ -17,6 +17,7 @@ public class AssetResume {
      */
 
     private String ast_id;
+    private String ast_name;
     private long create_date;
     private String id;
     private String opt_details;
@@ -69,5 +70,13 @@ public class AssetResume {
 
     public void setTransactor_name(String transactor_name) {
         this.transactor_name = transactor_name;
+    }
+
+    public String getAst_name() {
+        return ast_name;
+    }
+
+    public void setAst_name(String ast_name) {
+        this.ast_name = ast_name;
     }
 }

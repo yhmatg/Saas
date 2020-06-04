@@ -214,22 +214,40 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             case R.id.repair_record:
                 title_tab.clearCheck();
                 title_tab.check(R.id.repair_record);
-                empty_page.setVisibility(View.GONE);
-                li_assetDetail.setVisibility(View.GONE);
-                li_maintenance.setVisibility(View.GONE);
-                li_repair.setVisibility(View.VISIBLE);
-                li_resume.setVisibility(View.GONE);
-                repair_recycler.setAdapter(assetsRepairAdapter);
+                if(mRepairData.isEmpty()){
+                    empty_page.setVisibility(View.VISIBLE);
+                    li_assetDetail.setVisibility(View.GONE);
+                    li_maintenance.setVisibility(View.GONE);
+                    li_repair.setVisibility(View.GONE);
+                    li_resume.setVisibility(View.GONE);
+                }else {
+                    empty_page.setVisibility(View.GONE);
+                    li_assetDetail.setVisibility(View.GONE);
+                    li_maintenance.setVisibility(View.GONE);
+                    li_repair.setVisibility(View.VISIBLE);
+                    li_resume.setVisibility(View.GONE);
+                    repair_recycler.setAdapter(assetsRepairAdapter);
+                }
+
                 break;
             case R.id.asset_resume:
                 title_tab.clearCheck();
                 title_tab.check(R.id.asset_resume);
-                empty_page.setVisibility(View.GONE);
-                li_assetDetail.setVisibility(View.GONE);
-                li_maintenance.setVisibility(View.GONE);
-                li_repair.setVisibility(View.GONE);
-                li_resume.setVisibility(View.VISIBLE);
-                resume_recycler.setAdapter(assetsResumeAdapter);
+                if (mResumeData.isEmpty()){
+                    empty_page.setVisibility(View.VISIBLE);
+                    li_assetDetail.setVisibility(View.GONE);
+                    li_maintenance.setVisibility(View.GONE);
+                    li_repair.setVisibility(View.GONE);
+                    li_resume.setVisibility(View.GONE);
+                }else {
+                    empty_page.setVisibility(View.GONE);
+                    li_assetDetail.setVisibility(View.GONE);
+                    li_maintenance.setVisibility(View.GONE);
+                    li_repair.setVisibility(View.GONE);
+                    li_resume.setVisibility(View.VISIBLE);
+                    resume_recycler.setAdapter(assetsResumeAdapter);
+                }
+
                 break;
             case R.id.btn_submit:
                 List<AssetsInfo> assetsInfos = new ArrayList<>();
