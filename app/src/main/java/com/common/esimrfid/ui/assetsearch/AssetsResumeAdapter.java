@@ -63,7 +63,7 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
             }else if(tv_method.equals("新增资产")){
                 stringBuilder.append("有管理员")
                         .append("\"").append(tv_name).append("\"")
-                        .append("复制新增")
+                        .append("录入")
                         .append("\n");
             }
             if(jsonArray.size()>0){
