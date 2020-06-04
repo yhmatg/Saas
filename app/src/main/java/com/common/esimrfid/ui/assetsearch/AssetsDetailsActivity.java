@@ -139,6 +139,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private AssetsResumeAdapter assetsResumeAdapter;
     private AssetsRepairAdapter assetsRepairAdapter;
     private AssetsInfo repairAsset = new AssetsInfo();
+    private String activityFrom;
 
     @Override
     public AssetsDetailsPresenter initPresenter() {
@@ -161,10 +162,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             mPresenter.getAssetsResumeById(null,assetsCode);
             mPresenter.getAssetsRepairById(null,assetsCode);
         }
-        String from = intent.getStringExtra(WHERE_FROM);
-        if("AssetRepairActivity".equals(from)){
-            addButton.setVisibility(View.VISIBLE);
-        }
+        activityFrom = intent.getStringExtra(WHERE_FROM);
         empty_page.setVisibility(View.VISIBLE);
         li_assetDetail.setVisibility(View.GONE);
         li_maintenance.setVisibility(View.GONE);
@@ -386,7 +384,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             contact_information.setText(figure);
 
             //维保日期
-            long end_date = assetsDetailsInfo.getWarranty_info().getWar_enddate();
+            long end_date = assetsDetailsInfo.getWarranty_info() == null ? 0 : assetsDetailsInfo.getWarranty_info().getWar_enddate();
             if (end_date == 0) {
                 maintenance_expire.setText("");
             } else {
@@ -400,10 +398,13 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             repairAsset.setAst_name(assetsDetailsInfo.getAst_name());
             repairAsset.setAst_barcode(assetsDetailsInfo.getAst_barcode());
             AssetsInfo.TypeInfo typeInfo = new AssetsInfo.TypeInfo();
-            typeInfo.setType_name(assetsDetailsInfo.getType_info().getType_name());
+            typeInfo.setType_name(type);
             repairAsset.setType_info(typeInfo);
             repairAsset.setAst_brand(assetsDetailsInfo.getAst_brand());
             repairAsset.setAst_model(assetsDetailsInfo.getAst_model());
+            if(("AssetRepairActivity".equals(activityFrom)) && (status == 0 || status == 1)){
+                addButton.setVisibility(View.VISIBLE);
+            }
         }
     }
 
