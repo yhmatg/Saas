@@ -327,7 +327,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             NumberFormat nf = new DecimalFormat("¥#,###.##");//设置金额显示格式
             String str = nf.format(count);
             if (count == 0) {
-                ast_count.setVisibility(View.GONE);
+                ast_count.setText("");
             } else {
                 ast_count.setText(str + "元");
             }

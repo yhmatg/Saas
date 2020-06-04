@@ -61,7 +61,7 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
                         .append("发起调拨,");
                 state=1;
             }else if(tv_method.equals("新增资产")){
-                stringBuilder.append("有管理员")
+                stringBuilder.append("由管理员")
                         .append("\"").append(tv_name).append("\"")
                         .append("录入")
                         .append("\n");
@@ -83,18 +83,19 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
                                     .append("\"").append(changeto).append("\",");
                         }else if (fieldname.equals("管理员")){
                             stringBuilder.append("\"").append(changefrom1).append("\"")
-                                    .append("名下");
+                                    .append("名下").append("\n");
                         }
                     }else if(tv_method.equals("资产维修")){
                         if (fieldname.equals("维修说明")){
                             stringBuilder.append(fieldname)
                                     .append(":")
-                                    .append(changeto);
+                                    .append(changeto)
+                                    .append("\n");
                         }else if(fieldname.equals("资产名称")){
                             stringBuilder.append("将资产")
                                    .append("\"") .append(changeto).append("\"")
                                     .append("的状态变更为")
-                                    .append("【维修中】");
+                                    .append("【维修中】").append("\n");
                         }
                     } else if(tv_method.equals("资产还原")){
                         String changefrom=jsonArray.getJSONObject(n).getString("changefrom");
@@ -105,7 +106,7 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
                                 .append("状态由")
                                 .append("\"").append(changefrom).append("\"")
                                 .append("变更为")
-                                .append("\"").append(changeto).append("\"");
+                                .append("\"").append(changeto).append("\"").append("\n");
                     }else if (tv_method.equals("资产报废")){
                         String changefrom=jsonArray.getJSONObject(n).getString("changefrom");
                         stringBuilder.append("资产")
@@ -114,7 +115,7 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
                                 .append("状态由")
                                 .append("\"").append(changefrom).append("\"")
                                 .append("变更为")
-                                .append(changeto);
+                                .append(changeto).append("\n");
                     }else {
                         if(jsonArray.getJSONObject(n).containsKey("changefrom")){
                             String changefrom=jsonArray.getJSONObject(n).getString("changefrom");
@@ -143,9 +144,14 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
                     .append("复制新增")
                     .append("\n");
         } else if(tv_method.equals("新增资产")){
-            stringBuilder.append("有管理员")
+            stringBuilder.append("由管理员")
                     .append("\"").append(tv_name).append("\"")
-                    .append("复制新增")
+                    .append("录入")
+                    .append("\n");
+        }else if(tv_method.equals("资产批量导入")){
+            stringBuilder.append("由管理员")
+                    .append("\"").append(tv_name).append("\"")
+                    .append("批量新增")
                     .append("\n");
         }else if(tv_method.equals("批量导入资产信息")){
             if (tv_name.isEmpty()){
@@ -157,13 +163,13 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
                         .append("\n");
             }
         }else if (tv_method.equals("取消调拨")){
-            stringBuilder.append("有管理员")
+            stringBuilder.append("由管理员")
                     .append("\"").append(tv_name).append("\"")
-                    .append("取消了调拨");
+                    .append("取消了调拨").append("\n");
         }else if(tv_method.equals("完成维修")){
             stringBuilder.append("由管理员")
                     .append("\"").append(tv_name).append("\"")
-                    .append("完成了资产维修");
+                    .append("完成了资产维修").append("\n");
         }
 
         viewHolder.content.setText(stringBuilder);

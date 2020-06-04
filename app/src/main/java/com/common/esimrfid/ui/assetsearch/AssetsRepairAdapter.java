@@ -50,7 +50,7 @@ public class AssetsRepairAdapter extends RecyclerView.Adapter<AssetsRepairAdapte
         NumberFormat nf = new DecimalFormat("¥#,###.##");//设置金额显示格式
         String str = nf.format(tv_cost);
         if(tv_cost==0){
-            viewHolder.cost.setVisibility(View.GONE);
+            viewHolder.cost.setText("");
         }else {
             viewHolder.cost.setText(str);
         }
