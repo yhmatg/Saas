@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:id="@+id/title_layout"
-    android:background="@drawable/bg_search_backgroud"
+    android:background="@color/titele_color"
     android:paddingTop="@dimen/dp_25"
     android:paddingBottom="@dimen/dp_5"
     android:layout_height="wrap_content">

@@ -236,23 +236,12 @@
         android:layout_below="@+id/ll_choose"
         android:background="#F2F2F2" />
 
-    <TextView
-        android:id="@+id/tv_select_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/divider_five"
-        android:padding="@dimen/dp_10"
-        android:layout_marginStart="@dimen/dp_5"
-        android:text="@string/select_count"
-        android:textColor="@color/repair_text"
-        android:textSize="@dimen/sp_15" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_selected_ast"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/btn_submit"
-        android:layout_below="@+id/tv_select_count"
+        android:layout_below="@+id/divider_five"
         android:layout_marginTop="0dp" />
 
     <Button

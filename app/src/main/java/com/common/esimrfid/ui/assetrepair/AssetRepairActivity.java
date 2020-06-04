@@ -74,10 +74,6 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     TextView mScanAdd;
     @BindView(R.id.tv_choose_add)
     TextView mChooseAdd;
-    @BindString(R.string.select_count)
-    String stringCount;
-    @BindView(R.id.tv_select_count)
-    TextView mSelectedCount;
     @BindView(R.id.rv_selected_ast)
     RecyclerView mSelectedRecy;
     @BindView(R.id.btn_submit)
@@ -99,7 +95,6 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     @Override
     protected void initEventAndData() {
         mTitle.setText(R.string.ast_repair);
-        mSelectedCount.setText("资产明细(0)");
         mTvRepairDate.setText(DateUtils.date2String(mSelectDate));
         EventBus.getDefault().register(this);
         repairAdapter = new AssetsRepairAdapter(this, selectedAssets,"AssetRepairActivity");
@@ -393,8 +388,6 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
         assetsInfos.removeAll(tempAssets);
         selectedAssets.addAll(assetsInfos);
         repairAdapter.notifyDataSetChanged();
-        String formatNum = String.format(stringCount,selectedAssets.size());
-        mSelectedCount.setText(formatNum);
     }
 
     @Override
@@ -406,8 +399,6 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     @Override
     public void onDeleteClick(AssetsInfo assetsInfo) {
         selectedAssets.remove(assetsInfo);
-        String formatNum = String.format(stringCount,selectedAssets.size());
-        mSelectedCount.setText(formatNum);
     }
 
     public void showConfirmDialog(Boolean isSuccess){

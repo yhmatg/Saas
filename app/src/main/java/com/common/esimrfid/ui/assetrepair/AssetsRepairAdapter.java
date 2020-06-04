@@ -8,8 +8,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ import com.common.esimrfid.utils.ToastUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -63,6 +66,8 @@ public class AssetsRepairAdapter extends RecyclerView.Adapter<AssetsRepairAdapte
         viewHolder.astBrand.setText(astBrand);
         String astModel = TextUtils.isEmpty(assetsInfo.getAst_model()) ? "" : assetsInfo.getAst_model();
         viewHolder.astMode.setText(astModel);
+        String formatNum = String.format(viewHolder.stringPostion,i + 1);
+        viewHolder.tvPosition.setText(formatNum);
         viewHolder.astDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,9 +97,11 @@ public class AssetsRepairAdapter extends RecyclerView.Adapter<AssetsRepairAdapte
         });
         if("AssetRepairActivity".equals(area)){
             viewHolder.astDelete.setVisibility(View.VISIBLE);
+            viewHolder.tvPosition.setVisibility(View.VISIBLE);
             viewHolder.cbRepair.setVisibility(View.GONE);
         }else {
             viewHolder.astDelete.setVisibility(View.GONE);
+            viewHolder.tvPosition.setVisibility(View.GONE);
             viewHolder.cbRepair.setVisibility(View.VISIBLE);
         }
     }
@@ -118,9 +125,13 @@ public class AssetsRepairAdapter extends RecyclerView.Adapter<AssetsRepairAdapte
         @BindView(R.id.ast_mode)
         TextView astMode;
         @BindView(R.id.ast_delete)
-        TextView astDelete;
+        ImageButton astDelete;
         @BindView(R.id.cb_repair)
         CheckBox cbRepair;
+        @BindView(R.id.tv_position)
+        TextView tvPosition;
+        @BindString(R.string.select_count)
+        String stringPostion;
 
         public ViewHolder(@NonNull View view) {
             super(view);

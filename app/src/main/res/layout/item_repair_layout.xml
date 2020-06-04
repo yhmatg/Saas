@@ -6,13 +6,33 @@
     android:padding="@dimen/dp_10">
 
     <TextView
-        android:padding="@dimen/dp_2"
+        android:padding="@dimen/dp_1"
+        android:id="@+id/tv_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_count"
+        android:textSize="@dimen/sp_13"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/ast_delete"
+        android:background="#00000000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/delete_rubbish"
+        android:layout_marginEnd="9dp" />
+
+    <TextView
         android:id="@+id/ast_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_position"
+        android:background="#1F85E0"
+        android:paddingStart="@dimen/dp_3"
+        android:paddingEnd="@dimen/dp_3"
         android:text="状态"
         android:textColor="@color/white"
-        android:background="#1F85E0"
         android:textSize="@dimen/sp_13" />
 
     <TextView
@@ -21,25 +41,17 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_toEndOf="@+id/ast_status"
+        android:layout_alignBottom="@+id/ast_status"
         android:text="资产名称"
         android:textSize="@dimen/sp_13"
         android:textStyle="bold" />
 
     <TextView
-        android:visibility="gone"
-        android:id="@+id/ast_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="9dp"
-        android:text="删除" />
-
-    <TextView
-        android:layout_marginEnd="@dimen/dp_10"
         android:id="@+id/tv_ast_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ast_status"
+        android:layout_marginEnd="@dimen/dp_10"
         android:text="资产编号:"
         android:textSize="@dimen/sp_13"
         android:textStyle="bold" />
@@ -104,9 +116,8 @@
         android:text="型号" />
 
     <CheckBox
-        android:visibility="gone"
         android:id="@+id/cb_repair"
-        style="@style/CustomCheckboxTheme"
+        style="@style/CustomRepairCheckboxTheme"
         android:layout_width="@dimen/dp_25"
         android:layout_height="@dimen/dp_25"
         android:layout_below="@+id/tv_ast_number"
@@ -114,6 +125,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
-        android:focusable="false" />
+        android:focusable="false"
+        android:visibility="gone" />
 
 </RelativeLayout>

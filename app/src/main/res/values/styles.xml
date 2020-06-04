@@ -63,4 +63,8 @@
     <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/custom_checkbox_selector</item>
     </style>
+
+    <style name="CustomRepairCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/choose_repair_checkbox</item>
+    </style>
 </resources>
