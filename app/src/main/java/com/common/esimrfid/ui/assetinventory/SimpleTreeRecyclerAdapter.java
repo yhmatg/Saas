@@ -80,4 +80,11 @@ public class SimpleTreeRecyclerAdapter extends TreeRecyclerAdapter {
         }
 
     }
+
+    @Override
+    protected void setChecked(Node node, boolean checked) {
+        node.setChecked(checked);
+        setChildChecked(node, checked);
+        notifyDataSetChanged();
+    }
 }

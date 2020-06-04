@@ -815,7 +815,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                     case 2:
                         checkedDeparts.clear();
                         for (Node node : allNodes) {
-                            if(isAllChildenChecked(node)){
+                            if(node.isChecked()){
                                 checkedDeparts.add(node);
                             }
                         }
@@ -832,7 +832,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                     case 3:
                         checkedTypes.clear();
                         for (Node node : allNodes) {
-                            if(isAllChildenChecked(node)){
+                            if(node.isChecked()){
                                 checkedTypes.add(node);
                             }
                         }
@@ -849,7 +849,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                     case 4:
                         checkedLocations.clear();
                         for (Node node : allNodes) {
-                            if(isAllChildenChecked(node)){
+                            if(node.isChecked()){
                                 checkedLocations.add(node);
                             }
                         }
