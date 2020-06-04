@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
@@ -140,6 +141,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private AssetsRepairAdapter assetsRepairAdapter;
     private AssetsInfo repairAsset = new AssetsInfo();
     private String activityFrom;
+    private int status;
 
     @Override
     public AssetsDetailsPresenter initPresenter() {
@@ -174,7 +176,10 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         assetsRepairAdapter=new AssetsRepairAdapter(this,mRepairData);
         repair_recycler.setLayoutManager(new LinearLayoutManager(this));
         repair_recycler.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-
+        if(("AssetRepairActivity".equals(activityFrom))){
+            addButton.setVisibility(View.VISIBLE);
+            addButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -250,11 +255,16 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
                 break;
             case R.id.btn_submit:
-                List<AssetsInfo> assetsInfos = new ArrayList<>();
-                assetsInfos.add(repairAsset);
-                RepairAssetEvent repairAssetEvent = new RepairAssetEvent(assetsInfos);
-                EventBus.getDefault().post(repairAssetEvent);
-                finish();
+                if(!(status == 0 || status == 1)){
+                    Toast.makeText(this,"只有闲置或者在用资产可以报修，请确定资产状态！",Toast.LENGTH_SHORT).show();
+                }else {
+                    List<AssetsInfo> assetsInfos = new ArrayList<>();
+                    assetsInfos.add(repairAsset);
+                    RepairAssetEvent repairAssetEvent = new RepairAssetEvent(assetsInfos);
+                    EventBus.getDefault().post(repairAssetEvent);
+                    finish();
+                }
+
                 break;
         }
     }
@@ -276,7 +286,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
             String brand = TextUtils.isEmpty(assetsDetailsInfo.getAst_brand()) ? "" : assetsDetailsInfo.getAst_brand();
             astBrand.setText(brand);
-            int status = assetsDetailsInfo.getAst_used_status();
+            status = assetsDetailsInfo.getAst_used_status();
             String statusName = TextUtils.isEmpty(AssetsUseStatus.getName(status)) ? "" : AssetsUseStatus.getName(status);
             ast_status.setText(statusName);
             String model = TextUtils.isEmpty(assetsDetailsInfo.getAst_model()) ? "" : assetsDetailsInfo.getAst_model();
@@ -420,9 +430,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             repairAsset.setType_info(typeInfo);
             repairAsset.setAst_brand(assetsDetailsInfo.getAst_brand());
             repairAsset.setAst_model(assetsDetailsInfo.getAst_model());
-            if(("AssetRepairActivity".equals(activityFrom)) && (status == 0 || status == 1)){
-                addButton.setVisibility(View.VISIBLE);
-            }
         }
     }
 
