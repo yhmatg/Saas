@@ -179,14 +179,10 @@ public interface GeeksApis {
     Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(@Query("ast_id") String astid, @Query("ast_barcode") String astCode);
 
     //新建报修单
-
-    /**
-     * @param repairParameter
-     * @return
-     */
     @POST("/assets-server/repairs/bymanager")
     Observable<BaseResponse> createNewRepairOrder(@Body AssetRepairParameter repairParameter);
 
+    //获取所有员工
     @GET("/user-server/emps/unpage")
     Observable<BaseResponse<List<MangerUser>>> getAllEmpUsers();
 
