@@ -36,6 +36,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -451,6 +452,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     @Override
     public void handleAssetsRepair(List<AssetRepair> assetRepairs) {
         mRepairData.clear();
+        Collections.reverse(assetRepairs);
         mRepairData.addAll(assetRepairs);
         assetsRepairAdapter.notifyDataSetChanged();
     }

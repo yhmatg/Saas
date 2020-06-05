@@ -12,43 +12,43 @@
         android:orientation="vertical">
 
         <TextView
-            android:text="维保单号:"
+            android:text="@string/warranty_code"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="处理人:"
+            android:text="@string/handler"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="报修人:"
+            android:text="@string/repairer"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="维修花费:"
+            android:text="@string/repair_cost"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="维保日期:"
+            android:text="@string/warranty_date"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="完成日期:"
+            android:text="@string/finish_date"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="维修说明:"
+            android:text="@string/repair_remark"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -63,47 +63,40 @@
 
         <TextView
             android:id="@+id/tv_code"
-            android:text="11111"
             android:textSize="@dimen/sp_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/tv_name"
-            android:text="11111"
             android:textSize="@dimen/sp_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/repair_name"
-            android:text="11111"
             android:textSize="@dimen/sp_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv_cost"
-            android:text="11111"
             android:textSize="@dimen/sp_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv_mainten_date"
-            android:text="11111"
             android:textSize="@dimen/sp_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv_finish_date"
-            android:text="11111"
             android:textSize="@dimen/sp_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv_mainten_explain"
-            android:text="11111"
             android:textSize="@dimen/sp_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

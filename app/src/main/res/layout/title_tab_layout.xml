@@ -14,7 +14,7 @@
 
         <RadioButton
             android:id="@+id/asset_detail"
-            android:text="资产明细"
+            android:text="@string/tab_assets_details"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -27,7 +27,7 @@
             android:textColor="#1A1A1A"/>
         <RadioButton
             android:id="@+id/mainten_info"
-            android:text="维保信息"
+            android:text="@string/warranty_info"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -39,7 +39,7 @@
             android:textSize="@dimen/sp_15"/>
         <RadioButton
             android:id="@+id/repair_record"
-            android:text="维修记录"
+            android:text="@string/repair_record"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -51,7 +51,7 @@
             android:textSize="@dimen/sp_15"/>
         <RadioButton
             android:id="@+id/asset_resume"
-            android:text="资产履历"
+            android:text="@string/assets_resume"
             android:layout_width="@dimen/dp_0"
             android:layout_height="match_parent"
             android:layout_weight="1"

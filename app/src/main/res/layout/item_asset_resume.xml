@@ -9,25 +9,25 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
-            android:text="处理方式："
+            android:text="@string/handle_method"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="处理人："
+            android:text="@string/handler"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="处理时间："
+            android:text="@string/handle_date"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="处理内容："
+            android:text="@string/handle_content"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -39,27 +39,23 @@
 
         <TextView
             android:id="@+id/tv_method"
-            android:text="111"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp_14"/>
         <TextView
             android:id="@+id/tv_name"
-            android:text="111"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp_14"/>
 
         <TextView
             android:id="@+id/tv_time"
-            android:text="111"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp_14"/>
 
         <TextView
             android:id="@+id/tv_content"
-            android:text="111"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/sp_14"/>
