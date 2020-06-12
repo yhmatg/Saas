@@ -87,6 +87,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     String defUpdateContent;
     IEsimUhfService esimUhfService = null;
     private boolean isCommonClose = false;
+    private boolean isFirstInstall;
 
     @Override
     public HomePresenter initPresenter() {
@@ -96,6 +97,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void initEventAndData() {
         //initRfid();
+        if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
+            isFirstInstall = true;
+            finish();
+            return;
+        }
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -211,6 +217,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(isFirstInstall){
+            isFirstInstall = false;
+            return;
+        }
         dismissFinishDialog();
         if (EsimAndroidApp.getIEsimUhfService() != null) {
             isCommonClose = true;
