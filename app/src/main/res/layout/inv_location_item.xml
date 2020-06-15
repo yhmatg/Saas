@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/filter_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginBottom="@dimen/dp_2"
+    android:padding="@dimen/dp_10">
+
+    <com.common.esimrfid.customview.CircleNumberProgress
+        android:id="@+id/circle_progress"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        android:layout_marginEnd="@dimen/dp_10" />
+
+    <TextView
+        android:id="@+id/loc_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/circle_progress"
+        android:paddingStart="@dimen/dp_10"
+        android:text="区域名称" />
+
+    <TextView
+        android:id="@+id/inv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/less_inved"
+        android:layout_alignEnd="@+id/less_inved"
+        android:text="已完成" />
+
+    <TextView
+        android:id="@+id/all_num_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loc_name"
+        android:layout_toEndOf="@+id/circle_progress"
+        android:paddingStart="@dimen/dp_10"
+        android:text="盘点总数" />
+
+    <TextView
+        android:id="@+id/all_num"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loc_name"
+        android:layout_toEndOf="@+id/all_num_name"
+        android:textColor="@color/home_number"
+        android:text="1000" />
+
+    <TextView
+        android:id="@+id/not_inved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/all_num_name"
+        android:layout_toEndOf="@+id/circle_progress"
+        android:gravity="center"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        android:text="待盘点" />
+
+    <TextView
+        android:id="@+id/tv_inved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/all_num_name"
+        android:layout_toEndOf="@+id/not_inved"
+        android:gravity="center"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        android:text="已盘" />
+
+    <TextView
+        android:id="@+id/more_inved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/all_num_name"
+        android:layout_toEndOf="@+id/tv_inved"
+        android:gravity="center"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        android:text="盘盈" />
+
+    <TextView
+        android:id="@+id/less_inved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/all_num_name"
+        android:layout_toEndOf="@+id/more_inved"
+        android:gravity="center"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        android:text="盘亏" />
+
+    <TextView
+        android:id="@+id/not_inved_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/not_inved"
+        android:layout_alignStart="@+id/not_inved"
+        android:layout_alignEnd="@+id/not_inved"
+        android:textColor="@color/home_number"
+        android:gravity="center"
+        android:text="120" />
+
+    <TextView
+        android:id="@+id/tv_inved_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/not_inved"
+        android:layout_alignStart="@+id/tv_inved"
+        android:layout_alignEnd="@+id/tv_inved"
+        android:textColor="@color/home_number"
+        android:gravity="center"
+        android:text="100" />
+
+    <TextView
+        android:id="@+id/more_inved_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/not_inved"
+        android:layout_alignStart="@+id/more_inved"
+        android:layout_alignEnd="@+id/more_inved"
+        android:textColor="@color/home_number"
+        android:gravity="center"
+        android:text="19" />
+
+    <TextView
+        android:id="@+id/less_inved_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/not_inved"
+        android:layout_alignStart="@+id/less_inved"
+        android:layout_alignEnd="@+id/less_inved"
+        android:textColor="@color/home_number"
+        android:gravity="center"
+        android:text="1" />
+
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="@dimen/dp_16"
+        android:layout_height="@dimen/dp_16"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/right_arrow" />
+
+</RelativeLayout>

@@ -11,4 +11,8 @@
     <declare-styleable name="TextProgressBar">
         <attr name="por_text_size" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="MaxHeightRecyclerView">
+        <attr name="cus_max_height" format="dimension" />
+    </declare-styleable>
 </resources>

@@ -3,8 +3,10 @@ package com.common.esimrfid.core.bean.emun;
 public enum InventoryStatus {
 
     INIT("未盘点", 0),
-    FINISH("已盘点",1),
-    FINISH_NOT_SUBMIT("已盘点未提交",2);
+    FINISH("已盘点",10),
+    FINISH_NOT_SUBMIT("已盘点未提交",101),
+    MORE("盘盈", 2),
+    LESS("盘亏",1),;
 
     // 成员变量
     private String name;

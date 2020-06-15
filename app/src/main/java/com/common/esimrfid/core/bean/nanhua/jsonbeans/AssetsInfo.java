@@ -41,6 +41,7 @@ public class AssetsInfo {
     private String ast_epc_code;
     private String ast_model;
     private String ast_name;
+    private String loc_id;
     @PrimaryKey
     @NonNull
     private String id;
@@ -131,6 +132,14 @@ public class AssetsInfo {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public String getLoc_id() {
+        return loc_id;
+    }
+
+    public void setLoc_id(String loc_id) {
+        this.loc_id = loc_id;
     }
 
     public static class LocInfo {
