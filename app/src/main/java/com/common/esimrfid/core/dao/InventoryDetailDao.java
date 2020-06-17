@@ -22,4 +22,8 @@ public interface InventoryDetailDao extends BaseDao<InventoryDetail> {
     @Query("DELETE FROM InventoryDetail where inv_id in (:invIds)")
     public void deleteLocalInvDetailByInvids(List<String> invIds);
 
+    //根据盘点单id和位置查询对应的盘点条目
+    @Query("SELECT * FROM InventoryDetail where inv_id = :invId AND (assetsInfos_loc_id = :locId or assetsInfos_invdt_plus_loc_id =:locId)")
+    public List<InventoryDetail> findInvDetailByInvidAndLocid(String invId, String locId);
+
 }

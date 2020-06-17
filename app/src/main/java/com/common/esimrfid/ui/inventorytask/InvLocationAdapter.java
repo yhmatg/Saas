@@ -1,6 +1,7 @@
 package com.common.esimrfid.ui.inventorytask;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.customview.CircleNumberProgress;
+import com.common.esimrfid.ui.newinventory.InvAssetLocActivity;
 
 import java.util.List;
 
@@ -19,6 +21,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class InvLocationAdapter extends RecyclerView.Adapter<InvLocationAdapter.ViewHolder> {
+    public static final String INV_ID = "inv_id";
+    public static final String LOC_IC = "loc_id";
+    public static final String LOC_Name = "loc_name";
+    private static final String INTENT_FROM = "intent_from";
 
     private List<InvLocationBean> mLoctionBeans;
     private Context mContext;
@@ -52,6 +58,17 @@ public class InvLocationAdapter extends RecyclerView.Adapter<InvLocationAdapter.
         }else {
             viewHolder.invStatus.setText("未完成");
         }
+        viewHolder.mFilterLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra(INV_ID, invLocationBean.getInvId());
+                intent.putExtra(LOC_IC, invLocationBean.getLocId());
+                intent.putExtra(LOC_Name, invLocationBean.getLocNmme());
+                intent.setClass(mContext, InvAssetLocActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -68,6 +85,8 @@ public class InvLocationAdapter extends RecyclerView.Adapter<InvLocationAdapter.
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.filter_layout)
+        RelativeLayout mFilterLayout;
         @BindView(R.id.circle_progress)
         CircleNumberProgress mCircleProgress;
         @BindView(R.id.loc_name)

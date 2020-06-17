@@ -266,4 +266,8 @@
     <string name="repair_record">维修记录</string>
     <string name="assets_resume">资产履历</string>
     <string name="inv_area">盘点区域</string>
+    <string name="store_loc">存放位置</string>
+    <string name="add_tag">添加标记</string>
+    <string name="inv_more_str">盘盈</string>
+    <string name="inv_less_str">盘亏</string>
 </resources>

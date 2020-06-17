@@ -2,6 +2,7 @@ package com.common.esimrfid.core.http;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
+import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
@@ -27,6 +28,8 @@ import java.util.List;
 import java.util.Set;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
+import retrofit2.http.Path;
 
 /**
  * @author yhm
@@ -81,5 +84,10 @@ public interface HttpHelper {
 
     Observable<BaseResponse<AssetsListPage>> getAllAssetsByOptPage(String optType, Integer size, Integer page, String patternName);
 
-    Observable<BaseResponse<List<AssetsInfo>>> getAllAssetsByOpt( String optType,  String patternName);
+    Observable<BaseResponse<List<AssetsInfo>>> getAllAssetsByOpt(String optType, String patternName);
+
+    Observable<BaseResponse> uploadInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails);
+
+    Observable<BaseResponse> finishInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails);
+
 }

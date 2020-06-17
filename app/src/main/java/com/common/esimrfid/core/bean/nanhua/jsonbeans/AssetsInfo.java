@@ -4,6 +4,7 @@ import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.RoomWarnings;
 import android.support.annotation.NonNull;
 
 import java.util.Objects;
@@ -47,12 +48,23 @@ public class AssetsInfo {
     private String id;
     @Embedded
     private LocInfo loc_info;
-    @Ignore
     private int ast_used_status;
-    @Ignore
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "type_")
     private TypeInfo type_info;
     @Ignore
     private boolean isSelected;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "org_dept_")
+    private OrgUseddept org_useddept;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "user_info_")
+    private UserInfo user_info;
+    private String invdt_plus_loc_id;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "plus_loc_")
+    private InvdtPlusLocInfo invdt_plus_loc_info;
+    private String invdt_sign;
 
     public String getAst_brand() {
         return ast_brand;
@@ -142,6 +154,46 @@ public class AssetsInfo {
         this.loc_id = loc_id;
     }
 
+    public OrgUseddept getOrg_useddept() {
+        return org_useddept;
+    }
+
+    public void setOrg_useddept(OrgUseddept org_useddept) {
+        this.org_useddept = org_useddept;
+    }
+
+    public UserInfo getUser_info() {
+        return user_info;
+    }
+
+    public void setUser_info(UserInfo user_info) {
+        this.user_info = user_info;
+    }
+
+    public String getInvdt_plus_loc_id() {
+        return invdt_plus_loc_id;
+    }
+
+    public void setInvdt_plus_loc_id(String invdt_plus_loc_id) {
+        this.invdt_plus_loc_id = invdt_plus_loc_id;
+    }
+
+    public InvdtPlusLocInfo getInvdt_plus_loc_info() {
+        return invdt_plus_loc_info;
+    }
+
+    public void setInvdt_plus_loc_info(InvdtPlusLocInfo invdt_plus_loc_info) {
+        this.invdt_plus_loc_info = invdt_plus_loc_info;
+    }
+
+    public String getInvdt_sign() {
+        return invdt_sign;
+    }
+
+    public void setInvdt_sign(String invdt_sign) {
+        this.invdt_sign = invdt_sign;
+    }
+
     public static class LocInfo {
         /**
          * loc_code : 0004
@@ -175,8 +227,18 @@ public class AssetsInfo {
          * type_name : 在售货物
          * type_superid : cb29a6b16e5811eaabcf00163e0a6695
          */
-
+        @PrimaryKey
+        @NonNull
+        private String id;
         private String type_name;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
 
         public String getType_name() {
             return type_name;
@@ -184,6 +246,97 @@ public class AssetsInfo {
 
         public void setType_name(String type_name) {
             this.type_name = type_name;
+        }
+    }
+
+    public static class OrgUseddept {
+        /**
+         * id : 7ce3d05214ee11eaa0530242ac130003
+         * org_name : 蜀国
+         */
+        @PrimaryKey
+        @NonNull
+        private String id;
+        private String org_name;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getOrg_name() {
+            return org_name;
+        }
+
+        public void setOrg_name(String org_name) {
+            this.org_name = org_name;
+        }
+    }
+
+    public static class UserInfo {
+        /**
+         * create_date : 1576656840000
+         * id : f98470d686f54585986b45938c5bf532
+         * tenant_id : tenantid0001
+         * update_date : 1576628040000
+         * user_age :
+         * user_avatar :
+         * user_email : 575983443@qq.com
+         * user_empcode : 21212
+         * user_gender :
+         * user_mobile : 15579818972
+         * user_name : 15579818972
+         * user_real_name : 周杰伦
+         * user_status : 0
+         */
+        @PrimaryKey
+        @NonNull
+        private String id;
+        private String user_real_name;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getUser_real_name() {
+            return user_real_name;
+        }
+
+        public void setUser_real_name(String user_real_name) {
+            this.user_real_name = user_real_name;
+        }
+    }
+
+    public static class InvdtPlusLocInfo {
+        /**
+         * id :
+         * loc_name :
+         */
+
+        private String id;
+        private String loc_name;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getLoc_name() {
+            return loc_name;
+        }
+
+        public void setLoc_name(String loc_name) {
+            this.loc_name = loc_name;
         }
     }
 

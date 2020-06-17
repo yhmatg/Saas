@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class InvLocationBean {
+    private String invId;
     private String locNmme;
     private String locId;
     private int allNum;
@@ -17,6 +18,14 @@ public class InvLocationBean {
 
     public InvLocationBean() {
 
+    }
+
+    public String getInvId() {
+        return invId;
+    }
+
+    public void setInvId(String invId) {
+        this.invId = invId;
     }
 
     public String getLocNmme() {

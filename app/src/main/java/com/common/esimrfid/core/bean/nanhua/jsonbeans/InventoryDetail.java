@@ -29,6 +29,8 @@ public class InventoryDetail {
     private String inv_id;
     @Embedded
     private InvdtStatus invdt_status;
+    //是否已经提交过
+    private Boolean needUpload = false;
 
     public AssetsInfo getAssetsInfos() {
         return assetsInfos;
@@ -68,6 +70,14 @@ public class InventoryDetail {
 
     public void setInvdt_status(InvdtStatus invdt_status) {
         this.invdt_status = invdt_status;
+    }
+
+    public Boolean getNeedUpload() {
+        return needUpload;
+    }
+
+    public void setNeedUpload(Boolean needUpload) {
+        this.needUpload = needUpload;
     }
 
     public static class InvdtStatus {

@@ -124,6 +124,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         mLoctionBeans.clear();
         mCurrentLoctionBeans.clear();
         mAreaBeans.clear();
+        locationMap.clear();
         mAreaBeans.add(new FilterBean("10000","全部",false));
         mInventoryDetails.addAll(detailResults);
         for (InventoryDetail inventoryDetail : mInventoryDetails) {
@@ -141,6 +142,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         Set<Map.Entry<String, ArrayList<InventoryDetail>>> entries = locationMap.entrySet();
         for (Map.Entry<String, ArrayList<InventoryDetail>> entry : entries) {
             InvLocationBean invLocationBean = new InvLocationBean();
+            invLocationBean.setInvId(mInvId);
             invLocationBean.setLocNmme(entry.getKey());
             ArrayList<InventoryDetail> invdetails = entry.getValue();
             invLocationBean.setAllNum(invdetails.size());
@@ -157,10 +159,16 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
                     }
                 }else if (invdetail.getInvdt_status().getCode() == InventoryStatus.FINISH.getIndex()) {
                     invNum++;
+                    if(StringUtils.isEmpty(invLocationBean.getLocId())){
+                        invLocationBean.setLocId(invdetail.getAssetsInfos().getLoc_id());
+                    }
                 }else if (invdetail.getInvdt_status().getCode() == InventoryStatus.MORE.getIndex()) {
                     moreInvNum++;
                 }else if (invdetail.getInvdt_status().getCode() == InventoryStatus.LESS.getIndex()) {
                     lessInvNum++;
+                    if(StringUtils.isEmpty(invLocationBean.getLocId())){
+                        invLocationBean.setLocId(invdetail.getAssetsInfos().getLoc_id());
+                    }
                 }
             }
             invLocationBean.setNotInvNum(notInvNum);
@@ -246,6 +254,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         filerRecycler.setAdapter(filtterAdapter);
         mCustomPopWindow= new CustomPopWindow.PopupWindowBuilder(this)
                 .setView(contentView)
+                .enableBackgroundDark(true)
                 .size(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
                 .create();
     }

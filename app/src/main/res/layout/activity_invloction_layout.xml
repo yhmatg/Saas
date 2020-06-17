@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/title_layout" />
+
+    <include
+        layout="@layout/invstatus_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_layout" />
+
+    <View
+        android:layout_below="@+id/title_tab"
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_5"
+        android:background="@color/line" />
+
+    <RelativeLayout
+        android:layout_above="@+id/start_inv"
+        android:layout_below="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+        <include layout="@layout/empty_page" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/asset_inv_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+    </RelativeLayout>
+
+
+    <Button
+        android:visibility="visible"
+        android:id="@+id/start_inv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/dp_15"
+        android:background="@drawable/bt_background"
+        android:text="@string/start_inv"
+        android:textColor="@color/white" />
+
+
+</RelativeLayout>

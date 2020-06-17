@@ -2,6 +2,7 @@ package com.common.esimrfid.core.http.api;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
+import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
@@ -58,7 +59,7 @@ public interface GeeksApis {
     //@param orderId 盘点单id
     //@return 盘点单详情
 
-    @GET("inventory-server/inventoryorders/{orderId}/detail")
+    @GET("inventory-server/inventoryorders/{orderId}/detail/unpage")
     Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(@Path("orderId") String orderId);
 
     //完成盘点携带资产编号id
@@ -194,4 +195,11 @@ public interface GeeksApis {
     @GET("/assets-server/assets/choiceAssetsByOpt/unpage")
     Observable<BaseResponse<List<AssetsInfo>>> getAllAssetsByOpt(@Query("opt_type") String optType, @Query("pattern_name") String patternName);
 
+    //新盘点数据上传
+    @POST("inventory-server/inventoryorders/{inv_id}/commit/new")
+    Observable<BaseResponse> uploadInvAssets(@Path("inv_id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invDetails);
+
+    //新完成盘点数据上传
+    @POST("/inventoryorders/{id}/finishwithinfo/new")
+    Observable<BaseResponse> finishInvAssets(@Path("id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invDetails);
 }
