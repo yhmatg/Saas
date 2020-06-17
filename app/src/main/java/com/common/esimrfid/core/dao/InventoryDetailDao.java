@@ -26,4 +26,7 @@ public interface InventoryDetailDao extends BaseDao<InventoryDetail> {
     @Query("SELECT * FROM InventoryDetail where inv_id = :invId AND (assetsInfos_loc_id = :locId or assetsInfos_invdt_plus_loc_id =:locId)")
     public List<InventoryDetail> findInvDetailByInvidAndLocid(String invId, String locId);
 
+    @Query("SELECT * FROM InventoryDetail where assetsInfos_id = :astId")
+    public List<InventoryDetail> findLocalInvDetailByAstId(String astId);
+
 }

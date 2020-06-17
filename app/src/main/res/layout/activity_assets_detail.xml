@@ -47,5 +47,16 @@
         android:text="@string/sure_opt"
         android:textColor="@color/white" />
 
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/search_ast"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_300"
+        android:src="@drawable/search_nearby_assets" />
+
 
 </RelativeLayout>

@@ -110,6 +110,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     tvLost.setTextColor(getColor(R.color.titele_color));
                     selectNotInvBean.getAssetsInfos().setInvdt_sign("资产已丢失");
                     selectNotInvBean.getInvdt_status().setCode(1);
+                    selectNotInvBean.setNeedUpload(true);
                     DbBank.getInstance().getInventoryDetailDao().updateItem(selectNotInvBean);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);

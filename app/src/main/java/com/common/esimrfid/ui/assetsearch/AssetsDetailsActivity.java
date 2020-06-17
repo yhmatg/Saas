@@ -1,5 +1,6 @@
 package com.common.esimrfid.ui.assetsearch;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
@@ -9,7 +10,10 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -17,6 +21,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.CustomListener;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
@@ -25,10 +33,15 @@ import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.emun.AssetsMaterial;
 import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
+import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
+import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
 import com.common.esimrfid.ui.assetrepair.RepairAssetEvent;
+import com.common.esimrfid.ui.newinventory.AssetTag;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.DateUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,6 +65,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private static final String ASSETS_ID = "assets_id";
     private static final String ASSETS_CODE = "assets_code";
     private static final String WHERE_FROM = "where_from";
+    private static final String ASSETS_EPC = "assets_epc";
     @BindView(R.id.ast_code)
     TextView barcode;
     @BindView(R.id.ast_name)
@@ -136,14 +150,21 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     RecyclerView repair_recycler;
     @BindView(R.id.btn_submit)
     Button addButton;
+    @BindView(R.id.tv_inv_sure)
+    TextView assetInved;
+    @BindView(R.id.search_ast)
+    ImageView searchAsset;
     private List<AssetResume> mResumeData = new ArrayList<>();//资产履历
-    private List<AssetRepair> mRepairData=new ArrayList<>();//维保信息
+    private List<AssetRepair> mRepairData = new ArrayList<>();//维保信息
     private AssetsResumeAdapter assetsResumeAdapter;
     private AssetsRepairAdapter assetsRepairAdapter;
     private AssetsInfo repairAsset = new AssetsInfo();
     private String activityFrom;
     private int status;
-
+    private String epcCode;
+    private OptionsPickerView pvCustomOptions;
+    List<AssetTag> assetTags = new ArrayList<>();
+    private String astId;
     @Override
     public AssetsDetailsPresenter initPresenter() {
         return new AssetsDetailsPresenter(DataManager.getInstance());
@@ -154,16 +175,16 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         title.setText(R.string.assets_details);
         Intent intent = getIntent();
         String assetsId = intent.getStringExtra(ASSETS_ID);
-        if(assetsId != null && !assetsId.isEmpty()){
-            mPresenter.getAssetsDetailsById(assetsId,null);
-            mPresenter.getAssetsResumeById(assetsId,null);
-            mPresenter.getAssetsRepairById(assetsId,null);
+        if (assetsId != null && !assetsId.isEmpty()) {
+            mPresenter.getAssetsDetailsById(assetsId, null);
+            mPresenter.getAssetsResumeById(assetsId, null);
+            mPresenter.getAssetsRepairById(assetsId, null);
         }
         String assetsCode = intent.getStringExtra(ASSETS_CODE);
-        if(assetsCode != null && !assetsCode.isEmpty()){
-            mPresenter.getAssetsDetailsById(null,assetsCode);
-            mPresenter.getAssetsResumeById(null,assetsCode);
-            mPresenter.getAssetsRepairById(null,assetsCode);
+        if (assetsCode != null && !assetsCode.isEmpty()) {
+            mPresenter.getAssetsDetailsById(null, assetsCode);
+            mPresenter.getAssetsResumeById(null, assetsCode);
+            mPresenter.getAssetsRepairById(null, assetsCode);
         }
         activityFrom = intent.getStringExtra(WHERE_FROM);
         empty_page.setVisibility(View.VISIBLE);
@@ -174,12 +195,15 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         assetsResumeAdapter = new AssetsResumeAdapter(this, mResumeData);
         resume_recycler.setLayoutManager(new LinearLayoutManager(this));
         resume_recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        assetsRepairAdapter=new AssetsRepairAdapter(this,mRepairData);
+        assetsRepairAdapter = new AssetsRepairAdapter(this, mRepairData);
         repair_recycler.setLayoutManager(new LinearLayoutManager(this));
-        repair_recycler.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
-        if(("AssetRepairActivity".equals(activityFrom))){
+        repair_recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        if (("AssetRepairActivity".equals(activityFrom))) {
             addButton.setVisibility(View.VISIBLE);
-            addButton.setVisibility(View.VISIBLE);
+        } else if ("InvAssetLocActivity".equals(activityFrom)) {
+            assetInved.setVisibility(View.VISIBLE);
+            searchAsset.setVisibility(View.VISIBLE);
+            initCustomOptionPicker();
         }
     }
 
@@ -193,7 +217,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
     }
 
-    @OnClick({R.id.title_back, R.id.asset_detail, R.id.mainten_info, R.id.repair_record, R.id.asset_resume, R.id.asset_tab, R.id.btn_submit})
+    @OnClick({R.id.title_back, R.id.asset_detail, R.id.mainten_info, R.id.repair_record, R.id.asset_resume, R.id.asset_tab,
+            R.id.btn_submit, R.id.tv_inv_sure, R.id.search_ast})
     void perforeClick(View view) {
         switch (view.getId()) {
             case R.id.title_back:
@@ -220,13 +245,13 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             case R.id.repair_record:
                 title_tab.clearCheck();
                 title_tab.check(R.id.repair_record);
-                if(mRepairData.isEmpty()){
+                if (mRepairData.isEmpty()) {
                     empty_page.setVisibility(View.VISIBLE);
                     li_assetDetail.setVisibility(View.GONE);
                     li_maintenance.setVisibility(View.GONE);
                     li_repair.setVisibility(View.GONE);
                     li_resume.setVisibility(View.GONE);
-                }else {
+                } else {
                     empty_page.setVisibility(View.GONE);
                     li_assetDetail.setVisibility(View.GONE);
                     li_maintenance.setVisibility(View.GONE);
@@ -239,13 +264,13 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             case R.id.asset_resume:
                 title_tab.clearCheck();
                 title_tab.check(R.id.asset_resume);
-                if (mResumeData.isEmpty()){
+                if (mResumeData.isEmpty()) {
                     empty_page.setVisibility(View.VISIBLE);
                     li_assetDetail.setVisibility(View.GONE);
                     li_maintenance.setVisibility(View.GONE);
                     li_repair.setVisibility(View.GONE);
                     li_resume.setVisibility(View.GONE);
-                }else {
+                } else {
                     empty_page.setVisibility(View.GONE);
                     li_assetDetail.setVisibility(View.GONE);
                     li_maintenance.setVisibility(View.GONE);
@@ -256,16 +281,24 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
                 break;
             case R.id.btn_submit:
-                if(!(status == 0 || status == 1)){
-                    Toast.makeText(this,"只有闲置或者在用资产可以报修，请确定资产状态！",Toast.LENGTH_SHORT).show();
-                }else {
+                if (!(status == 0 || status == 1)) {
+                    Toast.makeText(this, "只有闲置或者在用资产可以报修，请确定资产状态！", Toast.LENGTH_SHORT).show();
+                } else {
                     List<AssetsInfo> assetsInfos = new ArrayList<>();
                     assetsInfos.add(repairAsset);
                     RepairAssetEvent repairAssetEvent = new RepairAssetEvent(assetsInfos);
                     EventBus.getDefault().post(repairAssetEvent);
                     finish();
                 }
-
+            case R.id.tv_inv_sure:
+                pvCustomOptions.setPicker(assetTags);
+                pvCustomOptions.show();
+                break;
+            case R.id.search_ast:
+                Intent intent = new Intent();
+                intent.putExtra(ASSETS_EPC, epcCode);
+                intent.setClass(this, LocationSearchActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -280,7 +313,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             barcode.setText(code);
             String name = TextUtils.isEmpty(assetsDetailsInfo.getAst_name()) ? "" : assetsDetailsInfo.getAst_name();
             astName.setText(name);
-
             String type = assetsDetailsInfo.getType_info() == null ? "" : assetsDetailsInfo.getType_info().getType_name();
             type = TextUtils.isEmpty(type) ? "" : type;
             astType.setText(type);
@@ -431,6 +463,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             repairAsset.setType_info(typeInfo);
             repairAsset.setAst_brand(assetsDetailsInfo.getAst_brand());
             repairAsset.setAst_model(assetsDetailsInfo.getAst_model());
+            epcCode = assetsDetailsInfo.getAst_epc_code();
+            astId = assetsDetailsInfo.getId();
         }
     }
 
@@ -461,5 +495,97 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     public void handleAssetsNoDetail() {
         addButton.setVisibility(View.GONE);
         finish();
+    }
+
+    private void initCustomOptionPicker() {//条件选择器初始化，自定义布局
+        /**
+         * @description
+         *
+         * 注意事项：
+         * 自定义布局中，id为 optionspicker 或者 timepicker 的布局以及其子控件必须要有，否则会报空指针。
+         * 具体可参考demo 里面的两个自定义layout布局。
+         */
+        assetTags.clear();
+        assetTags.add(new AssetTag("标签损坏"));
+        assetTags.add(new AssetTag("标签丢失"));
+        pvCustomOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                optionSelect(options1);
+            }
+        })
+                .setLayoutRes(R.layout.pickerview_custom_options, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
+                        TextView tvCancel = (TextView) v.findViewById(R.id.tv_cancle);
+                        TextView tvTitle = (TextView) v.findViewById(R.id.tv_title);
+                        tvTitle.setText("添加标记");
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvCustomOptions.returnData();
+                                //submitOption();
+                                pvCustomOptions.dismiss();
+                            }
+                        });
+
+                        tvCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvCustomOptions.dismiss();
+                            }
+                        });
+
+                    }
+                })
+                .setContentTextSize(14)
+                .setLineSpacingMultiplier(2.0f)
+                .isDialog(true)
+                .setOutSideCancelable(true)
+                .build();
+        Dialog mDialog = pvCustomOptions.getDialog();
+        if (mDialog != null) {
+
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    Gravity.BOTTOM);
+
+            params.leftMargin = 0;
+            params.rightMargin = 0;
+            pvCustomOptions.getDialogContainerLayout().setLayoutParams(params);
+
+            Window dialogWindow = mDialog.getWindow();
+            if (dialogWindow != null) {
+                dialogWindow.setWindowAnimations(com.bigkoo.pickerview.R.style.picker_view_slide_anim);//修改动画样式
+                dialogWindow.setGravity(Gravity.BOTTOM);//改成Bottom,底部显示
+                dialogWindow.setDimAmount(0.3f);
+            }
+            //设置dialog宽度沾满全屏
+            Window window = mDialog.getWindow();
+            // 把 DecorView 的默认 padding 取消，同时 DecorView 的默认大小也会取消
+            window.getDecorView().setPadding(0, 0, 0, 0);
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            // 设置宽度
+            layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+            window.setAttributes(layoutParams);
+        }
+
+
+    }
+
+    private void optionSelect(int options1) {
+        AssetTag assetTag = assetTags.get(options1);
+        List<InventoryDetail> localInvDetailByAstId = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByAstId(astId);
+        if(localInvDetailByAstId.size() > 0){
+            InventoryDetail inventoryDetail = localInvDetailByAstId.get(0);
+            inventoryDetail.getInvdt_status().setCode(10);
+            inventoryDetail.setNeedUpload(true);
+            inventoryDetail.getAssetsInfos().setInvdt_sign(assetTag.getTagName());
+            DbBank.getInstance().getInventoryDetailDao().updateItem(inventoryDetail);
+        }
+
+
     }
 }

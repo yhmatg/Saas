@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHolder> {
 
     private static final String ASSETS_ID="assets_id";
+    private static final String WHERE_FROM = "where_from";
     private List<InventoryDetail> mInventoryDetails;
     private Context mContext;
     private OnItemClickListener mOnItemClickListener;
@@ -62,6 +63,9 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
                 if(CommonUtils.isNetworkConnected()){
                     Intent intent=new Intent();
                     intent.putExtra(ASSETS_ID,assetsInfo.getId());
+                    if(invDetail.getInvdt_status().getCode() == 0){
+                        intent.putExtra(WHERE_FROM,"InvAssetLocActivity");
+                    }
                     intent.setClass(mContext, AssetsDetailsActivity.class);
                     mContext.startActivity(intent);
                 }
