@@ -1,5 +1,6 @@
 package com.common.esimrfid.ui.newinventory;
 
+import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -256,7 +257,12 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 finish();
                 break;
             case R.id.start_inv:
-
+                Intent intent = new Intent();
+                intent.putExtra(INV_ID, mInvId);
+                intent.putExtra(LOC_IC, mLocId);
+                intent.putExtra(LOC_Name, mLocName);
+                intent.setClass(this, InvAssetScanActivity.class);
+                startActivity(intent);
                 break;
             case R.id.asset_not_inved:
                 currentShowStatus = 0;

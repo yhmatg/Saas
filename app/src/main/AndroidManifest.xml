@@ -84,5 +84,8 @@
         <activity
             android:name=".ui.newinventory.InvAssetLocActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.newinventory.InvAssetScanActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 </manifest>

@@ -270,4 +270,9 @@
     <string name="add_tag">添加标记</string>
     <string name="inv_more_str">盘盈</string>
     <string name="inv_less_str">盘亏</string>
+    <string name="scan_str">正在扫描</string>
+    <string name="current_area">当前区域</string>
+    <string name="all_asset_str">应盘资产\n区域内</string>
+    <string name="in_asset_str">已盘资产\n区域内</string>
+    <string name="out_asset_str">已盘资产\n区域外</string>
 </resources>

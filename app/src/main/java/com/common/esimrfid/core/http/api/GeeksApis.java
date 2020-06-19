@@ -200,6 +200,6 @@ public interface GeeksApis {
     Observable<BaseResponse> uploadInvAssets(@Path("inv_id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invDetails);
 
     //新完成盘点数据上传
-    @POST("/inventoryorders/{id}/finishwithinfo/new")
+    @POST("inventory-server/inventoryorders/{id}/finishwithinfo/new")
     Observable<BaseResponse> finishInvAssets(@Path("id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invDetails);
 }
