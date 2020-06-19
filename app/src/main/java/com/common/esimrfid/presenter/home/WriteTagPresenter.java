@@ -41,10 +41,6 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
         .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
             @Override
             public void onNext(List<AssetsInfo> assetsInfos) {
-                if(StringUtils.isEmpty(assetsId) && CommonUtils.isNetworkConnected()){
-                    DbBank.getInstance().getAssetsinfoDao().deleteAllData();
-                    DbBank.getInstance().getAssetsinfoDao().insertItems(assetsInfos);
-                }
                 mView.dismissDialog();
                 mView.handleAssetsById(assetsInfos);
             }
@@ -60,7 +56,7 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
         Observable<BaseResponse<List<AssetsInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsInfo>>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<List<AssetsInfo>>> emitter) throws Exception {
-                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsinfoDao().findLocalAssetsByPara(para);
+                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByPara(para);
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                     Log.e(TAG, "network get data");

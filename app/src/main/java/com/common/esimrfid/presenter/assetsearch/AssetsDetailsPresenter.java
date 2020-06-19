@@ -5,12 +5,11 @@ import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
 import java.util.List;
-import java.util.Observable;
 
 public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.View> implements AssetsDetailsContract.Presenter {
     private DataManager mDataManager;
@@ -25,11 +24,11 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
         addSubscribe(mDataManager.fetchAssetsInfo(astId,astCode)
         .compose(RxUtils.rxSchedulerHelper())
         .compose(RxUtils.handleResult())
-        .subscribeWith(new BaseObserver<AssetsDetailsInfo>(mView, false) {
+        .subscribeWith(new BaseObserver<AssetsAllInfo>(mView, false) {
             @Override
-            public void onNext(AssetsDetailsInfo assetsDetailsInfo) {
+            public void onNext(AssetsAllInfo assetsAllInfo) {
                 mView.dismissDialog();
-                mView.handleAssetsDetails(assetsDetailsInfo);
+                mView.handleAssetsDetails(assetsAllInfo);
             }
 
             @Override

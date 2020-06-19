@@ -3,6 +3,7 @@ package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.RoomWarnings;
 import android.support.annotation.NonNull;
 
 import java.util.Date;
@@ -36,9 +37,11 @@ public class ResultInventoryOrder {
      * updater : {"id":"admin_id","user_name":"admin","user_real_name":"张三"}
      * updater_id : admin_id
      */
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
     @Embedded(prefix = "assigner_")
     private Assigner assigner;
     private Date create_date;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
     @Embedded(prefix = "mcreator_")
     private Creator creator;
     @PrimaryKey

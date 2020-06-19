@@ -3,6 +3,7 @@ package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.RoomWarnings;
 import android.support.annotation.NonNull;
 
 import java.util.Objects;
@@ -20,6 +21,7 @@ public class InventoryDetail {
      * invdt_status : {"code":1,"index":1,"name":"已盘点"}
      * update_date : 1573627276000
      */
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
     @Embedded(prefix = "assetsInfos_")
     private AssetsInfo assetsInfos;
     private String ast_id;
@@ -27,6 +29,7 @@ public class InventoryDetail {
     @NonNull
     private String id;
     private String inv_id;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
     @Embedded
     private InvdtStatus invdt_status;
     //是否已经提交过

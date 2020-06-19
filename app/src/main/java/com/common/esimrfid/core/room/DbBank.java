@@ -9,17 +9,23 @@ import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
 import com.common.esimrfid.app.EsimAndroidApp;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.MoreInventotyDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.dao.AssetsAllInfoDao;
 import com.common.esimrfid.core.dao.AssetsinfoDao;
 import com.common.esimrfid.core.dao.InventoryDetailDao;
+import com.common.esimrfid.core.dao.MoreInventoryDetailDao;
 import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
 
 @Database(entities = {
         InventoryDetail.class,
         ResultInventoryOrder.class,
-        AssetsInfo.class
+        AssetsInfo.class,
+        AssetsAllInfo.class,
+        MoreInventotyDetail.class
         }
         , version = 1)
 @TypeConverters(DateConverter.class)
@@ -59,5 +65,9 @@ public abstract class DbBank extends RoomDatabase {
     public abstract ResultInventoryOrderDao getResultInventoryOrderDao();
 
     public abstract AssetsinfoDao getAssetsinfoDao();
+
+    public abstract AssetsAllInfoDao getAssetsAllInfoDao();
+
+    public abstract MoreInventoryDetailDao getMoreInventoryDetailDao();
 
 }

@@ -1,11 +1,19 @@
 package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 
+import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.RoomWarnings;
+import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 
 /**
  * 资产详细信息（all）
  */
-public class AssetsDetailsInfo {
+@Entity
+public class AssetsAllInfo {
     /**
      * ast_barcode : 201912190192
      * ast_brand : www
@@ -66,27 +74,48 @@ public class AssetsDetailsInfo {
     private int ast_status;
     private int ast_used_status;
     private long create_date;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "create_")
     private CreatorBean creator;
     private String creator_id;
+    @PrimaryKey
+    @NonNull
     private String id;
     private String loc_id;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "loc_info_")
     private LocInfoBean loc_info;
     private String manager_id;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "org_bel_corp_")
     private OrgBelongcorpBean org_belongcorp;
     private String org_belongcorp_id;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "org_used_corp_")
     private OrgUsedcorpBean org_usedcorp;
     private String org_usedcorp_id;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "org_used_dep_")
     private OrgUseddeptBean org_useddept;
     private String org_useddept_id;
     private String type_id;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "type_info_")
     private TypeInfoBean type_info;
     private long update_date;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "update_")
     private UpdaterBean updater;
     private String updater_id;
     private String user_id;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "userinfo_")
     private UserInfoBean user_info;
     private String warranty_id;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
+    @Embedded(prefix = "warranty_info_")
     private WarrantyInfoBean warranty_info;
+    @Ignore
     private HashMap<String, String> ast_append_info;
 
     public HashMap<String, String> getAst_append_info() {
@@ -423,6 +452,8 @@ public class AssetsDetailsInfo {
          */
 
         private long create_date;
+        @PrimaryKey
+        @NonNull
         private String id;
         private String tenant_id;
         private long update_date;
@@ -510,7 +541,8 @@ public class AssetsDetailsInfo {
          * id : 20ec55960f6611eaabcf00163e0a6695
          * loc_name : 位置2
          */
-
+        @PrimaryKey
+        @NonNull
         private String id;
         private String loc_name;
 
@@ -536,7 +568,8 @@ public class AssetsDetailsInfo {
          * id : cadd4999014311eab97300163e086c26
          * org_name : 企业试用
          */
-
+        @PrimaryKey
+        @NonNull
         private String id;
         private String org_name;
 
@@ -562,7 +595,8 @@ public class AssetsDetailsInfo {
          * id : cadd4999014311eab97300163e086c26
          * org_name : 企业试用
          */
-
+        @PrimaryKey
+        @NonNull
         private String id;
         private String org_name;
 
@@ -588,7 +622,8 @@ public class AssetsDetailsInfo {
          * id : 7ce3d05214ee11eaa0530242ac130003
          * org_name : 蜀国
          */
-
+        @PrimaryKey
+        @NonNull
         private String id;
         private String org_name;
 
@@ -614,7 +649,8 @@ public class AssetsDetailsInfo {
          * id : 4f958d831be711eaa0530242ac130003
          * type_name : 新类型
          */
-
+        @PrimaryKey
+        @NonNull
         private String id;
         private String type_name;
 
@@ -649,6 +685,8 @@ public class AssetsDetailsInfo {
          */
 
         private long create_date;
+        @PrimaryKey
+        @NonNull
         private String id;
         private String tenant_id;
         private long update_date;
@@ -749,6 +787,8 @@ public class AssetsDetailsInfo {
          */
 
         private long create_date;
+        @PrimaryKey
+        @NonNull
         private String id;
         private String tenant_id;
         private long update_date;
@@ -876,7 +916,8 @@ public class AssetsDetailsInfo {
          * war_enddate : 1577116800000
          * war_message : enenen
          */
-
+        @PrimaryKey
+        @NonNull
         private String id;
         private String supplier_mobile;
         private String supplier_name;

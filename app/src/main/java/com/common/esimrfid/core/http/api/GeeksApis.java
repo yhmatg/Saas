@@ -13,7 +13,7 @@ import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
@@ -157,7 +157,7 @@ public interface GeeksApis {
     //@return 资产详情信息
 
     @GET("/assets-server/assets/detail")
-    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(@Query("ast_id") String astId, @Query("ast_barcode") String astCode);
+    Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfo(@Query("ast_id") String astId, @Query("ast_barcode") String astCode);
 
     //版本更新
     //@return 版本更新详情
@@ -202,4 +202,8 @@ public interface GeeksApis {
     //新完成盘点数据上传
     @POST("inventory-server/inventoryorders/{id}/finishwithinfo/new")
     Observable<BaseResponse> finishInvAssets(@Path("id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invDetails);
+
+    //获取资产的所有详情
+    @GET("/assets-server/assets/unpage")
+    Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(@Query("pattern_name") String patternName);
 }

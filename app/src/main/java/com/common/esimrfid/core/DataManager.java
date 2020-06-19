@@ -13,7 +13,7 @@ import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
@@ -268,7 +268,7 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId, String astCode) {
+    public Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfo(String astId, String astCode) {
         return mHttpHelper.fetchAssetsInfo(astId, astCode);
     }
 
@@ -322,5 +322,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse> finishInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails) {
         return mHttpHelper.finishInvAssets(orderId, uid, invDetails);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(String patternName) {
+        return mHttpHelper.fetchAllAssetsInfos(patternName);
     }
 }

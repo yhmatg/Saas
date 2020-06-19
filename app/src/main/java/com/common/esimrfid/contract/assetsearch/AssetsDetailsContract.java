@@ -4,13 +4,13 @@ import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 
 import java.util.List;
 
 public interface AssetsDetailsContract {
     interface View extends AbstractView {
-        void handleAssetsDetails(AssetsDetailsInfo assetsDetailsInfo);
+        void handleAssetsDetails(AssetsAllInfo assetsAllInfo);
         void handleAssetsResume(List<AssetResume> data);
         void handleAssetsRepair(List<AssetRepair> assetRepairs);
         void handleAssetsNoDetail();

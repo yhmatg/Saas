@@ -8,6 +8,7 @@ import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
@@ -130,7 +131,6 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                         List<String> deleteIds = new ArrayList<>();
                         for (int i = 0; i < tempLocal.size(); i++) {
                             deleteIds.add(tempLocal.get(i).getId());
-                            //DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvid(tempLocal.get(i).getId());
                         }
                         DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvids(deleteIds);
                         //本地数据和服务器数据的交集，服务端删除盘点单，本地同步跟新显示
@@ -189,16 +189,15 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
     @Override
     public void getAssetsInfoById(String assetsId) {
         mView.showDialog("loading...");
-        //addSubscribe(mDataManager.fetchWriteAssetsInfo(assetsId)
-        addSubscribe(Observable.concat(getLocalAssetsObservable(assetsId),mDataManager.fetchWriteAssetsInfo(assetsId))
+        addSubscribe(Observable.concat(getLocalAssetsObservable(assetsId),mDataManager.fetchAllAssetsInfos(assetsId))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
-                .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
+                .subscribeWith(new BaseObserver<List<AssetsAllInfo>>(mView, false) {
                     @Override
-                    public void onNext(List<AssetsInfo> assetsInfos) {
+                    public void onNext(List<AssetsAllInfo> assetsInfos) {
                         if(StringUtils.isEmpty(assetsId) && CommonUtils.isNetworkConnected()){
-                            DbBank.getInstance().getAssetsinfoDao().deleteAllData();
-                            DbBank.getInstance().getAssetsinfoDao().insertItems(assetsInfos);
+                            DbBank.getInstance().getAssetsAllInfoDao().deleteAllData();
+                            DbBank.getInstance().getAssetsAllInfoDao().insertItems(assetsInfos);
                         }
                         mView.dismissDialog();
                     }
@@ -209,17 +208,17 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                 }));
     }
 
-    public Observable<BaseResponse<List<AssetsInfo>>> getLocalAssetsObservable(String para) {
-        Observable<BaseResponse<List<AssetsInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsInfo>>>() {
+    public Observable<BaseResponse<List<AssetsAllInfo>>> getLocalAssetsObservable(String para) {
+        Observable<BaseResponse<List<AssetsAllInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsAllInfo>>>() {
             @Override
-            public void subscribe(ObservableEmitter<BaseResponse<List<AssetsInfo>>> emitter) throws Exception {
-                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsinfoDao().findLocalAssetsByPara(para);
+            public void subscribe(ObservableEmitter<BaseResponse<List<AssetsAllInfo>>> emitter) throws Exception {
+                List<AssetsAllInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsAllInfoByPara(para);
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                     Log.e(TAG, "network get data");
                 } else {
                     Log.e(TAG, "newestOrders======" + newestOrders);
-                    BaseResponse<List<AssetsInfo>> invOrderResponse = new BaseResponse<>();
+                    BaseResponse<List<AssetsAllInfo>> invOrderResponse = new BaseResponse<>();
                     invOrderResponse.setResult(newestOrders);
                     invOrderResponse.setCode("200000");
                     invOrderResponse.setMessage("成功");

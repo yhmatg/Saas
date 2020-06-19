@@ -46,6 +46,7 @@ public class AssetsInfo {
     @PrimaryKey
     @NonNull
     private String id;
+    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
     @Embedded
     private LocInfo loc_info;
     private int ast_used_status;

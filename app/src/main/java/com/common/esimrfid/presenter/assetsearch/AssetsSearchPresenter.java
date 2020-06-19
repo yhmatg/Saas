@@ -60,10 +60,6 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
         .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
             @Override
             public void onNext(List<AssetsInfo> assetsInfos) {
-                if(StringUtils.isEmpty(assetsId) && CommonUtils.isNetworkConnected()){
-                    DbBank.getInstance().getAssetsinfoDao().deleteAllData();
-                    DbBank.getInstance().getAssetsinfoDao().insertItems(assetsInfos);
-                }
                 mView.dismissDialog();
                 mView.handleSearchAssets(assetsInfos);
             }
@@ -79,7 +75,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
         Observable<BaseResponse<List<AssetsInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsInfo>>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<List<AssetsInfo>>> emitter) throws Exception {
-                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsinfoDao().findLocalAssetsByPara(para);
+                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByPara(para);
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                 } else {
@@ -99,7 +95,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
         Observable<BaseResponse<List<AssetsInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsInfo>>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<List<AssetsInfo>>> emitter) throws Exception {
-                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsinfoDao().findLocalAssetsByEpcs(epcs);
+                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByEpcs(epcs);
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                 } else {

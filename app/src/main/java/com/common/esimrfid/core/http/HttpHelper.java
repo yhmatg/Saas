@@ -13,7 +13,7 @@ import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsDetailsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.Set;
 
 import io.reactivex.Observable;
-import retrofit2.http.Body;
-import retrofit2.http.Path;
 
 /**
  * @author yhm
@@ -68,7 +66,7 @@ public interface HttpHelper {
 
     Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(Set<String> Epcs);
 
-    Observable<BaseResponse<AssetsDetailsInfo>> fetchAssetsInfo(String astId, String astCode);
+    Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfo(String astId, String astCode);
 
     Observable<BaseResponse<UpdateVersion>> updateVersion();
 
@@ -89,5 +87,7 @@ public interface HttpHelper {
     Observable<BaseResponse> uploadInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails);
 
     Observable<BaseResponse> finishInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails);
+
+    Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos( String patternName);
 
 }
