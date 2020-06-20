@@ -20,5 +20,7 @@ public interface AssetsDetailsContract {
         void getAssetsDetailsById(String astId,String astCode);
         void getAssetsResumeById(String astId,String astCode);
         void getAssetsRepairById(String astid,String astCode);
+        //手动将一个资产设置未已经盘点状态
+        void setOneAssetInved(String sign,String invId, String locId, String astId);
     }
 }

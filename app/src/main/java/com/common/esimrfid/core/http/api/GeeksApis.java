@@ -197,11 +197,11 @@ public interface GeeksApis {
 
     //新盘点数据上传
     @POST("inventory-server/inventoryorders/{inv_id}/commit/new")
-    Observable<BaseResponse> uploadInvAssets(@Path("inv_id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invDetails);
+    Observable<BaseResponse> uploadInvAssets(@Path("inv_id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invReq);
 
     //新完成盘点数据上传
     @POST("inventory-server/inventoryorders/{id}/finishwithinfo/new")
-    Observable<BaseResponse> finishInvAssets(@Path("id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invDetails);
+    Observable<BaseResponse> finishInvAssets(@Path("id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invReq);
 
     //获取资产的所有详情
     @GET("/assets-server/assets/unpage")

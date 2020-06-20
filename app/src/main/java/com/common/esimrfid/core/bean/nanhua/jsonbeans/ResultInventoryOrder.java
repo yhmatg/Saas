@@ -51,7 +51,7 @@ public class ResultInventoryOrder {
     private Date inv_exptfinish_date;
     private Date inv_finish_date;
     private Integer inv_finish_count;
-    private Integer inv_notsubmit_count;
+    private Integer inv_notsubmit_count = 0;
     private String inv_name;
     private Integer inv_status;
     private Integer inv_total_count;

@@ -36,6 +36,7 @@ import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
 import com.common.esimrfid.ui.assetrepair.RepairAssetEvent;
@@ -64,6 +65,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private static final String ASSETS_CODE = "assets_code";
     private static final String WHERE_FROM = "where_from";
     private static final String ASSETS_EPC = "assets_epc";
+    public static final String INV_ID = "inv_id";
+    public static final String LOC_IC = "loc_id";
     @BindView(R.id.ast_code)
     TextView barcode;
     @BindView(R.id.ast_name)
@@ -163,6 +166,9 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private OptionsPickerView pvCustomOptions;
     List<AssetTag> assetTags = new ArrayList<>();
     private String astId;
+    private String mInvId;
+    private String mLocId;
+
     @Override
     public AssetsDetailsPresenter initPresenter() {
         return new AssetsDetailsPresenter(DataManager.getInstance());
@@ -173,6 +179,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         title.setText(R.string.assets_details);
         Intent intent = getIntent();
         String assetsId = intent.getStringExtra(ASSETS_ID);
+        mInvId = intent.getStringExtra(INV_ID);
+        mLocId = intent.getStringExtra(LOC_IC);
         if (assetsId != null && !assetsId.isEmpty()) {
             mPresenter.getAssetsDetailsById(assetsId, null);
             mPresenter.getAssetsResumeById(assetsId, null);
@@ -575,15 +583,18 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
     private void optionSelect(int options1) {
         AssetTag assetTag = assetTags.get(options1);
-        List<InventoryDetail> localInvDetailByAstId = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByAstId(astId);
+      /*  List<InventoryDetail> localInvDetailByAstId = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByAstId(mInvId,mLocId,astId);
         if(localInvDetailByAstId.size() > 0){
             InventoryDetail inventoryDetail = localInvDetailByAstId.get(0);
             inventoryDetail.getInvdt_status().setCode(10);
             inventoryDetail.setNeedUpload(true);
             inventoryDetail.getAssetsInfos().setInvdt_sign(assetTag.getTagName());
             DbBank.getInstance().getInventoryDetailDao().updateItem(inventoryDetail);
-        }
-
-
+            ResultInventoryOrder invOrderByInvId = DbBank.getInstance().getResultInventoryOrderDao().findInvOrderByInvId(mInvId);
+            invOrderByInvId.setInv_finish_count(invOrderByInvId.getInv_finish_count() + 1);
+            invOrderByInvId.setInv_notsubmit_count(invOrderByInvId.getInv_notsubmit_count() + 1);
+            DbBank.getInstance().getResultInventoryOrderDao().updateItem(invOrderByInvId);
+        }*/
+      mPresenter.setOneAssetInved(assetTag.getTagName(),mInvId,mLocId,astId);
     }
 }

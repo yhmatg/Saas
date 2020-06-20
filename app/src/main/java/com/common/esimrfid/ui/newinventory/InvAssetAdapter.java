@@ -27,6 +27,8 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
 
     private static final String ASSETS_ID="assets_id";
     private static final String WHERE_FROM = "where_from";
+    public static final String INV_ID = "inv_id";
+    public static final String LOC_IC = "loc_id";
     private List<InventoryDetail> mInventoryDetails;
     private Context mContext;
     private OnItemClickListener mOnItemClickListener;
@@ -65,6 +67,8 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
                     intent.putExtra(ASSETS_ID,assetsInfo.getId());
                     if(invDetail.getInvdt_status().getCode() == 0){
                         intent.putExtra(WHERE_FROM,"InvAssetLocActivity");
+                        intent.putExtra(INV_ID,invDetail.getInv_id());
+                        intent.putExtra(LOC_IC,assetsInfo.getLoc_id());
                     }
                     intent.setClass(mContext, AssetsDetailsActivity.class);
                     mContext.startActivity(intent);

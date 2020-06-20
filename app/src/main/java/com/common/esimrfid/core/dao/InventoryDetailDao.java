@@ -20,7 +20,18 @@ public interface InventoryDetailDao extends BaseDao<InventoryDetail> {
     @Query("SELECT * FROM InventoryDetail where inv_id = :invId AND (assetsInfos_loc_id = :locId or assetsInfos_invdt_plus_loc_id =:locId)")
     public List<InventoryDetail> findInvDetailByInvidAndLocid(String invId, String locId);
 
-    @Query("SELECT * FROM InventoryDetail where assetsInfos_id = :astId")
-    public List<InventoryDetail> findLocalInvDetailByAstId(String astId);
+    @Query("SELECT * FROM InventoryDetail where inv_id = :invId AND assetsInfos_loc_id = :locId AND assetsInfos_id = :astId")
+    public List<InventoryDetail> findLocalInvDetailByAstId(String invId, String locId, String astId);
 
+    //获取盘点单下某一区域中盘盈的资产
+    @Query("SELECT * FROM InventoryDetail where inv_id = :invId AND  assetsInfos_invdt_plus_loc_id =:locId AND code =2")
+    public List<InventoryDetail> findMoreInvDetailByInvidAndLocid(String invId, String locId);
+
+    //获取盘点中已经盘点的资产（包括已盘点和盘亏）
+    @Query("SELECT * FROM InventoryDetail where inv_id = :invId AND (code =1 or code =10)")
+    public List<InventoryDetail> findLocalFinishAssets(String invId);
+
+    //获取盘点中没有提交的资产（包括已盘点，盘亏，盘盈）
+    @Query("SELECT * FROM InventoryDetail where inv_id = :invId AND needUpload = :needSubmit")
+    public List<InventoryDetail> findNeedSubmitAssets(String invId, Boolean needSubmit);
 }

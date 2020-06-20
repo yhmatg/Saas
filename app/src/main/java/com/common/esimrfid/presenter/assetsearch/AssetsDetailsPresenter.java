@@ -6,10 +6,21 @@ import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.room.DbBank;
+import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.View> implements AssetsDetailsContract.Presenter {
     private DataManager mDataManager;
@@ -77,6 +88,46 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
 
             }
         }));
+    }
+
+    @Override
+    public void setOneAssetInved(String sign, String invId, String locId, String astId) {
+        addSubscribe(getUpdateOneAssetStatusObservable(sign, invId, locId, astId)
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<Boolean>(mView, false) {
+                    @Override
+                    public void onNext(Boolean result) {
+
+                    }
+                }));
+    }
+
+
+    public Observable<Boolean> getUpdateOneAssetStatusObservable(String sign, String invId, String locId, String astId) {
+        Observable<Boolean> baseResponseObservable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+                List<InventoryDetail> localInvDetailByAstId = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByAstId(invId,locId,astId);
+                if(localInvDetailByAstId.size() > 0){
+                    InventoryDetail inventoryDetail = localInvDetailByAstId.get(0);
+                    inventoryDetail.getInvdt_status().setCode(10);
+                    inventoryDetail.setNeedUpload(true);
+                    inventoryDetail.getAssetsInfos().setInvdt_sign(sign);
+                    DbBank.getInstance().getInventoryDetailDao().updateItem(inventoryDetail);
+
+                    ResultInventoryOrder invOrderByInvId = DbBank.getInstance().getResultInventoryOrderDao().findInvOrderByInvId(invId);
+                    //获取盘点中已经盘点的资产（包括已盘点和盘亏）
+                    List<InventoryDetail> localFinishAssets = DbBank.getInstance().getInventoryDetailDao().findLocalFinishAssets(invId);
+                    invOrderByInvId.setInv_finish_count(localFinishAssets.size());
+                    //获取盘点中待提交的资产
+                    List<InventoryDetail> needSubmitAssets = DbBank.getInstance().getInventoryDetailDao().findNeedSubmitAssets(invId, true);
+                    invOrderByInvId.setInv_notsubmit_count(needSubmitAssets.size());
+                    DbBank.getInstance().getResultInventoryOrderDao().updateItem(invOrderByInvId);
+                    emitter.onNext(true);
+                }
+            }
+        });
+        return baseResponseObservable;
     }
 
 }

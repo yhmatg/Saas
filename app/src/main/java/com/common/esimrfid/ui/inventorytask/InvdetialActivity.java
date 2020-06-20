@@ -128,15 +128,31 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         mAreaBeans.add(new FilterBean("10000","全部",false));
         mInventoryDetails.addAll(detailResults);
         for (InventoryDetail inventoryDetail : mInventoryDetails) {
+            //资产未知
             String locName = inventoryDetail.getAssetsInfos().getLoc_info() == null ? "未分配" : inventoryDetail.getAssetsInfos().getLoc_info().getLoc_name();
+            //资产盘盈位置
+            String pluLocName = inventoryDetail.getAssetsInfos().getInvdt_plus_loc_info() == null ? "未分配" : inventoryDetail.getAssetsInfos().getInvdt_plus_loc_info().getLoc_name();
+            //资产盘点状态
+            Integer code = inventoryDetail.getInvdt_status().getCode();
             //资产按地点分类  未完成还要考虑盘盈的资产
-            if (!locationMap.containsKey(locName)) {
-                ArrayList<InventoryDetail> details = new ArrayList<>();
-                details.add(inventoryDetail);
-                locationMap.put(locName, details);
-            } else {
-                ArrayList<InventoryDetail> inventoryDetails = locationMap.get(locName);
-                inventoryDetails.add(inventoryDetail);
+            if(code != 2){
+                if ( !locationMap.containsKey(locName)) {
+                    ArrayList<InventoryDetail> details = new ArrayList<>();
+                    details.add(inventoryDetail);
+                    locationMap.put(locName, details);
+                } else {
+                    ArrayList<InventoryDetail> inventoryDetails = locationMap.get(locName);
+                    inventoryDetails.add(inventoryDetail);
+                }
+            }else if(!"未分配".equals(pluLocName)){
+                if ( !locationMap.containsKey(pluLocName)) {
+                    ArrayList<InventoryDetail> details = new ArrayList<>();
+                    details.add(inventoryDetail);
+                    locationMap.put(pluLocName, details);
+                } else {
+                    ArrayList<InventoryDetail> inventoryDetails = locationMap.get(pluLocName);
+                    inventoryDetails.add(inventoryDetail);
+                }
             }
         }
         Set<Map.Entry<String, ArrayList<InventoryDetail>>> entries = locationMap.entrySet();
@@ -145,7 +161,6 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
             invLocationBean.setInvId(mInvId);
             invLocationBean.setLocNmme(entry.getKey());
             ArrayList<InventoryDetail> invdetails = entry.getValue();
-            invLocationBean.setAllNum(invdetails.size());
             invLocationBean.setmInventoryDetails(invdetails);
             int notInvNum = 0;
             int invNum = 0;
@@ -171,6 +186,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
                     }
                 }
             }
+            invLocationBean.setAllNum(invdetails.size() - moreInvNum);
             invLocationBean.setNotInvNum(notInvNum);
             invLocationBean.setInvNum(invNum);
             invLocationBean.setMoreInvNum(moreInvNum);

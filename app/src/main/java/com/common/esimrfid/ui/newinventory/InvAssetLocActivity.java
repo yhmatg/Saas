@@ -19,6 +19,7 @@ import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.home.InvAssetsLocPresenter;
@@ -112,7 +113,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     selectNotInvBean.getAssetsInfos().setInvdt_sign("资产已丢失");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
-                    DbBank.getInstance().getInventoryDetailDao().updateItem(selectNotInvBean);
+                    mPresenter.setOneLessAssetInv(selectNotInvBean);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("待盘点" + mNotInvDetails.size());
@@ -134,7 +135,8 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     tvTransfer.setTextColor(getColor(R.color.titele_color));
                     selectNotInvBean.getAssetsInfos().setInvdt_sign("资产转移了");
                     selectNotInvBean.getInvdt_status().setCode(1);
-                    DbBank.getInstance().getInventoryDetailDao().updateItem(selectNotInvBean);
+                    selectNotInvBean.setNeedUpload(true);
+                    mPresenter.setOneLessAssetInv(selectNotInvBean);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("待盘点" + mNotInvDetails.size());
@@ -156,7 +158,8 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     tvUserOut.setTextColor(getColor(R.color.titele_color));
                     selectNotInvBean.getAssetsInfos().setInvdt_sign("人员外出中");
                     selectNotInvBean.getInvdt_status().setCode(1);
-                    DbBank.getInstance().getInventoryDetailDao().updateItem(selectNotInvBean);
+                    selectNotInvBean.setNeedUpload(true);
+                    mPresenter.setOneLessAssetInv(selectNotInvBean);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("待盘点" + mNotInvDetails.size());
@@ -178,7 +181,8 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     tvAstBorrow.setTextColor(getColor(R.color.titele_color));
                     selectNotInvBean.getAssetsInfos().setInvdt_sign("资产外借中");
                     selectNotInvBean.getInvdt_status().setCode(1);
-                    DbBank.getInstance().getInventoryDetailDao().updateItem(selectNotInvBean);
+                    selectNotInvBean.setNeedUpload(true);
+                    mPresenter.setOneLessAssetInv(selectNotInvBean);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("待盘点" + mNotInvDetails.size());
@@ -200,7 +204,8 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     tvAstRepair.setTextColor(getColor(R.color.titele_color));
                     selectNotInvBean.getAssetsInfos().setInvdt_sign("资产维修中");
                     selectNotInvBean.getInvdt_status().setCode(1);
-                    DbBank.getInstance().getInventoryDetailDao().updateItem(selectNotInvBean);
+                    selectNotInvBean.setNeedUpload(true);
+                    mPresenter.setOneLessAssetInv(selectNotInvBean);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("待盘点" + mNotInvDetails.size());

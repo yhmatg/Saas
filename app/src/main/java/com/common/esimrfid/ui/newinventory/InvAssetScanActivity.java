@@ -42,6 +42,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
@@ -86,9 +87,10 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     HashMap<String, InventoryDetail> epcInvBean = new HashMap<>();
     //所有盘盈的epc
     List<String> allMoreEpcs =  new ArrayList<>();
-    //每次盘点到的资产条目
+    //盘点单中每次盘点到的资产条目
     List<InventoryDetail> oneInvDetails = new ArrayList<>();
-
+    //每次盘盈的epc
+    HashSet<String> oneMoreInvEpcs =  new HashSet<>();
 
     @Override
     public InvAssetsLocPresenter initPresenter() {
@@ -203,14 +205,13 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
                 mScanButton.setText(R.string.stop_inv);
                 mInScan.setVisibility(View.VISIBLE);
                 oneInvDetails.clear();
+                oneMoreInvEpcs.clear();
                 startAnim();
                 break;
             case UhfMsgType.UHF_STOP:
                 mScanButton.setText(R.string.start_inv);
                 mInScan.setVisibility(View.GONE);
-                if(oneInvDetails.size() > 0){
-                    DbBank.getInstance().getInventoryDetailDao().updateItems(oneInvDetails);
-                }
+                mPresenter.handleOneScanned(oneInvDetails,oneMoreInvEpcs,mLocId,mLocName,mInvId);
                 stopAnim();
                 break;
         }
@@ -228,6 +229,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
             }
         }else if(!allMoreEpcs.contains(epc)){
             allMoreEpcs.add(epc);
+            oneMoreInvEpcs.add(epc);
         }
         mInNum.setText(String.valueOf(mInvedDetails.size()));
         mOutNum.setText(String.valueOf(allMoreEpcs.size()));

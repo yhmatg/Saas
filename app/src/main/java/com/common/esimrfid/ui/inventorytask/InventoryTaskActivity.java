@@ -97,7 +97,6 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         } else {
             mPresenter.fetchAllIvnOrders(userId, false);
         }
-
     }
 
     @Override
