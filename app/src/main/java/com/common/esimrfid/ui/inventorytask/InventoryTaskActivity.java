@@ -49,12 +49,6 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     List<ResultInventoryOrder> mUnFinishedTaskorders = new ArrayList<>();
     private Boolean isFirstOnResume = true;
     private String userId;
-    //盘点未提交过的条目
-    private ArrayList<InventoryDetail> notSubmitInvDetails = new ArrayList<>();
-    private ArrayList<String> notSubmitEpcList = new ArrayList<>();
-    //已经盘点过的条目
-    private int finishCount;
-    private int totalCount;
     private int mPosition;
     private MaterialDialog updateDialog;
     private MaterialDialog finishDialog;
@@ -143,41 +137,10 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
 
     }
 
-    //盘点单中的资产
+    //盘点单保存后处理
     @Override
     public void handleInvDetails(ResultInventoryDetail mInventoryDetail) {
-        notSubmitInvDetails.clear();
-        notSubmitEpcList.clear();
-        finishCount = 0;
-        totalCount = mInventoryDetail.getInv_total_count();
-        List<InventoryDetail> detailResults = mInventoryDetail.getDetailResults();
-        for (InventoryDetail detailResult : detailResults) {
-            if (detailResult.getInvdt_status().getCode() == InventoryStatus.FINISH_NOT_SUBMIT.getIndex()) {
-                notSubmitInvDetails.add(detailResult);
-                notSubmitEpcList.add(detailResult.getAst_id());
-            } else if (detailResult.getInvdt_status().getCode() == InventoryStatus.FINISH.getIndex()) {
-                finishCount++;
-            }
-        }
-        dismissUpdateDialog();
-        //盘点数据上传服务器
-        if (!isFinish && CommonUtils.isNetworkConnected() && notSubmitInvDetails.size() > 0) {
-            mPresenter.upLoadInvDetails(mInventoryDetail.getId(), notSubmitEpcList, notSubmitInvDetails, userId);
-        }
-        //盘点数据上传服务器并且完成盘点单
-        if (isFinish && CommonUtils.isNetworkConnected()) {
-            //modify 1228 start
-            finishInvId = mInventoryDetail.getId();
-            //modify 1228 end
-            int totalFinishCount = notSubmitEpcList.size() + finishCount;
-            if (totalFinishCount < totalCount) {
-                showFinishInvDialog(notSubmitEpcList, notSubmitInvDetails, userId);
-            } else {
-                showUpdateDialog();
-                mPresenter.finishInvOrderWithAsset(mInventoryDetail.getId(), notSubmitEpcList, notSubmitInvDetails, userId);
-            }
 
-        }
     }
 
     //资产盘点上传结果
@@ -217,19 +180,29 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     }
 
     @Override
+    public void handleNotInvAssetLeftStatus(List<InventoryDetail> resultInventoryOrders) {
+        if(resultInventoryOrders.size() != 0){
+            showFinishInvDialog();
+        }else {
+            mPresenter.finishLocalInvDetailStat(finishInvId,userId);
+        }
+    }
+
+    @Override
     public void onSyncData(ResultInventoryOrder invOder, int position) {
         //网络可用情况下同步数据
         isFinish = false;
         if (CommonUtils.isNetworkConnected()) {
             showUpdateDialog();
             mPosition = position;
+            //有网络请下下载盘点详情
             mPresenter.fetchAllInvDetails(invOder.getId(), true);
+            //提交已经盘点的数据
+            mPresenter.uploadLocalInvDetailState(invOder.getId(),userId);
         } else {
             //todo
             ToastUtils.showShort("请检查网络是否可用");
         }
-
-
     }
 
     @Override
@@ -238,7 +211,8 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         isFinish = true;
         if (CommonUtils.isNetworkConnected()) {
             mPosition = position;
-            mPresenter.fetchAllInvDetails(invOder.getId(), true);
+            finishInvId = invOder.getId();
+            mPresenter.getNotInvAssetLeftStatus(invOder.getId());
         } else {
             //todo
             ToastUtils.showShort("请检查网络是否可用");
@@ -270,7 +244,7 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     }
 
 
-    public void showFinishInvDialog(List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid) {
+    public void showFinishInvDialog() {
         if (finishDialog != null) {
             finishDialog.show();
         } else {
@@ -281,9 +255,7 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
                 @Override
                 public void onClick(View v) {
                     showUpdateDialog();
-                    //modify 1228 start
-                    mPresenter.finishInvOrderWithAsset(finishInvId, invDetails, inventoryDetails, uid);
-                    //modify 1228 end
+                    mPresenter.finishLocalInvDetailStat(finishInvId,userId);
                     finishDialog.dismiss();
                 }
             });

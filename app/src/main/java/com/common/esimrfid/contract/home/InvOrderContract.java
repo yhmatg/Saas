@@ -19,6 +19,8 @@ public interface InvOrderContract {
         void handelUploadResult(BaseResponse baseResponse);
 
         void handelFinishInvOrder(BaseResponse baseResponse);
+
+        void handleNotInvAssetLeftStatus(List<InventoryDetail> resultInventoryOrders);
     }
 
     interface Presenter extends AbstractPresenter<View> {
@@ -30,6 +32,10 @@ public interface InvOrderContract {
 
         void finishInvOrderWithAsset(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid);
 
-        void checkLocalDataState();
+        void uploadLocalInvDetailState(String orderId,String uid);
+
+        void finishLocalInvDetailStat(String orderId,String uid);
+
+        void getNotInvAssetLeftStatus(String orderId);
     }
 }

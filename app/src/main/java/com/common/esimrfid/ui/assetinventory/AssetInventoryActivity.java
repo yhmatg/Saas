@@ -14,6 +14,7 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
@@ -198,6 +199,11 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
 
     @Override
     public void handelFinishInvOrder(BaseResponse baseResponse) {
+
+    }
+
+    @Override
+    public void handleNotInvAssetLeftStatus(List<InventoryDetail> resultInventoryOrders) {
 
     }
 
