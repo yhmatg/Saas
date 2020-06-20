@@ -87,6 +87,9 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         }
         inStatusList();
         initView();
+        if (CommonUtils.isNetworkConnected() ) {
+            mPresenter.uploadLocalInvDetailState(mInvId, userId);
+        }
     }
 
     private void inStatusList() {
@@ -206,7 +209,6 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
             mInvDetailRecyclerView.setVisibility(View.GONE);
             empty_layout.setVisibility(View.VISIBLE);
         }
-
     }
 
     //资产列表排序，未盘点在前

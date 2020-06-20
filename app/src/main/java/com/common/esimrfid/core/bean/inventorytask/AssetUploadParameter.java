@@ -9,6 +9,9 @@ public class AssetUploadParameter {
     private String invdt_plus_loc_id;
     private String ast_id;
 
+    public AssetUploadParameter() {
+    }
+
     public AssetUploadParameter(String invdt_sign, Integer invdt_status, String invdt_plus_loc_id, String ast_id) {
         this.invdt_sign = invdt_sign;
         this.invdt_status = invdt_status;

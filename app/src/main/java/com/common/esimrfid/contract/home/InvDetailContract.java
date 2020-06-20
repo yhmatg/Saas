@@ -30,6 +30,6 @@ public interface InvDetailContract {
 
         void updateLocalInvDetailsState(String orderId,List<InventoryDetail> inventoryDetails);
 
-        void updateLocalInvDetailState(String orderId,InventoryDetail inventoryDetail);
+        void uploadLocalInvDetailState(String orderId,String uid);
     }
 }

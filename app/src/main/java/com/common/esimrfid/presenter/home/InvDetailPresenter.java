@@ -1,10 +1,13 @@
 package com.common.esimrfid.presenter.home;
 
+import android.view.accessibility.AccessibilityRecord;
+
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvDetailContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.emun.InvOperateStatus;
 import com.common.esimrfid.core.bean.emun.InventoryStatus;
+import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
@@ -22,8 +25,10 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> implements InvDetailContract.Presenter {
@@ -185,25 +190,46 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                 }));
     }
 
-    //更新单个盘点数据 暂未用到
+    //上传盘点未提交的资产
     @Override
-    public void updateLocalInvDetailState(String orderId, InventoryDetail inventoryDetail) {
-        addSubscribe(Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                DbBank.getInstance().getInventoryDetailDao().updateItem(inventoryDetail);
-                ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
-                ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
-                invOrderByInvId.setOpt_status(InvOperateStatus.MODIFIED_BUT_NOT_SUBMIT.getIndex());
-                int orderStatus = 10;
-                invOrderByInvId.setInv_status(orderStatus);
-                resultInventoryOrderDao.updateItem(invOrderByInvId);
-            }
-        }).compose(RxUtils.rxSchedulerHelper())
-                .subscribeWith(new BaseObserver<String>(mView, false) {
+    public void uploadLocalInvDetailState(String orderId,String uid) {
+        addSubscribe(getNeedSbumitOneAssetObservable(orderId)
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Function<List<InventoryDetail>, ObservableSource<BaseResponse>>() {
                     @Override
-                    public void onNext(String orderId) {
-
+                    public ObservableSource<BaseResponse> apply(List<InventoryDetail> inventoryDetails) throws Exception {
+                        ArrayList<AssetUploadParameter> assetUploadParameters = new ArrayList<>();
+                        for (InventoryDetail inventoryDetail : inventoryDetails) {
+                            AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
+                            assetUploadParameter.setInvdt_sign(inventoryDetail.getAssetsInfos().getInvdt_sign());
+                            assetUploadParameter.setInvdt_status(inventoryDetail.getInvdt_status().getCode());
+                            assetUploadParameter.setInvdt_plus_loc_id(inventoryDetail.getAssetsInfos().getInvdt_plus_loc_id());
+                            assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
+                            assetUploadParameters.add(assetUploadParameter);
+                        }
+                        return mDataManager.uploadInvAssets(orderId,uid,assetUploadParameters);
+                    }
+                })
+                .doOnNext(new Consumer<BaseResponse>() {
+                    @Override
+                    public void accept(BaseResponse baseResponse) throws Exception {
+                        if(baseResponse.isSuccess()){
+                            List<InventoryDetail> needSubmitAssets = DbBank.getInstance().getInventoryDetailDao().findNeedSubmitAssets(orderId, true);
+                            for (InventoryDetail needSubmitAsset : needSubmitAssets) {
+                                needSubmitAsset.setNeedUpload(false);
+                            }
+                            DbBank.getInstance().getInventoryDetailDao().updateItems(needSubmitAssets);
+                            ResultInventoryOrder invOrderByInvId = DbBank.getInstance().getResultInventoryOrderDao().findInvOrderByInvId(orderId);
+                            invOrderByInvId.setInv_notsubmit_count(0);
+                            DbBank.getInstance().getResultInventoryOrderDao().updateItem(invOrderByInvId);
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        mView.handelUploadResult(baseResponse);
                     }
                 }));
     }
@@ -258,5 +284,16 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
             }
         }
         return tempData;
+    }
+
+    public Observable<List<InventoryDetail>> getNeedSbumitOneAssetObservable(String orderId) {
+        Observable<List<InventoryDetail>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<InventoryDetail>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<InventoryDetail>> emitter) throws Exception {
+                List<InventoryDetail> needSubmitAssets = DbBank.getInstance().getInventoryDetailDao().findNeedSubmitAssets(orderId, true);
+                emitter.onNext(needSubmitAssets);
+            }
+        });
+        return baseResponseObservable;
     }
 }
