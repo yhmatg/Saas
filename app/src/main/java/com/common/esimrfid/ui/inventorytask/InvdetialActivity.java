@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
@@ -55,6 +56,8 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     LinearLayout empty_layout;
     @BindView(R.id.filter_layout)
     LinearLayout filterLayout;
+    @BindView(R.id.view_mask)
+    View maskView;
     private String userId;
     //所有条目数据
     List<InventoryDetail> mInventoryDetails = new ArrayList<>();
@@ -249,12 +252,14 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
                 currentFilterBeans.addAll(mAreaBeans);
                 filtterAdapter.notifyDataSetChanged();
                 mCustomPopWindow.showAsDropDown(filterLayout);
+                maskView.setVisibility(View.VISIBLE);
                 break;
             case R.id.status_layout:
                 currentFilterBeans.clear();
                 currentFilterBeans.addAll(mStatusBeans);
                 filtterAdapter.notifyDataSetChanged();
                 mCustomPopWindow.showAsDropDown(filterLayout);
+                maskView.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -272,8 +277,15 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         filerRecycler.setAdapter(filtterAdapter);
         mCustomPopWindow= new CustomPopWindow.PopupWindowBuilder(this)
                 .setView(contentView)
-                .enableBackgroundDark(true)
+                .enableBackgroundDark(false)
+                .setAnimationStyle(R.style.popwin_anim)
                 .size(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setOnDissmissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        maskView.setVisibility(View.GONE);
+                    }
+                })
                 .create();
     }
 
