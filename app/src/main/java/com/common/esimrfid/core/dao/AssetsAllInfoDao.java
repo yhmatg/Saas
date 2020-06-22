@@ -27,7 +27,11 @@ public interface AssetsAllInfoDao extends BaseDao<AssetsAllInfo> {
     public List<AssetsAllInfo> findLocalAssetsAllInfoByPara(String para);
 
     //根据资产id获取资产详情
-    @Query("SELECT * FROM AssetsAllInfo where id == :astId")
+    @Query("SELECT * FROM AssetsAllInfo where id = :astId")
     public List<AssetsAllInfo> findLocalAssetsByAstId(String astId);
+
+    //根据资产id或者epc获取资产详情
+    @Query("SELECT * FROM AssetsAllInfo where id = :astId or ast_epc_code = :epcCode")
+    public List<AssetsAllInfo> findLocalAssetsByAstIdOrEpc(String astId, String epcCode);
 
 }

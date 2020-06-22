@@ -402,39 +402,41 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             remark.setText(text);
 
             //扩展字段信息
-            int appendItems = assetsAllInfo.getAst_append_info().size();
-            for (int n = 0; n < appendItems; n++) {
-                List<String> Keys = new ArrayList<>();
-                //取出所有的key值
-                Iterator i = assetsAllInfo.getAst_append_info().keySet().iterator();
-                while (i.hasNext()) {
-                    String key = i.next().toString();
-                    Keys.add(key);
-                }
-                String type_id = Keys.get(n);
-                String content = assetsAllInfo.getAst_append_info().get(type_id);
-                LinearLayout linearLayout = new LinearLayout(this);
-                TextView textView1 = new TextView(this);
-                TextView textView2 = new TextView(this);
-                View view = new View(this);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, dip2px(this, 45));
-                LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(0, MATCH_PARENT, 1);
-                LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT);
-                LinearLayout.LayoutParams layoutParams3 = new LinearLayout.LayoutParams(MATCH_PARENT, dip2px(this, 1));
-                linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-                textView1.setTextSize(14);
-                textView1.setText(type_id);
-                textView1.setGravity(Gravity.CENTER_VERTICAL);
-                textView2.setTextSize(14);
-                textView2.setText(content);
-                textView2.setGravity(Gravity.CENTER_VERTICAL);
-                view.setBackgroundColor(getColor(R.color.line));
+            if(assetsAllInfo.getAst_append_info() != null){
+                int appendItems = assetsAllInfo.getAst_append_info().size();
+                for (int n = 0; n < appendItems; n++) {
+                    List<String> Keys = new ArrayList<>();
+                    //取出所有的key值
+                    Iterator i = assetsAllInfo.getAst_append_info().keySet().iterator();
+                    while (i.hasNext()) {
+                        String key = i.next().toString();
+                        Keys.add(key);
+                    }
+                    String type_id = Keys.get(n);
+                    String content = assetsAllInfo.getAst_append_info().get(type_id);
+                    LinearLayout linearLayout = new LinearLayout(this);
+                    TextView textView1 = new TextView(this);
+                    TextView textView2 = new TextView(this);
+                    View view = new View(this);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, dip2px(this, 45));
+                    LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(0, MATCH_PARENT, 1);
+                    LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT);
+                    LinearLayout.LayoutParams layoutParams3 = new LinearLayout.LayoutParams(MATCH_PARENT, dip2px(this, 1));
+                    linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    textView1.setTextSize(14);
+                    textView1.setText(type_id);
+                    textView1.setGravity(Gravity.CENTER_VERTICAL);
+                    textView2.setTextSize(14);
+                    textView2.setText(content);
+                    textView2.setGravity(Gravity.CENTER_VERTICAL);
+                    view.setBackgroundColor(getColor(R.color.line));
 
-                //将控件加入布局
-                linearLayout.addView(textView1, layoutParams1);
-                linearLayout.addView(textView2, layoutParams2);
-                detail_content.addView(view, layoutParams3);
-                detail_content.addView(linearLayout, layoutParams);
+                    //将控件加入布局
+                    linearLayout.addView(textView1, layoutParams1);
+                    linearLayout.addView(textView2, layoutParams2);
+                    detail_content.addView(view, layoutParams3);
+                    detail_content.addView(linearLayout, layoutParams);
+                }
             }
 
             //维保信息

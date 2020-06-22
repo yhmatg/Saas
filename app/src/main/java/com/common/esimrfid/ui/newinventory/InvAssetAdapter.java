@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 
 public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHolder> {
 
-    private static final String ASSETS_ID="assets_id";
+    private static final String ASSETS_ID = "assets_id";
     private static final String WHERE_FROM = "where_from";
     public static final String INV_ID = "inv_id";
     public static final String LOC_IC = "loc_id";
@@ -53,26 +53,24 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         viewHolder.tvAstName.setText(astName);
         String astBarcode = TextUtils.isEmpty(assetsInfo.getAst_barcode()) ? "无信息" : assetsInfo.getAst_barcode();
         viewHolder.tvAssetNum.setText(astBarcode);
-        String storeLoc = assetsInfo.getLoc_info() == null ? "无信息": assetsInfo.getLoc_info().getLoc_name();
+        String storeLoc = assetsInfo.getLoc_info() == null ? "无信息" : assetsInfo.getLoc_info().getLoc_name();
         viewHolder.tvLocName.setText(storeLoc);
         String useDepart = assetsInfo.getOrg_useddept() == null ? "无信息" : assetsInfo.getOrg_useddept().getOrg_name();
         viewHolder.tvDepartName.setText(useDepart);
-        String userName = assetsInfo.getUser_info() == null ? "无信息" :assetsInfo.getUser_info().getUser_real_name();
+        String userName = assetsInfo.getUser_info() == null ? "无信息" : assetsInfo.getUser_info().getUser_real_name();
         viewHolder.tvUserName.setText(userName);
         viewHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(CommonUtils.isNetworkConnected()){
-                    Intent intent=new Intent();
-                    intent.putExtra(ASSETS_ID,assetsInfo.getId());
-                    if(invDetail.getInvdt_status().getCode() == 0){
-                        intent.putExtra(WHERE_FROM,"InvAssetLocActivity");
-                        intent.putExtra(INV_ID,invDetail.getInv_id());
-                        intent.putExtra(LOC_IC,assetsInfo.getLoc_id());
-                    }
-                    intent.setClass(mContext, AssetsDetailsActivity.class);
-                    mContext.startActivity(intent);
+                Intent intent = new Intent();
+                intent.putExtra(ASSETS_ID, assetsInfo.getId());
+                if (invDetail.getInvdt_status().getCode() == 0) {
+                    intent.putExtra(WHERE_FROM, "InvAssetLocActivity");
+                    intent.putExtra(INV_ID, invDetail.getInv_id());
+                    intent.putExtra(LOC_IC, assetsInfo.getLoc_id());
                 }
+                intent.setClass(mContext, AssetsDetailsActivity.class);
+                mContext.startActivity(intent);
             }
         });
         Integer status = invDetail.getInvdt_status().getCode();
@@ -89,7 +87,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
             viewHolder.statusImg.setVisibility(View.VISIBLE);
             viewHolder.tvAddTag.setVisibility(View.GONE);
 
-        }else if (status == 10 || status == 101) {
+        } else if (status == 10 || status == 101) {
             viewHolder.statusImg.setImageResource(R.drawable.asset_inved);
             viewHolder.statusImg.setVisibility(View.VISIBLE);
             viewHolder.tvAddTag.setVisibility(View.GONE);
@@ -98,10 +96,10 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         viewHolder.tvAddTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mOnItemClickListener != null){
+                if (mOnItemClickListener != null) {
                     viewHolder.tvAddTag.setTextColor(mContext.getColor(R.color.white));
                     viewHolder.tvAddTag.setBackground(mContext.getDrawable(R.drawable.add_tag_blu_shape));
-                    mOnItemClickListener.onItemClick(invDetail,viewHolder.tvAddTag);
+                    mOnItemClickListener.onItemClick(invDetail, viewHolder.tvAddTag);
                 }
             }
         });
@@ -109,7 +107,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
     }
 
     public interface OnItemClickListener {
-        void onItemClick(InventoryDetail invDetailBean,TextView tvAddTag);
+        void onItemClick(InventoryDetail invDetailBean, TextView tvAddTag);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

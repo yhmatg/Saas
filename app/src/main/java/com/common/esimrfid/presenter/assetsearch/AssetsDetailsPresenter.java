@@ -1,15 +1,19 @@
 package com.common.esimrfid.presenter.assetsearch;
 
+import android.util.Log;
+
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
+import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
@@ -32,7 +36,8 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
     @Override
     public void getAssetsDetailsById(String astId,String astCode) {
         mView.showDialog("loading...");
-        addSubscribe(mDataManager.fetchAssetsInfo(astId,astCode)
+        //addSubscribe(mDataManager.fetchAssetsInfo(astId,astCode)
+        addSubscribe(Observable.concat(getLocalAssetAllInfoObservable(astId,astCode),mDataManager.fetchAssetsInfo(astId,astCode))
         .compose(RxUtils.rxSchedulerHelper())
         .compose(RxUtils.handleResult())
         .subscribeWith(new BaseObserver<AssetsAllInfo>(mView, false) {
@@ -130,4 +135,27 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
         return baseResponseObservable;
     }
 
+
+    public Observable<BaseResponse<AssetsAllInfo>> getLocalAssetAllInfoObservable(String astId, String astCode) {
+        Observable<BaseResponse<AssetsAllInfo>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsAllInfo>>() {
+            @Override
+            public void subscribe(ObservableEmitter<BaseResponse<AssetsAllInfo>> emitter) throws Exception {
+                if (CommonUtils.isNetworkConnected()) {
+                    emitter.onComplete();
+                } else {
+                    List<AssetsAllInfo> localAssetsByAstIdOrEpc = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByAstIdOrEpc(astId, astCode);
+                    if(localAssetsByAstIdOrEpc.size() > 0){
+                        BaseResponse<AssetsAllInfo> baseResponse = new BaseResponse<>();
+                        baseResponse.setResult(localAssetsByAstIdOrEpc.get(0));
+                        baseResponse.setCode("200000");
+                        baseResponse.setMessage("成功");
+                        baseResponse.setSuccess(true);
+                        emitter.onNext(baseResponse);
+                    }
+                }
+
+            }
+        });
+        return baseResponseObservable;
+    }
 }
