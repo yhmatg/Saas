@@ -23,7 +23,6 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.home.InvAssetsLocPresenter;
-import com.common.esimrfid.ui.inventorytask.InvDetailAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
