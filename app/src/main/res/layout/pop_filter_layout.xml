@@ -8,7 +8,7 @@
     android:padding="@dimen/dp_10">
     <com.common.esimrfid.customview.MaxHeightRecyclerView
         android:id="@+id/rv_filter"
-        app:cus_max_height="@dimen/dp_200"
+        app:cus_max_height="@dimen/dp_240"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </com.common.esimrfid.customview.MaxHeightRecyclerView>

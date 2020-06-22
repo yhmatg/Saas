@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -50,6 +51,10 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     TextView mTvArea;
     @BindView(R.id.tv_status)
     TextView mTvStatus;
+    @BindView(R.id.im_area_arrow)
+    ImageView mAreaArrow;
+    @BindView(R.id.im_status_arrow)
+    ImageView mStatusArrow;
     @BindView(R.id.rv_inventory_detail)
     RecyclerView mInvDetailRecyclerView;
     @BindView(R.id.empty_page)
@@ -253,6 +258,8 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
                 filtterAdapter.notifyDataSetChanged();
                 mCustomPopWindow.showAsDropDown(filterLayout);
                 maskView.setVisibility(View.VISIBLE);
+                mTvArea.setTextColor(getColor(R.color.titele_color));
+                mAreaArrow.setImageResource(R.drawable.down_arrow_blue);
                 break;
             case R.id.status_layout:
                 currentFilterBeans.clear();
@@ -260,6 +267,8 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
                 filtterAdapter.notifyDataSetChanged();
                 mCustomPopWindow.showAsDropDown(filterLayout);
                 maskView.setVisibility(View.VISIBLE);
+                mTvStatus.setTextColor(getColor(R.color.titele_color));
+                mStatusArrow.setImageResource(R.drawable.down_arrow_blue);
                 break;
         }
     }
@@ -284,6 +293,10 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
                     @Override
                     public void onDismiss() {
                         maskView.setVisibility(View.GONE);
+                        mTvArea.setTextColor(getColor(R.color.repair_text));
+                        mAreaArrow.setImageResource(R.drawable.down_arrow_black);
+                        mTvStatus.setTextColor(getColor(R.color.repair_text));
+                        mStatusArrow.setImageResource(R.drawable.down_arrow_black);
                     }
                 })
                 .create();

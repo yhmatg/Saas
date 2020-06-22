@@ -11,39 +11,55 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_5"
-        android:text="资产已丢失"
+        android:text="@string/ast_lost_str"
         android:textSize="@dimen/sp_12" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="#70aaaaaa"/>
 
     <TextView
         android:id="@+id/tv_transfer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_5"
-        android:text="资产转移了"
+        android:text="@string/ast_transfer_str"
         android:textSize="@dimen/sp_12" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="#70aaaaaa"/>
 
     <TextView
         android:id="@+id/tv_user_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_5"
-        android:text="人员外出中"
+        android:text="@string/user_out_str"
         android:textSize="@dimen/sp_12" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="#70aaaaaa"/>
 
     <TextView
         android:id="@+id/tv_ast_borrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_5"
-        android:text="资产外借中"
+        android:text="@string/ast_borrow_str"
         android:textSize="@dimen/sp_12" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="#70aaaaaa"/>
 
     <TextView
         android:id="@+id/tv_ast_repair"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_5"
-        android:text="资产维修中"
+        android:text="@string/ast_repair_str"
         android:textSize="@dimen/sp_12" />
 
 </LinearLayout>

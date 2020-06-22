@@ -309,7 +309,11 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 mCurrentDetails.addAll(mLessDetails);
                 mAssetAdapter.notifyDataSetChanged();
                 break;
-
+        }
+        if(mCurrentDetails.size() > 0){
+            empty_layout.setVisibility(View.GONE);
+        }else {
+            empty_layout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -345,6 +349,11 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
             mCurrentDetails.addAll(mInvedDetails);
         }
         mAssetAdapter.notifyDataSetChanged();
+        if(mCurrentDetails.size() > 0){
+            empty_layout.setVisibility(View.GONE);
+        }else {
+            empty_layout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

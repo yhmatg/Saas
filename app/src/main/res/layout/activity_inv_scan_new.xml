@@ -108,6 +108,9 @@
             android:layout_alignBottom="@+id/area_title"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/dp_45"
+            android:ellipsize="end"
+            android:maxEms="8"
+            android:singleLine="true"
             android:text="当前位置"
             android:textSize="@dimen/sp_17" />
 
@@ -183,8 +186,9 @@
             android:layout_alignStart="@+id/asset_all_name"
             android:layout_marginTop="@dimen/dp_6"
             android:text="108"
-            android:textColor="@color/titele_color"
-            android:textSize="@dimen/sp_25" />
+            android:textColor="@color/repair_text"
+            android:textSize="@dimen/sp_25"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/ast_in_num"
@@ -195,7 +199,8 @@
             android:layout_marginTop="@dimen/dp_6"
             android:text="108"
             android:textColor="@color/titele_color"
-            android:textSize="@dimen/sp_25" />
+            android:textSize="@dimen/sp_25"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/ast_out_num"
@@ -206,7 +211,8 @@
             android:layout_marginTop="@dimen/dp_6"
             android:text="10"
             android:textColor="@color/titele_color"
-            android:textSize="@dimen/sp_25" />
+            android:textSize="@dimen/sp_25"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>

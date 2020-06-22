@@ -42,4 +42,6 @@
     <color name="repair_way">#1F85E0</color>
     <color name="repair_text">#1A1A1A</color>
     <color name="titele_color">#1076D8</color>
+    <color name="loc_finished_color">#187CDA</color>
+    <color name="loc_no_finish">#F38131</color>
 </resources>

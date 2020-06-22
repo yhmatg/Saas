@@ -217,7 +217,7 @@
     <string name="sync_data_confirm">同步数据已完成！</string>
     <string name="sync_data_fail">同步数据失败！</string>
     <string name="finish_inv_fail">盘点任务失败！</string>
-    <string name="scan_all_confirm">所有资产已盘点，请同步数据后完成该盘点任务！</string>
+    <string name="scan_all_confirm">该位置盘点已完成！</string>
     <string name="choose_date">选择日期</string>
     <string name="asset_store_location">资产存放位置</string>
     <string name="synchronizing">正在同步中...</string>
@@ -275,4 +275,9 @@
     <string name="all_asset_str">应盘资产\n区域内</string>
     <string name="in_asset_str">已盘资产\n区域内</string>
     <string name="out_asset_str">已盘资产\n区域外</string>
+    <string name="ast_repair_str">资产维修中</string>
+    <string name="ast_borrow_str">资产外借中</string>
+    <string name="user_out_str">人员外出中</string>
+    <string name="ast_transfer_str">资产转移了</string>
+    <string name="ast_lost_str">资产已丢失</string>
 </resources>

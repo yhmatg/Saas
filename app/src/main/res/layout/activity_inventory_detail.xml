@@ -33,12 +33,20 @@
                 android:textSize="@dimen/sp_15" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/im_area_arrow"
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/dp_10"
                 android:src="@drawable/down_arrow_black" />
         </LinearLayout>
+
+        <View
+            android:layout_gravity="center_vertical"
+            android:id="@+id/middle_view"
+            android:layout_width="@dimen/dp_0_5"
+            android:layout_height="@dimen/dp_20"
+            android:background="#DDDDDD"/>
 
         <LinearLayout
             android:id="@+id/status_layout"
@@ -59,8 +67,9 @@
                 android:textSize="@dimen/sp_15" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/im_status_arrow"
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/dp_10"
                 android:src="@drawable/down_arrow_black" />

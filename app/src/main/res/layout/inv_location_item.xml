@@ -3,8 +3,8 @@
     android:id="@+id/filter_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:layout_marginBottom="@dimen/dp_2"
+    android:background="@color/white"
     android:padding="@dimen/dp_10">
 
     <com.common.esimrfid.customview.CircleNumberProgress
@@ -18,8 +18,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/circle_progress"
+        android:ellipsize="end"
+        android:maxEms="8"
         android:paddingStart="@dimen/dp_10"
-        android:text="区域名称" />
+        android:singleLine="true"
+        android:text="区域名称"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/inv_status"
@@ -40,13 +44,13 @@
 
     <TextView
         android:id="@+id/all_num"
-        android:layout_marginStart="@dimen/dp_10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loc_name"
+        android:layout_marginStart="@dimen/dp_10"
         android:layout_toEndOf="@+id/all_num_name"
-        android:textColor="@color/home_number"
-        android:text="1000" />
+        android:text="1000"
+        android:textColor="@color/home_number" />
 
     <TextView
         android:id="@+id/not_inved"
@@ -99,9 +103,9 @@
         android:layout_below="@+id/not_inved"
         android:layout_alignStart="@+id/not_inved"
         android:layout_alignEnd="@+id/not_inved"
-        android:textColor="@color/home_number"
         android:gravity="center"
-        android:text="120" />
+        android:text="120"
+        android:textColor="@color/home_number" />
 
     <TextView
         android:id="@+id/tv_inved_num"
@@ -110,9 +114,9 @@
         android:layout_below="@+id/not_inved"
         android:layout_alignStart="@+id/tv_inved"
         android:layout_alignEnd="@+id/tv_inved"
-        android:textColor="@color/home_number"
         android:gravity="center"
-        android:text="100" />
+        android:text="100"
+        android:textColor="@color/home_number" />
 
     <TextView
         android:id="@+id/more_inved_num"
@@ -121,9 +125,9 @@
         android:layout_below="@+id/not_inved"
         android:layout_alignStart="@+id/more_inved"
         android:layout_alignEnd="@+id/more_inved"
-        android:textColor="@color/home_number"
         android:gravity="center"
-        android:text="19" />
+        android:text="19"
+        android:textColor="@color/home_number" />
 
     <TextView
         android:id="@+id/less_inved_num"
@@ -132,9 +136,9 @@
         android:layout_below="@+id/not_inved"
         android:layout_alignStart="@+id/less_inved"
         android:layout_alignEnd="@+id/less_inved"
-        android:textColor="@color/home_number"
         android:gravity="center"
-        android:text="1" />
+        android:text="1"
+        android:textColor="@color/home_number" />
 
 
     <ImageView

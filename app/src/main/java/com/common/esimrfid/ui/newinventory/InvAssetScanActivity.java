@@ -33,6 +33,7 @@ import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.ui.home.AssetLocationNum;
+import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.utils.Utils;
 
@@ -91,6 +92,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     List<InventoryDetail> oneInvDetails = new ArrayList<>();
     //每次盘盈的epc
     HashSet<String> oneMoreInvEpcs =  new HashSet<>();
+    private BaseDialog baseDialog;
 
     @Override
     public InvAssetsLocPresenter initPresenter() {
@@ -233,6 +235,12 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
         }
         mInNum.setText(String.valueOf(mInvedDetails.size()));
         mOutNum.setText(String.valueOf(allMoreEpcs.size()));
+        if(mInvedDetails.size() == mInventoryDetails.size()){
+            showConfirmDialog();
+            if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()){
+                esimUhfService.stopScanning();
+            }
+        }
     }
 
     public void startAnim() {
@@ -295,5 +303,29 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         canRfid = true;
         return super.onKeyUp(keyCode, event);
+    }
+
+    public void showConfirmDialog(){
+        if(baseDialog == null){
+            baseDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.finish_confirm_dialog);
+            TextView context = baseDialog.findViewById(R.id.alert_context);
+            Button btSure = baseDialog.findViewById(R.id.bt_confirm);
+            context.setText(R.string.scan_all_confirm);
+            btSure.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    baseDialog.dismiss();
+                }
+            });
+            if(!baseDialog.isShowing()){
+                baseDialog.show();
+            }
+        }else {
+            if(!baseDialog.isShowing()){
+                baseDialog.show();
+            }
+        }
+
+
     }
 }

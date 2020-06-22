@@ -55,8 +55,10 @@ public class InvLocationAdapter extends RecyclerView.Adapter<InvLocationAdapter.
         viewHolder.lessInvNum.setText(String.valueOf(invLocationBean.getLessInvNum()));
         if(invLocationBean.getNotInvNum() == 0){
             viewHolder.invStatus.setText("已完成");
+            viewHolder.invStatus.setTextColor(mContext.getColor(R.color.loc_finished_color));
         }else {
             viewHolder.invStatus.setText("未完成");
+            viewHolder.invStatus.setTextColor(mContext.getColor(R.color.loc_no_finish));
         }
         viewHolder.mFilterLayout.setOnClickListener(new View.OnClickListener() {
             @Override
