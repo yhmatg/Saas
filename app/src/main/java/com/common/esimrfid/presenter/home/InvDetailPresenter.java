@@ -203,7 +203,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                             AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
                             assetUploadParameter.setInvdt_sign(inventoryDetail.getAssetsInfos().getInvdt_sign());
                             assetUploadParameter.setInvdt_status(inventoryDetail.getInvdt_status().getCode());
-                            assetUploadParameter.setInvdt_plus_loc_id(inventoryDetail.getAssetsInfos().getInvdt_plus_loc_id());
+                            assetUploadParameter.setInvdt_plus_loc_id(inventoryDetail.getInvdt_plus_loc_id());
                             assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
                             assetUploadParameters.add(assetUploadParameter);
                         }

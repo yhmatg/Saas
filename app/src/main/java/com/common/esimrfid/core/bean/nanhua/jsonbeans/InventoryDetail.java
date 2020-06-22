@@ -32,6 +32,7 @@ public class InventoryDetail {
     @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
     @Embedded
     private InvdtStatus invdt_status;
+    private String invdt_plus_loc_id;
     //是否已经提交过
     private Boolean needUpload = false;
 
@@ -73,6 +74,14 @@ public class InventoryDetail {
 
     public void setInvdt_status(InvdtStatus invdt_status) {
         this.invdt_status = invdt_status;
+    }
+
+    public String getInvdt_plus_loc_id() {
+        return invdt_plus_loc_id;
+    }
+
+    public void setInvdt_plus_loc_id(String invdt_plus_loc_id) {
+        this.invdt_plus_loc_id = invdt_plus_loc_id;
     }
 
     public Boolean getNeedUpload() {

@@ -92,13 +92,13 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
                 ArrayList<InventoryDetail> moreInvDetails = new ArrayList<>();
                 for (AssetsInfo localAssetsByEpc : localAssetsByEpcs) {
                     if (!isLocalMoreContains(localAssetsByEpc.getId(), locMoreInvDetail)) {
-                        localAssetsByEpc.setInvdt_plus_loc_id(locId);
                         localAssetsByEpc.setInvdt_plus_loc_info(new AssetsInfo.InvdtPlusLocInfo());
                         localAssetsByEpc.getInvdt_plus_loc_info().setId(locId);
                         localAssetsByEpc.getInvdt_plus_loc_info().setLoc_name(locName);
                         InventoryDetail inventoryDetail = new InventoryDetail();
                         inventoryDetail.setAssetsInfos(localAssetsByEpc);
                         inventoryDetail.setInv_id(invId);
+                        inventoryDetail.setInvdt_plus_loc_id(locId);
                         inventoryDetail.setId(Md5Util.getMD5(localAssetsByEpc.getId() + locId + invId));
                         inventoryDetail.setAst_id(localAssetsByEpc.getId());
                         inventoryDetail.setInvdt_status(new InventoryDetail.InvdtStatus());

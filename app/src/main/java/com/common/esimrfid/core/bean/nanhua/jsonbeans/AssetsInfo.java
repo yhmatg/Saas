@@ -61,7 +61,6 @@ public class AssetsInfo {
     @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
     @Embedded(prefix = "user_info_")
     private UserInfo user_info;
-    private String invdt_plus_loc_id;
     @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
     @Embedded(prefix = "plus_loc_")
     private InvdtPlusLocInfo invdt_plus_loc_info;
@@ -169,14 +168,6 @@ public class AssetsInfo {
 
     public void setUser_info(UserInfo user_info) {
         this.user_info = user_info;
-    }
-
-    public String getInvdt_plus_loc_id() {
-        return invdt_plus_loc_id;
-    }
-
-    public void setInvdt_plus_loc_id(String invdt_plus_loc_id) {
-        this.invdt_plus_loc_id = invdt_plus_loc_id;
     }
 
     public InvdtPlusLocInfo getInvdt_plus_loc_info() {
