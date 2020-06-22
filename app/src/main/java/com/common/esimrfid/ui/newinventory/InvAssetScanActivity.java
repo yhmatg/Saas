@@ -220,14 +220,14 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     //处理盘点到的数据
     private void handleEpc(String epc) {
         InventoryDetail inventoryDetail = epcInvBean.get(epc);
-        if(inventoryDetail != null){
+        if(inventoryDetail != null && inventoryDetail.getInvdt_status().getCode() == 0){
             if(!mInvedDetails.contains(inventoryDetail)){
                 inventoryDetail.getInvdt_status().setCode(10);
                 inventoryDetail.setNeedUpload(true);
                 mInvedDetails.add(inventoryDetail);
                 oneInvDetails.add(inventoryDetail);
             }
-        }else if(!allMoreEpcs.contains(epc)){
+        }else if(inventoryDetail == null && !allMoreEpcs.contains(epc)){
             allMoreEpcs.add(epc);
             oneMoreInvEpcs.add(epc);
         }
