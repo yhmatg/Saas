@@ -205,7 +205,7 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
     }
 
     @Override
-    public void handleNotInvAssetLeftStatus(List<InventoryDetail> resultInventoryOrders) {
+    public void handleNotInvAssetLeftStatus(Boolean isAllInved) {
 
     }
 

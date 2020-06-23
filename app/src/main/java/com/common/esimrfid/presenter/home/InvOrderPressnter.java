@@ -388,10 +388,10 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     public void getNotInvAssetLeftStatus(String orderId) {
         addSubscribe(getNotInvAssetObservable(orderId)
                 .compose(RxUtils.rxSchedulerHelper())
-                .subscribeWith(new BaseObserver<List<InventoryDetail>>(mView, false) {
+                .subscribeWith(new BaseObserver<Boolean>(mView, false) {
                     @Override
-                    public void onNext(List<InventoryDetail> result) {
-                        mView.handleNotInvAssetLeftStatus(result);
+                    public void onNext(Boolean isAllInved) {
+                        mView.handleNotInvAssetLeftStatus(isAllInved);
                     }
                 }));
     }
@@ -411,12 +411,17 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
 
 
     //获取盘点单中待盘点的资产
-    public Observable<List<InventoryDetail>> getNotInvAssetObservable(String orderId) {
-        Observable<List<InventoryDetail>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<InventoryDetail>>() {
+    public Observable<Boolean> getNotInvAssetObservable(String orderId) {
+        Observable<Boolean> baseResponseObservable = Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
-            public void subscribe(ObservableEmitter<List<InventoryDetail>> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+                boolean isAllInved = false;
                 List<InventoryDetail> needSubmitAssets = DbBank.getInstance().getInventoryDetailDao().findLocalNotInvhAssets(orderId);
-                emitter.onNext(needSubmitAssets);
+                List<InventoryDetail> allInvDetails = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
+                if(allInvDetails.size() > 0 &&needSubmitAssets.size() == 0){
+                    isAllInved = true;
+                }
+                emitter.onNext(isAllInved);
             }
         });
         return baseResponseObservable;

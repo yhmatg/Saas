@@ -182,11 +182,11 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     }
 
     @Override
-    public void handleNotInvAssetLeftStatus(List<InventoryDetail> resultInventoryOrders) {
-        if(resultInventoryOrders.size() != 0){
-            showFinishInvDialog();
-        }else {
+    public void handleNotInvAssetLeftStatus(Boolean isAllInved) {
+        if(isAllInved){
             mPresenter.finishLocalInvDetailStat(finishInvId,userId);
+        }else {
+            showFinishInvDialog();
         }
     }
 

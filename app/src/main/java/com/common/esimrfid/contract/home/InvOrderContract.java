@@ -20,7 +20,7 @@ public interface InvOrderContract {
 
         void handelFinishInvOrder(BaseResponse baseResponse);
 
-        void handleNotInvAssetLeftStatus(List<InventoryDetail> resultInventoryOrders);
+        void handleNotInvAssetLeftStatus(Boolean isAllInved);
     }
 
     interface Presenter extends AbstractPresenter<View> {
