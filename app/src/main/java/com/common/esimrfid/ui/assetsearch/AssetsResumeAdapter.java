@@ -69,7 +69,7 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
             if(jsonArray.size()>0){
                 for(int n = 0 ;n < jsonArray.size() ; n++){
                     String changeto=jsonArray.getJSONObject(n).getString("changeto");
-                    if(changeto.isEmpty()){
+                    if(changeto == null || changeto.isEmpty()){
                         changeto="<空>";
                     }
                     String fieldname=jsonArray.getJSONObject(n).getString("fieldname");

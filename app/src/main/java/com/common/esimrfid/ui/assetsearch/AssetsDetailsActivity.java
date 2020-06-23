@@ -587,18 +587,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
     private void optionSelect(int options1) {
         AssetTag assetTag = assetTags.get(options1);
-      /*  List<InventoryDetail> localInvDetailByAstId = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByAstId(mInvId,mLocId,astId);
-        if(localInvDetailByAstId.size() > 0){
-            InventoryDetail inventoryDetail = localInvDetailByAstId.get(0);
-            inventoryDetail.getInvdt_status().setCode(10);
-            inventoryDetail.setNeedUpload(true);
-            inventoryDetail.getAssetsInfos().setInvdt_sign(assetTag.getTagName());
-            DbBank.getInstance().getInventoryDetailDao().updateItem(inventoryDetail);
-            ResultInventoryOrder invOrderByInvId = DbBank.getInstance().getResultInventoryOrderDao().findInvOrderByInvId(mInvId);
-            invOrderByInvId.setInv_finish_count(invOrderByInvId.getInv_finish_count() + 1);
-            invOrderByInvId.setInv_notsubmit_count(invOrderByInvId.getInv_notsubmit_count() + 1);
-            DbBank.getInstance().getResultInventoryOrderDao().updateItem(invOrderByInvId);
-        }*/
       mPresenter.setOneAssetInved(assetTag.getTagName(),mInvId,mLocId,astId);
     }
 }

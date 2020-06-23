@@ -359,6 +359,9 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         }else {
             empty_layout.setVisibility(View.VISIBLE);
         }
+        if(mNotInvDetails.size() == 0){
+            mInvButton.setVisibility(View.GONE);
+        }
     }
 
     @Override
