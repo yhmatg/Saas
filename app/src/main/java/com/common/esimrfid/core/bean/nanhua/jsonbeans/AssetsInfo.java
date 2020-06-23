@@ -47,19 +47,19 @@ public class AssetsInfo {
     @NonNull
     private String id;
     @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
-    @Embedded
+    @Embedded(prefix = "loc_info_")
     private LocInfo loc_info;
     private int ast_used_status;
     @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
-    @Embedded(prefix = "type_")
+    @Embedded(prefix = "type_info_")
     private TypeInfo type_info;
     @Ignore
     private boolean isSelected;
     @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
-    @Embedded(prefix = "org_dept_")
+    @Embedded(prefix = "org_used_dep_")
     private OrgUseddept org_useddept;
     @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
-    @Embedded(prefix = "user_info_")
+    @Embedded(prefix = "userinfo_")
     private UserInfo user_info;
     @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
     @Embedded(prefix = "plus_loc_")

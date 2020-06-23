@@ -3,22 +3,16 @@ package com.common.esimrfid.presenter.home;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.MoreInventotyDetail;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
-import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
