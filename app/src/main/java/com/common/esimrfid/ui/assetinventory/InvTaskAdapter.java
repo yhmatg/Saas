@@ -45,14 +45,14 @@ public class InvTaskAdapter extends RecyclerView.Adapter<InvTaskAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         ResultInventoryOrder invTaskItem = mInvTaskorders.get(i);
-        String invName = TextUtils.isEmpty(invTaskItem.getInv_name()) ? "无信息" : invTaskItem.getInv_name();
+        String invName = TextUtils.isEmpty(invTaskItem.getInv_name()) ? "" : invTaskItem.getInv_name();
         viewHolder.mInvTitle.setText(invName);
 
-        String invCode = TextUtils.isEmpty(invTaskItem.getInv_code()) ? "无信息" : invTaskItem.getInv_code();
+        String invCode = TextUtils.isEmpty(invTaskItem.getInv_code()) ? "" : invTaskItem.getInv_code();
         viewHolder.mInvCode.setText(invCode);
 
-        String userRealName = invTaskItem.getCreator() == null ? "无信息" : invTaskItem.getCreator().getUser_real_name();
-        userRealName = TextUtils.isEmpty(userRealName) ? "无信息" : userRealName;
+        String userRealName = invTaskItem.getCreator() == null ? "" : invTaskItem.getCreator().getUser_real_name();
+        userRealName = TextUtils.isEmpty(userRealName) ? "" : userRealName;
         viewHolder.mInvCreatorName.setText(userRealName);
 
         viewHolder.mCreateDate.setText(DateUtils.date2String(invTaskItem.getCreate_date()));

@@ -50,15 +50,15 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         InventoryDetail invDetail = mInventoryDetails.get(i);
         AssetsInfo assetsInfo = invDetail.getAssetsInfos();
-        String astName = TextUtils.isEmpty(assetsInfo.getAst_name()) ? "无信息" : assetsInfo.getAst_name();
+        String astName = TextUtils.isEmpty(assetsInfo.getAst_name()) ? "" : assetsInfo.getAst_name();
         viewHolder.tvAstName.setText(astName);
-        String astBarcode = TextUtils.isEmpty(assetsInfo.getAst_barcode()) ? "无信息" : assetsInfo.getAst_barcode();
+        String astBarcode = TextUtils.isEmpty(assetsInfo.getAst_barcode()) ? "" : assetsInfo.getAst_barcode();
         viewHolder.tvAssetNum.setText(astBarcode);
-        String storeLoc = assetsInfo.getLoc_info() == null ? "无信息" : assetsInfo.getLoc_info().getLoc_name();
+        String storeLoc = assetsInfo.getLoc_info() == null ? "" : assetsInfo.getLoc_info().getLoc_name();
         viewHolder.tvLocName.setText(storeLoc);
-        String useDepart = assetsInfo.getOrg_useddept() == null ? "无信息" : assetsInfo.getOrg_useddept().getOrg_name();
+        String useDepart = assetsInfo.getOrg_useddept() == null ? "" : assetsInfo.getOrg_useddept().getOrg_name();
         viewHolder.tvDepartName.setText(useDepart);
-        String userName = assetsInfo.getUser_info() == null ? "无信息" : assetsInfo.getUser_info().getUser_real_name();
+        String userName = assetsInfo.getUser_info() == null ? "" : assetsInfo.getUser_info().getUser_real_name();
         viewHolder.tvUserName.setText(userName);
         viewHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override

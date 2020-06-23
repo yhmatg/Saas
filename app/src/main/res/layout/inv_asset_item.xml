@@ -43,7 +43,6 @@
         android:layout_below="@+id/tv_ast_name"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_toEndOf="@+id/tv_num_name"
-        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -64,7 +63,6 @@
         android:layout_below="@+id/tv_num_name"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_toEndOf="@+id/tv_num_name"
-        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -85,7 +83,6 @@
         android:layout_below="@+id/tv_ast_loc"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_toEndOf="@+id/tv_num_name"
-        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -106,7 +103,6 @@
         android:layout_below="@+id/tv_use_depart"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_toEndOf="@+id/tv_num_name"
-        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 

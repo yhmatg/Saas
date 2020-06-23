@@ -59,7 +59,6 @@
         android:layout_marginTop="@dimen/dp_5"
         android:layout_marginBottom="@dimen/dp_5"
         android:layout_toEndOf="@+id/inv_creator"
-        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -79,7 +78,6 @@
         android:layout_below="@+id/inv_creator"
         android:layout_marginStart="@dimen/dp_5"
         android:layout_toEndOf="@+id/inv_create_date"
-        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -100,7 +98,6 @@
         android:layout_below="@+id/inv_creator"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="@dimen/dp_5"
-        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -129,7 +126,6 @@
         android:layout_below="@+id/divider_two"
         android:layout_marginStart="@dimen/dp_5"
         android:layout_toEndOf="@+id/inv_all_name"
-        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
@@ -154,7 +150,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_5"
-            android:text="@string/no_info"
             android:textColor="@color/gray_text"
             android:textSize="@dimen/sp_13" />
     </LinearLayout>
@@ -177,7 +172,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="@dimen/dp_5"
         android:layout_marginEnd="@dimen/dp_10"
-        android:text="@string/no_info"
         android:textColor="@color/gray_text"
         android:textSize="@dimen/sp_13" />
 
