@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
@@ -69,6 +70,7 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
 
     @Override
     protected void initEventAndData() {
+        EsimAndroidApp.activityFrom = "AssetInventoryActivity";
         mTitle.setText(R.string.ast_inv);
         userId = getUserLoginResponse().getUserinfo().getId();
         mAdapter = new InvTaskAdapter(mShowTaskorders, this);

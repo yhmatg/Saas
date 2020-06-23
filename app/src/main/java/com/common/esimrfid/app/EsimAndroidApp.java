@@ -39,6 +39,7 @@ public class EsimAndroidApp extends Application {
     private UserLoginResponse mUserLoginResponse;
     private static IEsimUhfService mIEsimUhfService ;
     private ArrayList<BaseActivity> activities = new ArrayList<>();
+    public static String activityFrom;
 
     public static synchronized EsimAndroidApp getInstance() {
         return instance;
@@ -141,5 +142,4 @@ public class EsimAndroidApp extends Application {
         iEsimUhfService.initRFID();
         EsimAndroidApp.setIEsimUhfService(iEsimUhfService);
     }
-
 }

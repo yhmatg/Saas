@@ -26,6 +26,7 @@ import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
 import com.common.esimrfid.core.DataManager;
@@ -206,7 +207,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         repair_recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         if (("AssetRepairActivity".equals(activityFrom))) {
             addButton.setVisibility(View.VISIBLE);
-        } else if ("InvAssetLocActivity".equals(activityFrom)) {
+        }
+        if ("InventoryTaskActivity".equals(EsimAndroidApp.activityFrom)) {
             assetInved.setVisibility(View.VISIBLE);
             searchAsset.setVisibility(View.VISIBLE);
             initCustomOptionPicker();

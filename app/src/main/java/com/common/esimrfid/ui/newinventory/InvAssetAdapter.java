@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
@@ -74,7 +75,10 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
             }
         });
         Integer status = invDetail.getInvdt_status().getCode();
-        if (status == 0) {
+        if ("AssetInventoryActivity".equals(EsimAndroidApp.activityFrom)) {
+            viewHolder.statusImg.setVisibility(View.GONE);
+            viewHolder.tvAddTag.setVisibility(View.GONE);
+        } else if (status == 0) {
             viewHolder.statusImg.setVisibility(View.GONE);
             viewHolder.tvAddTag.setVisibility(View.VISIBLE);
         } else if (status == 1) {

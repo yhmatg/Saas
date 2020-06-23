@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
@@ -64,6 +65,7 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
 
     @Override
     protected void initEventAndData() {
+        EsimAndroidApp.activityFrom = "InventoryTaskActivity";
         mTitle.setText(R.string.inv_task);
         userId = getUserLoginResponse().getUserinfo().getId();
         mAdapter = new InvAssetAdapter(mUnFinishedTaskorders, this);

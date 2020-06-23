@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
@@ -14,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
@@ -51,6 +53,8 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
     RadioButton invMoreRadio;
     @BindView(R.id.asset_inv_less)
     RadioButton invLessRadio;
+    @BindView(R.id.start_inv)
+    Button mInvButton;
     //这个区域下所有的资产
     List<InventoryDetail> mInventoryDetails = new ArrayList<>();
     //当前显示的资产
@@ -94,7 +98,9 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         assetInvRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         assetInvRecycler.setAdapter(mAssetAdapter);
         initPopWindow();
-
+        if("AssetInventoryActivity".equals(EsimAndroidApp.activityFrom)){
+            mInvButton.setVisibility(View.GONE);
+        }
     }
 
     private void initPopWindow() {
