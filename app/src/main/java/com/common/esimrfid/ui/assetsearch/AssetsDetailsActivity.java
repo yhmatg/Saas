@@ -208,7 +208,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         if (("AssetRepairActivity".equals(activityFrom))) {
             addButton.setVisibility(View.VISIBLE);
         }
-        if ("InventoryTaskActivity".equals(EsimAndroidApp.activityFrom)) {
+        if ("InventoryTaskActivity".equals(EsimAndroidApp.activityFrom) && "notInvEdAsset".equals(EsimAndroidApp.invStatus)) {
             assetInved.setVisibility(View.VISIBLE);
             searchAsset.setVisibility(View.VISIBLE);
             initCustomOptionPicker();

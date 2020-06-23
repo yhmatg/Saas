@@ -69,9 +69,9 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
                     intent.putExtra(WHERE_FROM, "InvAssetLocActivity");
                     intent.putExtra(INV_ID, invDetail.getInv_id());
                     intent.putExtra(LOC_IC, assetsInfo.getLoc_id());
-                    EsimAndroidApp.activityFrom = "InventoryTaskActivity";
+                    EsimAndroidApp.invStatus = "notInvEdAsset";
                 }else {
-                    EsimAndroidApp.activityFrom = "AssetInventoryActivity";
+                    EsimAndroidApp.invStatus = "InvEdAsset";
                 }
                 intent.setClass(mContext, AssetsDetailsActivity.class);
                 mContext.startActivity(intent);

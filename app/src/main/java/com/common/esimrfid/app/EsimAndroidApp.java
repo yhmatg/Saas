@@ -40,6 +40,7 @@ public class EsimAndroidApp extends Application {
     private static IEsimUhfService mIEsimUhfService ;
     private ArrayList<BaseActivity> activities = new ArrayList<>();
     public static String activityFrom;
+    public static String invStatus;
 
     public static synchronized EsimAndroidApp getInstance() {
         return instance;
