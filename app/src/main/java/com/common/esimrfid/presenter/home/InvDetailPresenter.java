@@ -241,7 +241,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
             public void subscribe(ObservableEmitter<BaseResponse<ResultInventoryDetail>> emitter) throws Exception {
                 List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
                 ResultInventoryOrder invOrderByInvId = DbBank.getInstance().getResultInventoryOrderDao().findInvOrderByInvId(orderId);
-                if (online && localInvDetailsByInvid.size() == 0) {
+                if (online && (localInvDetailsByInvid.size() == 0 || invOrderByInvId.getInv_status() == 11)) {
                     emitter.onComplete();
                 } else {
                     BaseResponse<ResultInventoryDetail> localInvDetailResponse = new BaseResponse<>();

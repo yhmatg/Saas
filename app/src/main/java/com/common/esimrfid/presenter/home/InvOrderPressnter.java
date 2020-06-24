@@ -371,6 +371,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                             DbBank.getInstance().getInventoryDetailDao().updateItems(needSubmitAssets);
                             ResultInventoryOrder invOrderByInvId = DbBank.getInstance().getResultInventoryOrderDao().findInvOrderByInvId(orderId);
                             invOrderByInvId.setInv_notsubmit_count(0);
+                            invOrderByInvId.setInv_status(11);
                             DbBank.getInstance().getResultInventoryOrderDao().updateItem(invOrderByInvId);
                         }
                     }
