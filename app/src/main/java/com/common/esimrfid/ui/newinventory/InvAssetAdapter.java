@@ -78,10 +78,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
             }
         });
         Integer status = invDetail.getInvdt_status().getCode();
-        if ("AssetInventoryActivity".equals(EsimAndroidApp.activityFrom)) {
-            viewHolder.statusImg.setVisibility(View.GONE);
-            viewHolder.tvAddTag.setVisibility(View.GONE);
-        } else if (status == 0) {
+         if (status == 0) {
             viewHolder.statusImg.setVisibility(View.GONE);
             viewHolder.tvAddTag.setVisibility(View.VISIBLE);
         } else if (status == 1) {
@@ -99,6 +96,9 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
             viewHolder.statusImg.setVisibility(View.VISIBLE);
             viewHolder.tvAddTag.setVisibility(View.GONE);
 
+        }
+        if ("AssetInventoryActivity".equals(EsimAndroidApp.activityFrom)) {
+            viewHolder.tvAddTag.setVisibility(View.GONE);
         }
         viewHolder.tvAddTag.setOnClickListener(new View.OnClickListener() {
             @Override
