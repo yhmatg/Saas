@@ -29,6 +29,8 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
     private List<ResultInventoryOrder> mInvTaskorders;
     private Context mContext;
     private OnItemClickListener mOnItemClickListener;
+    private  final int MIN_CLICK_DELAY_TIME = 1000;
+    private  long lastClickTime;
 
     public InvAssetAdapter(List<ResultInventoryOrder> invTaskorders, Context mContext) {
         this.mInvTaskorders = invTaskorders;
@@ -83,7 +85,9 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         viewHolder.mFinishInv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onFinishInv(invTaskItem, i);
+                if(isNormalClick()){
+                    mOnItemClickListener.onFinishInv(invTaskItem, i);
+                }
             }
         });
 
@@ -146,6 +150,16 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         intent.putExtra(INTENT_FROM, "InvAssetAdapter");
         intent.setClass(mContext, InvdetialActivity.class);
         mContext.startActivity(intent);
+    }
+
+    public  boolean isNormalClick() {
+        boolean flag = false;
+        long curClickTime = System.currentTimeMillis();
+        if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
+            flag = true;
+        }
+        lastClickTime = curClickTime;
+        return flag;
     }
 
 }
