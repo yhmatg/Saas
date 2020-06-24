@@ -298,6 +298,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                     EventBus.getDefault().post(repairAssetEvent);
                     finish();
                 }
+                break;
             case R.id.tv_inv_sure:
                 pvCustomOptions.setPicker(assetTags);
                 pvCustomOptions.show();
