@@ -29,8 +29,8 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
     private List<ResultInventoryOrder> mInvTaskorders;
     private Context mContext;
     private OnItemClickListener mOnItemClickListener;
-    private  final int MIN_CLICK_DELAY_TIME = 1000;
-    private  long lastClickTime;
+    private final int MIN_CLICK_DELAY_TIME = 1000;
+    private long lastClickTime;
 
     public InvAssetAdapter(List<ResultInventoryOrder> invTaskorders, Context mContext) {
         this.mInvTaskorders = invTaskorders;
@@ -71,21 +71,25 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         viewHolder.mStartInv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showInvDetailActivity(invTaskItem);
+                if (isNormalClick()) {
+                    showInvDetailActivity(invTaskItem);
+                }
             }
         });
         viewHolder.mSyncInv.setVisibility(View.VISIBLE);
         viewHolder.mSyncInv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onSyncData(invTaskItem, i);
+                if (isNormalClick()) {
+                    mOnItemClickListener.onSyncData(invTaskItem, i);
+                }
             }
         });
         viewHolder.mFinishInv.setVisibility(View.VISIBLE);
         viewHolder.mFinishInv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isNormalClick()){
+                if (isNormalClick()) {
                     mOnItemClickListener.onFinishInv(invTaskItem, i);
                 }
             }
@@ -152,7 +156,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         mContext.startActivity(intent);
     }
 
-    public  boolean isNormalClick() {
+    public boolean isNormalClick() {
         boolean flag = false;
         long curClickTime = System.currentTimeMillis();
         if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {

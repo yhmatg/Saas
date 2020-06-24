@@ -90,6 +90,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     IEsimUhfService esimUhfService = null;
     private boolean isCommonClose = false;
     private boolean isFirstInstall;
+    private final int MIN_CLICK_DELAY_TIME = 1000;
+    private long lastClickTime;
 
     @Override
     public HomePresenter initPresenter() {
@@ -200,25 +202,40 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.inv_task:
-                startActivity(new Intent(this, InventoryTaskActivity.class));
+                if(isNormalClick()){
+                    startActivity(new Intent(this, InventoryTaskActivity.class));
+                }
                 break;
             case R.id.ast_inv:
-                startActivity(new Intent(this, AssetInventoryActivity.class));
+                if(isNormalClick()){
+                    startActivity(new Intent(this, AssetInventoryActivity.class));
+                }
                 break;
             case R.id.ast_search:
-                startActivity(new Intent(this, AssetsSearchActivity.class));
+                if(isNormalClick()){
+                    startActivity(new Intent(this, AssetsSearchActivity.class));
+                }
                 break;
             case R.id.write_tag:
-                startActivity(new Intent(this, WriteTagActivity.class));
+                if(isNormalClick()){
+                    startActivity(new Intent(this, WriteTagActivity.class));
+                }
+
                 break;
             case R.id.home_setting:
-                startActivity(new Intent(this, SettingActivity.class));
+                if(isNormalClick()){
+                    startActivity(new Intent(this, SettingActivity.class));
+                }
                 break;
             case R.id.ast_identity:
-                startActivity(new Intent(this, IdentityActivity.class));
+                if(isNormalClick()){
+                    startActivity(new Intent(this, IdentityActivity.class));
+                }
                 break;
             case R.id.ast_repair:
-                startActivity(new Intent(this, AssetRepairActivity.class));
+                if(isNormalClick()){
+                    startActivity(new Intent(this, AssetRepairActivity.class));
+                }
                 break;
         }
     }
@@ -445,5 +462,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             Window window = updateDialog.getWindow();
             window.setBackgroundDrawableResource(android.R.color.transparent);
         }
+    }
+
+    public boolean isNormalClick() {
+        boolean flag = false;
+        long curClickTime = System.currentTimeMillis();
+        if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
+            flag = true;
+        }
+        lastClickTime = curClickTime;
+        return flag;
     }
 }
