@@ -310,4 +310,10 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         });
         baseDialog.show();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EsimAndroidApp.activityFrom = "";
+    }
 }

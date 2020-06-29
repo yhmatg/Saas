@@ -97,7 +97,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
             viewHolder.tvAddTag.setVisibility(View.GONE);
 
         }
-        if ("AssetInventoryActivity".equals(EsimAndroidApp.activityFrom)) {
+        if (!"InventoryTaskActivity".equals(EsimAndroidApp.activityFrom)) {
             viewHolder.tvAddTag.setVisibility(View.GONE);
         }
         viewHolder.tvAddTag.setOnClickListener(new View.OnClickListener() {

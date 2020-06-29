@@ -98,7 +98,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         assetInvRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         assetInvRecycler.setAdapter(mAssetAdapter);
         initPopWindow();
-        if("AssetInventoryActivity".equals(EsimAndroidApp.activityFrom)){
+        if(!"InventoryTaskActivity".equals(EsimAndroidApp.activityFrom)){
             mInvButton.setVisibility(View.GONE);
         }
     }

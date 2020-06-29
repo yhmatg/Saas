@@ -70,7 +70,6 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
 
     @Override
     protected void initEventAndData() {
-        EsimAndroidApp.activityFrom = "AssetInventoryActivity";
         mTitle.setText(R.string.ast_inv);
         userId = getUserLoginResponse().getUserinfo().getId();
         mAdapter = new InvTaskAdapter(mShowTaskorders, this);
