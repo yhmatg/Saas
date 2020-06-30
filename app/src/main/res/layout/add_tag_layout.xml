@@ -10,7 +10,10 @@
         android:id="@+id/tv_ast_lost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_5"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
         android:text="@string/ast_lost_str"
         android:textSize="@dimen/sp_12" />
     <View
@@ -22,7 +25,10 @@
         android:id="@+id/tv_transfer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_5"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
         android:text="@string/ast_transfer_str"
         android:textSize="@dimen/sp_12" />
     <View
@@ -34,7 +40,10 @@
         android:id="@+id/tv_user_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_5"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
         android:text="@string/user_out_str"
         android:textSize="@dimen/sp_12" />
     <View
@@ -46,7 +55,10 @@
         android:id="@+id/tv_ast_borrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_5"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
         android:text="@string/ast_borrow_str"
         android:textSize="@dimen/sp_12" />
     <View
@@ -58,7 +70,10 @@
         android:id="@+id/tv_ast_repair"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_5"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
         android:text="@string/ast_repair_str"
         android:textSize="@dimen/sp_12" />
 

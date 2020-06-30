@@ -25,6 +25,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.home.InvAssetsLocPresenter;
+import com.common.esimrfid.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +131,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     }
                     mAssetAdapter.notifyDataSetChanged();
                     mCustomPopWindow.dissmiss();
+                    ToastUtils.showShort(R.string.inv_less_toast);
                 }
             }
         });
@@ -153,6 +155,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     }
                     mAssetAdapter.notifyDataSetChanged();
                     mCustomPopWindow.dissmiss();
+                    ToastUtils.showShort(R.string.inv_less_toast);
                 }
             }
         });
@@ -176,6 +179,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     }
                     mAssetAdapter.notifyDataSetChanged();
                     mCustomPopWindow.dissmiss();
+                    ToastUtils.showShort(R.string.inv_less_toast);
                 }
             }
         });
@@ -199,6 +203,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     }
                     mAssetAdapter.notifyDataSetChanged();
                     mCustomPopWindow.dissmiss();
+                    ToastUtils.showShort(R.string.inv_less_toast);
                 }
             }
         });
@@ -222,6 +227,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     }
                     mAssetAdapter.notifyDataSetChanged();
                     mCustomPopWindow.dissmiss();
+                    ToastUtils.showShort(R.string.inv_less_toast);
                 }
             }
         });
@@ -366,7 +372,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
 
     @Override
     public void onItemClick(InventoryDetail invDetailBean, TextView tvAddTag) {
-        mCustomPopWindow.showAsDropDown(tvAddTag,-40,10);
+        mCustomPopWindow.showAsDropDown(tvAddTag,-80,20);
         selectNotInvBean = invDetailBean;
         mAddTag = tvAddTag;
     }

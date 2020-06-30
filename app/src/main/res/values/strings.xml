@@ -280,4 +280,6 @@
     <string name="user_out_str">人员外出中</string>
     <string name="ast_transfer_str">资产转移了</string>
     <string name="ast_lost_str">资产已丢失</string>
+    <string name="inv_less_toast">标记成功！该资产已经变为“盘亏”</string>
+    <string name="inved_toast">标记成功！该资产已经变为“已盘点”</string>
 </resources>
