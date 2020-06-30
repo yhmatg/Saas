@@ -102,7 +102,7 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
                 .subscribeWith(new BaseObserver<Boolean>(mView, false) {
                     @Override
                     public void onNext(Boolean result) {
-
+                        mView.handleSetOneAssetInved(result);
                     }
                 }));
     }

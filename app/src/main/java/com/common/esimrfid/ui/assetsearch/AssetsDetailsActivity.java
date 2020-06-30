@@ -43,6 +43,7 @@ import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
 import com.common.esimrfid.ui.assetrepair.RepairAssetEvent;
 import com.common.esimrfid.ui.newinventory.AssetTag;
 import com.common.esimrfid.utils.DateUtils;
+import com.common.esimrfid.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -589,5 +590,11 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private void optionSelect(int options1) {
         AssetTag assetTag = assetTags.get(options1);
       mPresenter.setOneAssetInved(assetTag.getTagName(),mInvId,mLocId,astId);
+    }
+
+    @Override
+    public void handleSetOneAssetInved(Boolean result) {
+        ToastUtils.showShort(R.string.inved_toast);
+        finish();
     }
 }
