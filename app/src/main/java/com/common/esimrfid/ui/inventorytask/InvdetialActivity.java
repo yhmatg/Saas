@@ -220,11 +220,11 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     }
 
     //资产列表排序，未盘点在前
-    public void sortListByInvStatus(List<InventoryDetail> inventoryDetails) {
-        Collections.sort(inventoryDetails, new Comparator<InventoryDetail>() {
+    public void sortListByInvStatus(List<InvLocationBean> invLocationBean) {
+        Collections.sort(invLocationBean, new Comparator<InvLocationBean>() {
             @Override
-            public int compare(InventoryDetail t1, InventoryDetail t2) {
-                return t1.getInvdt_status().getCode().compareTo(t2.getInvdt_status().getCode());
+            public int compare(InvLocationBean t1, InvLocationBean t2) {
+                return t2.getNotInvNum() - t1.getNotInvNum();
             }
         });
     }
@@ -337,6 +337,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
                 }
             }
         }
+        sortListByInvStatus(mCurrentLoctionBeans);
         mLoctionAdapter.notifyDataSetChanged();
     }
 }
