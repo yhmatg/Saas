@@ -6,6 +6,7 @@ import com.common.esimrfid.contract.assetsearch.AssetsSearchContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
@@ -29,85 +30,51 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
     }
 
     @Override
-    public void getScanAssetsByEpc(Set<String> Epcs) {
-        mView.showDialog("loading...");
-        Set<String> mTempEpcs = new HashSet<>(Epcs);
-        //addSubscribe(dataManager.fetchScanAssets(mTempEpcs)
-        addSubscribe(Observable.concat(getLocalAssetsObservable(mTempEpcs),dataManager.fetchScanAssets(mTempEpcs))
-        .compose(RxUtils.handleResult())
-        .compose(RxUtils.rxSchedulerHelper())
-        .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
-            @Override
-            public void onNext(List<AssetsInfo> assetsInfos) {
-                mView.dismissDialog();
-                mView.handleScanAssets(assetsInfos);
-            }
-            @Override
-            public void onError(Throwable e){
-                mView.dismissDialog();
-                ToastUtils.showShort(R.string.not_get_epc);
-            }
-        }));
+    public void getSearchAssetsById(String assetsId) {
+        addSubscribe(getSearchLocalAssetsObservable(assetsId)
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<List<SearchAssetsInfo>>(mView,false) {
+                    @Override
+                    public void onNext(List<SearchAssetsInfo> searchAssets) {
+                        mView.handleSearchAssets(searchAssets);
+                    }
+                }));
     }
 
     @Override
-    public void getSearchAssetsById(String assetsId) {
-        mView.showDialog("loading...");
-        //addSubscribe(dataManager.fetchWriteAssetsInfo(assetsId)
-        addSubscribe(Observable.concat(getLocalAssetsObservable(assetsId),dataManager.fetchWriteAssetsInfo(assetsId))
-        .compose(RxUtils.rxSchedulerHelper())
-        .compose(RxUtils.handleResult())
-        .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
-            @Override
-            public void onNext(List<AssetsInfo> assetsInfos) {
-                mView.dismissDialog();
-                mView.handleSearchAssets(assetsInfos);
-            }
-//            @Override
-//            public void onError(Throwable e){
-//                mView.dismissDialog();
-//                ToastUtils.showShort(R.string.not_find_asset);
-//            }
-        }));
+    public void getAllAssetsForSearch() {
+        addSubscribe(getLocalAssetsEpcsObservable()
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<List<SearchAssetsInfo>>(mView,false) {
+                    @Override
+                    public void onNext(List<SearchAssetsInfo> searchAssets) {
+                        mView.handGetAllAssetsForSearch(searchAssets);
+                    }
+                }));
     }
-
-    private Observable<BaseResponse<List<AssetsInfo>>> getLocalAssetsObservable(String para) {
-        Observable<BaseResponse<List<AssetsInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsInfo>>>() {
+    
+    //获取本地所有资产epc
+    public Observable<List<SearchAssetsInfo>> getLocalAssetsEpcsObservable() {
+        Observable<List<SearchAssetsInfo>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
             @Override
-            public void subscribe(ObservableEmitter<BaseResponse<List<AssetsInfo>>> emitter) throws Exception {
-                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByPara(para);
-                if (CommonUtils.isNetworkConnected()) {
-                    emitter.onComplete();
-                } else {
-                    BaseResponse<List<AssetsInfo>> invOrderResponse = new BaseResponse<>();
-                    invOrderResponse.setResult(newestOrders);
-                    invOrderResponse.setCode("200000");
-                    invOrderResponse.setMessage("成功");
-                    invOrderResponse.setSuccess(true);
-                    emitter.onNext(invOrderResponse);
-                }
+            public void subscribe(ObservableEmitter<List<SearchAssetsInfo>> emitter) throws Exception {
+                List<SearchAssetsInfo> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().getAllAssetForSearch();
+                emitter.onNext(allAssetEpcs);
             }
         });
-        return invOrderObservable;
+        return baseResponseObservable;
     }
 
-    private Observable<BaseResponse<List<AssetsInfo>>> getLocalAssetsObservable(Set<String> epcs) {
-        Observable<BaseResponse<List<AssetsInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsInfo>>>() {
+
+    //模糊搜索本地资产
+    public Observable<List<SearchAssetsInfo>> getSearchLocalAssetsObservable(String param) {
+        Observable<List<SearchAssetsInfo>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
             @Override
-            public void subscribe(ObservableEmitter<BaseResponse<List<AssetsInfo>>> emitter) throws Exception {
-                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByEpcs(epcs);
-                if (CommonUtils.isNetworkConnected()) {
-                    emitter.onComplete();
-                } else {
-                    BaseResponse<List<AssetsInfo>> invOrderResponse = new BaseResponse<>();
-                    invOrderResponse.setResult(newestOrders);
-                    invOrderResponse.setCode("200000");
-                    invOrderResponse.setMessage("成功");
-                    invOrderResponse.setSuccess(true);
-                    emitter.onNext(invOrderResponse);
-                }
+            public void subscribe(ObservableEmitter<List<SearchAssetsInfo>> emitter) throws Exception {
+                List<SearchAssetsInfo> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().searchLocalAssetsByPara(param);
+                emitter.onNext(allAssetEpcs);
             }
         });
-        return invOrderObservable;
+        return baseResponseObservable;
     }
 }

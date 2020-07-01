@@ -5,6 +5,7 @@ import android.arch.persistence.room.Query;
 
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 
 import java.util.List;
 import java.util.Set;
@@ -33,5 +34,13 @@ public interface AssetsAllInfoDao extends BaseDao<AssetsAllInfo> {
     //根据资产id或者epc获取资产详情
     @Query("SELECT * FROM AssetsAllInfo where id = :astId or ast_epc_code = :epcCode")
     public List<AssetsAllInfo> findLocalAssetsByAstIdOrEpc(String astId, String epcCode);
+
+    //获取所有的资产（资产搜索查找使用）
+    @Query("SELECT ast_brand,ast_barcode,ast_epc_code,ast_model,ast_name,id,loc_info_loc_name FROM AssetsAllInfo")
+    public List<SearchAssetsInfo> getAllAssetForSearch();
+
+    //根据资产名称，资产编号模糊查询(资产搜索查找使用)
+    @Query("SELECT ast_brand,ast_barcode,ast_epc_code,ast_model,ast_name,id,loc_info_loc_name FROM AssetsAllInfo where ast_name LIKE '%' || :para || '%' OR ast_barcode LIKE '%' || :para || '%'")
+    public List<SearchAssetsInfo> searchLocalAssetsByPara(String para);
 
 }

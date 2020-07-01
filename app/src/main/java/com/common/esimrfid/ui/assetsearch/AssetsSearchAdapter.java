@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
@@ -22,13 +22,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapter.ViewHolder> {
-    private static final String ASSETS_ID="assets_id";
-    private static final String ASSETS_EPC="assets_epc";
+    private static final String ASSETS_ID = "assets_id";
+    private static final String ASSETS_EPC = "assets_epc";
     private Context context;
-    private List<AssetsInfo> mData;
+    private List<SearchAssetsInfo> mData;
     private String model = android.os.Build.MODEL;
 
-    public AssetsSearchAdapter(Context context, List<AssetsInfo> Data) {
+    public AssetsSearchAdapter(Context context, List<SearchAssetsInfo> Data) {
         this.context = context;
         this.mData = Data;
     }
@@ -42,14 +42,14 @@ public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        AssetsInfo assetsInfo = mData.get(i);
+        SearchAssetsInfo assetsInfo = mData.get(i);
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(CommonUtils.isNetworkConnected()){
-                    Intent intent=new Intent();
-                    intent.putExtra(ASSETS_ID,assetsInfo.getId());
-                    intent.setClass(context,AssetsDetailsActivity.class);
+                if (CommonUtils.isNetworkConnected()) {
+                    Intent intent = new Intent();
+                    intent.putExtra(ASSETS_ID, assetsInfo.getId());
+                    intent.setClass(context, AssetsDetailsActivity.class);
                     context.startActivity(intent);
                 }
             }
@@ -62,15 +62,15 @@ public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapte
         viewHolder.brand.setText(astBrand);
         String astModel = TextUtils.isEmpty(assetsInfo.getAst_model()) ? "" : assetsInfo.getAst_model();
         viewHolder.model.setText(astModel);
-        String astLocation = assetsInfo.getLoc_info() == null ? "" : assetsInfo.getLoc_info().getLoc_name();
+        String astLocation = TextUtils.isEmpty(assetsInfo.getLoc_info_loc_name()) ? "" : assetsInfo.getLoc_info_loc_name();
         viewHolder.location.setText(astLocation);
         viewHolder.search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String epc=assetsInfo.getAst_epc_code();
-                if(!TextUtils.isEmpty(epc)){
-                    Intent intent1=new Intent();
-                    intent1.putExtra(ASSETS_EPC,epc);
+                String epc = assetsInfo.getAst_epc_code();
+                if (!TextUtils.isEmpty(epc)) {
+                    Intent intent1 = new Intent();
+                    intent1.putExtra(ASSETS_EPC, epc);
                     intent1.setClass(context, LocationSearchActivity.class);
                     context.startActivity(intent1);
                 } else {

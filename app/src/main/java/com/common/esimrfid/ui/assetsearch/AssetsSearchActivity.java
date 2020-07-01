@@ -2,6 +2,7 @@ package com.common.esimrfid.ui.assetsearch;
 
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetsearch.AssetsSearchContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 import com.common.esimrfid.presenter.assetsearch.AssetsSearchPresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
@@ -36,9 +38,13 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -66,11 +72,15 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     @BindString(R.string.zero_str)
     String stringNum;
     private AssetsSearchAdapter assetsSearchAdapter;
-    private List<AssetsInfo> mData = new ArrayList<>();
-    private Set<String> scanEpcs = new HashSet<>();
+    private List<SearchAssetsInfo> mData = new ArrayList<>();
+    private List<SearchAssetsInfo> allAssets = new ArrayList<>();
+    private HashMap<String, SearchAssetsInfo> assetsMap = new HashMap<>();
     IEsimUhfService esimUhfService = null;
     private CircleAnimation animation;
     private Boolean canRfid = true;
+    private Boolean showScanAssets = false;
+    private Boolean isSearch = false;
+
     @Override
     public AssetsSearchPresenter initPresenter() {
         return new AssetsSearchPresenter(DataManager.getInstance());
@@ -88,19 +98,20 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         tips.setVisibility(View.VISIBLE);
         rotateAnim();
         scanNmuber.setText("查找到资产数量0个");
+        mPresenter.getAllAssetsForSearch();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
-        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
+        if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
             esimUhfService.setEnable(true);
         }
     }
 
     private void rotateAnim() {
-        int radii = (int)(20  * getResources().getDisplayMetrics().density);
+        int radii = (int) (20 * getResources().getDisplayMetrics().density);
         animation = new CircleAnimation(radii);
         animation.setDuration(1000);
         animation.setRepeatCount(Animation.INFINITE);//设置动画重复次数 无限循环
@@ -111,7 +122,6 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
 
     private void initRfidAndEvent() {
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
-//        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -153,6 +163,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                     String assetsId = editText.getText().toString();
                     editText.setSelection(assetsId.length());
                     mPresenter.getSearchAssetsById(assetsId);
+                    isSearch = true;
                     return true;
                 }
                 return false;
@@ -161,43 +172,35 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     }
 
     @Override
-    public void handleScanAssets(List<AssetsInfo> assetsSearchInfos) {
+    public void handleSearchAssets(List<SearchAssetsInfo> searchInfos) {
         mData.clear();
-        mData.addAll(assetsSearchInfos);
-        assetsSearchAdapter.notifyDataSetChanged();
-        handleResultList(mData);
-        String formatNum = String.format(stringNum,mData.size());
+        mData.addAll(searchInfos);
+        String formatNum = String.format(stringNum, mData.size());
         scanNmuber.setText(formatNum);
-        if(mData.size()>0){
-            scanNmuber.setVisibility(View.VISIBLE);
-        }else
-            scanNmuber.setVisibility(View.GONE);
-
+        handleResultList(mData);
+        assetsSearchAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void handleSearchAssets(List<AssetsInfo> searchInfos) {
-        mData.clear();
-        mData.addAll(searchInfos);
-        assetsSearchAdapter.notifyDataSetChanged();
-        handleResultList(mData);
-        String formatNum = String.format(stringNum,mData.size());
-        scanNmuber.setText(formatNum);
-        if(mData.size()>0){
-            scanNmuber.setVisibility(View.VISIBLE);
-        }else
-            scanNmuber.setVisibility(View.GONE);
+    public void handGetAllAssetsForSearch(List<SearchAssetsInfo> searchInfos) {
+        allAssets.clear();
+        allAssets.addAll(searchInfos);
+        for (SearchAssetsInfo allAsset : allAssets) {
+            assetsMap.put(allAsset.getAst_epc_code(), allAsset);
+        }
     }
 
-    private void handleResultList(List<AssetsInfo> mData) {
+    private void handleResultList(List<SearchAssetsInfo> mData) {
         if (mData.size() > 0) {
             empty_page.setVisibility(View.GONE);
             tips.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
+            scanNmuber.setVisibility(View.VISIBLE);
         } else {
             empty_page.setVisibility(View.VISIBLE);
             tips.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
+            scanNmuber.setVisibility(View.GONE);
         }
     }
 
@@ -221,28 +224,34 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
             case UhfMsgType.UHF_START:
                 image_scan.startAnimation(animation);
                 search.setImageResource(R.drawable.stop_search);
-                scanEpcs.clear();
+                editText.setText("");
+                if(isSearch){
+                    mData.clear();
+                    assetsSearchAdapter.notifyDataSetChanged();
+                    String formatNum = String.format(stringNum, 0);
+                    scanNmuber.setText(formatNum);
+                    isSearch = false;
+                }
                 break;
             case UhfMsgType.UHF_STOP:
                 image_scan.clearAnimation();
                 search.setImageResource(R.drawable.search_nearby_assets);
-                if (scanEpcs.size() != 0) {
-                    mPresenter.getScanAssetsByEpc(scanEpcs);
-                } else {
-                    mData.clear();
-                    assetsSearchAdapter.notifyDataSetChanged();
-                    handleResultList(mData);
-                    String formatNum = String.format(stringNum,0);
-                    scanNmuber.setText(formatNum);
-                    scanNmuber.setVisibility(View.GONE);
-                    ToastUtils.showShort(R.string.not_get_epc);
-                }
                 break;
         }
     }
 
     private void handleEpc(String epc) {
-        scanEpcs.add(epc);
+        SearchAssetsInfo searchAssetsInfo = assetsMap.get(epc);
+        if (searchAssetsInfo != null && !mData.contains(searchAssetsInfo)) {
+            mData.add(searchAssetsInfo);
+            if (!showScanAssets) {
+                handleResultList(mData);
+                showScanAssets = true;
+            }
+            String formatNum = String.format(stringNum, mData.size());
+            scanNmuber.setText(formatNum);
+            assetsSearchAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -255,12 +264,12 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     protected void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
-        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()){
+        if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()) {
             esimUhfService.stopScanning();
             image_scan.clearAnimation();
             search.setImageResource(R.drawable.search_nearby_assets);
         }
-        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
+        if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
             esimUhfService.setEnable(false);
         }
 
@@ -268,7 +277,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(canRfid){
+        if (canRfid) {
             if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                 if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
                     esimUhfService.startStopScanning();
