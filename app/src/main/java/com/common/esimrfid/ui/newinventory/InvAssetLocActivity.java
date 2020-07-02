@@ -20,6 +20,7 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.inventorytask.EpcBean;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
@@ -368,6 +369,11 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         if(mNotInvDetails.size() == 0){
             mInvButton.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void handleAllAssetEpcs(List<EpcBean> allEpcs) {
+
     }
 
     @Override

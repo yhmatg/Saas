@@ -24,6 +24,7 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.emun.InventoryStatus;
+import com.common.esimrfid.core.bean.inventorytask.EpcBean;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.customview.CustomPopWindow;
@@ -87,12 +88,13 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     //epc和资产盘点条目
     HashMap<String, InventoryDetail> epcInvBean = new HashMap<>();
     //所有盘盈的epc
-    List<String> allMoreEpcs =  new ArrayList<>();
+    List<String> allMoreEpcs = new ArrayList<>();
     //盘点单中每次盘点到的资产条目
     List<InventoryDetail> oneInvDetails = new ArrayList<>();
     //每次盘盈的epc
-    HashSet<String> oneMoreInvEpcs =  new HashSet<>();
+    HashSet<String> oneMoreInvEpcs = new HashSet<>();
     private BaseDialog baseDialog;
+    private ArrayList<EpcBean> allEpcBeans = new ArrayList<>();
 
     @Override
     public InvAssetsLocPresenter initPresenter() {
@@ -109,6 +111,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
         }
         mAreaName.setText(mLocName);
         mPresenter.fetchAllInvDetails(mInvId, mLocId);
+        mPresenter.getAllAssetEpcs();
         initAnim();
     }
 
@@ -177,14 +180,20 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
             } else if (inventoryDetail.getInvdt_status().getCode() == 2) {
                 mMoreDetails.add(inventoryDetail);
                 allMoreEpcs.add(inventoryDetail.getAssetsInfos().getAst_epc_code());
-            }else if (inventoryDetail.getInvdt_status().getCode() == 0) {
+            } else if (inventoryDetail.getInvdt_status().getCode() == 0) {
                 mInventoryDetails.add(inventoryDetail);
             }
-            epcInvBean.put(inventoryDetail.getAssetsInfos().getAst_epc_code(),inventoryDetail);
+            epcInvBean.put(inventoryDetail.getAssetsInfos().getAst_epc_code(), inventoryDetail);
         }
         mAllNum.setText(String.valueOf(mInventoryDetails.size()));
         mInNum.setText(String.valueOf(mInvedDetails.size()));
         mOutNum.setText(String.valueOf(mMoreDetails.size()));
+    }
+
+    @Override
+    public void handleAllAssetEpcs(List<EpcBean> allEpcs) {
+        allEpcBeans.clear();
+        allEpcBeans.addAll(allEpcs);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -213,7 +222,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
             case UhfMsgType.UHF_STOP:
                 mScanButton.setText(R.string.start_inv);
                 mInScan.setVisibility(View.GONE);
-                mPresenter.handleOneScanned(oneInvDetails,oneMoreInvEpcs,mLocId,mLocName,mInvId);
+                mPresenter.handleOneScanned(oneInvDetails, oneMoreInvEpcs, mLocId, mLocName, mInvId);
                 stopAnim();
                 break;
         }
@@ -221,23 +230,24 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
 
     //处理盘点到的数据
     private void handleEpc(String epc) {
+        EpcBean epcBean = new EpcBean(epc);
         InventoryDetail inventoryDetail = epcInvBean.get(epc);
-        if(inventoryDetail != null && inventoryDetail.getInvdt_status().getCode() == 0){
-            if(!mInvedDetails.contains(inventoryDetail)){
+        if (inventoryDetail != null && inventoryDetail.getInvdt_status().getCode() == 0) {
+            if (!mInvedDetails.contains(inventoryDetail)) {
                 inventoryDetail.getInvdt_status().setCode(10);
                 inventoryDetail.setNeedUpload(true);
                 mInvedDetails.add(inventoryDetail);
                 oneInvDetails.add(inventoryDetail);
             }
-        }else if(inventoryDetail == null && !allMoreEpcs.contains(epc)){
+        } else if (inventoryDetail == null && allEpcBeans.contains(epcBean) && !allMoreEpcs.contains(epc)) {
             allMoreEpcs.add(epc);
             oneMoreInvEpcs.add(epc);
         }
         mInNum.setText(String.valueOf(mInvedDetails.size()));
         mOutNum.setText(String.valueOf(allMoreEpcs.size()));
-        if(mInvedDetails.size() == mInventoryDetails.size()){
+        if (mInvedDetails.size() == mInventoryDetails.size()) {
             showConfirmDialog();
-            if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()){
+            if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()) {
                 esimUhfService.stopScanning();
             }
         }
@@ -305,8 +315,8 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
         return super.onKeyUp(keyCode, event);
     }
 
-    public void showConfirmDialog(){
-        if(baseDialog == null){
+    public void showConfirmDialog() {
+        if (baseDialog == null) {
             baseDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.finish_confirm_dialog);
             TextView context = baseDialog.findViewById(R.id.alert_context);
             Button btSure = baseDialog.findViewById(R.id.bt_confirm);
@@ -317,11 +327,11 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
                     baseDialog.dismiss();
                 }
             });
-            if(!baseDialog.isShowing()){
+            if (!baseDialog.isShowing()) {
                 baseDialog.show();
             }
-        }else {
-            if(!baseDialog.isShowing()){
+        } else {
+            if (!baseDialog.isShowing()) {
                 baseDialog.show();
             }
         }

@@ -22,7 +22,8 @@
         android:gravity="center"
         android:text="@string/scan_str"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_18" />
+        android:textSize="@dimen/sp_18"
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/fm_layout"

@@ -3,6 +3,7 @@ package com.common.esimrfid.presenter.home;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.inventorytask.EpcBean;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
@@ -144,6 +145,30 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
                 invOrderByInvId.setInv_notsubmit_count(needSubmitAssets.size());
                 DbBank.getInstance().getResultInventoryOrderDao().updateItem(invOrderByInvId);
                 emitter.onNext(true);
+            }
+        });
+        return baseResponseObservable;
+    }
+
+    @Override
+    public void getAllAssetEpcs() {
+        addSubscribe(getLocalAssetsEpcsObservable()
+        .compose(RxUtils.rxSchedulerHelper())
+        .subscribeWith(new BaseObserver<List<EpcBean>>(mView,false) {
+            @Override
+            public void onNext(List<EpcBean> epcBeans) {
+                mView.handleAllAssetEpcs(epcBeans);
+            }
+        }));
+    }
+
+    //获取本地所有资产epc
+    public Observable<List<EpcBean>> getLocalAssetsEpcsObservable() {
+        Observable<List<EpcBean>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<EpcBean>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<EpcBean>> emitter) throws Exception {
+                List<EpcBean> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().getAllAssetEpcs();
+                emitter.onNext(allAssetEpcs);
             }
         });
         return baseResponseObservable;
