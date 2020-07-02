@@ -3,6 +3,7 @@ package com.common.esimrfid.core.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
+import com.common.esimrfid.core.bean.inventorytask.EpcBean;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
@@ -43,4 +44,7 @@ public interface AssetsAllInfoDao extends BaseDao<AssetsAllInfo> {
     @Query("SELECT ast_brand,ast_barcode,ast_epc_code,ast_model,ast_name,id,loc_info_loc_name FROM AssetsAllInfo where ast_name LIKE '%' || :para || '%' OR ast_barcode LIKE '%' || :para || '%'")
     public List<SearchAssetsInfo> searchLocalAssetsByPara(String para);
 
+    //获取所有资产的epc
+    @Query("SELECT ast_epc_code FROM AssetsAllInfo")
+    public List<EpcBean> getAllAssetEpcs();
 }
