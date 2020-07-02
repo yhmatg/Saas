@@ -24,9 +24,7 @@ public interface HomeConstract {
 
         void checkUpdateVersion();
 
-        void  fetchAllIvnOrders( String userId,boolean online);
-
-        void getAssetsInfoById(String assetsId);
+        void fetchAllIvnOrders( String userId,boolean online);
 
         void fetchLatestAssets();
     }

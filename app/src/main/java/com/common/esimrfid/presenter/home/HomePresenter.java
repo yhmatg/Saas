@@ -130,7 +130,6 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                 .subscribeWith(new BaseObserver<List<ResultInventoryOrder>>(mView, false) {
                     @Override
                     public void onNext(List<ResultInventoryOrder> resultInventoryOrders) {
-                        Log.e("yhmaaaaaaa", "resultInventoryOrders===" + resultInventoryOrders.size());
                         mView.dismissDialog();
                     }
 
@@ -153,9 +152,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                 List<ResultInventoryOrder> newestOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrders();
                 if (online || newestOrders.isEmpty()) {
                     emitter.onComplete();
-                    Log.e(TAG, "network get data");
                 } else {
-                    Log.e(TAG, "newestOrders======" + newestOrders);
                     BaseResponse<List<ResultInventoryOrder>> invOrderResponse = new BaseResponse<>();
                     invOrderResponse.setResult(newestOrders);
                     invOrderResponse.setCode("200000");
@@ -166,28 +163,6 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
             }
         });
         return invOrderObservable;
-    }
-
-    @Override
-    public void getAssetsInfoById(String assetsId) {
-        mView.showDialog("loading...");
-        addSubscribe(Observable.concat(getLocalAssetsObservable(assetsId),mDataManager.fetchAllAssetsInfos(assetsId))
-                .compose(RxUtils.rxSchedulerHelper())
-                .compose(RxUtils.handleResult())
-                .subscribeWith(new BaseObserver<List<AssetsAllInfo>>(mView, false) {
-                    @Override
-                    public void onNext(List<AssetsAllInfo> assetsInfos) {
-                        if(StringUtils.isEmpty(assetsId) && CommonUtils.isNetworkConnected()){
-                            DbBank.getInstance().getAssetsAllInfoDao().deleteAllData();
-                            DbBank.getInstance().getAssetsAllInfoDao().insertItems(assetsInfos);
-                        }
-                        mView.dismissDialog();
-                    }
-                    @Override
-                    public void onError(Throwable e){
-                        mView.dismissDialog();
-                    }
-                }));
     }
 
     @Override
@@ -210,27 +185,5 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                 }
             }));
         }
-    }
-
-    public Observable<BaseResponse<List<AssetsAllInfo>>> getLocalAssetsObservable(String para) {
-        Observable<BaseResponse<List<AssetsAllInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsAllInfo>>>() {
-            @Override
-            public void subscribe(ObservableEmitter<BaseResponse<List<AssetsAllInfo>>> emitter) throws Exception {
-                List<AssetsAllInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsAllInfoByPara(para);
-                if (CommonUtils.isNetworkConnected()) {
-                    emitter.onComplete();
-                    Log.e(TAG, "network get data");
-                } else {
-                    Log.e(TAG, "newestOrders======" + newestOrders);
-                    BaseResponse<List<AssetsAllInfo>> invOrderResponse = new BaseResponse<>();
-                    invOrderResponse.setResult(newestOrders);
-                    invOrderResponse.setCode("200000");
-                    invOrderResponse.setMessage("成功");
-                    invOrderResponse.setSuccess(true);
-                    emitter.onNext(invOrderResponse);
-                }
-            }
-        });
-        return invOrderObservable;
     }
 }
