@@ -24,7 +24,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
         mPreferences = EsimAndroidApp.getInstance().getSharedPreferences(Constants.MY_SHARED_PREFERENCE, Context.MODE_PRIVATE);
     }
 
-    public static PreferenceHelperImpl getInstance(){
+    public static PreferenceHelperImpl getInstance() {
         if (INSTANCE == null) {
             synchronized (PreferenceHelperImpl.class) {
                 if (INSTANCE == null) {
@@ -123,15 +123,15 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public void setUserLoginResponse(UserLoginResponse userLoginResponse) {
-        mPreferences.edit().putString(Constants.USERLOGINRESPONSE,new Gson().toJson(userLoginResponse)).apply();
+        mPreferences.edit().putString(Constants.USERLOGINRESPONSE, new Gson().toJson(userLoginResponse)).apply();
     }
 
     @Override
     public UserLoginResponse getUserLoginResponse() {
         String userLoginResponse = mPreferences.getString(Constants.USERLOGINRESPONSE, "");
-        if (!"".equals(userLoginResponse)){
+        if (!"".equals(userLoginResponse)) {
             return GsonUtil.GsonToBean(userLoginResponse, UserLoginResponse.class);
-        }else {
+        } else {
             return null;
         }
     }
@@ -143,32 +143,42 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public void setOpenBeeper(boolean isOpen) {
-        mPreferences.edit().putBoolean(Constants.OPEN,isOpen).apply();
+        mPreferences.edit().putBoolean(Constants.OPEN, isOpen).apply();
     }
 
     @Override
     public boolean getOpenBeeper() {
-        return mPreferences.getBoolean(Constants.OPEN,false);
+        return mPreferences.getBoolean(Constants.OPEN, false);
     }
 
     @Override
     public void setSledBeeper(boolean isSledBeeper) {
-        mPreferences.edit().putBoolean(Constants.SLEDBEEPER,isSledBeeper).apply();
+        mPreferences.edit().putBoolean(Constants.SLEDBEEPER, isSledBeeper).apply();
     }
 
     @Override
     public boolean getSledBeeper() {
-        return mPreferences.getBoolean(Constants.SLEDBEEPER,false);
+        return mPreferences.getBoolean(Constants.SLEDBEEPER, false);
     }
 
     @Override
     public void setHostBeeper(boolean isHostBeeper) {
-        mPreferences.edit().putBoolean(Constants.HOSTBEEPER,isHostBeeper).apply();
+        mPreferences.edit().putBoolean(Constants.HOSTBEEPER, isHostBeeper).apply();
     }
 
     @Override
     public boolean getHostBeeper() {
-        return mPreferences.getBoolean(Constants.HOSTBEEPER,false);
+        return mPreferences.getBoolean(Constants.HOSTBEEPER, false);
+    }
+
+    @Override
+    public void setLatestSyncTime(String time) {
+        mPreferences.edit().putString(Constants.LATEST_SYNC_ASSETS_TIME,time).apply();
+    }
+
+    @Override
+    public String getLatestSyncTime() {
+        return mPreferences.getString(Constants.LATEST_SYNC_ASSETS_TIME, "0");
     }
 
 

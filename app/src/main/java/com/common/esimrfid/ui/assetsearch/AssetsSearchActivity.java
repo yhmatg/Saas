@@ -98,6 +98,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         tips.setVisibility(View.VISIBLE);
         rotateAnim();
         scanNmuber.setText("查找到资产数量0个");
+        mPresenter.fetchLatestAssets();
         mPresenter.getAllAssetsForSearch();
     }
 

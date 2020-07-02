@@ -10,8 +10,10 @@ import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
+import com.common.esimrfid.core.dao.AssetsAllInfoDao;
 import com.common.esimrfid.core.http.exception.ResultIsNullException;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
@@ -75,26 +77,6 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                     @Override
                     public void onNext(UpdateVersion updateInfo) {
                         mView.handelCheckoutVersion(updateInfo);
-                    }
-                }));
-    }
-
-    @Override
-    public void getCompanyInfo() {
-        addSubscribe(mDataManager.getCompanyInfo()
-                .compose(RxUtils.rxSchedulerHelper())
-                .compose(RxUtils.handleResult())
-                .subscribeWith(new BaseObserver<CompanyInfo>(mView, false) {
-                    @Override
-                    public void onNext(CompanyInfo companyInfo) {
-                        mView.handleGetCompanyInfo(companyInfo);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (!(e instanceof ResultIsNullException)) {
-                            super.onError(e);
-                        }
                     }
                 }));
     }
@@ -206,6 +188,28 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                         mView.dismissDialog();
                     }
                 }));
+    }
+
+    @Override
+    public void fetchLatestAssets() {
+        if(CommonUtils.isNetworkConnected()){
+            addSubscribe(mDataManager.fetchLatestAssets(mDataManager.getLatestSyncTime())
+            .compose(RxUtils.rxSchedulerHelper())
+            .compose(RxUtils.handleResult())
+            .subscribeWith(new BaseObserver<LatestModifyAssets>(mView, false) {
+                @Override
+                public void onNext(LatestModifyAssets latestModifyAssets) {
+                    AssetsAllInfoDao assetsAllInfoDao = DbBank.getInstance().getAssetsAllInfoDao();
+                    if(latestModifyAssets.getModified() != null && latestModifyAssets.getModified().size() > 0){
+                        assetsAllInfoDao.insertItems(latestModifyAssets.getModified());
+                    }
+                    if(latestModifyAssets.getRemoved()!= null && latestModifyAssets.getRemoved().size() > 0){
+                        assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
+                    }
+                    mDataManager.setLatestSyncTime(String.valueOf(System.currentTimeMillis()));
+                }
+            }));
+        }
     }
 
     public Observable<BaseResponse<List<AssetsAllInfo>>> getLocalAssetsObservable(String para) {

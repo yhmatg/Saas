@@ -16,6 +16,7 @@ import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
@@ -206,4 +207,8 @@ public interface GeeksApis {
     //获取资产的所有详情
     @GET("/assets-server/assets/unpage")
     Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(@Query("pattern_name") String patternName);
+
+    //根据时间戳获取变动更新资产
+    @GET("/assets-server/assets/lastupdate")
+    Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(@Query("lasttime") String lastTime);
 }

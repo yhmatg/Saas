@@ -15,8 +15,6 @@ public interface HomeConstract {
         void handleAssetsNmbDiffStatus(AssetStatusNum assetStatus);
 
         void handelCheckoutVersion(UpdateVersion updateInfo);
-
-        void handleGetCompanyInfo(CompanyInfo companyInfo);
     }
 
     interface Presenter extends AbstractPresenter<View> {
@@ -26,10 +24,10 @@ public interface HomeConstract {
 
         void checkUpdateVersion();
 
-        void getCompanyInfo();
-
         void  fetchAllIvnOrders( String userId,boolean online);
 
         void getAssetsInfoById(String assetsId);
+
+        void fetchLatestAssets();
     }
 }

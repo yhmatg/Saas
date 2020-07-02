@@ -6,7 +6,9 @@ import com.common.esimrfid.contract.assetsearch.AssetsSearchContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
+import com.common.esimrfid.core.dao.AssetsAllInfoDao;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
@@ -52,7 +54,29 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
                     }
                 }));
     }
-    
+
+    @Override
+    public void fetchLatestAssets() {
+        if(CommonUtils.isNetworkConnected()){
+            addSubscribe(dataManager.fetchLatestAssets(dataManager.getLatestSyncTime())
+                    .compose(RxUtils.rxSchedulerHelper())
+                    .compose(RxUtils.handleResult())
+                    .subscribeWith(new BaseObserver<LatestModifyAssets>(mView, false) {
+                        @Override
+                        public void onNext(LatestModifyAssets latestModifyAssets) {
+                            AssetsAllInfoDao assetsAllInfoDao = DbBank.getInstance().getAssetsAllInfoDao();
+                            if(latestModifyAssets.getModified() != null && latestModifyAssets.getModified().size() > 0){
+                                assetsAllInfoDao.insertItems(latestModifyAssets.getModified());
+                            }
+                            if(latestModifyAssets.getRemoved()!= null && latestModifyAssets.getRemoved().size() > 0){
+                                assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
+                            }
+                            dataManager.setLatestSyncTime(String.valueOf(System.currentTimeMillis()));
+                        }
+                    }));
+        }
+    }
+
     //获取本地所有资产epc
     public Observable<List<SearchAssetsInfo>> getLocalAssetsEpcsObservable() {
         Observable<List<SearchAssetsInfo>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {

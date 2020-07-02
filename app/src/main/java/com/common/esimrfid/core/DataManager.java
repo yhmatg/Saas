@@ -16,6 +16,7 @@ import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
@@ -191,6 +192,16 @@ public class DataManager implements HttpHelper, PreferenceHelper {
         return mPreferenceHelper.getHostBeeper();
     }
 
+    @Override
+    public void setLatestSyncTime(String time) {
+        mPreferenceHelper.setLatestSyncTime(time);
+    }
+
+    @Override
+    public String getLatestSyncTime() {
+        return mPreferenceHelper.getLatestSyncTime();
+    }
+
 
     @Override
     public Observable<BaseResponse<UserLoginResponse>> login(UserInfo userInfo) {
@@ -327,5 +338,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(String patternName) {
         return mHttpHelper.fetchAllAssetsInfos(patternName);
+    }
+
+    @Override
+    public Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(String lastTime) {
+        return mHttpHelper.fetchLatestAssets(lastTime);
     }
 }

@@ -141,7 +141,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             if(uerLogin.getUserinfo().getCorpName() != null){
                 mCompanyName.setText(uerLogin.getUserinfo().getCorpName());
             }
-            mPresenter.getAssetsInfoById("");
+            //mPresenter.getAssetsInfoById("");
+            mPresenter.fetchLatestAssets();
             mPresenter.fetchAllIvnOrders(uerLogin.getUserinfo().getId(), true);
 
         } else {
@@ -291,15 +292,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     public void handelCheckoutVersion(UpdateVersion updateInfo) {
         if (getAppVersionCode(this) < updateInfo.getApp_version_code() || !getAppVersionName(this).equals(updateInfo.getApp_version())) {
             thirdUpdate(updateInfo);
-        }
-    }
-
-    @Override
-    public void handleGetCompanyInfo(CompanyInfo companyInfo) {
-        if (!StringUtils.isEmpty(companyInfo.getOrg_name())) {
-            mCompanyName.setText(companyInfo.getOrg_name());
-        } else {
-            mCompanyName.setVisibility(View.GONE);
         }
     }
 

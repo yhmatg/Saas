@@ -16,6 +16,7 @@ import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
@@ -89,5 +90,7 @@ public interface HttpHelper {
     Observable<BaseResponse> finishInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails);
 
     Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos( String patternName);
+
+    Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(String lastTime);
 
 }

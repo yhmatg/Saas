@@ -113,4 +113,8 @@ public interface PreferenceHelper {
 
     boolean getHostBeeper();
 
+    void setLatestSyncTime(String time);
+
+    String getLatestSyncTime();
+
 }
