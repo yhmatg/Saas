@@ -47,4 +47,7 @@
     <color name="login_title_color">#010101</color>
     <color name="login_line_color">#B2B2B2</color>
     <color name="login_remind_back">#6A6A6A</color>
+    <color name="home_text_one">#333333</color>
+    <color name="home_text_two">#3D3D3D</color>
+    <color name="home_progress_color">#2788DD</color>
 </resources>

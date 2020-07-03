@@ -24,7 +24,7 @@ public class LocationAssetAdapter extends RecyclerView.Adapter<LocationAssetAdap
     private List<AssetLocationNum> mLocaitonAsset;
     private Context mContext;
     private int mMaxAssetNum;
-    private int mMaxProgressLength = 620;
+    private int mMaxProgressLength = 0;
 
     public LocationAssetAdapter(List<AssetLocationNum> mLocaitonAsset, Context mContext, int mMaxAssetNum) {
         this.mLocaitonAsset = mLocaitonAsset;
@@ -45,8 +45,6 @@ public class LocationAssetAdapter extends RecyclerView.Adapter<LocationAssetAdap
         AssetLocationNum assetNumber = mLocaitonAsset.get(i);
         viewHolder.locationNmme.setText(assetNumber.getLocation());
         viewHolder.assetNumber.setText(String.valueOf(assetNumber.getNumber()));
-        int[] intArray = mContext.getResources().getIntArray(R.array.progress_coloer);
-        int colorPos = i % intArray.length;
         LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) viewHolder.numbetPro.getLayoutParams();
         float astNum = assetNumber.getNumber();
         if(mMaxAssetNum == 0){
@@ -66,7 +64,7 @@ public class LocationAssetAdapter extends RecyclerView.Adapter<LocationAssetAdap
         //设置圆角弧度
         progressBg.setCornerRadius(20);
         //设置绘制颜色
-        progressBg.setColor(intArray[colorPos]);
+        progressBg.setColor(mContext.getColor(R.color.home_progress_color));
         viewHolder.numbetPro.setProgressDrawable(progressBg);
 
     }
@@ -97,10 +95,9 @@ public class LocationAssetAdapter extends RecyclerView.Adapter<LocationAssetAdap
 
     private void initMaxLength() {
         final float scale = mContext.getResources().getDisplayMetrics().density;
-        int usedLength = (int)(150 * scale);
+        int usedLength = (int)(165 * scale);
         DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
         int widthPixels = displayMetrics.widthPixels;
         mMaxProgressLength = widthPixels - usedLength;
-
     }
 }
