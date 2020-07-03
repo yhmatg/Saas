@@ -10,6 +10,7 @@ import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
+import com.common.esimrfid.core.http.exception.WrongAccountOrPassException;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.Md5Util;
@@ -89,6 +90,9 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                             if (e instanceof SocketTimeoutException || e instanceof SSLHandshakeException || e instanceof UnknownHostException
                                     || e instanceof SSLPeerUnverifiedException || e instanceof HttpException) {
                                mView.showUrlSettingDialog();
+                            }
+                            if (e instanceof WrongAccountOrPassException) {
+                                mView.showLoginWrongLayout();
                             }
                         }
                     }));

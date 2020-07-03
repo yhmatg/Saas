@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_122"
+        android:layout_height="@dimen/dp_30"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:background="@drawable/login_fail_shape"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginStart="@dimen/dp_11"
+            android:layout_marginEnd="@dimen/dp_6"
+            android:layout_width="@dimen/dp_11"
+            android:layout_height="@dimen/dp_11"
+            android:background="@drawable/remind_icon"
+            />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_marginEnd="@dimen/dp_11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_10"
+            android:text="@string/login_fail_str"/>
+    </LinearLayout>
+
+</FrameLayout>

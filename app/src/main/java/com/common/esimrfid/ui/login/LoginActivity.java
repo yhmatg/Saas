@@ -48,7 +48,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.password_invisible)
     ImageView ivEye;
     @BindView(R.id.tv_change_address)
-    LinearLayout access_address;
+    TextView access_address;
     private String TAG = "LoginActivity";
     private boolean isOpenEye = false;
     Toast toast;
@@ -79,7 +79,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    public void showLoginSuccess() {
+    public void showLoginWrongLayout() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View toast_view = inflater.inflate(R.layout.login_fail_dialog, null);
+        toast = new Toast(getApplication());
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 20);
+        toast.setView(toast_view);
+        toast.show();
     }
 
     @OnClick({R.id.btn_login, R.id.tv_change_address, R.id.password_invisible})
@@ -154,15 +161,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         editText.setSelection(hostUrl.length());
         //使得点击对话框外部不消失对话框
         dialog.setCanceledOnTouchOutside(true);
-        //设置对话框的大小
-        view.setMinimumHeight((int) (ScreenSizeUtils.getInstance(getApplication()).getScreenHeight() * 0.23f));
-        Window dialogWindow = dialog.getWindow();
-        assert dialogWindow != null;
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        lp.width = (int) (ScreenSizeUtils.getInstance(getApplication()).getScreenWidth() * 0.75f);
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.CENTER;
-        dialogWindow.setAttributes(lp);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

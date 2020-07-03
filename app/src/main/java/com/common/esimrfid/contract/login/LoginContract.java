@@ -18,7 +18,7 @@ public interface LoginContract {
          * Show login data
          *
          */
-        void showLoginSuccess();
+        void showLoginWrongLayout();
 
         void startMainActivity();
 

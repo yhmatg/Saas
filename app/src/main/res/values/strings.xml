@@ -282,4 +282,5 @@
     <string name="ast_lost_str">资产已丢失</string>
     <string name="inv_less_toast">标记成功！该资产已经变为“盘亏”</string>
     <string name="inved_toast">标记成功！该资产已经变为“已盘点”</string>
+    <string name="login_fail_str">账号或密码不正确</string>
 </resources>
