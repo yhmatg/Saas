@@ -15,15 +15,15 @@
         android:visibility="gone"
         android:padding="@dimen/dp_10"
         android:text="@string/zero_str"
-        android:textColor="#80027BE6"
-        android:textSize="@dimen/sp_16" />
+        android:textColor="@color/titele_color"
+        android:textSize="@dimen/sp_15" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <include layout="@layout/empty_page" />
+        <include layout="@layout/asset_search_empty" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_recycler"
@@ -36,8 +36,8 @@
             android:layout_height="@dimen/dp_48"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/dp_10"
-            android:layout_marginBottom="@dimen/dp_300"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:layout_marginBottom="@dimen/dp_162"
             android:src="@drawable/search_nearby_assets" />
 
         <ImageView
@@ -47,8 +47,8 @@
             android:layout_above="@+id/search_ast"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/dp_15"
-            android:layout_marginBottom="@dimen/dp_288"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_150"
             android:src="@drawable/icon_search" />
     </RelativeLayout>
 

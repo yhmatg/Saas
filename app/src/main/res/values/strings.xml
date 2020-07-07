@@ -185,7 +185,7 @@
     <string name="identify_tags">一次只能写入一个标签</string>
     <string name="write_tips">请将待写入标签贴近手持机前端</string>
     <string name="write_attention">注意：标签写入时，请尽量远离其他标签，避免读取到其他标签，造成写入错误!</string>
-    <string name="no_message">暂无信息哦</string>
+    <string name="no_message">暂无信息</string>
 
     <string name="search_assets_tips">你可以输入资产信息查找资产，也可通过手持机来查找附近的资产</string>
     <string name="not_submit">未提交</string>
@@ -283,4 +283,5 @@
     <string name="inv_less_toast">标记成功！该资产已经变为“盘亏”</string>
     <string name="inved_toast">标记成功！该资产已经变为“已盘点”</string>
     <string name="login_fail_str">账号或密码不正确</string>
+    <string name="asset_search_str">波纹幅度越大，距离资产越近</string>
 </resources>

@@ -22,8 +22,8 @@
 
     <TextView
         android:id="@+id/tv_tips"
-        android:layout_width="@dimen/dp_170"
-        android:layout_height="@dimen/dp_30"
+        android:layout_width="@dimen/dp_250"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_20"
         android:gravity="center"
         android:text="@string/search_assets_tips"
