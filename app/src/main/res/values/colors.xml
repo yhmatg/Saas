@@ -50,4 +50,5 @@
     <color name="home_text_one">#333333</color>
     <color name="home_text_two">#3D3D3D</color>
     <color name="home_progress_color">#2788DD</color>
+    <color name="setting_text_one">#666666</color>
 </resources>
