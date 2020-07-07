@@ -116,10 +116,12 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 mShowTaskorders.clear();
                 mShowTaskorders.addAll(mUnFinishedTaskorders);
                 mAdapter.notifyDataSetChanged();
-                mFinishStart.setTextColor(getColor(R.color.gray_text));
-                mFinishedEnd.setTextColor(getColor(R.color.gray_text));
-                mUnFinishStart.setTextColor(getColor(R.color.search_background));
-                mUnFinishedEnd.setTextColor(getColor(R.color.search_background));
+                mFinishStart.setTextColor(getColor(R.color.home_text_one));
+                mFinishedEnd.setTextColor(getColor(R.color.home_text_one));
+                mFinishedNum.setTextColor(getColor(R.color.home_text_one));
+                mUnFinishStart.setTextColor(getColor(R.color.titele_color));
+                mUnFinishedEnd.setTextColor(getColor(R.color.titele_color));
+                mUnFinishedNum.setTextColor(getColor(R.color.titele_color));
                 isShowUnfinish = true;
                 if (mShowTaskorders.size() == 0) {
                     mEmptyPage.setVisibility(View.VISIBLE);
@@ -131,10 +133,12 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 mShowTaskorders.clear();
                 mShowTaskorders.addAll(mFinishedTaskorders);
                 mAdapter.notifyDataSetChanged();
-                mFinishStart.setTextColor(getColor(R.color.search_background));
-                mFinishedEnd.setTextColor(getColor(R.color.search_background));
-                mUnFinishStart.setTextColor(getColor(R.color.gray_text));
-                mUnFinishedEnd.setTextColor(getColor(R.color.gray_text));
+                mFinishStart.setTextColor(getColor(R.color.titele_color));
+                mFinishedEnd.setTextColor(getColor(R.color.titele_color));
+                mFinishedNum.setTextColor(getColor(R.color.titele_color));
+                mUnFinishStart.setTextColor(getColor(R.color.home_text_one));
+                mUnFinishedEnd.setTextColor(getColor(R.color.home_text_one));
+                mUnFinishedNum.setTextColor(getColor(R.color.home_text_one));
                 isShowUnfinish = false;
                 if (mShowTaskorders.size() == 0) {
                     mEmptyPage.setVisibility(View.VISIBLE);

@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/title_layout" />
+
     <ImageView
-        android:layout_marginTop="@dimen/dp_160"
-       android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/scan_remind"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_120"
+        android:src="@drawable/scan_remind" />
 
     <TextView
-        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_82"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
