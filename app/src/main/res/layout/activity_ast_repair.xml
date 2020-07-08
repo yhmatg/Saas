@@ -11,7 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_layout"
-        android:padding="@dimen/dp_10">
+        android:paddingStart="@dimen/dp_9"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_15"
+        android:paddingBottom="@dimen/dp_15">
 
         <TextView
             android:id="@+id/tv_tag1"
@@ -28,19 +31,18 @@
             android:layout_toEndOf="@+id/tv_tag1"
             android:gravity="center_vertical"
             android:text="@string/repair_person"
-            android:textColor="@color/repair_text"
-            android:textSize="@dimen/sp_15" />
+            android:textColor="@color/home_text_two"
+            android:textSize="@dimen/sp_14" />
 
         <TextView
             android:id="@+id/tv_repair_person"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_6"
             android:layout_toStartOf="@+id/iv_person_arrow"
             android:gravity="end"
             android:hint="@string/repair_person_hint"
-            android:textColorHint="@color/gray_text"
-            android:textSize="@dimen/sp_14" />
+            android:textColorHint="@color/setting_text_one"
+            android:textSize="@dimen/sp_13" />
 
         <ImageView
             android:id="@+id/iv_person_arrow"
@@ -48,15 +50,18 @@
             android:layout_height="@dimen/dp_16"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/right_arrow" />
+            android:src="@drawable/right_arrow"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <View
         android:id="@+id/divider_one"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
+        android:layout_height="0.5dp"
         android:layout_below="@+id/rl_repair_person"
-        android:background="#F2F2F2" />
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:background="@color/login_line_color" />
 
     <LinearLayout
         android:id="@+id/ll_repair_cost"
@@ -66,35 +71,39 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="horizontal"
-        android:padding="@dimen/dp_10">
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_15"
+        android:paddingBottom="@dimen/dp_15">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_5"
             android:gravity="center_vertical"
             android:text="@string/repair_cost_str"
-            android:textColor="@color/repair_text"
-            android:textSize="@dimen/sp_15" />
+            android:textColor="@color/home_text_two"
+            android:textSize="@dimen/sp_14" />
 
         <EditText
             android:id="@+id/ev_repair_cost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_18"
             android:background="@null"
             android:gravity="end"
             android:text="@string/repair_cost_hint"
-            android:textColorHint="@color/gray_text"
-            android:textSize="@dimen/sp_14" />
+            android:textColor="@color/setting_text_one"
+            android:textColorHint="@color/setting_text_one"
+            android:textSize="@dimen/sp_13" />
     </LinearLayout>
 
     <View
         android:id="@+id/divider_two"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
+        android:layout_height="0.5dp"
         android:layout_below="@+id/ll_repair_cost"
-        android:background="#F2F2F2" />
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:background="@color/login_line_color" />
 
 
     <RelativeLayout
@@ -102,25 +111,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/divider_two"
-        android:padding="@dimen/dp_10">
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_15"
+        android:paddingBottom="@dimen/dp_15">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_5"
             android:gravity="center_vertical"
             android:text="@string/repair_date"
-            android:textColor="@color/repair_text"
-            android:textSize="@dimen/sp_15" />
+            android:textColor="@color/home_text_two"
+            android:textSize="@dimen/sp_14" />
 
         <TextView
             android:id="@+id/tv_repair_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_6"
             android:layout_toStartOf="@+id/iv_date_arrow"
             android:gravity="end"
-            android:textColorHint="@color/gray_text"
+            android:textColorHint="@color/home_text_two"
             android:textSize="@dimen/sp_14" />
 
         <ImageView
@@ -129,25 +139,31 @@
             android:layout_height="@dimen/dp_16"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/right_arrow" />
+            android:src="@drawable/right_arrow"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <View
         android:id="@+id/divider_three"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
+        android:layout_height="0.5dp"
         android:layout_below="@+id/rl_repair_date"
-        android:background="#F2F2F2" />
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:background="@color/login_line_color" />
 
     <RelativeLayout
         android:id="@+id/ll_repair_direction"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_100"
+        android:layout_height="@dimen/dp_86"
         android:layout_below="@+id/divider_three"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:padding="@dimen/dp_10">
+        android:paddingStart="@dimen/dp_9"
+        android:paddingEnd="@dimen/dp_15"
+        android:paddingTop="@dimen/dp_15"
+        android:paddingBottom="@dimen/dp_15">
 
         <TextView
             android:id="@+id/tv_tag2"
@@ -164,8 +180,18 @@
             android:layout_toEndOf="@+id/tv_tag2"
             android:gravity="center_vertical"
             android:text="@string/repair_direction"
-            android:textColor="@color/repair_text"
-            android:textSize="@dimen/sp_15" />
+            android:textColor="@color/home_text_two"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_repair_explan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical"
+            android:text="@string/repair_direc_hint"
+            android:textColor="@color/setting_text_one"
+            android:textSize="@dimen/sp_13" />
 
         <EditText
             android:id="@+id/ev_repair_direc"
@@ -174,19 +200,18 @@
             android:layout_below="@+id/tv_repair_dir"
             android:layout_alignStart="@+id/tv_repair_dir"
             android:layout_marginTop="@dimen/dp_5"
-            android:layout_marginEnd="@dimen/dp_18"
             android:background="@null"
-            android:hint="@string/repair_direc_hint"
-            android:textColorHint="@color/gray_text"
-            android:textSize="@dimen/sp_14" />
+            android:textColor="@color/setting_text_one"
+            android:textColorHint="@color/setting_text_one"
+            android:textSize="@dimen/sp_13" />
     </RelativeLayout>
 
     <View
         android:id="@+id/divider_four"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_6"
+        android:layout_height="@dimen/dp_8"
         android:layout_below="@+id/ll_repair_direction"
-        android:background="#F2F2F2" />
+        android:background="#F7F7F7" />
 
     <LinearLayout
         android:id="@+id/ll_choose"
@@ -207,14 +232,14 @@
             android:paddingBottom="@dimen/dp_10"
             android:text="@string/scan_add"
             android:textColor="@color/repair_text"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_14" />
 
         <View
-            android:layout_width="@dimen/dp_1"
+            android:layout_width="0.5dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginBottom="@dimen/dp_10"
-            android:background="#F2F2F2" />
+            android:background="@color/login_line_color" />
 
         <TextView
             android:id="@+id/tv_choose_add"
@@ -226,15 +251,17 @@
             android:paddingBottom="@dimen/dp_10"
             android:text="@string/choose_add"
             android:textColor="@color/repair_text"
-            android:textSize="@dimen/sp_16" />
+            android:textSize="@dimen/sp_14" />
     </LinearLayout>
 
     <View
         android:id="@+id/divider_five"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
+        android:layout_height="0.5dp"
         android:layout_below="@+id/ll_choose"
-        android:background="#F2F2F2" />
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:background="@color/login_line_color" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_selected_ast"
@@ -252,6 +279,7 @@
         android:layout_margin="@dimen/dp_15"
         android:background="@drawable/bt_background"
         android:text="@string/submit_data"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14" />
 
 </RelativeLayout>

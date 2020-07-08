@@ -6,32 +6,33 @@
     android:padding="@dimen/dp_10">
 
     <TextView
-        android:padding="@dimen/dp_1"
         android:id="@+id/tv_position"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/dp_1"
         android:text="@string/select_count"
-        android:textSize="@dimen/sp_13"
-        android:textStyle="bold" />
+        android:textColor="@color/home_text_two"
+        android:layout_marginBottom="@dimen/dp_12"
+        android:textSize="@dimen/sp_13" />
 
     <ImageButton
         android:id="@+id/ast_delete"
-        android:background="#00000000"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/delete_rubbish"
-        android:layout_marginEnd="9dp" />
+        android:layout_marginEnd="9dp"
+        android:background="#00000000"
+        android:src="@drawable/delete_rubbish" />
 
     <TextView
         android:id="@+id/ast_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_37"
+        android:layout_height="@dimen/dp_17"
         android:layout_below="@+id/tv_position"
-        android:background="#1F85E0"
-        android:paddingStart="@dimen/dp_3"
-        android:paddingEnd="@dimen/dp_3"
+        android:background="@color/repair_way"
+        android:gravity="center"
         android:text="状态"
+        android:layout_marginBottom="@dimen/dp_12"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_13" />
 
@@ -39,12 +40,12 @@
         android:id="@+id/ast_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ast_status"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_toEndOf="@+id/ast_status"
-        android:layout_alignBottom="@+id/ast_status"
         android:text="资产名称"
-        android:textSize="@dimen/sp_13"
-        android:textStyle="bold" />
+        android:textColor="@color/home_text_two"
+        android:textSize="@dimen/sp_13" />
 
     <TextView
         android:id="@+id/tv_ast_number"
@@ -53,8 +54,9 @@
         android:layout_below="@+id/ast_status"
         android:layout_marginEnd="@dimen/dp_10"
         android:text="资产编号:"
-        android:textSize="@dimen/sp_13"
-        android:textStyle="bold" />
+        android:layout_marginBottom="@dimen/dp_12"
+        android:textColor="@color/home_text_two"
+        android:textSize="@dimen/sp_13" />
 
     <TextView
         android:id="@+id/ast_number"
@@ -62,7 +64,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ast_status"
         android:layout_toEndOf="@+id/tv_ast_number"
-        android:text="资产编号" />
+        android:text="资产编号"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_13" />
 
     <TextView
         android:id="@+id/tv_ast_type"
@@ -70,8 +74,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_ast_number"
         android:text="资产分类:"
-        android:textSize="@dimen/sp_13"
-        android:textStyle="bold" />
+        android:layout_marginBottom="@dimen/dp_12"
+        android:textColor="@color/home_text_two"
+        android:textSize="@dimen/sp_13" />
 
     <TextView
         android:id="@+id/ast_type"
@@ -79,7 +84,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_ast_number"
         android:layout_toEndOf="@+id/tv_ast_number"
-        android:text="分类" />
+        android:text="分类"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_13" />
 
     <TextView
         android:id="@+id/tv_ast_brand"
@@ -87,8 +94,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_ast_type"
         android:text="品牌:"
-        android:textSize="@dimen/sp_13"
-        android:textStyle="bold" />
+        android:layout_marginBottom="@dimen/dp_12"
+        android:textColor="@color/home_text_two"
+        android:textSize="@dimen/sp_13" />
 
     <TextView
         android:id="@+id/ast_brand"
@@ -96,7 +104,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_ast_type"
         android:layout_toEndOf="@+id/tv_ast_number"
-        android:text="品牌" />
+        android:text="品牌"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_13" />
 
     <TextView
         android:id="@+id/tv_ast_mode"
@@ -104,8 +114,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_ast_brand"
         android:text="规格型号:"
-        android:textSize="@dimen/sp_13"
-        android:textStyle="bold" />
+        android:textColor="@color/home_text_two"
+        android:textSize="@dimen/sp_13" />
 
     <TextView
         android:id="@+id/ast_mode"
@@ -113,7 +123,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_ast_brand"
         android:layout_toEndOf="@+id/tv_ast_number"
-        android:text="型号" />
+        android:text="型号"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_13" />
 
     <CheckBox
         android:id="@+id/cb_repair"
