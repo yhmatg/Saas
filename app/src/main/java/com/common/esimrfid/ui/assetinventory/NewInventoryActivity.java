@@ -1,6 +1,7 @@
 package com.common.esimrfid.ui.assetinventory;
 
 import android.app.Dialog;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -696,9 +697,9 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     public void handlecreateNewInventory(CreateInvResult createInvResult) {
         dismissDialog();
         if (createInvResult == null) {
-            showCreateSuccessDialog(R.string.save_newinv_fail);
+            showCreateSuccessDialog(R.string.save_success);
         } else {
-            showCreateSuccessDialog(R.string.save_newinv_succ);
+            showCreateSuccessDialog(R.string.save_fail);
             finish();
         }
     }

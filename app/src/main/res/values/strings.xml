@@ -284,4 +284,7 @@
     <string name="inved_toast">标记成功！该资产已经变为“已盘点”</string>
     <string name="login_fail_str">账号或密码不正确</string>
     <string name="asset_search_str">波纹幅度越大，距离资产越近</string>
+    <string name="new_inv_info">基本信息</string>
+    <string name="save_success">保存成功</string>
+    <string name="save_fail">保存失败</string>
 </resources>

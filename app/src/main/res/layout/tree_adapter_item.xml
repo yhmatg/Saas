@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/dp_40"
     android:gravity="center_vertical">
 
     <ImageView
@@ -29,7 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/cb_select_tree"
-        android:textColor="#1A1A1A"
+        android:textColor="@color/home_text_one"
         android:textSize="@dimen/sp_16" />
+
 
 </RelativeLayout>

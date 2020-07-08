@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="@dimen/dp_44">
 
         <View
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:layout_marginStart="17dp"
             android:padding="8dp"
             android:text="@string/cancel_opt"
-            android:textColor="#52B7FD"
+            android:textColor="@color/titele_color"
             android:textSize="@dimen/sp_16" />
 
         <TextView
@@ -32,7 +32,7 @@
             android:layout_centerInParent="true"
             android:padding="8dp"
             android:text="@string/choose_date"
-            android:textColor="#80000000"
+            android:textColor="@color/home_text_one"
             android:textSize="@dimen/sp_16" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_marginEnd="17dp"
             android:padding="8dp"
             android:text="@string/sure_opt"
-            android:textColor="#52B7FD"
+            android:textColor="@color/titele_color"
             android:textSize="@dimen/sp_16" />
 
         <View
