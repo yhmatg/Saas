@@ -152,11 +152,11 @@
         android:padding="@dimen/dp_10">
 
         <View
-            android:layout_width="@dimen/dp_4"
+            android:layout_width="@dimen/dp_3"
             android:layout_height="@dimen/dp_12"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/dp_8"
-            android:background="@color/new_inv_head"/>
+            android:background="@drawable/samll_rectangle"/>
 
         <TextView
             android:layout_width="wrap_content"

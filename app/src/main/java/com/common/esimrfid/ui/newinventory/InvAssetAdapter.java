@@ -18,6 +18,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
 import com.common.esimrfid.utils.CommonUtils;
+import com.common.esimrfid.utils.StringUtils;
 
 import java.util.List;
 
@@ -110,6 +111,13 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
                 }
             }
         });
+        String signTag = assetsInfo.getInvdt_sign();
+        if(!StringUtils.isEmpty(signTag)){
+            viewHolder.tvTagContent.setVisibility(View.VISIBLE);
+            viewHolder.tvTagContent.setText(signTag);
+        }else {
+            viewHolder.tvTagContent.setVisibility(View.GONE);
+        }
 
     }
 
@@ -143,6 +151,8 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         TextView tvAddTag;
         @BindView(R.id.inv_status_img)
         ImageView statusImg;
+        @BindView(R.id.tv_tag_content)
+        TextView tvTagContent;
 
         ViewHolder(View view) {
             super(view);

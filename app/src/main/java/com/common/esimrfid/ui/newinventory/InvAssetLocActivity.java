@@ -78,6 +78,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
     CustomPopWindow mCustomPopWindow;
     InventoryDetail selectNotInvBean;
     TextView mAddTag;
+    TextView mPrePopTextview;
     @Override
     public InvAssetsLocPresenter initPresenter() {
         return new InvAssetsLocPresenter(DataManager.getInstance());
@@ -97,7 +98,6 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         mAssetAdapter = new InvAssetAdapter(mCurrentDetails, this);
         mAssetAdapter.setOnItemClickListener(this);
         assetInvRecycler.setLayoutManager(new LinearLayoutManager(this));
-        assetInvRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         assetInvRecycler.setAdapter(mAssetAdapter);
         initPopWindow();
         if(!"InventoryTaskActivity".equals(EsimAndroidApp.activityFrom)){
@@ -117,6 +117,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
             public void onClick(View v) {
                 if(selectNotInvBean != null){
                     tvLost.setTextColor(getColor(R.color.titele_color));
+                    mPrePopTextview = tvLost;
                     selectNotInvBean.getAssetsInfos().setInvdt_sign("资产已丢失");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
@@ -141,6 +142,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
             public void onClick(View v) {
                 if(selectNotInvBean != null){
                     tvTransfer.setTextColor(getColor(R.color.titele_color));
+                    mPrePopTextview = tvTransfer;
                     selectNotInvBean.getAssetsInfos().setInvdt_sign("资产转移了");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
@@ -165,6 +167,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
             public void onClick(View v) {
                 if(selectNotInvBean != null){
                     tvUserOut.setTextColor(getColor(R.color.titele_color));
+                    mPrePopTextview = tvUserOut;
                     selectNotInvBean.getAssetsInfos().setInvdt_sign("人员外出中");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
@@ -189,6 +192,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
             public void onClick(View v) {
                 if(selectNotInvBean != null){
                     tvAstBorrow.setTextColor(getColor(R.color.titele_color));
+                    mPrePopTextview = tvAstBorrow;
                     selectNotInvBean.getAssetsInfos().setInvdt_sign("资产外借中");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
@@ -213,6 +217,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
             public void onClick(View v) {
                 if(selectNotInvBean != null){
                     tvAstRepair.setTextColor(getColor(R.color.titele_color));
+                    mPrePopTextview = tvAstRepair;
                     selectNotInvBean.getAssetsInfos().setInvdt_sign("资产维修中");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
@@ -239,6 +244,9 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 .setOnDissmissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
+                        if(mPrePopTextview != null){
+                            mPrePopTextview.setTextColor(getColor(R.color.setting_text_one));
+                        }
                         mAddTag.setTextColor(getColor(R.color.titele_color));
                         mAddTag.setBackground(getDrawable(R.drawable.add_tag_white_shape));
                     }
@@ -378,7 +386,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
 
     @Override
     public void onItemClick(InventoryDetail invDetailBean, TextView tvAddTag) {
-        mCustomPopWindow.showAsDropDown(tvAddTag,-80,20);
+        mCustomPopWindow.showAsDropDown(tvAddTag,-160,20);
         selectNotInvBean = invDetailBean;
         mAddTag = tvAddTag;
     }

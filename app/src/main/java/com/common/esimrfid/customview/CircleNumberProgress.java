@@ -16,7 +16,7 @@ public class CircleNumberProgress extends View {
     private int paintProgressWidth = 5;
 
     /** 文字百分比的字体大小（sp） */
-    private int paintTextSize = 16;
+    private int paintTextSize = 14;
 
     /** 未完成进度条的颜色 */
     private int paintUndoneColor = 0xffE5E5E5;
@@ -25,7 +25,7 @@ public class CircleNumberProgress extends View {
     private int paintDoneColor = 0xff1076D8;
 
     /** 百分比文字的颜色 */
-    private int paintTextColor = 0xff1A1A1A;
+    private int paintTextColor = 0xff333333;
 
     /** 设置进度条画笔的宽度(px) */
     private int paintProgressWidthPx;

@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_layout"
-        android:layout_marginBottom="@dimen/dp_2"
         android:background="@color/white"
         android:orientation="horizontal">
 
@@ -29,13 +28,14 @@
                 android:gravity="center"
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_10"
+                android:textColor="@color/home_text_one"
                 android:text="全部区域"
                 android:textSize="@dimen/sp_15" />
 
             <ImageView
                 android:id="@+id/im_area_arrow"
-                android:layout_width="@dimen/dp_18"
-                android:layout_height="@dimen/dp_18"
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/dp_10"
                 android:src="@drawable/down_arrow_black" />
@@ -63,13 +63,14 @@
                 android:gravity="center"
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_10"
+                android:textColor="@color/home_text_one"
                 android:text="状态"
                 android:textSize="@dimen/sp_15" />
 
             <ImageView
                 android:id="@+id/im_status_arrow"
-                android:layout_width="@dimen/dp_18"
-                android:layout_height="@dimen/dp_18"
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/dp_10"
                 android:src="@drawable/down_arrow_black" />
@@ -79,6 +80,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
         android:layout_below="@+id/filter_layout">
 
         <include layout="@layout/empty_page" />

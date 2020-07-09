@@ -94,7 +94,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
                 }
             }
         });
-
+        viewHolder.divideLine.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -128,7 +128,8 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         Button mFinishInv;
         @BindView(R.id.tv_name)
         TextView mTvName;
-
+        @BindView(R.id.divider_three)
+        View divideLine;
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
