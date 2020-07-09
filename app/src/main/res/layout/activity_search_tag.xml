@@ -8,14 +8,14 @@
     <RelativeLayout
         android:layout_width="@dimen/dp_160"
         android:layout_height="@dimen/dp_160"
-        android:layout_marginTop="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_42"
         android:layout_gravity="center"
         android:gravity="center">
 
         <ImageView
             android:id="@+id/discern_success"
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_90"
             android:visibility="gone"
             android:src="@drawable/discern_success"
             />
@@ -43,23 +43,25 @@
             android:id="@+id/identify_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_25"
+            android:layout_marginTop="@dimen/dp_40"
             android:textStyle="bold"
             android:textSize="@dimen/sp_18"
+            android:textColor="@color/home_text_one"
             android:text="@string/identify_tips"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_13"
             android:textSize="@dimen/sp_15"
+            android:textColor="@color/home_text_two"
             android:text="@string/write_tips"/>
 
         <Button
             android:id="@+id/btn_confirm_write"
             android:layout_width="@dimen/dp_345"
             android:layout_height="@dimen/dp_40"
-            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_40"
             android:background="@drawable/btn_unconfirm_write"
             android:text="@string/confirm_write"
             android:textColor="@color/white"
@@ -68,9 +70,10 @@
         <TextView
             android:layout_width="@dimen/dp_275"
             android:layout_height="@dimen/dp_40"
-            android:layout_marginTop="@dimen/dp_25"
-            android:textSize="@dimen/sp_15"
+            android:layout_marginTop="@dimen/dp_24"
+            android:textSize="@dimen/sp_14"
             android:gravity="center"
+            android:textColor="@color/titele_color"
             android:text="@string/write_attention"/>
     </LinearLayout>
 

@@ -9,7 +9,7 @@
 
         <ImageView
             android:id="@+id/titleLeft"
-            android:padding="@dimen/dp_10"
+            android:padding="@dimen/dp_12"
             android:layout_gravity="center_vertical"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
@@ -17,10 +17,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_26"
+        android:layout_height="@dimen/dp_30"
         android:orientation="horizontal"
         android:layout_marginEnd="@dimen/dp_50"
-        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_8"
         android:layout_gravity="center"
         android:background="@drawable/bg_search">
 
@@ -38,10 +38,9 @@
             android:imeOptions="actionSearch"
             android:singleLine="true"
             android:background="@null"
-            android:paddingEnd="@dimen/dp_30"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:hint="@string/assets_title"
-            android:textSize="@dimen/sp_12"
+            android:textSize="@dimen/sp_13"
             android:textColor="@color/white"
             android:textColorHint="@color/white"/>
     </LinearLayout>

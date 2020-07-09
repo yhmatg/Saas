@@ -52,4 +52,5 @@
     <color name="home_progress_color">#2788DD</color>
     <color name="setting_text_one">#666666</color>
     <color name="new_inv_head">#005BAC</color>
+    <color name="search_back_color">#529CE2</color>
 </resources>
