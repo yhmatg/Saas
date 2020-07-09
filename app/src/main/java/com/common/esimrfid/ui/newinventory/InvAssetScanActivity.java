@@ -55,10 +55,6 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     public static final String INV_ID = "inv_id";
     public static final String LOC_IC = "loc_id";
     public static final String LOC_Name = "loc_name";
-    @BindView(R.id.iv_big_round)
-    ImageView mBigRound;
-    @BindView(R.id.iv_mid_round)
-    ImageView mMidRound;
     @BindView(R.id.iv_radar)
     ImageView mRadarView;
     @BindView(R.id.tv_in_scan)
@@ -74,7 +70,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     @BindView(R.id.tv_loc_name)
     TextView mAreaName;
     IEsimUhfService esimUhfService = null;
-    private Animation mRadarAnim, mMidAnim, mBigAnim;
+    private Animation mRadarAnim;
     private String mInvId;
     private String mLocId;
     private String mLocName;
@@ -254,14 +250,10 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     }
 
     public void startAnim() {
-        mBigRound.startAnimation(mBigAnim);
-        mMidRound.startAnimation(mMidAnim);
         mRadarView.startAnimation(mRadarAnim);
     }
 
     public void stopAnim() {
-        mBigRound.clearAnimation();
-        mMidRound.clearAnimation();
         mRadarView.clearAnimation();
     }
 
@@ -272,20 +264,6 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
         mRadarAnim.setRepeatCount(Animation.INFINITE);//设置动画重复次数 无限循环
         mRadarAnim.setInterpolator(new LinearInterpolator());
         mRadarAnim.setRepeatMode(Animation.RESTART);
-
-        mMidAnim = new RotateAnimation(360f, 0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        mMidAnim.setFillAfter(true); // 设置保持动画最后的状态
-        mMidAnim.setDuration(2000); // 设置动画时间
-        mMidAnim.setRepeatCount(Animation.INFINITE);//设置动画重复次数 无限循环
-        mMidAnim.setInterpolator(new LinearInterpolator());
-        mMidAnim.setRepeatMode(Animation.RESTART);
-
-        mBigAnim = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        mBigAnim.setFillAfter(true); // 设置保持动画最后的状态
-        mBigAnim.setDuration(500); // 设置动画时间
-        mBigAnim.setRepeatCount(Animation.INFINITE);//设置动画重复次数 无限循环
-        mBigAnim.setInterpolator(new LinearInterpolator());
-        mBigAnim.setRepeatMode(Animation.RESTART);
     }
 
     @Override
