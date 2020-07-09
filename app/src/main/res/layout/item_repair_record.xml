@@ -1,114 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_marginEnd="@dimen/dp_15"
-    android:layout_marginStart="@dimen/dp_15">
+    android:padding="@dimen/dp_15">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/code_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="@string/warranty_code"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_14" />
 
-        <TextView
-            android:text="@string/warranty_code"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:text="@string/handler"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:text="@string/repairer"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:text="@string/repair_cost"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:text="@string/warranty_date"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:text="@string/finish_date"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:text="@string/repair_remark"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginStart="@dimen/dp_5">
-
-        <TextView
-            android:id="@+id/tv_code"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/tv_name"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/repair_name"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/tv_cost"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/tv_mainten_date"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/tv_finish_date"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/tv_mainten_explain"
-            android:textSize="@dimen/sp_14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
     <TextView
-        android:text="已完成"
+        android:id="@+id/handle_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/code_name"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="@string/handler"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_14" />
+
+    <TextView
+        android:id="@+id/repair_person_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/handle_name"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="@string/repairer"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_14" />
+
+    <TextView
+        android:id="@+id/cost_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/repair_person_name"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="@string/repair_cost"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_14" />
+
+    <TextView
+        android:id="@+id/repair_date_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cost_name"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="@string/warranty_date"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_14" />
+
+    <TextView
+        android:id="@+id/finish_date_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/repair_date_name"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="@string/finish_date"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_14" />
+
+    <TextView
+        android:id="@+id/explain_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/finish_date_name"
+        android:text="@string/repair_remark"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_14" />
+
+
+    <TextView
+        android:id="@+id/tv_code"
+        android:layout_toEndOf="@+id/code_name"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/code_name"
+        android:layout_alignBottom="@+id/code_name"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_13" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_toEndOf="@+id/code_name"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_code"
+        android:layout_alignTop="@+id/handle_name"
+        android:layout_alignBottom="@+id/handle_name"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_13" />
+
+    <TextView
+        android:id="@+id/repair_name"
+        android:layout_toEndOf="@+id/code_name"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:layout_alignTop="@+id/repair_person_name"
+        android:layout_alignBottom="@+id/repair_person_name"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_13" />
+
+    <TextView
+        android:id="@+id/tv_cost"
+        android:layout_toEndOf="@+id/code_name"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/repair_name"
+        android:layout_alignTop="@+id/cost_name"
+        android:layout_alignBottom="@+id/cost_name"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_13" />
+
+    <TextView
+        android:id="@+id/tv_mainten_date"
+        android:layout_toEndOf="@+id/code_name"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_cost"
+        android:layout_alignTop="@+id/repair_date_name"
+        android:layout_alignBottom="@+id/repair_date_name"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_13" />
+
+    <TextView
+        android:id="@+id/tv_finish_date"
+        android:layout_toEndOf="@+id/code_name"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_mainten_date"
+        android:layout_alignTop="@+id/finish_date_name"
+        android:layout_alignBottom="@+id/finish_date_name"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_13" />
+
+    <TextView
+        android:id="@+id/tv_mainten_explain"
+        android:layout_width="wrap_content"
+        android:layout_toEndOf="@+id/code_name"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/explain_name"
+        android:layout_alignBottom="@+id/explain_name"
+        android:layout_below="@+id/tv_finish_date"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_13" />
+
+    <TextView
         android:id="@+id/tv_status"
-        android:background="#288EE5"
-        android:textColor="@color/white"
         android:layout_width="@dimen/dp_48"
         android:layout_height="@dimen/dp_20"
+        android:background="@drawable/repair_status_bg"
         android:gravity="center"
-        android:layout_marginTop="@dimen/dp_15"/>
+        android:layout_alignParentEnd="true"
+        android:text="已完成"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_12" />
 
-</LinearLayout>
+</RelativeLayout>

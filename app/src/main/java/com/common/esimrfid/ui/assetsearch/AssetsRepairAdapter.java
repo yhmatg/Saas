@@ -73,6 +73,11 @@ public class AssetsRepairAdapter extends RecyclerView.Adapter<AssetsRepairAdapte
         viewHolder.explain.setText(remark);
 
         String tv_status=TextUtils.isEmpty(assetRepair.getOdr_status())?"":assetRepair.getOdr_status();
+        if("已完成".equals(tv_status)){
+            viewHolder.status.setBackground(context.getDrawable(R.drawable.repair_status_bg));
+        }else {
+            viewHolder.status.setBackground(context.getDrawable(R.drawable.repair_not_finish_bg));
+        }
         viewHolder.status.setText(tv_status);
     }
 

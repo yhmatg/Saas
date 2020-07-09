@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/assets_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:visibility="gone"
-    android:id="@+id/assets_detail"
-    android:background="@color/white">
+    android:visibility="gone">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -13,9 +13,9 @@
         android:scrollbars="vertical">
 
         <LinearLayout
+            android:id="@+id/assets_detail_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/assets_detail_content"
             android:layout_marginStart="@dimen/dp_15"
             android:layout_marginEnd="@dimen/dp_15"
             android:orientation="vertical">
@@ -30,8 +30,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/assets_id"
-                    android:textSize="@dimen/sp_14"
-                    />
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/ast_code"
@@ -40,14 +40,16 @@
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/assets_id"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
@@ -58,7 +60,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/assets_name"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/ast_name"
@@ -67,12 +70,14 @@
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/assets_name"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -84,7 +89,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/assets_type"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/ast_type"
@@ -93,13 +99,14 @@
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/assets_type"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -111,7 +118,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/brand"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/tv_brand"
@@ -120,13 +128,15 @@
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/brand"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
@@ -137,7 +147,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/assets_status"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
                     android:id="@+id/ast_status"
@@ -146,13 +157,14 @@
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/assets_status"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -164,22 +176,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/rule_model"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/rule_model"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/rule_model"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -191,22 +205,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/measuring_unit"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/measuring_unit"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/measuring_unit"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -218,21 +234,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/SN"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/sn"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/SN"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -244,22 +263,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ast_material"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
+                    android:id="@+id/ast_material"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/ast_material"
                     android:text="@string/ast_material"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -271,21 +292,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/belong_company"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/belong_company"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/belong_company"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -297,23 +321,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/store_location"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/stroe_loaction"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/store_location"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
@@ -324,22 +351,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/manager"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/manager"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/manager"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -351,22 +380,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/source"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/source"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/source"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -378,21 +409,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/buy_date"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/buy_date"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/buy_date"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -404,22 +438,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/count"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/count"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/count"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
@@ -430,22 +467,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/expiration_use_months"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/expiration_use_months"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/expiration_use_months"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -457,21 +496,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/use_company"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/use_company"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/use_company"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_45"
@@ -482,21 +525,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/use_department"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/use_department"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/use_department"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -508,21 +554,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/user"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/user"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/user"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -534,21 +583,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/requisition_date"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/requisition_date"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/requisition_date"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/line"/>
+                android:layout_height="0.5dp"
+                android:background="@color/login_line_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -560,16 +612,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/remark"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
                 <TextView
-                    android:layout_height="wrap_content"
                     android:id="@+id/remark"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="@string/remark"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13" />
             </LinearLayout>
 
         </LinearLayout>
