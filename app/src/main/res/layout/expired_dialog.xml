@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_118"
+        android:layout_height="@dimen/dp_98"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_expired">
+
+        <ImageView
+            android:id="@+id/iv_expired"
+            android:layout_width="@dimen/dp_31"
+            android:layout_height="@dimen/dp_31"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_19"
+            android:src="@drawable/expired_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_expired"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:gravity="center"
+            android:text="@string/expired_fail"
+            android:textColor="@color/home_text_one"
+            android:textSize="@dimen/sp_10" />
+    </RelativeLayout>
+
+</FrameLayout>

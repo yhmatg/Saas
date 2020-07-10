@@ -82,7 +82,8 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
         } else if (e instanceof ResultIsNullException) {
             ToastUtils.showShort(R.string.not_result_error);
         } else if (e instanceof ExpiredExpection) {
-            ToastUtils.showShort(R.string.expiration_reminder);
+            //ToastUtils.showShort(R.string.expiration_reminder);
+            mView.showTokenExpiredDialog();
         } else if (e instanceof WrongAccountOrPassException) {
 
         } else if(e instanceof NoAssetInCreateInvException){

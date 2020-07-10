@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
@@ -33,6 +36,7 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
     protected T mPresenter;
 
     private MaterialDialog dialog;
+    private MaterialDialog expiredDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +85,7 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
 
     @Override
     public void showErrorMsg(String errorMsg) {
-        CommonUtils.showSnackMessage(this, errorMsg);
+        //CommonUtils.showSnackMessage(this, errorMsg);
     }
 
     @Override
@@ -190,5 +194,20 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void showTokenExpiredDialog() {
+        if (expiredDialog != null) {
+            expiredDialog.show();
+        } else {
+            View contentView = LayoutInflater.from(this).inflate(R.layout.expired_dialog, null);
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                    .customView(contentView, false);
+            expiredDialog = builder.show();
+            expiredDialog.setCanceledOnTouchOutside(true);
+            Window window = expiredDialog.getWindow();
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+        }
     }
 }
