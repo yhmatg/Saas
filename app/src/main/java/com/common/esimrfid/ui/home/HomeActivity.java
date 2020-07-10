@@ -12,9 +12,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -47,6 +49,7 @@ import com.common.esimrfid.ui.identity.IdentityActivity;
 import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
+import com.common.esimrfid.utils.DensityUtil;
 import com.common.esimrfid.utils.SettingBeepUtil;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
@@ -65,6 +68,9 @@ import java.util.Set;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class HomeActivity extends BaseActivity<HomePresenter> implements HomeConstract.View {
     @BindView(R.id.tv_username)
@@ -395,15 +401,20 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             @Override
             public Dialog getCustomVersionDialog(Context context, UIData versionBundle) {
                 BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.must_update_dialog);
-                TextView textView = baseDialog.findViewById(R.id.update_content);
+                LinearLayout contentLayout = baseDialog.findViewById(R.id.update_content);
                 TextView version = baseDialog.findViewById(R.id.version_num);
                 String str = versionBundle.getContent();
                 String[] strArry = str.split("[；]");
-                String content = "";
                 for (int i = 0; i < strArry.length; i++) {
-                    content = content + strArry[i] + "\n";
+                    TextView detail = new TextView(HomeActivity.this);
+                    detail.setTextSize(13);
+                    detail.setText(strArry[i]);
+                    detail.setGravity(Gravity.CENTER_VERTICAL);
+                    detail.setTextColor(getColor(R.color.home_text_two));
+                    detail.setPadding(0,0,0,12);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
+                    contentLayout.addView(detail,layoutParams);
                 }
-                textView.setText(content);
                 String remoteVersion = versionBundle.getTitle();
                 if (!StringUtils.isEmpty(remoteVersion)) {
                     version.setText("v" + remoteVersion);
@@ -418,15 +429,20 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private CustomVersionDialogListener createCustomDialogTwo() {
         return (context, versionBundle) -> {
             BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.update_version_dialog);
-            TextView textView = baseDialog.findViewById(R.id.update_content);
+            LinearLayout contentLayout = baseDialog.findViewById(R.id.update_content);
             TextView version = baseDialog.findViewById(R.id.version_num);
             String str = versionBundle.getContent();
             String[] strArry = str.split("[；]");
-            String content = "";
             for (int i = 0; i < strArry.length; i++) {
-                content = content + strArry[i] + "\n";
+                TextView detail = new TextView(this);
+                detail.setTextSize(13);
+                detail.setText(strArry[i]);
+                detail.setGravity(Gravity.CENTER_VERTICAL);
+                detail.setTextColor(getColor(R.color.home_text_two));
+                detail.setPadding(0,0,0,12);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
+                contentLayout.addView(detail,layoutParams);
             }
-            textView.setText(content);
             String remoteVersion = versionBundle.getTitle();
             if (!StringUtils.isEmpty(remoteVersion)) {
                 version.setText("v" + remoteVersion);

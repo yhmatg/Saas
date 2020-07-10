@@ -40,7 +40,19 @@
         android:textColor="@color/home_text_one"
         android:textSize="@dimen/sp_15" />
 
-    <TextView
+    <!-- <TextView
+         android:id="@+id/update_content"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/update_content_title"
+         android:layout_marginStart="@dimen/dp_18"
+         android:layout_marginTop="@dimen/dp_10"
+         android:layout_marginBottom="@dimen/dp_10"
+         android:singleLine="false"
+         android:text="@string/def_update_content"
+         android:textColor="@color/home_text_two"
+         android:textSize="@dimen/sp_13" />-->
+    <LinearLayout
         android:id="@+id/update_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,10 +60,9 @@
         android:layout_marginStart="@dimen/dp_18"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_10"
-        android:singleLine="false"
-        android:text="@string/def_update_content"
-        android:textColor="@color/home_text_two"
-        android:textSize="@dimen/sp_13" />
+        android:orientation="vertical">
+
+    </LinearLayout>
 
     <View
         android:id="@+id/button_divider"
@@ -72,8 +83,8 @@
             android:id="@+id/versionchecklib_version_dialog_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_10"
             android:layout_marginStart="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_10"
             android:layout_weight="1"
             android:background="@color/white"
             android:paddingTop="@dimen/dp_11"
@@ -90,8 +101,8 @@
             android:id="@+id/versionchecklib_version_dialog_commit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_10"
             android:layout_marginEnd="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_10"
             android:layout_weight="1"
             android:background="@color/white"
             android:gravity="center"
