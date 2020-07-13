@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/dp_5"
+            android:textColor="@color/home_text_one"
             android:text="@string/about_handheld_machine"
             android:textSize="@dimen/sp_14" />
 
@@ -75,6 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/dp_5"
+            android:textColor="@color/home_text_one"
             android:layout_weight="1"
             android:text="@string/function_setting"
             android:textSize="@dimen/sp_14" />
