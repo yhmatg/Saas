@@ -108,14 +108,14 @@
     <string name="assets_id">资产编号</string>
     <string name="assets_name">资产名称</string>
     <string name="assets_type">资产类型</string>
-    <string name="brand">品牌</string>
+    <string name="brand">品\u3000\u3000牌</string>
     <string name="assets_status">资产状态</string>
     <string name="rule_model">规格型号</string>
     <string name="measuring_unit">计量单位</string>
     <string name="SN">SN号</string>
     <string name="ast_material">资产材质</string>
     <string name="belong_company">所属公司</string>
-    <string name="model">型号</string>
+    <string name="model">型\u3000\u3000号</string>
     <string name="store_location">存放地点</string>
     <string name="manager">管理员</string>
     <string name="source">来源</string>

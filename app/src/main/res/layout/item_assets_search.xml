@@ -42,8 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:text="@string/brand"
-            android:textStyle="bold"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
