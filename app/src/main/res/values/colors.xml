@@ -10,7 +10,6 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="person">#D4D4D4</color>
-    <color name="bgcolor">#F7F7F7</color>
     <color name="line">#ededed</color>
     <color name="text">#666</color>
     <color name="btn_normal">#5f83d2</color>
@@ -54,4 +53,5 @@
     <color name="new_inv_head">#005BAC</color>
     <color name="search_back_color">#529CE2</color>
     <color name="repair_not_finish">#F1771E</color>
+    <color name="bgcolor">#F7F7F7</color>
 </resources>

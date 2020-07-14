@@ -91,7 +91,6 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         initRfidAndEvent();
         assetsSearchAdapter = new AssetsSearchAdapter(this, mData);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(assetsSearchAdapter);
         empty_page.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);

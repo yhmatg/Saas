@@ -59,7 +59,6 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
         initRfidAndEvent();
         adapter = new AssetsRepairAdapter(this, mData,"ChooseRepairAstActivity");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
         empty_page.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);

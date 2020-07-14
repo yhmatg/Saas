@@ -67,7 +67,7 @@
             android:layout_marginStart="@dimen/dp_45"
             android:layout_marginTop="@dimen/dp_7"
             android:layout_marginEnd="@dimen/dp_5"
-            android:background="@color/search_background" />
+            android:background="@drawable/samll_rectangle" />
 
         <TextView
             android:id="@+id/area_title"
@@ -95,6 +95,16 @@
             android:textSize="@dimen/sp_17" />
 
         <View
+            android:id="@+id/divide_one"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/area_title"
+            android:layout_alignStart="@+id/head_one"
+            android:layout_alignEnd="@+id/asset_out_name"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@color/login_line_color" />
+
+        <View
             android:id="@+id/head_two"
             android:layout_width="@dimen/dp_2"
             android:layout_height="@dimen/dp_10"
@@ -102,14 +112,14 @@
             android:layout_marginStart="@dimen/dp_45"
             android:layout_marginTop="@dimen/dp_5"
             android:layout_marginEnd="@dimen/dp_5"
-            android:background="@color/search_background" />
+            android:background="@drawable/samll_rectangle" />
 
         <TextView
             android:id="@+id/asset_all_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/area_title"
-            android:layout_marginTop="@dimen/dp_30"
+            android:layout_below="@+id/divide_one"
+            android:layout_marginTop="@dimen/dp_26"
             android:layout_toEndOf="@+id/head_two"
             android:text="@string/all_asset_str"
             android:textColor="@color/home_text_one"
@@ -124,7 +134,7 @@
             android:layout_marginTop="@dimen/dp_5"
             android:layout_marginEnd="@dimen/dp_5"
             android:layout_toStartOf="@+id/asset_in_name"
-            android:background="@color/search_background" />
+            android:background="@drawable/samll_rectangle" />
 
         <TextView
             android:id="@+id/asset_in_name"
@@ -147,7 +157,7 @@
             android:layout_marginTop="@dimen/dp_5"
             android:layout_marginEnd="@dimen/dp_5"
             android:layout_toStartOf="@+id/asset_out_name"
-            android:background="@color/search_background" />
+            android:background="@drawable/samll_rectangle" />
 
         <TextView
             android:id="@+id/asset_out_name"

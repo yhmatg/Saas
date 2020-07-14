@@ -100,7 +100,6 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
         repairAdapter = new AssetsRepairAdapter(this, selectedAssets,"AssetRepairActivity");
         repairAdapter.setOnDeleteClickListener(this);
         mSelectedRecy.setLayoutManager(new LinearLayoutManager(this));
-        mSelectedRecy.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mSelectedRecy.setAdapter(repairAdapter);
         initCustomTimePicker();
         initCustomOptionPicker();

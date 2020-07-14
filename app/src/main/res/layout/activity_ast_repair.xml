@@ -7,6 +7,7 @@
     <include layout="@layout/title_layout" />
 
     <RelativeLayout
+        android:background="@color/white"
         android:id="@+id/rl_repair_person"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,6 +65,7 @@
         android:background="@color/login_line_color" />
 
     <LinearLayout
+        android:background="@color/white"
         android:id="@+id/ll_repair_cost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -107,6 +109,7 @@
 
 
     <RelativeLayout
+        android:background="@color/white"
         android:id="@+id/rl_repair_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -153,6 +156,7 @@
         android:background="@color/login_line_color" />
 
     <RelativeLayout
+        android:background="@color/white"
         android:id="@+id/ll_repair_direction"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_86"
@@ -219,6 +223,7 @@
         android:layout_height="@dimen/dp_48"
         android:layout_below="@+id/divider_four"
         android:focusable="true"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:focusableInTouchMode="true"
         android:orientation="horizontal">
@@ -266,7 +271,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_selected_ast"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@id/btn_submit"
         android:layout_below="@+id/divider_five"
         android:layout_marginTop="0dp" />

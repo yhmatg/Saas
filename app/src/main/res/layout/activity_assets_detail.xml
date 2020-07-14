@@ -23,6 +23,7 @@
         android:layout_below="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/bgcolor"
         android:layout_gravity="center">
 
         <include layout="@layout/empty_page" />

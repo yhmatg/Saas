@@ -202,10 +202,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         li_resume.setVisibility(View.GONE);
         assetsResumeAdapter = new AssetsResumeAdapter(this, mResumeData);
         resume_recycler.setLayoutManager(new LinearLayoutManager(this));
-        resume_recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         assetsRepairAdapter = new AssetsRepairAdapter(this, mRepairData);
         repair_recycler.setLayoutManager(new LinearLayoutManager(this));
-        repair_recycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         if (("AssetRepairActivity".equals(activityFrom))) {
             addButton.setVisibility(View.VISIBLE);
         }

@@ -54,7 +54,6 @@ public class WriteTagActivity extends BaseActivity<WriteTagPresenter> implements
         initRfidAndEvent();
         adapter = new WriteTagAdapter(this, mData);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
         empty_page.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
