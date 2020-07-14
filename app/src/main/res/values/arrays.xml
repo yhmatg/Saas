@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <integer-array name="progress_coloer">
-       <item >@color/location_one</item>
-       <item >@color/location_two</item>
-       <item >@color/location_three</item>
-       <item >@color/location_four</item>
-   </integer-array>
+
 </resources>
