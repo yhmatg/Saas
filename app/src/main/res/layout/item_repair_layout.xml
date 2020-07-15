@@ -13,7 +13,7 @@
         android:padding="@dimen/dp_1"
         android:text="@string/select_count"
         android:textColor="@color/home_text_two"
-        android:layout_marginBottom="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_10"
         android:textSize="@dimen/sp_13" />
 
     <ImageButton
@@ -33,7 +33,7 @@
         android:background="@color/repair_way"
         android:gravity="center"
         android:text="状态"
-        android:layout_marginBottom="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_10"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_13" />
 
@@ -55,7 +55,7 @@
         android:layout_below="@+id/ast_status"
         android:layout_marginEnd="@dimen/dp_10"
         android:text="资产编号:"
-        android:layout_marginBottom="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_10"
         android:textColor="@color/home_text_two"
         android:textSize="@dimen/sp_13" />
 
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_ast_number"
         android:text="资产分类:"
-        android:layout_marginBottom="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_10"
         android:textColor="@color/home_text_two"
         android:textSize="@dimen/sp_13" />
 
@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_ast_type"
         android:text="品牌:"
-        android:layout_marginBottom="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_10"
         android:textColor="@color/home_text_two"
         android:textSize="@dimen/sp_13" />
 

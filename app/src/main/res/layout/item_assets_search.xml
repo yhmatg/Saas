@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
             android:text="@string/assets_name"
             android:textColor="@color/home_text_two"
             android:textSize="13sp" />
@@ -32,7 +32,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
             android:text="@string/brand"
             android:textColor="@color/home_text_two"
             android:textSize="13sp" />
@@ -40,7 +40,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
             android:text="@string/model"
             android:textColor="@color/home_text_two"
             android:textSize="13sp" />
@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
             android:text="@string/store_location"
             android:textColor="@color/home_text_two"
             android:textSize="13sp" />
@@ -72,7 +72,7 @@
             android:id="@+id/tv_ast_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
             android:textColor="@color/setting_text_one"
             android:textSize="13sp" />
 
@@ -80,7 +80,7 @@
             android:id="@+id/tv_brand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
             android:textColor="@color/setting_text_one"
             android:textSize="13sp" />
 
@@ -88,7 +88,7 @@
             android:id="@+id/tv_model"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
             android:textColor="@color/setting_text_one"
             android:textSize="13sp" />
 
@@ -96,7 +96,7 @@
             android:id="@+id/tv_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
             android:textColor="@color/setting_text_one"
             android:textSize="13sp" />
     </LinearLayout>
