@@ -46,8 +46,10 @@ public class SimpleTreeRecyclerAdapter extends TreeRecyclerAdapter {
 
         if (node.isChecked()){
             viewHolder.cb.setChecked(true);
+            viewHolder.label.setTextColor(mContext.getColor(R.color.titele_color));
         }else {
             viewHolder.cb.setChecked(false);
+            viewHolder.label.setTextColor(mContext.getColor(R.color.home_text_one));
         }
 
         if (node.getIcon() == -1) {
@@ -59,6 +61,14 @@ public class SimpleTreeRecyclerAdapter extends TreeRecyclerAdapter {
 
         viewHolder.label.setText(node.getName());
 
+        if("-1".equals(node.getpId()) || "-2".equals(node.getpId())){
+            viewHolder.divideView.setVisibility(View.VISIBLE);
+        }else {
+            viewHolder.divideView.setVisibility(View.GONE);
+        }
+        if(node.getLevel() == 1){
+            holder.itemView.setPadding(0, 3, 3, 3);
+        }
 
     }
 
@@ -69,6 +79,7 @@ public class SimpleTreeRecyclerAdapter extends TreeRecyclerAdapter {
         public TextView label;
 
         public ImageView icon;
+        public View divideView;
         public MyHoder(View itemView) {
             super(itemView);
 
@@ -77,6 +88,7 @@ public class SimpleTreeRecyclerAdapter extends TreeRecyclerAdapter {
             label = (TextView) itemView
                     .findViewById(R.id.id_treenode_label);
             icon = (ImageView) itemView.findViewById(R.id.icon);
+            divideView = itemView.findViewById(R.id.divide_one);
 
         }
 

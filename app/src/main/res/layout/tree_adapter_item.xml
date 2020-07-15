@@ -31,6 +31,11 @@
         android:layout_toEndOf="@+id/cb_select_tree"
         android:textColor="@color/home_text_one"
         android:textSize="@dimen/sp_16" />
-
+    <View
+        android:id="@+id/divide_one"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/login_line_color"/>
 
 </RelativeLayout>

@@ -395,7 +395,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 .setLabel("年", "月", "日", "时", "分", "秒")
                 .setTextXOffset(0, 0, 0, 40, 0, -40)
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
-                .setDividerColor(0xFF24AD9D)
+                .setDividerColor(0x50B2B2B2)
                 .setItemVisibleCount(7)
                 .isDialog(true)
                 .setLineSpacingMultiplier(2.5f)
@@ -483,6 +483,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 .setContentTextSize(14)
                 .setLineSpacingMultiplier(2.0f)
                 .isDialog(true)
+                .setDividerColor(0x50B2B2B2)
                 .setOutSideCancelable(true)
                 .build();
         Dialog mDialog = pvCustomOptions.getDialog();
