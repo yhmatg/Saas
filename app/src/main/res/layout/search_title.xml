@@ -38,6 +38,7 @@
             android:imeOptions="actionSearch"
             android:singleLine="true"
             android:background="@null"
+            android:cursorVisible="false"
             android:gravity="center_vertical"
             android:hint="@string/assets_title"
             android:textSize="@dimen/sp_13"

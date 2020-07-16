@@ -36,7 +36,8 @@
     <!-- 背景部分的Item图像定义 -->
     <!-- 形象的表达：bottom代表背景部分在上边缘超出阴影的高度，right代表背景部分在左边超出阴影的宽度（相对应的offset） -->
     <item
-        android:bottom="@dimen/dp_8"
+        android:bottom="@dimen/dp_4"
+        android:top="@dimen/dp_4"
         android:left="@dimen/dp_4"
         android:right="@dimen/dp_4">
         <shape android:shape="rectangle">

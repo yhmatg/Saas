@@ -29,4 +29,5 @@
     <color name="search_back_color">#529CE2</color>
     <color name="repair_not_finish">#F1771E</color>
     <color name="bgcolor">#F7F7F7</color>
+    <color name="transparent">#00000000</color>
 </resources>
