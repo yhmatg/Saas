@@ -30,4 +30,5 @@
     <color name="repair_not_finish">#F1771E</color>
     <color name="bgcolor">#F7F7F7</color>
     <color name="transparent">#00000000</color>
+    <color name="search_hint">#80FFFFFF</color>
 </resources>

@@ -89,6 +89,8 @@
         android:layout_below="@+id/tv_time"
         android:layout_toEndOf="@+id/handle_name"
         android:textColor="@color/setting_text_one"
+        android:lineSpacingExtra="@dimen/dp_7"
+        android:breakStrategy="simple"
         android:textSize="@dimen/sp_13" />
 
 </RelativeLayout>

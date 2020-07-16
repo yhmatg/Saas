@@ -78,6 +78,8 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     RecyclerView mSelectedRecy;
     @BindView(R.id.btn_submit)
     Button mSubmit;
+    @BindView(R.id.divider_five)
+    View divideView;
     private TimePickerView pvCustomTime;
     private OptionsPickerView pvCustomOptions;
     List<MangerUser> mMangerUsers = new ArrayList<>();
@@ -386,6 +388,11 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
         tempAssets.retainAll(assetsInfos);
         assetsInfos.removeAll(tempAssets);
         selectedAssets.addAll(assetsInfos);
+        if(selectedAssets.size() > 0){
+            divideView.setVisibility(View.VISIBLE);
+        }else {
+            divideView.setVisibility(View.GONE);
+        }
         repairAdapter.notifyDataSetChanged();
     }
 
@@ -398,6 +405,11 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     @Override
     public void onDeleteClick(AssetsInfo assetsInfo) {
         selectedAssets.remove(assetsInfo);
+        if(selectedAssets.size() > 0){
+            divideView.setVisibility(View.VISIBLE);
+        }else {
+            divideView.setVisibility(View.GONE);
+        }
     }
 
     public void showConfirmDialog(Boolean isSuccess){
@@ -426,6 +438,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
         mTvRepairDate.setText(DateUtils.date2String(new Date()));
         mRepairDirection.setText("");
         selectedAssets.clear();
+        divideView.setVisibility(View.GONE);
         repairAdapter.notifyDataSetChanged();
     }
 }
