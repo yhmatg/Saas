@@ -120,6 +120,9 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
                             if (changefrom.isEmpty()){
                                 changefrom="<空>" ;
                             }
+                            if(stringBuilder.toString().contains("【")){
+                                stringBuilder.append("\n");
+                            }
                             stringBuilder.append("【").append(fieldname).append("】")
                                     .append("字段由")
                                     .append(" \"").append(changefrom).append(" \"")

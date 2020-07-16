@@ -89,13 +89,14 @@ public class CircleNumberProgress extends View {
         paintDone.setStrokeWidth(paintProgressWidthPx);
         paintDone.setAntiAlias(true);
         paintDone.setStyle(Paint.Style.STROKE);
+        paintDone.setStrokeCap(Paint.Cap.ROUND);
 
         // 文字的画笔的属性
         paintText.setColor(paintTextColor);
         paintText.setTextSize(paintTextSizePx);
         paintText.setAntiAlias(true);
         paintText.setStyle(Paint.Style.STROKE);
-        paintText.setTypeface(Typeface.DEFAULT_BOLD);
+        paintText.setTypeface(Typeface.SANS_SERIF);
         paintText.setTextAlign(Paint.Align.CENTER);
 
     }

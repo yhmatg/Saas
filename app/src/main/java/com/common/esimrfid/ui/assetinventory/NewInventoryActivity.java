@@ -481,9 +481,9 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                     }
                 })
                 .setContentTextSize(14)
-                .setLineSpacingMultiplier(2.0f)
+                .setLineSpacingMultiplier(2.8f)
                 .isDialog(true)
-                .setDividerColor(0x50B2B2B2)
+                .setDividerColor(0x60B2B2B2)
                 .setOutSideCancelable(true)
                 .build();
         Dialog mDialog = pvCustomOptions.getDialog();

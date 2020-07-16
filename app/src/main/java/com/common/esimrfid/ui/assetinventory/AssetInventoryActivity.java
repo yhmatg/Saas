@@ -54,6 +54,8 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
     SmartRefreshLayout mRefreshLayout;
     @BindView(R.id.empty_page)
     LinearLayout mEmptyPage;
+    @BindView(R.id.divide_line)
+    View lineView;
     InvTaskAdapter mAdapter;
     List<ResultInventoryOrder> mInvTaskorders = new ArrayList<>();
     List<ResultInventoryOrder> mUnFinishedTaskorders = new ArrayList<>();
@@ -125,8 +127,10 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 isShowUnfinish = true;
                 if (mShowTaskorders.size() == 0) {
                     mEmptyPage.setVisibility(View.VISIBLE);
+                    lineView.setVisibility(View.GONE);
                 } else {
                     mEmptyPage.setVisibility(View.GONE);
+                    lineView.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.ll_finished:
@@ -142,8 +146,10 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 isShowUnfinish = false;
                 if (mShowTaskorders.size() == 0) {
                     mEmptyPage.setVisibility(View.VISIBLE);
+                    lineView.setVisibility(View.GONE);
                 } else {
                     mEmptyPage.setVisibility(View.GONE);
+                    lineView.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.title_back:
@@ -187,8 +193,10 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
         mRefreshLayout.finishRefresh();
         if (mShowTaskorders.size() == 0) {
             mEmptyPage.setVisibility(View.VISIBLE);
+            lineView.setVisibility(View.GONE);
         } else {
             mEmptyPage.setVisibility(View.GONE);
+            lineView.setVisibility(View.VISIBLE);
         }
     }
 
