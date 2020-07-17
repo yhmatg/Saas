@@ -1,11 +1,14 @@
 package com.common.esimrfid.presenter.assetsearch;
 
+import android.util.Log;
+
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetsearch.AssetsSearchContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 import com.common.esimrfid.core.dao.AssetsAllInfoDao;
@@ -77,6 +80,19 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
         }
     }
 
+    //分页查询资产
+    @Override
+    public void fetchPageAssetsInfos(Integer size, String patternName, int currentSize) {
+        addSubscribe(getLocalPageAssetsObservable(size, patternName, currentSize)
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<List<SearchAssetsInfo>>(mView,false) {
+                    @Override
+                    public void onNext(List<SearchAssetsInfo> searchAssets) {
+                        mView.handleFetchPageAssetsInfos(searchAssets);
+                    }
+                }));
+    }
+
     //获取本地所有资产epc
     public Observable<List<SearchAssetsInfo>> getLocalAssetsEpcsObservable() {
         Observable<List<SearchAssetsInfo>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
@@ -100,5 +116,17 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
             }
         });
         return baseResponseObservable;
+    }
+
+
+    public Observable<List<SearchAssetsInfo>> getLocalPageAssetsObservable(Integer size, String patternName, int currentSize) {
+        Observable<List<SearchAssetsInfo>> invOrderObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<SearchAssetsInfo>> emitter) throws Exception {
+                List<SearchAssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().searchPageLocalAssetsByPara(size, patternName, currentSize);
+                emitter.onNext(newestOrders);
+            }
+        });
+        return invOrderObservable;
     }
 }

@@ -3,6 +3,7 @@ package com.common.esimrfid.ui.assetsearch;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +33,9 @@ import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.utils.Utils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -71,6 +75,8 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     TextView scanNmuber;
     @BindString(R.string.zero_str)
     String stringNum;
+    @BindView(R.id.refresh_layout)
+    SmartRefreshLayout mRefreshLayout;
     private AssetsSearchAdapter assetsSearchAdapter;
     private List<SearchAssetsInfo> mData = new ArrayList<>();
     private List<SearchAssetsInfo> allAssets = new ArrayList<>();
@@ -79,7 +85,10 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     private CircleAnimation animation;
     private Boolean canRfid = true;
     private Boolean showScanAssets = false;
-    private Boolean isSearch = false;
+    private Boolean isSearch = true;
+    private boolean isNeedClearData;
+    private String preFilter = "";
+    private int pageSize = 10;
 
     @Override
     public AssetsSearchPresenter initPresenter() {
@@ -97,6 +106,20 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         tips.setVisibility(View.VISIBLE);
         rotateAnim();
         scanNmuber.setText("查找到资产数量0个");
+        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                String assetsId = editText.getText().toString();
+                isNeedClearData = !preFilter.equals(assetsId);
+                int currentSize = isNeedClearData ? 0 : mData.size();
+                preFilter = assetsId;
+                mPresenter.fetchPageAssetsInfos(pageSize, assetsId, currentSize);
+            }
+        });
+        mRefreshLayout.setEnableRefresh(false);//使上拉加载具有弹性效果
+        mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
+        mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
+        mRefreshLayout.setEnableAutoLoadMore(false);
         mPresenter.fetchLatestAssets();
         mPresenter.getAllAssetsForSearch();
     }
@@ -162,7 +185,10 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     String assetsId = editText.getText().toString();
                     editText.setSelection(assetsId.length());
-                    mPresenter.getSearchAssetsById(assetsId);
+                    isNeedClearData = true;
+                    preFilter = assetsId;
+                    //mPresenter.getSearchAssetsById(assetsId);
+                    mPresenter.fetchPageAssetsInfos(pageSize, preFilter, 0);
                     isSearch = true;
                     return true;
                 }
@@ -188,6 +214,20 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         for (SearchAssetsInfo allAsset : allAssets) {
             assetsMap.put(allAsset.getAst_epc_code(), allAsset);
         }
+    }
+
+    @Override
+    public void handleFetchPageAssetsInfos(List<SearchAssetsInfo> assetsInfos) {
+        mRefreshLayout.finishLoadMore();
+        if (isNeedClearData || !isSearch) {
+            mData.clear();
+            isSearch = true;
+        }
+        mData.addAll(assetsInfos);
+        String formatNum = String.format(stringNum, mData.size());
+        scanNmuber.setText(formatNum);
+        handleResultList(mData);
+        assetsSearchAdapter.notifyDataSetChanged();
     }
 
     private void handleResultList(List<SearchAssetsInfo> mData) {
@@ -225,7 +265,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                 image_scan.startAnimation(animation);
                 search.setImageResource(R.drawable.stop_search);
                 editText.setText("");
-                if(isSearch){
+                if (isSearch) {
                     mData.clear();
                     assetsSearchAdapter.notifyDataSetChanged();
                     String formatNum = String.format(stringNum, 0);

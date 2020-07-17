@@ -48,7 +48,11 @@ public interface AssetsAllInfoDao extends BaseDao<AssetsAllInfo> {
     @Query("SELECT ast_epc_code FROM AssetsAllInfo")
     public List<EpcBean> getAllAssetEpcs();
 
-    //根据资产名称，资产编号模糊查询(精简)分页
+    //根据资产名称，资产编号模糊查询分页
     @Query("SELECT * FROM AssetsAllInfo where ast_name LIKE '%' || :para || '%' OR ast_barcode LIKE '%' || :para || '%' LIMIT :size OFFSET :currentSize")
     public List<AssetsInfo> findPageLocalAssetsByPara(Integer size, String para, int currentSize);
+
+    //根据资产名称，资产编号模糊查询(精简)分页
+    @Query("SELECT ast_brand,ast_barcode,ast_epc_code,ast_model,ast_name,id,loc_info_loc_name FROM AssetsAllInfo where ast_name LIKE '%' || :para || '%' OR ast_barcode LIKE '%' || :para || '%' LIMIT :size OFFSET :currentSize")
+    public List<SearchAssetsInfo> searchPageLocalAssetsByPara(Integer size, String para, int currentSize);
 }

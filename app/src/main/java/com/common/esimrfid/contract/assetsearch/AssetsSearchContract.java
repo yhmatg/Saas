@@ -12,6 +12,7 @@ public interface AssetsSearchContract {
     interface View extends AbstractView {
         void handleSearchAssets(List<SearchAssetsInfo> searchInfos);
         void handGetAllAssetsForSearch(List<SearchAssetsInfo> searchInfos);
+        void handleFetchPageAssetsInfos(List<SearchAssetsInfo> assetsInfos);
     }
 
     interface Presenter extends AbstractPresenter<View> {
@@ -19,5 +20,6 @@ public interface AssetsSearchContract {
         //获取所有的资产（资产搜索查找使用）
         void getAllAssetsForSearch();
         void fetchLatestAssets();
+        void fetchPageAssetsInfos(Integer size, String patternName,int currentSize);
     }
 }

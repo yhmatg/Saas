@@ -12,11 +12,11 @@
         android:layout_height="wrap_content"
         android:background="@color/bgcolor"
         android:gravity="center"
-        android:visibility="gone"
         android:padding="@dimen/dp_10"
         android:text="@string/zero_str"
         android:textColor="@color/titele_color"
-        android:textSize="@dimen/sp_15" />
+        android:textSize="@dimen/sp_15"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,10 +26,20 @@
 
         <include layout="@layout/asset_search_empty" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/search_recycler"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/search_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         <ImageView
             android:id="@+id/search_ast"

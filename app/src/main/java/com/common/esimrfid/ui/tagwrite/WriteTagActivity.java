@@ -53,7 +53,7 @@ public class WriteTagActivity extends BaseActivity<WriteTagPresenter> implements
     private boolean isNeedClearData;
     private String preFilter = "";
     private int currentPage = 1;
-    private int pageSize = 2;
+    private int pageSize = 10;
 
     @Override
     public WriteTagPresenter initPresenter() {
