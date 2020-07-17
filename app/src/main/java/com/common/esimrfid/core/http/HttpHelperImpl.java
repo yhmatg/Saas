@@ -198,6 +198,11 @@ public class HttpHelperImpl implements HttpHelper {
         return mGeeksApis.fetchLatestAssets(lastTime);
     }
 
+    @Override
+    public Observable<BaseResponse<AssetsListPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName) {
+        return mGeeksApis.fetchPageAssetsInfos(size, page, patternName);
+    }
+
 
     @Override
     public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {

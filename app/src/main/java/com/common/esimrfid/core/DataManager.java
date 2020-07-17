@@ -344,4 +344,9 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     public Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(String lastTime) {
         return mHttpHelper.fetchLatestAssets(lastTime);
     }
+
+    @Override
+    public Observable<BaseResponse<AssetsListPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName) {
+        return mHttpHelper.fetchPageAssetsInfos(size, page, patternName);
+    }
 }

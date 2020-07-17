@@ -89,8 +89,10 @@ public interface HttpHelper {
 
     Observable<BaseResponse> finishInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails);
 
-    Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos( String patternName);
+    Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(String patternName);
 
     Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(String lastTime);
+
+    Observable<BaseResponse<AssetsListPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName);
 
 }

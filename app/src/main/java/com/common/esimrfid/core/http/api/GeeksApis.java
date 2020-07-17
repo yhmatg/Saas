@@ -146,6 +146,14 @@ public interface GeeksApis {
         //@GET("/assets-server/assets/findforapp")
     Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfos(@Query("pattern_name") String patternName);
 
+    //模糊查询资产详情（写入标签）分页
+    //@param patternName 资产过滤信息
+    //@return 资产列表
+
+    @GET("/assets-server/assets")
+        //@GET("/assets-server/assets/findforapp")
+    Observable<BaseResponse<AssetsListPage>> fetchPageAssetsInfos( @Query("size") Integer size, @Query("page") Integer page,@Query("pattern_name") String patternName);
+
     //根据Epc查询资产详情（资产查找）
     //@param Epcs EPC集合
     //@return 资产信息列表

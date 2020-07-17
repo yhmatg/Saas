@@ -8,6 +8,7 @@ import com.common.esimrfid.contract.home.WriteTagContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
@@ -15,6 +16,7 @@ import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -30,26 +32,27 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
         mDataManager = dataManager;
     }
 
-
+    //不分页
     @Override
     public void getAssetsInfoById(String assetsId) {
         mView.showDialog("loading...");
         //addSubscribe(mDataManager.fetchWriteAssetsInfo(assetsId)
-        addSubscribe(Observable.concat(getLocalAssetsObservable(assetsId),mDataManager.fetchWriteAssetsInfo(assetsId))
-        .compose(RxUtils.rxSchedulerHelper())
-        .compose(RxUtils.handleResult())
-        .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
-            @Override
-            public void onNext(List<AssetsInfo> assetsInfos) {
-                mView.dismissDialog();
-                mView.handleAssetsById(assetsInfos);
-            }
-            @Override
-            public void onError(Throwable e){
-                mView.dismissDialog();
-                ToastUtils.showShort(R.string.not_find_asset);
-            }
-        }));
+        addSubscribe(Observable.concat(getLocalAssetsObservable(assetsId), mDataManager.fetchWriteAssetsInfo(assetsId))
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
+                    @Override
+                    public void onNext(List<AssetsInfo> assetsInfos) {
+                        mView.dismissDialog();
+                        mView.handleAssetsById(assetsInfos);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.dismissDialog();
+                        ToastUtils.showShort(R.string.not_find_asset);
+                    }
+                }));
     }
 
     public Observable<BaseResponse<List<AssetsInfo>>> getLocalAssetsObservable(String para) {
@@ -64,6 +67,63 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
                     Log.e(TAG, "newestOrders======" + newestOrders);
                     BaseResponse<List<AssetsInfo>> invOrderResponse = new BaseResponse<>();
                     invOrderResponse.setResult(newestOrders);
+                    invOrderResponse.setCode("200000");
+                    invOrderResponse.setMessage("成功");
+                    invOrderResponse.setSuccess(true);
+                    emitter.onNext(invOrderResponse);
+                }
+            }
+        });
+        return invOrderObservable;
+    }
+
+    //分页
+    @Override
+    public void fetchPageAssetsInfos(Integer size, Integer page, String patternName, int currentSize) {
+        mView.showDialog("loading...");
+        //addSubscribe(mDataManager.fetchWriteAssetsInfo(assetsId)
+        addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize), mDataManager.fetchPageAssetsInfos(size, page, patternName))
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .subscribeWith(new BaseObserver<AssetsListPage>(mView, false) {
+                    @Override
+                    public void onNext(AssetsListPage assetsListPage) {
+                        mView.dismissDialog();
+                        if(assetsListPage.isLocal()){
+                            mView.handlefetchPageAssetsInfos(assetsListPage.getList());
+                        }else {
+                            if(page <= assetsListPage.getPages()){
+                                mView.handlefetchPageAssetsInfos(assetsListPage.getList());
+                            }else {
+                                mView.handlefetchPageAssetsInfos(new ArrayList<>());
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.dismissDialog();
+                        ToastUtils.showShort(R.string.not_find_asset);
+                    }
+                }));
+    }
+
+    public Observable<BaseResponse<AssetsListPage>> getLocalAssetsObservable(Integer size, String patternName, int currentSize) {
+        Observable<BaseResponse<AssetsListPage>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsListPage>>() {
+            @Override
+            public void subscribe(ObservableEmitter<BaseResponse<AssetsListPage>> emitter) throws Exception {
+                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findPageLocalAssetsByPara(size, patternName, currentSize);
+                if (CommonUtils.isNetworkConnected()) {
+                    emitter.onComplete();
+                    Log.e(TAG, "network get data");
+                } else {
+                    Log.e(TAG, "newestOrders======" + newestOrders);
+                    BaseResponse<AssetsListPage> invOrderResponse = new BaseResponse<>();
+                    AssetsListPage assetsListPage = new AssetsListPage();
+                    assetsListPage.setList(newestOrders);
+                    invOrderResponse.setResult(assetsListPage);
+                    assetsListPage.setLocal(true);
                     invOrderResponse.setCode("200000");
                     invOrderResponse.setMessage("成功");
                     invOrderResponse.setSuccess(true);

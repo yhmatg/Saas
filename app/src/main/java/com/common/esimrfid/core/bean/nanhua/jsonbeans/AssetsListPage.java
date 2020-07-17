@@ -43,6 +43,7 @@ public class AssetsListPage {
     private int total;
     private List<AssetsInfo> list;
     private List<Integer> navigatepageNums;
+    private boolean isLocal;
 
     public int getEndRow() {
         return endRow;
@@ -202,5 +203,13 @@ public class AssetsListPage {
 
     public void setNavigatepageNums(List<Integer> navigatepageNums) {
         this.navigatepageNums = navigatepageNums;
+    }
+
+    public boolean isLocal() {
+        return isLocal;
+    }
+
+    public void setLocal(boolean local) {
+        isLocal = local;
     }
 }
