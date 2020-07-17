@@ -8,7 +8,10 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.common.esimrfid.R;
 
 import java.lang.ref.WeakReference;
 
@@ -28,6 +31,7 @@ public final class ToastUtils {
     private static int messageColor    = DEFAULT_COLOR;
     private static WeakReference<View> sViewWeakReference;
     private static Handler sHandler = new Handler(Looper.getMainLooper());
+    static Toast customToast;
 
     private ToastUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -239,7 +243,22 @@ public final class ToastUtils {
      * @param resId 资源Id
      */
     public static void showShort( int resId) {
-        show(resId, Toast.LENGTH_SHORT);
+        //show(resId, Toast.LENGTH_SHORT);
+        if(customToast == null){
+            LayoutInflater inflater = LayoutInflater.from(Utils.getContext());
+            View toast_view = inflater.inflate(R.layout.custom_toast_layout, null);
+            TextView viewById = toast_view.findViewById(R.id.tv_status);
+            viewById.setText(Utils.getContext().getResources().getString(resId));
+            customToast = new Toast(Utils.getContext());
+            customToast.setDuration(Toast.LENGTH_SHORT);
+            customToast.setGravity(Gravity.CENTER, 0, 0);
+            customToast.setView(toast_view);
+            customToast.show();
+        }else {
+            TextView viewById = customToast.getView().findViewById(R.id.tv_status);
+            viewById.setText(Utils.getContext().getResources().getString(resId));
+            customToast.show();
+        }
     }
 
     /**

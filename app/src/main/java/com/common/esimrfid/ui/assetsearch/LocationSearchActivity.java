@@ -165,7 +165,7 @@ public class LocationSearchActivity extends BaseActivity {
 
     private void filterSet() {
         if (TextUtils.isEmpty(AssetsEpc)) {
-            Toast.makeText(this, R.string.filter_data_null, Toast.LENGTH_SHORT).show();
+            ToastUtils.showShort(R.string.filter_data_null);
             return;
         }
         int ads = 32;

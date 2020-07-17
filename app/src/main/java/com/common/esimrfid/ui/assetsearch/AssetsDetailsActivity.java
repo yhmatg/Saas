@@ -289,7 +289,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 break;
             case R.id.btn_submit:
                 if (!(status == 0 || status == 1)) {
-                    Toast.makeText(this, "只有闲置或者在用资产可以报修，请确定资产状态！", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showShort(R.string.repair_toast_str);
                 } else {
                     List<AssetsInfo> assetsInfos = new ArrayList<>();
                     assetsInfos.add(repairAsset);

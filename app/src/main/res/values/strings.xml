@@ -289,4 +289,5 @@
     <string name="save_fail">保存失败</string>
     <string name="expired_fail">您的系统已过期请购买后再使用！</string>
     <string name="asset_brand">品\u3000\u3000牌</string>
+    <string name="repair_toast_str">只有闲置或者在用资产可以报修，请确定资产状态！</string>
 </resources>
