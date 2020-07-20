@@ -87,6 +87,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     RecyclerView mLocationRecycle;
     @BindString(R.string.welcom)
     String welcom;
+    @BindView(R.id.loction_layout)
+    LinearLayout loctionLayout;
     private MaterialDialog updateDialog;
     ArrayList<AssetLocationNum> mAstLocaionNum = new ArrayList<>();
     int maxAssetNum = 0;
@@ -107,7 +109,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void initEventAndData() {
         //initRfid();
-        if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             isFirstInstall = true;
             finish();
             return;
@@ -123,6 +125,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         locationAssetAdapter = new LocationAssetAdapter(mAstLocaionNum, this, maxAssetNum);
         mLocationRecycle.setLayoutManager(new LinearLayoutManager(this));
         mLocationRecycle.setAdapter(locationAssetAdapter);
+        if (Build.MODEL.contains("TC20")) {
+            loctionLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -140,10 +145,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             initRfid();
             mPresenter.checkUpdateVersion();
             EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
-            if(uerLogin.getUserinfo().getUser_real_name() != null) {
+            if (uerLogin.getUserinfo().getUser_real_name() != null) {
                 mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
             }
-            if(uerLogin.getUserinfo().getCorpName() != null){
+            if (uerLogin.getUserinfo().getCorpName() != null) {
                 mCompanyName.setText(uerLogin.getUserinfo().getCorpName());
             }
             mPresenter.fetchLatestAssets();
@@ -180,7 +185,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             case UhfMsgType.UHF_CONNECT:
                 break;
             case UhfMsgType.UHF_DISCONNECT:
-                if(!isCommonClose){
+                if (!isCommonClose) {
                     ToastUtils.showShort(R.string.not_connect_prompt);
                 }
                 break;
@@ -190,7 +195,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             case UhfMsgType.UHF_CONNECT_FAIL:
                 ToastUtils.showShort(R.string.rfid_connect_fail);
                 break;
-			case UhfMsgType.SETTING_SOUND_FAIL:
+            case UhfMsgType.SETTING_SOUND_FAIL:
                 ToastUtils.showShort(R.string.sound_setting_fail);
                 break;
             case UhfMsgType.SETTING_POWER_SUCCESS:
@@ -207,38 +212,38 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.inv_task:
-                if(isNormalClick()){
+                if (isNormalClick()) {
                     startActivity(new Intent(this, InventoryTaskActivity.class));
                 }
                 break;
             case R.id.ast_inv:
-                if(isNormalClick()){
+                if (isNormalClick()) {
                     startActivity(new Intent(this, AssetInventoryActivity.class));
                 }
                 break;
             case R.id.ast_search:
-                if(isNormalClick()){
+                if (isNormalClick()) {
                     startActivity(new Intent(this, AssetsSearchActivity.class));
                 }
                 break;
             case R.id.write_tag:
-                if(isNormalClick()){
+                if (isNormalClick()) {
                     startActivity(new Intent(this, WriteTagActivity.class));
                 }
 
                 break;
             case R.id.home_setting:
-                if(isNormalClick()){
+                if (isNormalClick()) {
                     startActivity(new Intent(this, SettingActivity.class));
                 }
                 break;
             case R.id.ast_identity:
-                if(isNormalClick()){
+                if (isNormalClick()) {
                     startActivity(new Intent(this, IdentityActivity.class));
                 }
                 break;
             case R.id.ast_repair:
-                if(isNormalClick()){
+                if (isNormalClick()) {
                     startActivity(new Intent(this, AssetRepairActivity.class));
                 }
                 break;
@@ -248,7 +253,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(isFirstInstall){
+        if (isFirstInstall) {
             isFirstInstall = false;
             return;
         }
@@ -401,20 +406,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             @Override
             public Dialog getCustomVersionDialog(Context context, UIData versionBundle) {
                 BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.must_update_dialog);
-                LinearLayout contentLayout = baseDialog.findViewById(R.id.update_content);
+                TextView textView = baseDialog.findViewById(R.id.update_content);
                 TextView version = baseDialog.findViewById(R.id.version_num);
                 String str = versionBundle.getContent();
                 String[] strArry = str.split("[；]");
+                String content = "";
                 for (int i = 0; i < strArry.length; i++) {
-                    TextView detail = new TextView(HomeActivity.this);
-                    detail.setTextSize(13);
-                    detail.setText(strArry[i]);
-                    detail.setGravity(Gravity.CENTER_VERTICAL);
-                    detail.setTextColor(getColor(R.color.home_text_two));
-                    detail.setPadding(0,0,0,12);
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
-                    contentLayout.addView(detail,layoutParams);
+                    content = content + strArry[i] ;
+                    if (i != strArry.length - 1) {
+                        content = content + "\n";
+                    }
                 }
+                textView.setText(content);
                 String remoteVersion = versionBundle.getTitle();
                 if (!StringUtils.isEmpty(remoteVersion)) {
                     version.setText("v" + remoteVersion);
@@ -429,20 +432,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private CustomVersionDialogListener createCustomDialogTwo() {
         return (context, versionBundle) -> {
             BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.update_version_dialog);
-            LinearLayout contentLayout = baseDialog.findViewById(R.id.update_content);
+            TextView textView = baseDialog.findViewById(R.id.update_content);
             TextView version = baseDialog.findViewById(R.id.version_num);
             String str = versionBundle.getContent();
             String[] strArry = str.split("[；]");
+            String content = "";
             for (int i = 0; i < strArry.length; i++) {
-                TextView detail = new TextView(this);
-                detail.setTextSize(13);
-                detail.setText(strArry[i]);
-                detail.setGravity(Gravity.CENTER_VERTICAL);
-                detail.setTextColor(getColor(R.color.home_text_two));
-                detail.setPadding(0,0,0,12);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
-                contentLayout.addView(detail,layoutParams);
+                content = content + strArry[i] ;
+                if (i != strArry.length - 1) {
+                    content = content + "\n";
+                }
             }
+            textView.setText(content);
             String remoteVersion = versionBundle.getTitle();
             if (!StringUtils.isEmpty(remoteVersion)) {
                 version.setText("v" + remoteVersion);

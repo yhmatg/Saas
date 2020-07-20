@@ -40,36 +40,48 @@
         android:textColor="@color/home_text_one"
         android:textSize="@dimen/sp_15" />
 
-    <!-- <TextView
-         android:id="@+id/update_content"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/update_content_title"
-         android:layout_marginStart="@dimen/dp_18"
-         android:layout_marginTop="@dimen/dp_10"
-         android:layout_marginBottom="@dimen/dp_10"
-         android:singleLine="false"
-         android:text="@string/def_update_content"
-         android:textColor="@color/home_text_two"
-         android:textSize="@dimen/sp_13" />-->
-    <LinearLayout
-        android:id="@+id/update_content"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/update_content_title"
-        android:layout_marginStart="@dimen/dp_18"
-        android:layout_marginTop="@dimen/dp_10"
-        android:layout_marginBottom="@dimen/dp_10"
-        android:orientation="vertical">
+        android:layout_above="@+id/button_divider"
+        android:layout_below="@+id/update_content_title">
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/update_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_18"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:lineSpacingExtra="@dimen/dp_7"
+            android:singleLine="false"
+            android:text="@string/def_update_content"
+            android:textColor="@color/home_text_two"
+            android:textSize="@dimen/sp_13" />
+    </ScrollView>
+    <!-- <ScrollView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_above="@+id/button_divider"
+         android:layout_below="@+id/update_content_title"
+         android:layout_marginBottom="@dimen/dp_10">
+
+         <LinearLayout
+             android:id="@+id/update_content"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="@dimen/dp_18"
+             android:layout_marginTop="@dimen/dp_10"
+             android:orientation="vertical">
+
+         </LinearLayout>
+     </ScrollView>-->
 
     <View
         android:id="@+id/button_divider"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_above="@+id/buttom_layout"
-        android:layout_marginTop="@dimen/dp_15"
         android:background="@color/login_line_color" />
 
     <LinearLayout
