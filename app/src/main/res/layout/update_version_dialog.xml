@@ -88,19 +88,20 @@
         android:id="@+id/buttom_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_43"
+        android:layout_marginBottom="@dimen/dp_2"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/versionchecklib_version_dialog_cancel"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/dp_2"
-            android:layout_marginBottom="@dimen/dp_10"
+            android:gravity="center"
             android:layout_weight="1"
-            android:background="@color/white"
-            android:paddingTop="@dimen/dp_11"
+            android:background="@drawable/bg_login_success"
             android:text="@string/update_latter"
+            android:layout_gravity="center_vertical"
             android:textColor="@color/home_text_one"
             android:textSize="@dimen/sp_16" />
 
@@ -112,13 +113,12 @@
         <Button
             android:id="@+id/versionchecklib_version_dialog_commit"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/dp_2"
-            android:layout_marginBottom="@dimen/dp_10"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bg_login_success"
             android:gravity="center"
-            android:paddingTop="@dimen/dp_11"
             android:text="@string/update_now"
             android:textColor="@color/home_number"
             android:textSize="@dimen/sp_16" />
