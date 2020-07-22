@@ -3,6 +3,7 @@ package com.common.esimrfid.presenter.assetrepair;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetrepair.AssetRepairContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
@@ -37,6 +38,21 @@ public class AssetRepairPresenter extends BasePresenter<AssetRepairContract.View
     public void createNewRepairOrder(AssetRepairParameter repairParameter) {
         mView.showDialog("loading...");
         addSubscribe(mDataManager.createNewRepairOrder(repairParameter)
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleBaseResponse())
+                .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
+                    @Override
+                    public void onNext(BaseResponse createInvResult) {
+                        mView.dismissDialog();
+                        mView.handleCreateNewRepairOrder(createInvResult);
+                    }
+                }));
+    }
+
+    @Override
+    public void createNewRepairOrder(NewAssetRepairPara repariPara) {
+        mView.showDialog("loading...");
+        addSubscribe(mDataManager.createNewRepairOrder(repariPara)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleBaseResponse())
                 .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {

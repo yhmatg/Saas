@@ -2,6 +2,7 @@ package com.common.esimrfid.core.http.api;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
+import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
@@ -219,4 +220,8 @@ public interface GeeksApis {
     //根据时间戳获取变动更新资产
     @GET("/assets-server/assets/lastupdate")
     Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(@Query("lasttime") String lastTime);
+
+    //新建报修单和审批流程相关
+    @POST("/assets-server/bussiness/apply/REPAIR")
+    Observable<BaseResponse> createNewRepairOrder(@Body NewAssetRepairPara repariPara );
 }

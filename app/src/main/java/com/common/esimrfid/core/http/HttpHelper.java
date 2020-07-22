@@ -2,6 +2,7 @@ package com.common.esimrfid.core.http;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
+import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
@@ -94,5 +95,7 @@ public interface HttpHelper {
     Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(String lastTime);
 
     Observable<BaseResponse<AssetsListPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName);
+
+    Observable<BaseResponse> createNewRepairOrder(NewAssetRepairPara repariPara);
 
 }

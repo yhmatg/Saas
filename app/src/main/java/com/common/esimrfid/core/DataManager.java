@@ -2,6 +2,7 @@ package com.common.esimrfid.core;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
+import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
@@ -348,5 +349,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<AssetsListPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName) {
         return mHttpHelper.fetchPageAssetsInfos(size, page, patternName);
+    }
+
+    @Override
+    public Observable<BaseResponse> createNewRepairOrder(NewAssetRepairPara repariPara) {
+        return mHttpHelper.createNewRepairOrder(repariPara);
     }
 }

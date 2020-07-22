@@ -21,6 +21,7 @@ public class MangerUser implements IPickerViewData {
     private String id;
     private String user_name;
     private String user_real_name;
+    private String dept_name;
 
     public String getId() {
         return id;
@@ -44,6 +45,14 @@ public class MangerUser implements IPickerViewData {
 
     public void setUser_real_name(String user_real_name) {
         this.user_real_name = user_real_name;
+    }
+
+    public String getDept_name() {
+        return dept_name;
+    }
+
+    public void setDept_name(String dept_name) {
+        this.dept_name = dept_name;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.common.esimrfid.core.http;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
+import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
@@ -201,6 +202,11 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse<AssetsListPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName) {
         return mGeeksApis.fetchPageAssetsInfos(size, page, patternName);
+    }
+
+    @Override
+    public Observable<BaseResponse> createNewRepairOrder(NewAssetRepairPara repariPara) {
+        return mGeeksApis.createNewRepairOrder(repariPara);
     }
 
 

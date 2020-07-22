@@ -2,6 +2,7 @@ package com.common.esimrfid.contract.assetrepair;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
+import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
@@ -19,5 +20,7 @@ public interface AssetRepairContract {
         void getAllEmpUsers();
 
         void createNewRepairOrder(AssetRepairParameter repairParameter);
+
+        void createNewRepairOrder(NewAssetRepairPara repariPara);
     }
 }

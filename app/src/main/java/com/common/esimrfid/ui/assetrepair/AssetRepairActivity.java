@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
@@ -28,6 +29,7 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetrepair.AssetRepairContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
+import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
@@ -38,9 +40,11 @@ import com.common.esimrfid.utils.DateUtils;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.contrarywind.view.WheelView;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -88,6 +92,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     Date mSelectDate = new Date();
     ArrayList<AssetsInfo> selectedAssets = new ArrayList<>();
     private AssetsRepairAdapter repairAdapter;
+    private String userName = "";
 
     @Override
     public AssetRepairPresenter initPresenter() {
@@ -99,13 +104,14 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
         mTitle.setText(R.string.ast_repair);
         mTvRepairDate.setText(DateUtils.date2String(mSelectDate));
         EventBus.getDefault().register(this);
-        repairAdapter = new AssetsRepairAdapter(this, selectedAssets,"AssetRepairActivity");
+        repairAdapter = new AssetsRepairAdapter(this, selectedAssets, "AssetRepairActivity");
         repairAdapter.setOnDeleteClickListener(this);
         mSelectedRecy.setLayoutManager(new LinearLayoutManager(this));
         mSelectedRecy.setAdapter(repairAdapter);
         initCustomTimePicker();
         initCustomOptionPicker();
         initOptions();
+        userName = getUserLoginResponse().getUserinfo().getUser_real_name();
     }
 
     @Override
@@ -155,15 +161,15 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
             case R.id.tv_scan_add:
                 mScanAdd.setTextColor(getColor(R.color.repair_way));
                 mChooseAdd.setTextColor(getColor(R.color.repair_text));
-                Intent intent=new Intent();
-                intent.putExtra(WHERE_FROM,"AssetRepairActivity");
+                Intent intent = new Intent();
+                intent.putExtra(WHERE_FROM, "AssetRepairActivity");
                 intent.setClass(this, IdentityActivity.class);
                 startActivity(intent);
                 break;
             case R.id.tv_choose_add:
                 mScanAdd.setTextColor(getColor(R.color.repair_text));
                 mChooseAdd.setTextColor(getColor(R.color.repair_way));
-                startActivity(new Intent(this,ChooseRepairAstActivity.class));
+                startActivity(new Intent(this, ChooseRepairAstActivity.class));
                 break;
             case R.id.btn_submit:
                 createRepairOrder();
@@ -177,22 +183,23 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
             ToastUtils.showShort("请选择报修人");
             return;
         }
-        Pattern pattern= Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$"); // 判断小数点后2位的数字的正则表达式
+        Pattern pattern = Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$"); // 判断小数点后2位的数字的正则表达式
         String costString = mRepairCost.getText().toString();
         Matcher matcher = pattern.matcher(costString);
-        if(!matcher.matches()){
+        if (!matcher.matches()) {
             ToastUtils.showShort("请输入正确的金额，可保留小数点后两位");
             return;
         }
-        if (StringUtils.isEmpty(mRepairDirection.getText().toString())){
+        if (StringUtils.isEmpty(mRepairDirection.getText().toString())) {
             ToastUtils.showShort("请输入维修说明");
             return;
         }
-        if (selectedAssets.size() < 1){
+        if (selectedAssets.size() < 1) {
             ToastUtils.showShort("请选择报修资产");
             return;
         }
         assetRepairParameter.setRep_user_id(mSelectMangerUser.getId());
+        assetRepairParameter.setOdr_transactor_id(mSelectMangerUser.getId());
         assetRepairParameter.setMaintain_price(Double.parseDouble(costString));
         assetRepairParameter.setOdr_date(mSelectDate);
         assetRepairParameter.setOdr_remark(mRepairDirection.getText().toString());
@@ -201,7 +208,11 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
             selectedAstIds.add(selectedAsset.getId());
         }
         assetRepairParameter.setAst_ids(selectedAstIds);
-        mPresenter.createNewRepairOrder(assetRepairParameter);
+        //mPresenter.createNewRepairOrder(assetRepairParameter);
+        String formData = assetRepairParameter.toString();
+        String textForms = getTextFormsString(mSelectMangerUser.getUser_real_name(), mSelectMangerUser.getDept_name(), mRepairDirection.getText().toString());
+        String title = userName + "提交的维修申请";
+        mPresenter.createNewRepairOrder(new NewAssetRepairPara(formData, textForms, title));
     }
 
     private void initCustomOptionPicker() {//条件选择器初始化，自定义布局
@@ -388,9 +399,9 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
         tempAssets.retainAll(assetsInfos);
         assetsInfos.removeAll(tempAssets);
         selectedAssets.addAll(assetsInfos);
-        if(selectedAssets.size() > 0){
+        if (selectedAssets.size() > 0) {
             divideView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             divideView.setVisibility(View.GONE);
         }
         repairAdapter.notifyDataSetChanged();
@@ -405,20 +416,20 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     @Override
     public void onDeleteClick(AssetsInfo assetsInfo) {
         selectedAssets.remove(assetsInfo);
-        if(selectedAssets.size() > 0){
+        if (selectedAssets.size() > 0) {
             divideView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             divideView.setVisibility(View.GONE);
         }
     }
 
-    public void showConfirmDialog(Boolean isSuccess){
+    public void showConfirmDialog(Boolean isSuccess) {
         BaseDialog baseDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.finish_confirm_dialog);
         TextView context = baseDialog.findViewById(R.id.alert_context);
         Button btSure = baseDialog.findViewById(R.id.bt_confirm);
-        if(isSuccess){
+        if (isSuccess) {
             context.setText(R.string.submit_success);
-        }else {
+        } else {
             context.setText(R.string.submit_failed);
         }
 
@@ -432,7 +443,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
         baseDialog.show();
     }
 
-    public void clearData(){
+    public void clearData() {
         mRepairPerson.setText("");
         mRepairCost.setText("0.00");
         mTvRepairDate.setText(DateUtils.date2String(new Date()));
@@ -440,5 +451,12 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
         selectedAssets.clear();
         divideView.setVisibility(View.GONE);
         repairAdapter.notifyDataSetChanged();
+    }
+
+    private String getTextFormsString(String userName, String departName, String repairRemark) {
+        return "[{\"name\":\"申请人\",\"value\":\"" + userName + "\"}," +
+                "{\"name\":\"所在部门\",\"value\":\"" + departName + "\"}," +
+                "{\"name\":\"报修原因\",\"value\":\"" + repairRemark + "\"}]"
+                ;
     }
 }

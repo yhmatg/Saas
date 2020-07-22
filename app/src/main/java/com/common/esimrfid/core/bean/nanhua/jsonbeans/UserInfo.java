@@ -25,6 +25,7 @@ public class UserInfo {
 
     private String user_name;
     private String user_password;
+    private int managerClient = 1;
 
     public String getUser_name() {
         return user_name;
