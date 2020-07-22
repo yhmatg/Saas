@@ -181,7 +181,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                     if(latestModifyAssets.getRemoved()!= null && latestModifyAssets.getRemoved().size() > 0){
                         assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
                     }
-                    mDataManager.setLatestSyncTime(String.valueOf(System.currentTimeMillis()));
+                    mDataManager.setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 600000));
                 }
             }));
         }

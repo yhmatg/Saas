@@ -49,6 +49,7 @@ public class UserLoginResponse {
         private String user_real_name;
         private String user_name;
         private String corpName;
+        private String corpid;
 
         public String getCorpName() {
             return corpName;
@@ -80,6 +81,14 @@ public class UserLoginResponse {
 
         public void setUser_name(String user_name) {
             this.user_name = user_name;
+        }
+
+        public String getCorpid() {
+            return corpid;
+        }
+
+        public void setCorpid(String corpid) {
+            this.corpid = corpid;
         }
     }
 }

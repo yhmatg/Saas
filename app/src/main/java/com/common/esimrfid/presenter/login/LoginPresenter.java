@@ -11,6 +11,7 @@ import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.http.exception.WrongAccountOrPassException;
+import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.Md5Util;
@@ -58,6 +59,11 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                         @Override
                         public void accept(UserLoginResponse userLoginResponse) throws Exception {
                             //保存UserLoginResponse到sp
+                            UserLoginResponse localUserLogin = mDataManager.getUserLoginResponse();
+                            if(localUserLogin != null && !userLoginResponse.getUserinfo().getCorpid().equals(localUserLogin.getUserinfo().getCorpid())){
+                                DbBank.getInstance().getAssetsAllInfoDao().deleteAllData();
+                                mDataManager.setLatestSyncTime("0");
+                            }
                             mDataManager.setUserLoginResponse(userLoginResponse);
                         }
                     })

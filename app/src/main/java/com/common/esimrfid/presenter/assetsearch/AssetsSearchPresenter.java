@@ -74,7 +74,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
                             if(latestModifyAssets.getRemoved()!= null && latestModifyAssets.getRemoved().size() > 0){
                                 assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
                             }
-                            dataManager.setLatestSyncTime(String.valueOf(System.currentTimeMillis()));
+                            dataManager.setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 600000));
                         }
                     }));
         }
