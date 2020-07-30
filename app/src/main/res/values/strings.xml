@@ -290,4 +290,6 @@
     <string name="expired_fail">您的系统已过期请购买后再使用！</string>
     <string name="asset_brand">品\u3000\u3000牌</string>
     <string name="repair_toast_str">只有闲置或者在用资产可以报修，请确定资产状态！</string>
+    <string name="ast_list_str">资产列表</string>
+    <string name="default_sort">默认排序</string>
 </resources>

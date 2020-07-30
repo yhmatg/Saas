@@ -45,6 +45,7 @@ import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
 import com.common.esimrfid.ui.assetrepair.AssetRepairActivity;
 import com.common.esimrfid.ui.assetsearch.AssetsSearchActivity;
+import com.common.esimrfid.ui.astlist.AssetListActivity;
 import com.common.esimrfid.ui.identity.IdentityActivity;
 import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
 import com.common.esimrfid.ui.login.LoginActivity;
@@ -208,7 +209,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     }
 
-    @OnClick({R.id.inv_task, R.id.ast_inv, R.id.ast_search, R.id.write_tag, R.id.home_setting, R.id.ast_identity, R.id.ast_repair})
+    @OnClick({R.id.inv_task, R.id.ast_inv, R.id.ast_search, R.id.write_tag, R.id.home_setting, R.id.ast_identity, R.id.ast_repair, R.id.ast_list})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.inv_task:
@@ -245,6 +246,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             case R.id.ast_repair:
                 if (isNormalClick()) {
                     startActivity(new Intent(this, AssetRepairActivity.class));
+                }
+                break;
+            case R.id.ast_list:
+                if (isNormalClick()) {
+                    startActivity(new Intent(this, AssetListActivity.class));
                 }
                 break;
         }

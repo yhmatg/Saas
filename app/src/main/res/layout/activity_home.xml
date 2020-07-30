@@ -246,16 +246,17 @@
                 android:textSize="@dimen/sp_15" />
 
             <TextView
+                android:id="@+id/ast_list"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/inventory_task"
+                android:drawableTop="@drawable/ast_list_icon"
                 android:drawablePadding="@dimen/dp_5"
                 android:gravity="center"
-                android:text="@string/inv_task"
+                android:text="@string/ast_list_str"
                 android:textColor="@color/home_text_two"
                 android:textSize="@dimen/sp_15"
-                android:visibility="invisible" />
+                />
 
             <TextView
                 android:layout_width="@dimen/dp_0"
