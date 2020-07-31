@@ -358,7 +358,7 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(Integer size, Integer page, String patternName) {
-        return mHttpHelper.fetchPageAssetsList(size, page, patternName);
+    public Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(Integer size, Integer page, String patternName,String conditions) {
+        return mHttpHelper.fetchPageAssetsList(size, page, patternName,conditions);
     }
 }

@@ -34,10 +34,10 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
 
     //分页
     @Override
-    public void fetchPageAssetsInfos(Integer size, Integer page, String patternName, int currentSize) {
+    public void fetchPageAssetsInfos(Integer size, Integer page, String patternName, int currentSize, String conditions) {
         mView.showDialog("loading...");
         //addSubscribe(mDataManager.fetchWriteAssetsInfo(assetsId)
-        addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize), mDataManager.fetchPageAssetsList(size, page, patternName))
+        addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize), mDataManager.fetchPageAssetsList(size, page, patternName,conditions))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<AssetsListPage>(mView, false) {

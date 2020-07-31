@@ -159,8 +159,8 @@ public interface GeeksApis {
     //@param patternName 资产过滤信息
     //@return 资产列表
 
-    @GET("/assets-server/assets")
-    Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(@Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName);
+    @GET("/assets-server/assets/multiconditions")
+    Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(@Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName,@Query("conditions") String conditions);
 
 
     //根据Epc查询资产详情（资产查找）

@@ -13,6 +13,6 @@ public interface AssetListContract {
     }
 
     interface Presenter extends AbstractPresenter<View> {
-        void fetchPageAssetsInfos(Integer size, Integer page, String patternName, int currentSize);
+        void fetchPageAssetsInfos(Integer size, Integer page, String patternName, int currentSize, String conditions);
     }
 }

@@ -90,7 +90,8 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     private FiltterAdapter filtterAdapter;
     private RecyclerView filerRecycler;
     CustomPopWindow mCustomPopWindow;
-    private FilterBean currentFilterBean;
+    private FilterBean currentFilterBean = new FilterBean("11", "资产编号正序", false);
+    private String currentCodition = "";
 
     @Override
     public AssetListPresenter initPresenter() {
@@ -112,7 +113,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 isNeedClearData = true;
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0,"[]");
             }
         });
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -127,14 +128,14 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 }
                 int currentSize = currentPage == 1 ? 0 : mData.size();
                 preFilter = assetsId;
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, currentSize);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, currentSize,currentCodition);
             }
         });
         mRefreshLayout.setEnableRefresh(false);//使上拉加载具有弹性效果
         mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
         mRefreshLayout.setEnableAutoLoadMore(false);
-        mPresenter.fetchPageAssetsInfos(pageSize, 0, "", 0);
+        mPresenter.fetchPageAssetsInfos(pageSize, 0, "", 0,"[]");
     }
 
     public void initView() {
@@ -229,7 +230,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                     currentPage = 1;
                     preFilter = assetsId;
                     //mPresenter.getAssetsInfoById(assetsId);
-                    mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, 0);
+                    mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, 0,"[]");
                     return true;
                 }
                 return false;
@@ -281,13 +282,8 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     @Override
     public void onItemSelected(FilterBean filterBean) {
         currentFilterBean = filterBean;
-        sortList(filterBean);
-    }
-
-    public void sortList(FilterBean filterBean){
         switch (filterBean.getId()) {
             case "10":
-                break;
             case "11":
                 Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
                     @Override
@@ -321,16 +317,76 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 });
                 break;
             case "20":
+                isNeedClearData = true;
+                currentPage = 1;
+                currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"0\"]}]";
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0,currentCodition);
                 break;
             case "21":
+                isNeedClearData = true;
+                currentPage = 1;
+                currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"1\"]}]";
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0,currentCodition);
                 break;
             case "22":
+                isNeedClearData = true;
+                currentPage = 1;
+                currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"6\"]}]";
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0,currentCodition);
                 break;
             case "23":
+                isNeedClearData = true;
+                currentPage = 1;
+                currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"10\"]}]";
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0,currentCodition);
                 break;
             case "24":
+                isNeedClearData = true;
+                currentPage = 1;
+                currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"7\",\"8\",\"9\",\"11\",\"12\",\"13\",\"14\"]}]";
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0,currentCodition);
                 break;
 
+        }
+        mCustomPopWindow.dissmiss();
+        adapter.notifyDataSetChanged();
+    }
+
+    public void sortList(FilterBean filterBean){
+        switch (filterBean.getId()) {
+            case "10":
+            case "11":
+                Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
+                    @Override
+                    public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
+                        return o1.getAst_barcode().compareTo(o2.getAst_barcode());
+                    }
+                });
+                break;
+            case "12":
+                Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
+                    @Override
+                    public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
+                        return o2.getAst_barcode().compareTo(o1.getAst_barcode());
+                    }
+                });
+                break;
+            case "13":
+                Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
+                    @Override
+                    public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
+                        return Long.compare(o1.getAst_buy_date(), o2.getAst_buy_date());
+                    }
+                });
+                break;
+            case "14":
+                Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
+                    @Override
+                    public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
+                        return Long.compare(o2.getAst_buy_date(), o1.getAst_buy_date());
+                    }
+                });
+                break;
         }
         mCustomPopWindow.dissmiss();
         adapter.notifyDataSetChanged();
