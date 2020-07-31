@@ -8,11 +8,10 @@ import com.common.esimrfid.contract.home.WriteTagContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
-import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
@@ -85,15 +84,15 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
         addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize), mDataManager.fetchPageAssetsInfos(size, page, patternName))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
-                .subscribeWith(new BaseObserver<AssetsListPage>(mView, false) {
+                .subscribeWith(new BaseObserver<AssetsInfoPage>(mView, false) {
                     @Override
-                    public void onNext(AssetsListPage assetsListPage) {
+                    public void onNext(AssetsInfoPage assetsInfoPage) {
                         mView.dismissDialog();
-                        if(assetsListPage.isLocal()){
-                            mView.handlefetchPageAssetsInfos(assetsListPage.getList());
+                        if(assetsInfoPage.isLocal()){
+                            mView.handlefetchPageAssetsInfos(assetsInfoPage.getList());
                         }else {
-                            if(page <= assetsListPage.getPages()){
-                                mView.handlefetchPageAssetsInfos(assetsListPage.getList());
+                            if(page <= assetsInfoPage.getPages()){
+                                mView.handlefetchPageAssetsInfos(assetsInfoPage.getList());
                             }else {
                                 mView.handlefetchPageAssetsInfos(new ArrayList<>());
                             }
@@ -109,21 +108,21 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
                 }));
     }
 
-    public Observable<BaseResponse<AssetsListPage>> getLocalAssetsObservable(Integer size, String patternName, int currentSize) {
-        Observable<BaseResponse<AssetsListPage>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsListPage>>() {
+    public Observable<BaseResponse<AssetsInfoPage>> getLocalAssetsObservable(Integer size, String patternName, int currentSize) {
+        Observable<BaseResponse<AssetsInfoPage>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsInfoPage>>() {
             @Override
-            public void subscribe(ObservableEmitter<BaseResponse<AssetsListPage>> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<BaseResponse<AssetsInfoPage>> emitter) throws Exception {
                 List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findPageLocalAssetsByPara(size, patternName, currentSize);
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                     Log.e(TAG, "network get data");
                 } else {
                     Log.e(TAG, "newestOrders======" + newestOrders);
-                    BaseResponse<AssetsListPage> invOrderResponse = new BaseResponse<>();
-                    AssetsListPage assetsListPage = new AssetsListPage();
-                    assetsListPage.setList(newestOrders);
-                    invOrderResponse.setResult(assetsListPage);
-                    assetsListPage.setLocal(true);
+                    BaseResponse<AssetsInfoPage> invOrderResponse = new BaseResponse<>();
+                    AssetsInfoPage assetsInfoPage = new AssetsInfoPage();
+                    assetsInfoPage.setList(newestOrders);
+                    invOrderResponse.setResult(assetsInfoPage);
+                    assetsInfoPage.setLocal(true);
                     invOrderResponse.setCode("200000");
                     invOrderResponse.setMessage("成功");
                     invOrderResponse.setSuccess(true);

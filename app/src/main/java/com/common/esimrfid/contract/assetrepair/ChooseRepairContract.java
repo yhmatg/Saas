@@ -3,7 +3,6 @@ package com.common.esimrfid.contract.assetrepair;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 
 import java.util.List;
 

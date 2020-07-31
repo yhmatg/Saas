@@ -1,10 +1,8 @@
 package com.common.esimrfid.ui.assetrepair;
 
 import android.content.Context;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -20,7 +18,6 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetrepair.ChooseRepairContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.presenter.assetrepair.ChooseRepairPresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 

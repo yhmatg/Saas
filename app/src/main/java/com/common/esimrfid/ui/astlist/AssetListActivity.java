@@ -24,6 +24,7 @@ import com.common.esimrfid.contract.assetlist.AssetListContract;
 import com.common.esimrfid.contract.home.WriteTagContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
 import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.assetlist.AssetListPresenter;
 import com.common.esimrfid.presenter.home.WriteTagPresenter;
@@ -66,12 +67,12 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     ImageView mSortArrow;
     @BindView(R.id.im_arrow_two)
     ImageView mStatusArrow;
-    @BindView(R.id.head_layout)
-    RelativeLayout filterLayout;
+    @BindView(R.id.sort_layout)
+    LinearLayout sortLayout;
     IEsimUhfService esimUhfService = null;
     public static final String TAG = "WriteTagActivity";
-    private List<AssetsInfo> mData = new ArrayList<>();
-    private WriteTagAdapter adapter;
+    private List<AssetsListItemInfo> mData = new ArrayList<>();
+    private AssetListAdapter adapter;
     private boolean isNeedClearData;
     private String preFilter = "";
     private int currentPage = 1;
@@ -93,7 +94,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         initRfidAndEvent();
         inFilterList();
         initView();
-        adapter = new WriteTagAdapter(this, mData);
+        adapter = new AssetListAdapter(this, mData);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         empty_page.setVisibility(View.VISIBLE);
@@ -177,7 +178,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         return R.layout.activity_asset_list;
     }
 
-    @OnClick({R.id.titleLeft, R.id.edit_search, R.id.sort_layout, R.id.tv_status})
+    @OnClick({R.id.titleLeft, R.id.edit_search, R.id.sort_layout, R.id.status_layout})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.titleLeft:
@@ -190,7 +191,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 currentFilterBeans.clear();
                 currentFilterBeans.addAll(mSortBeans);
                 filtterAdapter.notifyDataSetChanged();
-                mCustomPopWindow.showAsDropDown(filterLayout);
+                mCustomPopWindow.showAsDropDown(sortLayout);
                 maskView.setVisibility(View.VISIBLE);
                 mTvSort.setTextColor(getColor(R.color.titele_color));
                 mSortArrow.setImageResource(R.drawable.down_arrow_blue);
@@ -199,7 +200,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 currentFilterBeans.clear();
                 currentFilterBeans.addAll(mStatusBeans);
                 filtterAdapter.notifyDataSetChanged();
-                mCustomPopWindow.showAsDropDown(filterLayout);
+                mCustomPopWindow.showAsDropDown(sortLayout);
                 maskView.setVisibility(View.VISIBLE);
                 mTvStatus.setTextColor(getColor(R.color.titele_color));
                 mStatusArrow.setImageResource(R.drawable.down_arrow_blue);
@@ -240,7 +241,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     }
 
     @Override
-    public void handlefetchPageAssetsInfos(List<AssetsInfo> assetsInfos) {
+    public void handlefetchPageAssetsInfos(List<AssetsListItemInfo> assetsInfos) {
         mRefreshLayout.finishLoadMore();
         if (isNeedClearData) {
             mData.clear();
@@ -250,7 +251,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         handleResultList(mData);
     }
 
-    private void handleResultList(List<AssetsInfo> mData) {
+    private void handleResultList(List<AssetsListItemInfo> mData) {
         if (mData.size() == 0) {
             empty_page.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);

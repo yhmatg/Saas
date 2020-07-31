@@ -65,7 +65,6 @@ public class AssetsInfo {
     @Embedded(prefix = "plus_loc_")
     private InvdtPlusLocInfo invdt_plus_loc_info;
     private String invdt_sign;
-    private double ast_price;
 
     public String getAst_brand() {
         return ast_brand;
@@ -185,14 +184,6 @@ public class AssetsInfo {
 
     public void setInvdt_sign(String invdt_sign) {
         this.invdt_sign = invdt_sign;
-    }
-
-    public double getAst_price() {
-        return ast_price;
-    }
-
-    public void setAst_price(double ast_price) {
-        this.ast_price = ast_price;
     }
 
     public static class LocInfo {

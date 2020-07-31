@@ -1,27 +1,17 @@
 package com.common.esimrfid.presenter.assetsearch;
 
-import android.util.Log;
-
-import com.common.esimrfid.R;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetsearch.AssetsSearchContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.BaseResponse;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 import com.common.esimrfid.core.dao.AssetsAllInfoDao;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
-import com.common.esimrfid.utils.StringUtils;
-import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;

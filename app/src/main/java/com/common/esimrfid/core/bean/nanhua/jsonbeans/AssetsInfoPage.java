@@ -2,7 +2,7 @@ package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 
 import java.util.List;
 
-public class AssetsListPage {
+public class AssetsInfoPage {
 
     /**
      * endRow : 3
@@ -41,7 +41,7 @@ public class AssetsListPage {
     private int size;
     private int startRow;
     private int total;
-    private List<AssetsListItemInfo> list;
+    private List<AssetsInfo> list;
     private List<Integer> navigatepageNums;
     private boolean isLocal;
 
@@ -189,11 +189,11 @@ public class AssetsListPage {
         isLastPage = lastPage;
     }
 
-    public List<AssetsListItemInfo> getList() {
+    public List<AssetsInfo> getList() {
         return list;
     }
 
-    public void setList(List<AssetsListItemInfo> list) {
+    public void setList(List<AssetsInfo> list) {
         this.list = list;
     }
 

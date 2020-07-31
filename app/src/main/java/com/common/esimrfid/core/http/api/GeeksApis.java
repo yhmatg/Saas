@@ -16,6 +16,7 @@ import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
@@ -152,8 +153,15 @@ public interface GeeksApis {
     //@return 资产列表
 
     @GET("/assets-server/assets")
-        //@GET("/assets-server/assets/findforapp")
-    Observable<BaseResponse<AssetsListPage>> fetchPageAssetsInfos( @Query("size") Integer size, @Query("page") Integer page,@Query("pattern_name") String patternName);
+    Observable<BaseResponse<AssetsInfoPage>> fetchPageAssetsInfos(@Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName);
+
+    //模糊查询资产详情（写入标签）分页
+    //@param patternName 资产过滤信息
+    //@return 资产列表
+
+    @GET("/assets-server/assets")
+    Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(@Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName);
+
 
     //根据Epc查询资产详情（资产查找）
     //@param Epcs EPC集合
@@ -199,7 +207,7 @@ public interface GeeksApis {
 
     //根据操作查询资产列表 分页
     @GET("/assets-server/assets/choiceAssetsByOpt")
-    Observable<BaseResponse<AssetsListPage>> getAllAssetsByOptPage(@Query("opt_type") String optType, @Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName);
+    Observable<BaseResponse<AssetsInfoPage>> getAllAssetsByOptPage(@Query("opt_type") String optType, @Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName);
 
     //根据操作查询资产列表 不分页
     @GET("/assets-server/assets/choiceAssetsByOpt/unpage")

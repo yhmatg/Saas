@@ -16,6 +16,7 @@ import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
@@ -317,7 +318,7 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<AssetsListPage>> getAllAssetsByOptPage(String optType, Integer size, Integer page, String patternName) {
+    public Observable<BaseResponse<AssetsInfoPage>> getAllAssetsByOptPage(String optType, Integer size, Integer page, String patternName) {
         return mHttpHelper.getAllAssetsByOptPage(optType, size, page, patternName);
     }
 
@@ -347,12 +348,17 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<AssetsListPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName) {
+    public Observable<BaseResponse<AssetsInfoPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName) {
         return mHttpHelper.fetchPageAssetsInfos(size, page, patternName);
     }
 
     @Override
     public Observable<BaseResponse> createNewRepairOrder(NewAssetRepairPara repariPara) {
         return mHttpHelper.createNewRepairOrder(repariPara);
+    }
+
+    @Override
+    public Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(Integer size, Integer page, String patternName) {
+        return mHttpHelper.fetchPageAssetsList(size, page, patternName);
     }
 }
