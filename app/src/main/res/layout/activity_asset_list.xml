@@ -112,7 +112,7 @@
             android:layout_toEndOf="@+id/tv_num_name"
             android:gravity="center_vertical"
             android:textColor="@color/titele_color"
-            android:text="100"
+            android:text="0"
             android:textSize="@dimen/sp_14" />
 
         <TextView
@@ -137,7 +137,7 @@
             android:layout_marginStart="@dimen/dp_10"
             android:layout_toEndOf="@+id/tv_price_name"
             android:textColor="@color/titele_color"
-            android:text="1000"
+            android:text="0"
             android:textSize="@dimen/sp_14" />
     </RelativeLayout>
 

@@ -31,4 +31,5 @@
     <color name="bgcolor">#F7F7F7</color>
     <color name="transparent">#00000000</color>
     <color name="search_hint">#80FFFFFF</color>
+    <color name="ast_free">#27AD8E</color>
 </resources>

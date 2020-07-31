@@ -10,7 +10,17 @@ public enum AssetsUseStatus {
     IN_USED("在用", 1),
     IN_REPAIR("维修中", 2),
     IN_Transfer("调拨中",3),
-    IN_BORROW("借用",6);
+    WAIT_DISTRIBUTE("待派发",4),
+    ALREADY_DISTRIBUTE("已派发",5),
+    IN_BORROW("借用",6),
+    IN_BORROW_APPROVE("借用审批中",7),
+    IN_RETURN_APPROVE("归还审批中",8),
+    IN_REPAIR_APPROVE("维修审批中",9),
+    IN_SCRAP("报废",10),
+    IN_TRANSFER_APPROVE("调拨审批中",11),
+    IN_SCRAP_APPROVE("报废审批中",12),
+    IN_RECIVE_APPROVE("领用审批中",13),
+    IN_WITHDRAWAL_APPROVE("退库审批中",14);
 
 
     // 成员变量

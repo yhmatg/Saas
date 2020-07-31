@@ -58,7 +58,7 @@ public interface AssetsAllInfoDao extends BaseDao<AssetsAllInfo> {
     public List<SearchAssetsInfo> searchPageLocalAssetsByPara(Integer size, String para, int currentSize);
 
     //根据资产名称，资产编号模糊查询(精简)分页(资产列表使用)
-    @Query("SELECT ast_barcode,userinfo_user_real_name,ast_name,id,loc_info_loc_name FROM AssetsAllInfo where ast_name LIKE '%' || :para || '%' OR ast_barcode LIKE '%' || :para || '%' LIMIT :size OFFSET :currentSize")
+    @Query("SELECT ast_barcode,userinfo_user_real_name,ast_name,id,loc_info_loc_name,ast_price,ast_used_status,ast_buy_date FROM AssetsAllInfo where ast_name LIKE '%' || :para || '%' OR ast_barcode LIKE '%' || :para || '%' LIMIT :size OFFSET :currentSize")
     public List<AssetsListItemInfo> searchPageLocalAssetListByPara(Integer size, String para, int currentSize);
 
 }

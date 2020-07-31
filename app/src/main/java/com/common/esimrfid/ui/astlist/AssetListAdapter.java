@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
+import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
 import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
 import com.common.esimrfid.ui.tagwrite.SearchTagActivity;
@@ -49,10 +50,13 @@ public class AssetListAdapter extends RecyclerView.Adapter<AssetListAdapter.View
         viewHolder.astCode.setText(astBarcode);
         String astName = TextUtils.isEmpty(astItemInfo.getAst_name()) ? "" : astItemInfo.getAst_name();
         viewHolder.astName.setText(astName);
-        String astBrand = TextUtils.isEmpty(astItemInfo.getUserinfo_user_real_name()) ? "" : astItemInfo.getUserinfo_user_real_name();
+        String astBrand = astItemInfo.getUser_info() == null ? "" : astItemInfo.getUser_info().getUser_real_name();
         viewHolder.userName.setText(astBrand);
-        String astLocation = astItemInfo.getLoc_info_loc_name() == null ? "" : astItemInfo.getLoc_info_loc_name();
+        String astLocation = astItemInfo.getLoc_info() == null ? "" : astItemInfo.getLoc_info().getLoc_name();
         viewHolder.location.setText(astLocation);
+        int astStatus = astItemInfo.getAst_used_status();
+        String statusName = TextUtils.isEmpty(AssetsUseStatus.getName(astStatus)) ? "" : AssetsUseStatus.getName(astStatus);
+        viewHolder.astStatus.setText(statusName);
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +84,8 @@ public class AssetListAdapter extends RecyclerView.Adapter<AssetListAdapter.View
         TextView userName;
         @BindView(R.id.tv_ast_loc_name)
         TextView location;
+        @BindView(R.id.ast_status)
+        TextView astStatus;
         @BindView(R.id.item_detail)
         RelativeLayout itemLayout;
 

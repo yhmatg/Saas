@@ -32,6 +32,7 @@ import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.ui.inventorytask.FilterBean;
 import com.common.esimrfid.ui.inventorytask.FiltterAdapter;
 import com.common.esimrfid.ui.inventorytask.InvLocationAdapter;
+import com.common.esimrfid.ui.inventorytask.InvLocationBean;
 import com.common.esimrfid.ui.tagwrite.WriteTagAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -39,6 +40,8 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,6 +72,10 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     ImageView mStatusArrow;
     @BindView(R.id.sort_layout)
     LinearLayout sortLayout;
+    @BindView(R.id.tv_ast_num)
+    TextView mAstNum;
+    @BindView(R.id.tv_ast_price)
+    TextView mAstPrice;
     IEsimUhfService esimUhfService = null;
     public static final String TAG = "WriteTagActivity";
     private List<AssetsListItemInfo> mData = new ArrayList<>();
@@ -83,6 +90,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     private FiltterAdapter filtterAdapter;
     private RecyclerView filerRecycler;
     CustomPopWindow mCustomPopWindow;
+    private FilterBean currentFilterBean;
 
     @Override
     public AssetListPresenter initPresenter() {
@@ -247,8 +255,15 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
             mData.clear();
         }
         mData.addAll(assetsInfos);
+        sortList(currentFilterBean);
         adapter.notifyDataSetChanged();
         handleResultList(mData);
+        double totalPrice = 0;
+        for (AssetsListItemInfo mDatum : mData) {
+            totalPrice += mDatum.getAst_price();
+        }
+        mAstNum.setText(String.valueOf(mData.size()));
+        mAstPrice.setText(String.valueOf(totalPrice));
     }
 
     private void handleResultList(List<AssetsListItemInfo> mData) {
@@ -265,6 +280,59 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
 
     @Override
     public void onItemSelected(FilterBean filterBean) {
+        currentFilterBean = filterBean;
+        sortList(filterBean);
+    }
 
+    public void sortList(FilterBean filterBean){
+        switch (filterBean.getId()) {
+            case "10":
+                break;
+            case "11":
+                Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
+                    @Override
+                    public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
+                        return o1.getAst_barcode().compareTo(o2.getAst_barcode());
+                    }
+                });
+                break;
+            case "12":
+                Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
+                    @Override
+                    public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
+                        return o2.getAst_barcode().compareTo(o1.getAst_barcode());
+                    }
+                });
+                break;
+            case "13":
+                Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
+                    @Override
+                    public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
+                        return Long.compare(o1.getAst_buy_date(), o2.getAst_buy_date());
+                    }
+                });
+                break;
+            case "14":
+                Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
+                    @Override
+                    public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
+                        return Long.compare(o2.getAst_buy_date(), o1.getAst_buy_date());
+                    }
+                });
+                break;
+            case "20":
+                break;
+            case "21":
+                break;
+            case "22":
+                break;
+            case "23":
+                break;
+            case "24":
+                break;
+
+        }
+        mCustomPopWindow.dissmiss();
+        adapter.notifyDataSetChanged();
     }
 }
