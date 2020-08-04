@@ -6,6 +6,11 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetlist.AssetListContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
+import com.common.esimrfid.core.bean.inventorytask.AssetsType;
+import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
+import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
+import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
@@ -86,4 +91,71 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
         });
         return invOrderObservable;
     }
+
+    @Override
+    public void getAllManagerUsers() {
+        addSubscribe(mDataManager.getAllManagerUsers()
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .subscribeWith(new BaseObserver<List<MangerUser>>(mView, false) {
+                    @Override
+                    public void onNext(List<MangerUser> mangerUsers) {
+                        mView.handleAllManagerUsers(mangerUsers);
+                    }
+                }));
+    }
+
+    @Override
+    public void getAllCompany() {
+        addSubscribe(mDataManager.getAllCompany()
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .subscribeWith(new BaseObserver<List<CompanyBean>>(mView, false) {
+                    @Override
+                    public void onNext(List<CompanyBean> companyBeans) {
+                        mView.handleAllCompany(companyBeans);
+
+                    }
+                }));
+    }
+
+    @Override
+    public void getAllDeparts(String comId) {
+        addSubscribe(mDataManager.getAllDeparts(comId)
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .subscribeWith(new BaseObserver<List<DepartmentBean>>(mView, false) {
+                    @Override
+                    public void onNext(List<DepartmentBean> departmentBeans) {
+                        mView.handleAllDeparts(departmentBeans);
+                    }
+                }));
+    }
+
+    @Override
+    public void getAllAssetsType() {
+        addSubscribe(mDataManager.getAllAssetsType()
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .subscribeWith(new BaseObserver<List<AssetsType>>(mView, false) {
+                    @Override
+                    public void onNext(List<AssetsType> assetsTypes) {
+                        mView.handleAllAssetsType(assetsTypes);
+                    }
+                }));
+    }
+
+    @Override
+    public void getAllAssetsLocation() {
+        addSubscribe(mDataManager.getAllAssetsLocation()
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .subscribeWith(new BaseObserver<List<AssetsLocation>>(mView, false) {
+                    @Override
+                    public void onNext(List<AssetsLocation> assetsLocations) {
+                        mView.handleAllAssetsLocation(assetsLocations);
+                    }
+                }));
+    }
+
 }

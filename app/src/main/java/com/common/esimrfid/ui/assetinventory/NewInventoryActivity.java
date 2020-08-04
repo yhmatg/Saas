@@ -165,7 +165,6 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         mPresenter.getAllCompany();
         mPresenter.getAllAssetsType();
         mPresenter.getAllAssetsLocation();
-        mPresenter.getAllCompany();
     }
 
     @Override
