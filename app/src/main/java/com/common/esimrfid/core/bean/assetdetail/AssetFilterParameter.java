@@ -74,25 +74,115 @@ public class AssetFilterParameter {
     @Override
     public String toString() {
         return "[" +
-                getStatusListString() +
+                getStatusListString() + "," +
+                getUseCompanyString() + "," +
+                getDepartListString() + "," +
+                getTypeListString() + "," +
+                getLocListString() + "," +
+                getManagerListString() + "," +
                 "]";
     }
 
     private String getStatusListString() {
-        String s1 = "{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"3\",\"1\"]}";
-        String astIdString = "";
-        if (mSelectAssetsStatus!= null && mSelectAssetsStatus.size() > 0) {
-            astIdString += "{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[";
+        String statusString = "";
+        if (mSelectAssetsStatus != null && mSelectAssetsStatus.size() > 0) {
+            statusString += "{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[";
             for (int i = 0; i < mSelectAssetsStatus.size(); i++) {
                 Node node = mSelectAssetsStatus.get(i);
                 String status = "\"" + node.getId() + "\"";
                 if (i < mSelectAssetsStatus.size() - 1) {
                     status += ',';
                 }
-                astIdString += status;
+                statusString += status;
             }
-            astIdString += "]}";
+            statusString += "]}";
         }
-        return astIdString;
+        return statusString;
+    }
+    
+    public String getUseCompanyString(){
+        String companyString = "";
+        if(mSelectUseCompany!= null){
+            companyString += "{\"name\":\"org_usedcorp_id\",\"condition\":\"EqualTo\",\"values\":[" + mSelectUseCompany.getId() + "]}";
+        }
+        return companyString;
+    }
+
+    private String getDepartListString() {
+        String departString = "";
+        if (mSelectDepartments != null && mSelectDepartments.size() > 0) {
+            departString += "{\"name\":\"org_useddept_id\",\"condition\":\"In\",\"values\":[";
+            for (int i = 0; i < mSelectDepartments.size(); i++) {
+                Node node = mSelectDepartments.get(i);
+                String status = "\"" + node.getId() + "\"";
+                if (i < mSelectDepartments.size() - 1) {
+                    status += ',';
+                }
+                departString += status;
+            }
+            departString += "]}";
+        }
+        return departString;
+    }
+
+    private String getTypeListString() {
+        String typeString = "";
+        if (mSelectAssetsTypes != null && mSelectAssetsTypes.size() > 0) {
+            typeString += "{\"name\":\"org_useddept_id\",\"condition\":\"In\",\"values\":[";
+            for (int i = 0; i < mSelectAssetsTypes.size(); i++) {
+                Node node = mSelectAssetsTypes.get(i);
+                String status = "\"" + node.getId() + "\"";
+                if (i < mSelectAssetsTypes.size() - 1) {
+                    status += ',';
+                }
+                typeString += status;
+            }
+            typeString += "]}";
+        }
+        return typeString;
+    }
+
+    private String getLocListString() {
+        String locString = "";
+        if (mSelectAssetsLocations != null && mSelectAssetsLocations.size() > 0) {
+            locString += "{\"name\":\"loc_id\",\"condition\":\"In\",\"values\":[";
+            for (int i = 0; i < mSelectAssetsLocations.size(); i++) {
+                Node node = mSelectAssetsLocations.get(i);
+                String status = "\"" + node.getId() + "\"";
+                if (i < mSelectAssetsLocations.size() - 1) {
+                    status += ',';
+                }
+                locString += status;
+            }
+            locString += "]}";
+        }
+        return locString;
+    }
+
+    private String getManagerListString() {
+        String managerString = "";
+        if (mSelectMangerUsers != null && mSelectMangerUsers.size() > 0) {
+            managerString += "{\"name\":\"manager_id\",\"condition\":\"In\",\"values\":[";
+            for (int i = 0; i < mSelectMangerUsers.size(); i++) {
+                Node node = mSelectMangerUsers.get(i);
+                String status = "\"" + node.getId() + "\"";
+                if (i < mSelectMangerUsers.size() - 1) {
+                    status += ',';
+                }
+                managerString += status;
+            }
+            managerString += "]}";
+        }
+        return managerString;
+    }
+
+    public void clearData() {
+        mSelectAssetsStatus = null;
+        mSelectUseCompany = null;
+        mSelectDepartments = null;
+        mSelectAssetsTypes = null;
+        mSelectAssetsLocations = null;
+        mSelectMangerUsers = null;
+        userRealName = null;
     }
 }

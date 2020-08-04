@@ -514,6 +514,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                     currentPage = 1;
                     preFilter = assetsId;
                     //mPresenter.getAssetsInfoById(assetsId);
+                    conditions.clearData();
                     mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, "",0, conditions);
                     return true;
                 }
@@ -670,43 +671,42 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
             case "20":
                 isNeedClearData = true;
                 currentPage = 1;
-                currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"0\"]}]";
                 ArrayList<Node> statusOne = new ArrayList<>();
                 statusOne.add(new Node("0","-1","闲置"));
+                conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusOne);
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
                 break;
             case "21":
                 isNeedClearData = true;
                 currentPage = 1;
-                currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"1\"]}]";
                 ArrayList<Node> statusTwo = new ArrayList<>();
                 statusTwo.add(new Node("1","-1","在用"));
+                conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusTwo);
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
                 break;
             case "22":
                 isNeedClearData = true;
                 currentPage = 1;
-                currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"6\"]}]";
                 ArrayList<Node> statusThree = new ArrayList<>();
                 statusThree.add(new Node("6","-1","借用"));
+                conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusThree);
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
                 break;
             case "23":
                 isNeedClearData = true;
                 currentPage = 1;
-                currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"10\"]}]";
                 ArrayList<Node> statusFour = new ArrayList<>();
                 statusFour.add(new Node("10","-1","报废"));
+                conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusFour);
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
                 break;
             case "24":
                 isNeedClearData = true;
                 currentPage = 1;
-                currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"7\",\"8\",\"9\",\"11\",\"12\",\"13\",\"14\"]}]";
                 ArrayList<Node> statusFive = new ArrayList<>();
                 statusFive.add(new Node("7","-1","借用审批中"));
                 statusFive.add(new Node("8","-1","归还审批中"));
@@ -715,6 +715,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 statusFive.add(new Node("12","-1","报废审批中"));
                 statusFive.add(new Node("13","-1","领用审批中"));
                 statusFive.add(new Node("14","-1","退库审批中"));
+                conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusFive);
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
                 break;
