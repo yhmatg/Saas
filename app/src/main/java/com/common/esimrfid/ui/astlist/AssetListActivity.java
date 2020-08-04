@@ -122,7 +122,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     @BindView(R.id.tv_manager)
     TextView mAstManagerStr;
     @BindView(R.id.tv_asset_user)
-    TextView mAstUserStr;
+    EditText mAstUserStr;
     ImageView mBackImg;
     TextView mTitle;
     TextView mConfirm;
@@ -184,7 +184,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 isNeedClearData = true;
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
             }
         });
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -199,14 +199,14 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 }
                 int currentSize = currentPage == 1 ? 0 : mData.size();
                 preFilter = assetsId;
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId,"", currentSize, conditions);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, "", currentSize, conditions);
             }
         });
         mRefreshLayout.setEnableRefresh(false);//使上拉加载具有弹性效果
         mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
         mRefreshLayout.setEnableAutoLoadMore(false);
-        mPresenter.fetchPageAssetsInfos(pageSize, 1, "","", 0, conditions);
+        mPresenter.fetchPageAssetsInfos(pageSize, 1, "", "", 0, conditions);
     }
 
     public void initView() {
@@ -236,12 +236,12 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
 
         //侧滑菜单
         filterView = LayoutInflater.from(this).inflate(R.layout.filter_item_layout, null);
-        multiRecycle = (RecyclerView)filterView.findViewById(R.id.multi_recycle);
+        multiRecycle = (RecyclerView) filterView.findViewById(R.id.multi_recycle);
         multiRecycle.setLayoutManager(new LinearLayoutManager(this));
         multiFilterAdapter = new AssetFilterRecyclerAdapter(multiRecycle, this,
-                currentMultiDatas, 2,R.drawable.tree_reduce,R.drawable.tree_add);
+                currentMultiDatas, 2, R.drawable.tree_reduce, R.drawable.tree_add);
         multiRecycle.setAdapter(multiFilterAdapter);
-        singleRecycle = (RecyclerView)filterView.findViewById(R.id.single_recycle);
+        singleRecycle = (RecyclerView) filterView.findViewById(R.id.single_recycle);
         singleRecycle.setLayoutManager(new LinearLayoutManager(this));
         singleFilterAdapter = new FiltterAdapter(currentSingleDatas, this);
         singleFilterAdapter.setOnItemClickListener(this);
@@ -261,89 +261,89 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
             @Override
             public void onClick(View v) {
                 List<Node> allNodes = multiFilterAdapter.getAllNodes();
-                switch (currentFilterId){
+                switch (currentFilterId) {
                     case R.id.rl_asset_status:
                         mSelectAssetsStatus.clear();
                         for (Node node : allNodes) {
-                            if(node.isChecked()){
+                            if (node.isChecked()) {
                                 mSelectAssetsStatus.add(node);
                             }
                         }
                         String currentStatus = "全部";
-                        if(mSelectAssetsStatus.size() == 1){
+                        if (mSelectAssetsStatus.size() == 1) {
                             currentStatus = mSelectAssetsStatus.get(0).getName();
-                        }else if(mSelectAssetsStatus.size() > 1){
-                            currentStatus = mSelectAssetsStatus.get(0).getName() + "+" + (mSelectAssetsStatus.size() -1);
+                        } else if (mSelectAssetsStatus.size() > 1) {
+                            currentStatus = mSelectAssetsStatus.get(0).getName() + "+" + (mSelectAssetsStatus.size() - 1);
                         }
-                        if(!StringUtils.isEmpty(currentStatus)){
+                        if (!StringUtils.isEmpty(currentStatus)) {
                             mAstStatusStr.setText(currentStatus);
                         }
                         break;
                     case R.id.rl_use_depart:
                         mSelectDepartments.clear();
                         for (Node node : allNodes) {
-                            if(node.isChecked()){
+                            if (node.isChecked()) {
                                 mSelectDepartments.add(node);
                             }
                         }
                         String currentdepart = "全部";
-                        if(mSelectDepartments.size() == 1){
+                        if (mSelectDepartments.size() == 1) {
                             currentdepart = mSelectDepartments.get(0).getName();
-                        }else if(mSelectDepartments.size() > 1){
-                            currentdepart = mSelectDepartments.get(0).getName() + "+" + (mSelectDepartments.size() -1);
+                        } else if (mSelectDepartments.size() > 1) {
+                            currentdepart = mSelectDepartments.get(0).getName() + "+" + (mSelectDepartments.size() - 1);
                         }
-                        if(!StringUtils.isEmpty(currentdepart)){
+                        if (!StringUtils.isEmpty(currentdepart)) {
                             mUseDepartStr.setText(currentdepart);
                         }
                         break;
                     case R.id.rl_ast_type:
                         mSelectAssetsTypes.clear();
                         for (Node node : allNodes) {
-                            if(node.isChecked()){
+                            if (node.isChecked()) {
                                 mSelectAssetsTypes.add(node);
                             }
                         }
                         String currentType = "全部";
-                        if(mSelectAssetsTypes.size() == 1){
+                        if (mSelectAssetsTypes.size() == 1) {
                             currentType = mSelectAssetsTypes.get(0).getName();
-                        }else if(mSelectAssetsTypes.size() > 1){
-                            currentType = mSelectAssetsTypes.get(0).getName() + "+" + (mSelectAssetsTypes.size() -1);
+                        } else if (mSelectAssetsTypes.size() > 1) {
+                            currentType = mSelectAssetsTypes.get(0).getName() + "+" + (mSelectAssetsTypes.size() - 1);
                         }
-                        if(!StringUtils.isEmpty(currentType)){
+                        if (!StringUtils.isEmpty(currentType)) {
                             mAstTypeStr.setText(currentType);
                         }
                         break;
                     case R.id.rl_store_location:
                         mSelectAssetsLocations.clear();
                         for (Node node : allNodes) {
-                            if(node.isChecked()){
+                            if (node.isChecked()) {
                                 mSelectAssetsLocations.add(node);
                             }
                         }
                         String currentLoc = "全部";
-                        if(mSelectAssetsLocations.size() == 1){
+                        if (mSelectAssetsLocations.size() == 1) {
                             currentLoc = mSelectAssetsLocations.get(0).getName();
-                        }else if(mSelectAssetsLocations.size() > 1){
-                            currentLoc = mSelectAssetsLocations.get(0).getName() + "+" + (mSelectAssetsLocations.size() -1);
+                        } else if (mSelectAssetsLocations.size() > 1) {
+                            currentLoc = mSelectAssetsLocations.get(0).getName() + "+" + (mSelectAssetsLocations.size() - 1);
                         }
-                        if(!StringUtils.isEmpty(currentLoc)){
+                        if (!StringUtils.isEmpty(currentLoc)) {
                             mAstLocStr.setText(currentLoc);
                         }
                         break;
                     case R.id.rl_manager:
                         mSelectMangerUsers.clear();
                         for (Node node : allNodes) {
-                            if(node.isChecked()){
+                            if (node.isChecked()) {
                                 mSelectMangerUsers.add(node);
                             }
                         }
                         String currentManager = "全部";
-                        if(mSelectMangerUsers.size() == 1){
+                        if (mSelectMangerUsers.size() == 1) {
                             currentManager = mSelectMangerUsers.get(0).getName();
-                        }else if(mSelectMangerUsers.size() > 1){
-                            currentManager = mSelectMangerUsers.get(0).getName() + "+" + (mSelectMangerUsers.size() -1);
+                        } else if (mSelectMangerUsers.size() > 1) {
+                            currentManager = mSelectMangerUsers.get(0).getName() + "+" + (mSelectMangerUsers.size() - 1);
                         }
-                        if(!StringUtils.isEmpty(currentManager)){
+                        if (!StringUtils.isEmpty(currentManager)) {
                             mAstManagerStr.setText(currentManager);
                         }
                         break;
@@ -374,22 +374,22 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         mStatusBeans.add(new FilterBean("23", "报废", false));
         mStatusBeans.add(new FilterBean("24", "审批中", false));
         //全部状态
-        mAllStatusBeans.add( new Node("-1","-2","全部"));
-        mAllStatusBeans.add( new Node("0","-1","闲置"));
-        mAllStatusBeans.add( new Node("1","-1","在用"));
-        mAllStatusBeans.add( new Node("2","-1","维修中"));
-        mAllStatusBeans.add( new Node("3","-1","调拨中"));
-        mAllStatusBeans.add( new Node("4","-1","待派发"));
-        mAllStatusBeans.add( new Node("5","-1","已派发"));
-        mAllStatusBeans.add( new Node("6","-1","借用"));
-        mAllStatusBeans.add( new Node("7","-1","借用审批中"));
-        mAllStatusBeans.add( new Node("8","-1","归还审批中"));
-        mAllStatusBeans.add( new Node("9","-1","维修审批中"));
-        mAllStatusBeans.add( new Node("10","-1","报废"));
-        mAllStatusBeans.add( new Node("11","-1","调拨审批中"));
-        mAllStatusBeans.add( new Node("12","-1","报废审批中"));
-        mAllStatusBeans.add( new Node("13","-1","领用审批中"));
-        mAllStatusBeans.add( new Node("14","-1","退库审批中"));
+        mAllStatusBeans.add(new Node("-1", "-2", "全部"));
+        mAllStatusBeans.add(new Node("0", "-1", "闲置"));
+        mAllStatusBeans.add(new Node("1", "-1", "在用"));
+        mAllStatusBeans.add(new Node("2", "-1", "维修中"));
+        mAllStatusBeans.add(new Node("3", "-1", "调拨中"));
+        mAllStatusBeans.add(new Node("4", "-1", "待派发"));
+        mAllStatusBeans.add(new Node("5", "-1", "已派发"));
+        mAllStatusBeans.add(new Node("6", "-1", "借用"));
+        mAllStatusBeans.add(new Node("7", "-1", "借用审批中"));
+        mAllStatusBeans.add(new Node("8", "-1", "归还审批中"));
+        mAllStatusBeans.add(new Node("9", "-1", "维修审批中"));
+        mAllStatusBeans.add(new Node("10", "-1", "报废"));
+        mAllStatusBeans.add(new Node("11", "-1", "调拨审批中"));
+        mAllStatusBeans.add(new Node("12", "-1", "报废审批中"));
+        mAllStatusBeans.add(new Node("13", "-1", "领用审批中"));
+        mAllStatusBeans.add(new Node("14", "-1", "退库审批中"));
 
     }
 
@@ -398,8 +398,8 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         return R.layout.activity_asset_list;
     }
 
-    @OnClick({R.id.titleLeft, R.id.edit_search, R.id.sort_layout, R.id.status_layout, R.id.im_filer, R.id.bt_sure, R.id.bt_reset,
-            R.id.rl_asset_status, R.id.rl_use_company, R.id.rl_use_depart, R.id.rl_ast_type, R.id.rl_manager, R.id.rl_store_location, R.id.rl_asset_user})
+    @OnClick({R.id.titleLeft, R.id.edit_search, R.id.sort_layout, R.id.status_layout, R.id.im_filer, R.id.bt_sure, R.id.bt_reset, R.id.rl_asset_status, R.id.rl_use_company,
+            R.id.rl_use_depart, R.id.rl_ast_type, R.id.rl_manager, R.id.rl_store_location, R.id.rl_asset_user})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.titleLeft:
@@ -428,12 +428,6 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 break;
             case R.id.im_filer:
                 mDrawerLayout.openDrawer(Gravity.END);
-                break;
-            case R.id.bt_sure:
-                mDrawerLayout.closeDrawer(Gravity.END);
-                break;
-            case R.id.bt_reset:
-                mDrawerLayout.closeDrawer(Gravity.END);
                 break;
             case R.id.rl_asset_status:
                 currentFilterId = R.id.rl_asset_status;
@@ -498,6 +492,28 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 break;
             case R.id.rl_asset_user:
                 break;
+            case R.id.bt_sure:
+                conditions.clearData();
+                conditions.setmSelectAssetsStatus(mSelectAssetsStatus);
+                conditions.setmSelectUseCompany(mSelectUseCompany);
+                conditions.setmSelectDepartments(mSelectDepartments);
+                conditions.setmSelectAssetsTypes(mSelectAssetsTypes);
+                conditions.setmSelectAssetsLocations(mSelectAssetsLocations);
+                conditions.setmSelectMangerUsers(mSelectMangerUsers);
+                isNeedClearData = true;
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", mAstUserStr.getText().toString(), 0, conditions);
+                mDrawerLayout.closeDrawer(Gravity.END);
+                break;
+            case R.id.bt_reset:
+                conditions.clearData();
+                mAstStatusStr.setText("");
+                mUseCompStr.setText("");
+                mUseDepartStr.setText("");
+                mAstTypeStr.setText("");
+                mAstLocStr.setText("");
+                mAstManagerStr.setText("");
+                mAstUserStr.setText("");
+                break;
         }
     }
 
@@ -515,7 +531,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                     preFilter = assetsId;
                     //mPresenter.getAssetsInfoById(assetsId);
                     conditions.clearData();
-                    mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, "",0, conditions);
+                    mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, "", 0, conditions);
                     return true;
                 }
                 return false;
@@ -555,9 +571,9 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     @Override
     public void handleAllManagerUsers(List<MangerUser> mangerUsers) {
         mMangerUsers.clear();
-        mMangerUsers.add(new Node("-1","-2","全部"));
+        mMangerUsers.add(new Node("-1", "-2", "全部"));
         for (MangerUser mMangerUser : mangerUsers) {
-            mMangerUsers.add(new Node(mMangerUser.getId(),"-1",mMangerUser.getUser_real_name()));
+            mMangerUsers.add(new Node(mMangerUser.getId(), "-1", mMangerUser.getUser_real_name()));
         }
     }
 
@@ -566,9 +582,9 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         mCompanyBeans.clear();
         mCompanyBeans.addAll(companyBeans);
         currentSingleDatas.clear();
-        currentSingleDatas.add(new FilterBean("-1","全部",false));
+        currentSingleDatas.add(new FilterBean("-1", "全部", false));
         for (CompanyBean mCompanyBean : mCompanyBeans) {
-            currentSingleDatas.add(new FilterBean(mCompanyBean.getId(),mCompanyBean.getOrg_name(),false));
+            currentSingleDatas.add(new FilterBean(mCompanyBean.getId(), mCompanyBean.getOrg_name(), false));
         }
     }
 
@@ -577,10 +593,10 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         //公司所有部门，不包含子公司的部门
         List<DepartmentBean> tempList = new ArrayList<>();
         for (DepartmentBean departmentBean : departmentBeans) {
-            if (departmentBean.getOrg_type() == 0  && departmentBean.getOrg_superid().equals(mSelectUseCompany.getId())) {
+            if (departmentBean.getOrg_type() == 0 && departmentBean.getOrg_superid().equals(mSelectUseCompany.getId())) {
                 //公司一个部门下的所有部门
-                List<DepartmentBean>  oneDeparts= new ArrayList<>();
-                oneDeparts = getSelectDeparts(departmentBeans,departmentBean.getId(),oneDeparts);
+                List<DepartmentBean> oneDeparts = new ArrayList<>();
+                oneDeparts = getSelectDeparts(departmentBeans, departmentBean.getId(), oneDeparts);
                 tempList.addAll(oneDeparts);
             }
         }
@@ -588,10 +604,10 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         mDepartmentBeans.addAll(tempList);
         multiFilterAdapter.removeData(currentMultiDatas);
         currentMultiDatas.clear();
-        currentMultiDatas.add(new Node("-1","-2","全部"));
+        currentMultiDatas.add(new Node("-1", "-2", "全部"));
         for (DepartmentBean mDepartmentBean : mDepartmentBeans) {
-            String pId = StringUtils.isEmpty(mDepartmentBean.getOrg_superid())? "-1" : mDepartmentBean.getOrg_superid();
-            currentMultiDatas.add(new Node(mDepartmentBean.getId(),pId,mDepartmentBean.getOrg_name()));
+            String pId = StringUtils.isEmpty(mDepartmentBean.getOrg_superid()) ? "-1" : mDepartmentBean.getOrg_superid();
+            currentMultiDatas.add(new Node(mDepartmentBean.getId(), pId, mDepartmentBean.getOrg_name()));
         }
         multiFilterAdapter.addData(currentMultiDatas);
         multiRecycle.setVisibility(View.VISIBLE);
@@ -602,20 +618,20 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     @Override
     public void handleAllAssetsType(List<AssetsType> assetsTypes) {
         mAssetsTypes.clear();
-        mAssetsTypes.add(new Node("-1","-2","全部"));
+        mAssetsTypes.add(new Node("-1", "-2", "全部"));
         for (AssetsType assetsType : assetsTypes) {
             String pId = StringUtils.isEmpty(assetsType.getType_superid()) ? "-1" : assetsType.getType_superid();
-            mAssetsTypes.add(new Node(assetsType.getId(),pId,assetsType.getType_name()));
+            mAssetsTypes.add(new Node(assetsType.getId(), pId, assetsType.getType_name()));
         }
     }
 
     @Override
     public void handleAllAssetsLocation(List<AssetsLocation> assetsLocations) {
         mAssetsLocations.clear();
-        mAssetsLocations.add(new Node("-1","-2","全部"));
+        mAssetsLocations.add(new Node("-1", "-2", "全部"));
         for (AssetsLocation mAssetsLocation : assetsLocations) {
             String pId = StringUtils.isEmpty(mAssetsLocation.getLoc_superid()) ? "-1" : mAssetsLocation.getLoc_superid();
-            mAssetsLocations.add(new Node(mAssetsLocation.getId(),pId,mAssetsLocation.getLoc_name()));
+            mAssetsLocations.add(new Node(mAssetsLocation.getId(), pId, mAssetsLocation.getLoc_name()));
         }
     }
 
@@ -672,52 +688,52 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 isNeedClearData = true;
                 currentPage = 1;
                 ArrayList<Node> statusOne = new ArrayList<>();
-                statusOne.add(new Node("0","-1","闲置"));
+                statusOne.add(new Node("0", "-1", "闲置"));
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusOne);
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "21":
                 isNeedClearData = true;
                 currentPage = 1;
                 ArrayList<Node> statusTwo = new ArrayList<>();
-                statusTwo.add(new Node("1","-1","在用"));
+                statusTwo.add(new Node("1", "-1", "在用"));
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusTwo);
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "22":
                 isNeedClearData = true;
                 currentPage = 1;
                 ArrayList<Node> statusThree = new ArrayList<>();
-                statusThree.add(new Node("6","-1","借用"));
+                statusThree.add(new Node("6", "-1", "借用"));
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusThree);
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "23":
                 isNeedClearData = true;
                 currentPage = 1;
                 ArrayList<Node> statusFour = new ArrayList<>();
-                statusFour.add(new Node("10","-1","报废"));
+                statusFour.add(new Node("10", "-1", "报废"));
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusFour);
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "24":
                 isNeedClearData = true;
                 currentPage = 1;
                 ArrayList<Node> statusFive = new ArrayList<>();
-                statusFive.add(new Node("7","-1","借用审批中"));
-                statusFive.add(new Node("8","-1","归还审批中"));
-                statusFive.add(new Node("9","-1","维修审批中"));
-                statusFive.add(new Node("11","-1","调拨审批中"));
-                statusFive.add(new Node("12","-1","报废审批中"));
-                statusFive.add(new Node("13","-1","领用审批中"));
-                statusFive.add(new Node("14","-1","退库审批中"));
+                statusFive.add(new Node("7", "-1", "借用审批中"));
+                statusFive.add(new Node("8", "-1", "归还审批中"));
+                statusFive.add(new Node("9", "-1", "维修审批中"));
+                statusFive.add(new Node("11", "-1", "调拨审批中"));
+                statusFive.add(new Node("12", "-1", "报废审批中"));
+                statusFive.add(new Node("13", "-1", "领用审批中"));
+                statusFive.add(new Node("14", "-1", "退库审批中"));
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusFive);
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             default:
                 mSelectUseCompany = filterBean;
@@ -770,16 +786,16 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     }
 
     public void showFilterDialog() {
-        if(filterDialog != null){
+        if (filterDialog != null) {
             filterDialog.show();
-        }else {
+        } else {
             filterDialog = new Dialog(this);
             filterDialog.setContentView(filterView);
             filterDialog.show();
             Window window = filterDialog.getWindow();
             if (window != null) {
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 window.getDecorView().setPadding(0, 0, 0, 0);
                 window.getDecorView().setBackgroundColor(Color.WHITE);
                 WindowManager.LayoutParams layoutParams = window.getAttributes();

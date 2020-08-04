@@ -100,10 +100,10 @@ public class AssetFilterParameter {
         return statusString;
     }
     
-    public String getUseCompanyString(){
+    private String getUseCompanyString(){
         String companyString = "";
         if(mSelectUseCompany!= null){
-            companyString += "{\"name\":\"org_usedcorp_id\",\"condition\":\"EqualTo\",\"values\":[" + mSelectUseCompany.getId() + "]}";
+            companyString += "{\"name\":\"org_usedcorp_id\",\"condition\":\"EqualTo\",\"values\":[\"" + mSelectUseCompany.getId() + "\"]}";
         }
         return companyString;
     }
@@ -128,7 +128,7 @@ public class AssetFilterParameter {
     private String getTypeListString() {
         String typeString = "";
         if (mSelectAssetsTypes != null && mSelectAssetsTypes.size() > 0) {
-            typeString += "{\"name\":\"org_useddept_id\",\"condition\":\"In\",\"values\":[";
+            typeString += "{\"name\":\"type_id\",\"condition\":\"In\",\"values\":[";
             for (int i = 0; i < mSelectAssetsTypes.size(); i++) {
                 Node node = mSelectAssetsTypes.get(i);
                 String status = "\"" + node.getId() + "\"";
