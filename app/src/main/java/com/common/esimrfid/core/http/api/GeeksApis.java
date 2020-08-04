@@ -160,7 +160,7 @@ public interface GeeksApis {
     //@return 资产列表
 
     @GET("/assets-server/assets/multiconditions")
-    Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(@Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName,@Query("conditions") String conditions);
+    Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(@Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName, @Query("user_real_name") String userRealName, @Query("conditions") String conditions);
 
 
     //根据Epc查询资产详情（资产查找）
@@ -231,5 +231,5 @@ public interface GeeksApis {
 
     //新建报修单和审批流程相关
     @POST("/assets-server/bussiness/apply/REPAIR")
-    Observable<BaseResponse> createNewRepairOrder(@Body NewAssetRepairPara repariPara );
+    Observable<BaseResponse> createNewRepairOrder(@Body NewAssetRepairPara repariPara);
 }

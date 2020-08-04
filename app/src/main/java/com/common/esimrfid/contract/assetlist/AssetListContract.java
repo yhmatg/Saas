@@ -2,6 +2,7 @@ package com.common.esimrfid.contract.assetlist;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
+import com.common.esimrfid.core.bean.assetdetail.AssetFilterParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
@@ -28,7 +29,7 @@ public interface AssetListContract {
     }
 
     interface Presenter extends AbstractPresenter<View> {
-        void fetchPageAssetsInfos(Integer size, Integer page, String patternName, int currentSize, String conditions);
+        void fetchPageAssetsInfos(Integer size, Integer page, String patternName, String userRealName, int currentSize, AssetFilterParameter conditions);
 
         void getAllManagerUsers();
 

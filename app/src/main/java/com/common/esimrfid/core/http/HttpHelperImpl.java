@@ -211,8 +211,8 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(Integer size, Integer page, String patternName,String conditions) {
-        return mGeeksApis.fetchPageAssetsList(size, page, patternName,conditions);
+    public Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(Integer size, Integer page, String patternName, String userRealName,String conditions) {
+        return mGeeksApis.fetchPageAssetsList(size, page, patternName,userRealName,conditions);
     }
 
 

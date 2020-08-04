@@ -6,6 +6,7 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetlist.AssetListContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.assetdetail.AssetFilterParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
@@ -39,22 +40,22 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
 
     //分页
     @Override
-    public void fetchPageAssetsInfos(Integer size, Integer page, String patternName, int currentSize, String conditions) {
+    public void fetchPageAssetsInfos(Integer size, Integer page, String patternName, String userRealName, int currentSize, AssetFilterParameter conditions) {
         mView.showDialog("loading...");
         //addSubscribe(mDataManager.fetchWriteAssetsInfo(assetsId)
-        addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize), mDataManager.fetchPageAssetsList(size, page, patternName,conditions))
+        addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize), mDataManager.fetchPageAssetsList(size, page, patternName,userRealName, conditions.toString()))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<AssetsListPage>(mView, false) {
                     @Override
                     public void onNext(AssetsListPage assetsInfoPage) {
                         mView.dismissDialog();
-                        if(assetsInfoPage.isLocal()){
+                        if (assetsInfoPage.isLocal()) {
                             mView.handlefetchPageAssetsInfos(assetsInfoPage.getList());
-                        }else {
-                            if(page <= assetsInfoPage.getPages()){
+                        } else {
+                            if (page <= assetsInfoPage.getPages()) {
                                 mView.handlefetchPageAssetsInfos(assetsInfoPage.getList());
-                            }else {
+                            } else {
                                 mView.handlefetchPageAssetsInfos(new ArrayList<>());
                             }
                         }

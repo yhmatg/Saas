@@ -99,5 +99,5 @@ public interface HttpHelper {
 
     Observable<BaseResponse> createNewRepairOrder(NewAssetRepairPara repariPara);
 
-    Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(Integer size, Integer page, String patternName, String conditions);
+    Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(Integer size, Integer page, String patternName, String userRealName, String conditions);
 }

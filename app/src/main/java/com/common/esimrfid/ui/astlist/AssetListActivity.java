@@ -36,6 +36,7 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetlist.AssetListContract;
 import com.common.esimrfid.contract.home.WriteTagContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.assetdetail.AssetFilterParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
@@ -161,6 +162,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     List<Node> mSelectAssetsLocations = new ArrayList<>();
     List<Node> mSelectAssetsStatus = new ArrayList<>();
     int currentFilterId = -1;
+    AssetFilterParameter conditions = new AssetFilterParameter();
 
     @Override
     public AssetListPresenter initPresenter() {
@@ -182,7 +184,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 isNeedClearData = true;
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0, "[]");
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
             }
         });
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -197,14 +199,14 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 }
                 int currentSize = currentPage == 1 ? 0 : mData.size();
                 preFilter = assetsId;
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, currentSize, currentCodition);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId,"", currentSize, conditions);
             }
         });
         mRefreshLayout.setEnableRefresh(false);//使上拉加载具有弹性效果
         mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
         mRefreshLayout.setEnableAutoLoadMore(false);
-        mPresenter.fetchPageAssetsInfos(pageSize, 1, "", 0, "[]");
+        mPresenter.fetchPageAssetsInfos(pageSize, 1, "","", 0, conditions);
     }
 
     public void initView() {
@@ -512,7 +514,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                     currentPage = 1;
                     preFilter = assetsId;
                     //mPresenter.getAssetsInfoById(assetsId);
-                    mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, 0, "[]");
+                    mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, "",0, conditions);
                     return true;
                 }
                 return false;
@@ -669,31 +671,52 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 isNeedClearData = true;
                 currentPage = 1;
                 currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"0\"]}]";
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0, currentCodition);
+                ArrayList<Node> statusOne = new ArrayList<>();
+                statusOne.add(new Node("0","-1","闲置"));
+                conditions.setmSelectAssetsStatus(statusOne);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
                 break;
             case "21":
                 isNeedClearData = true;
                 currentPage = 1;
                 currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"1\"]}]";
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0, currentCodition);
+                ArrayList<Node> statusTwo = new ArrayList<>();
+                statusTwo.add(new Node("1","-1","在用"));
+                conditions.setmSelectAssetsStatus(statusTwo);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
                 break;
             case "22":
                 isNeedClearData = true;
                 currentPage = 1;
                 currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"6\"]}]";
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0, currentCodition);
+                ArrayList<Node> statusThree = new ArrayList<>();
+                statusThree.add(new Node("6","-1","借用"));
+                conditions.setmSelectAssetsStatus(statusThree);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
                 break;
             case "23":
                 isNeedClearData = true;
                 currentPage = 1;
                 currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"10\"]}]";
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0, currentCodition);
+                ArrayList<Node> statusFour = new ArrayList<>();
+                statusFour.add(new Node("10","-1","报废"));
+                conditions.setmSelectAssetsStatus(statusFour);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
                 break;
             case "24":
                 isNeedClearData = true;
                 currentPage = 1;
                 currentCodition = "[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[\"7\",\"8\",\"9\",\"11\",\"12\",\"13\",\"14\"]}]";
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", 0, currentCodition);
+                ArrayList<Node> statusFive = new ArrayList<>();
+                statusFive.add(new Node("7","-1","借用审批中"));
+                statusFive.add(new Node("8","-1","归还审批中"));
+                statusFive.add(new Node("9","-1","维修审批中"));
+                statusFive.add(new Node("11","-1","调拨审批中"));
+                statusFive.add(new Node("12","-1","报废审批中"));
+                statusFive.add(new Node("13","-1","领用审批中"));
+                statusFive.add(new Node("14","-1","退库审批中"));
+                conditions.setmSelectAssetsStatus(statusFive);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "","", 0, conditions);
                 break;
             default:
                 mSelectUseCompany = filterBean;
