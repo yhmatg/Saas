@@ -102,7 +102,7 @@ public class AssetFilterParameter {
     
     private String getUseCompanyString(){
         String companyString = "";
-        if(mSelectUseCompany!= null){
+        if(mSelectUseCompany!= null && !"-1".equals(mSelectUseCompany.getId())){
             companyString += "{\"name\":\"org_usedcorp_id\",\"condition\":\"EqualTo\",\"values\":[\"" + mSelectUseCompany.getId() + "\"]}";
         }
         return companyString;

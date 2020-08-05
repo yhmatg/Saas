@@ -139,7 +139,8 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     private FiltterAdapter filtterAdapter;
     private RecyclerView filerRecycler;
     CustomPopWindow mCustomPopWindow;
-    private FilterBean currentFilterBean = new FilterBean("11", "资产编号正序", false);
+    private FilterBean currentSortFilter = new FilterBean("11", "资产编号正序", false);
+    private FilterBean currentStatusFilter = new FilterBean("1", "再用", false);
     private String currentCodition = "[]";
     private Dialog filterDialog;
     private RecyclerView multiRecycle;
@@ -199,7 +200,8 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 }
                 int currentSize = currentPage == 1 ? 0 : mData.size();
                 preFilter = assetsId;
-                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, "", currentSize, conditions);
+                String userName = conditions.getUserRealName() == null ? "" : conditions.getUserRealName();
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, userName, currentSize, conditions);
             }
         });
         mRefreshLayout.setEnableRefresh(false);//使上拉加载具有弹性效果
@@ -493,6 +495,8 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
             case R.id.rl_asset_user:
                 break;
             case R.id.bt_sure:
+                isNeedClearData = true;
+                currentPage = 1;
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(mSelectAssetsStatus);
                 conditions.setmSelectUseCompany(mSelectUseCompany);
@@ -500,12 +504,22 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 conditions.setmSelectAssetsTypes(mSelectAssetsTypes);
                 conditions.setmSelectAssetsLocations(mSelectAssetsLocations);
                 conditions.setmSelectMangerUsers(mSelectMangerUsers);
-                isNeedClearData = true;
+                conditions.setUserRealName(mAstUserStr.getText().toString());
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", mAstUserStr.getText().toString(), 0, conditions);
+                currentStatusFilter.setSelected(false);
+                filtterAdapter.notifyDataSetChanged();
                 mDrawerLayout.closeDrawer(Gravity.END);
                 break;
             case R.id.bt_reset:
+                isNeedClearData = true;
+                currentPage = 1;
                 conditions.clearData();
+                mSelectAssetsStatus.clear();
+                mSelectUseCompany = null;
+                mSelectDepartments.clear();
+                mSelectAssetsTypes.clear();
+                mSelectAssetsLocations.clear();
+                mSelectMangerUsers.clear();
                 mAstStatusStr.setText("");
                 mUseCompStr.setText("");
                 mUseDepartStr.setText("");
@@ -557,7 +571,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
             mData.clear();
         }
         mData.addAll(assetsInfos);
-        sortList(currentFilterBean);
+        sortList(currentSortFilter);
         adapter.notifyDataSetChanged();
         handleResultList(mData);
         double totalPrice = 0;
@@ -604,7 +618,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         mDepartmentBeans.addAll(tempList);
         multiFilterAdapter.removeData(currentMultiDatas);
         currentMultiDatas.clear();
-        currentMultiDatas.add(new Node("-1", "-2", "全部"));
+        currentMultiDatas.add(new Node(mSelectUseCompany.getId(), "-2", "全部"));
         for (DepartmentBean mDepartmentBean : mDepartmentBeans) {
             String pId = StringUtils.isEmpty(mDepartmentBean.getOrg_superid()) ? "-1" : mDepartmentBean.getOrg_superid();
             currentMultiDatas.add(new Node(mDepartmentBean.getId(), pId, mDepartmentBean.getOrg_name()));
@@ -649,10 +663,10 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
 
     @Override
     public void onItemSelected(FilterBean filterBean) {
-        currentFilterBean = filterBean;
         switch (filterBean.getId()) {
             case "10":
             case "11":
+                currentSortFilter = filterBean;
                 Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
                     @Override
                     public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
@@ -661,6 +675,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 });
                 break;
             case "12":
+                currentSortFilter = filterBean;
                 Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
                     @Override
                     public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
@@ -669,6 +684,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 });
                 break;
             case "13":
+                currentSortFilter = filterBean;
                 Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
                     @Override
                     public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
@@ -677,6 +693,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 });
                 break;
             case "14":
+                currentSortFilter = filterBean;
                 Collections.sort(mData, new Comparator<AssetsListItemInfo>() {
                     @Override
                     public int compare(AssetsListItemInfo o1, AssetsListItemInfo o2) {
@@ -685,6 +702,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 });
                 break;
             case "20":
+                currentStatusFilter = filterBean;
                 isNeedClearData = true;
                 currentPage = 1;
                 ArrayList<Node> statusOne = new ArrayList<>();
@@ -694,6 +712,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "21":
+                currentStatusFilter = filterBean;
                 isNeedClearData = true;
                 currentPage = 1;
                 ArrayList<Node> statusTwo = new ArrayList<>();
@@ -703,6 +722,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "22":
+                currentStatusFilter = filterBean;
                 isNeedClearData = true;
                 currentPage = 1;
                 ArrayList<Node> statusThree = new ArrayList<>();
@@ -712,6 +732,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "23":
+                currentStatusFilter = filterBean;
                 isNeedClearData = true;
                 currentPage = 1;
                 ArrayList<Node> statusFour = new ArrayList<>();
@@ -721,6 +742,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "24":
+                currentStatusFilter = filterBean;
                 isNeedClearData = true;
                 currentPage = 1;
                 ArrayList<Node> statusFive = new ArrayList<>();
