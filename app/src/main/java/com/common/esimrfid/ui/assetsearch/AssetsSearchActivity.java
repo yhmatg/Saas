@@ -272,10 +272,12 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                     scanNmuber.setText(formatNum);
                     isSearch = false;
                 }
+                mRefreshLayout.setEnableLoadMore(false);
                 break;
             case UhfMsgType.UHF_STOP:
                 image_scan.clearAnimation();
                 search.setImageResource(R.drawable.search_nearby_assets);
+                mRefreshLayout.setEnableLoadMore(true);
                 break;
         }
     }
