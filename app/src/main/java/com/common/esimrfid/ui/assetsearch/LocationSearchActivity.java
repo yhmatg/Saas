@@ -60,7 +60,7 @@ public class LocationSearchActivity extends BaseActivity {
 //        progressBar.setEmptyVisibility(View.GONE);
         Intent intent = getIntent();
         AssetsEpc = intent.getStringExtra(ASSETS_EPC);
-        setSound();
+        //setSound();
         filterSet();
     }
 
@@ -160,7 +160,7 @@ public class LocationSearchActivity extends BaseActivity {
         Log.e("wzmmmmmmmmmm", a);
         rssi = rssi * 2;
         progressBar.setProgress(rssi);
-        playSound(rssi);
+        //playSound(rssi);
     }
 
     private void filterSet() {
