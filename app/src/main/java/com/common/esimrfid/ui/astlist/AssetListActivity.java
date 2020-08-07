@@ -236,7 +236,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 })
                 .create();
 
-        //侧滑菜单
+        //筛选条目详情页
         filterView = LayoutInflater.from(this).inflate(R.layout.filter_item_layout, null);
         multiRecycle = (RecyclerView) filterView.findViewById(R.id.multi_recycle);
         multiRecycle.setLayoutManager(new LinearLayoutManager(this));
