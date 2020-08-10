@@ -34,6 +34,7 @@ public class AssetRepairPresenter extends BasePresenter<AssetRepairContract.View
                 }));
     }
 
+    //未加审批流程前使用
     @Override
     public void createNewRepairOrder(AssetRepairParameter repairParameter) {
         mView.showDialog("loading...");

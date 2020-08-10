@@ -101,6 +101,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private boolean isFirstInstall;
     private final int MIN_CLICK_DELAY_TIME = 1000;
     private long lastClickTime;
+    private UserLoginResponse uerLogin;
 
     @Override
     public HomePresenter initPresenter() {
@@ -136,11 +137,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         super.onResume();
         mPresenter.getAssetsNmbDiffLocation();
         mPresenter.getAssetsNmbDiffStatus();
+        mPresenter.getDataAuthority(uerLogin.getUserinfo().getId());
     }
 
     //检查登录状态，未登录跳转登录界面
     private void checkUserSatus() {
-        UserLoginResponse uerLogin = DataManager.getInstance().getUserLoginResponse();
+        uerLogin = DataManager.getInstance().getUserLoginResponse();
         boolean loginStatus = DataManager.getInstance().getLoginStatus();
         if (loginStatus) {
             initRfid();

@@ -1,5 +1,6 @@
 package com.common.esimrfid.presenter.assetsearch;
 
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetsearch.AssetsSearchContract;
 import com.common.esimrfid.core.DataManager;
@@ -88,7 +89,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
         Observable<List<SearchAssetsInfo>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
             @Override
             public void subscribe(ObservableEmitter<List<SearchAssetsInfo>> emitter) throws Exception {
-                List<SearchAssetsInfo> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().getAllAssetForSearch();
+                List<SearchAssetsInfo> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().getAllAssetForSearch(EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
                 emitter.onNext(allAssetEpcs);
             }
         });

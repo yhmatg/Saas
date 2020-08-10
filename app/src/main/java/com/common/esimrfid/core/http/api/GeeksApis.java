@@ -198,7 +198,7 @@ public interface GeeksApis {
     @GET("/assets-server/assets/reprecords/unpage")
     Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(@Query("ast_id") String astid, @Query("ast_barcode") String astCode);
 
-    //新建报修单
+    //新建报修单 未加审批流程前使用
     @POST("/assets-server/repairs/bymanager")
     Observable<BaseResponse> createNewRepairOrder(@Body AssetRepairParameter repairParameter);
 
