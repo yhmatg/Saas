@@ -27,5 +27,7 @@ public interface HomeConstract {
         void fetchAllIvnOrders( String userId,boolean online);
 
         void fetchLatestAssets();
+
+        void getDataAuthority(String id);
     }
 }

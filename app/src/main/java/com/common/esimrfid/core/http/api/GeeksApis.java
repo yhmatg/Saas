@@ -18,6 +18,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
@@ -232,4 +233,8 @@ public interface GeeksApis {
     //新建报修单和审批流程相关
     @POST("/assets-server/bussiness/apply/REPAIR")
     Observable<BaseResponse> createNewRepairOrder(@Body NewAssetRepairPara repariPara);
+
+    //查询管理员权限范围
+    @GET("user-server/sysusers/{id}/authscope")
+    Observable<BaseResponse<DataAuthority>> getDataAuthority(@Path("id") String id);
 }

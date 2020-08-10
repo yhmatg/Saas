@@ -3,6 +3,7 @@ package com.common.esimrfid.presenter.assetlist;
 import android.util.Log;
 
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetlist.AssetListContract;
 import com.common.esimrfid.core.DataManager;
@@ -74,7 +75,7 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
         Observable<BaseResponse<AssetsListPage>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsListPage>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<AssetsListPage>> emitter) throws Exception {
-                List<AssetsListItemInfo> assetList = DbBank.getInstance().getAssetsAllInfoDao().searchPageLocalAssetListByPara(size, patternName, currentSize);
+                List<AssetsListItemInfo> assetList = DbBank.getInstance().getAssetsAllInfoDao().searchPageLocalAssetListByPara(size, patternName, currentSize, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                 } else {

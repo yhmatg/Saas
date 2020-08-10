@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.common.esimrfid.BuildConfig;
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
@@ -41,6 +42,7 @@ public class EsimAndroidApp extends Application {
     private ArrayList<BaseActivity> activities = new ArrayList<>();
     public static String activityFrom;
     public static String invStatus;
+    public static DataAuthority dataAuthority = new DataAuthority();
 
     public static synchronized EsimAndroidApp getInstance() {
         return instance;
@@ -142,5 +144,25 @@ public class EsimAndroidApp extends Application {
         }
         iEsimUhfService.initRFID();
         EsimAndroidApp.setIEsimUhfService(iEsimUhfService);
+    }
+
+    public static DataAuthority getDataAuthority() {
+       /* ArrayList<String> strings1 = new ArrayList<>();
+        strings1.add("a4c89926213a11eaabcf00163e0a6695");
+        dataAuthority.setAuth_loc_scope(strings1);
+        ArrayList<String> strings2 = new ArrayList<>();
+        strings2.add("allData");
+        dataAuthority.setAuth_corp_scope(strings2);
+        ArrayList<String> strings3 = new ArrayList<>();
+        strings3.add("allData");
+        dataAuthority.setAuth_dept_scope(strings3);
+        ArrayList<String> strings4 = new ArrayList<>();
+        strings4.add("allData");
+        dataAuthority.setAuth_type_scope(strings4);*/
+        return dataAuthority;
+    }
+
+    public static void setDataAuthority(DataAuthority dataAuthority) {
+        EsimAndroidApp.dataAuthority = dataAuthority;
     }
 }

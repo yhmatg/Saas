@@ -2,6 +2,7 @@ package com.common.esimrfid.presenter.home;
 
 import android.util.Log;
 
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.HomeConstract;
 import com.common.esimrfid.core.DataManager;
@@ -10,6 +11,7 @@ import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
@@ -182,6 +184,34 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                         assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
                     }
                     mDataManager.setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 600000));
+                }
+            }));
+        }
+    }
+
+    //获取管理员权限范围
+    @Override
+    public void getDataAuthority(String id) {
+        if(CommonUtils.isNetworkConnected()){
+            addSubscribe(mDataManager.getDataAuthority(id)
+            .compose(RxUtils.rxSchedulerHelper())
+            .compose(RxUtils.handleResult())
+            .subscribeWith(new BaseObserver<DataAuthority>(mView, false) {
+                @Override
+                public void onNext(DataAuthority dataAuthority) {
+                    if(dataAuthority.getAuth_corp_scope().size() == 0){
+                        dataAuthority.getAuth_corp_scope().add("allData");
+                    }
+                    if(dataAuthority.getAuth_dept_scope().size() == 0){
+                        dataAuthority.getAuth_dept_scope().add("allData");
+                    }
+                    if(dataAuthority.getAuth_type_scope().size() == 0){
+                        dataAuthority.getAuth_type_scope().add("allData");
+                    }
+                    if(dataAuthority.getAuth_loc_scope().size() == 0){
+                        dataAuthority.getAuth_loc_scope().add("allData");
+                    }
+                    EsimAndroidApp.setDataAuthority(dataAuthority);
                 }
             }));
         }
