@@ -17,7 +17,7 @@ public class SearchAssetsInfo {
     private String ast_model;
     private String ast_name;
     private String id;
-    private String loc_info_loc_name;
+    private String loc_name;
 
     public String getAst_brand() {
         return ast_brand;
@@ -67,12 +67,12 @@ public class SearchAssetsInfo {
         this.id = id;
     }
 
-    public String getLoc_info_loc_name() {
-        return loc_info_loc_name;
+    public String getLoc_name() {
+        return loc_name;
     }
 
-    public void setLoc_info_loc_name(String loc_info_loc_name) {
-        this.loc_info_loc_name = loc_info_loc_name;
+    public void setLoc_name(String loc_name) {
+        this.loc_name = loc_name;
     }
 
     @Override

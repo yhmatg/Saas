@@ -175,11 +175,11 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
                 mInventoryDetails.add(inventoryDetail);
             } else if (inventoryDetail.getInvdt_status().getCode() == 2) {
                 mMoreDetails.add(inventoryDetail);
-                allMoreEpcs.add(inventoryDetail.getAssetsInfos().getAst_epc_code());
+                allMoreEpcs.add(inventoryDetail.getAst_epc_code());
             } else if (inventoryDetail.getInvdt_status().getCode() == 0) {
                 mInventoryDetails.add(inventoryDetail);
             }
-            epcInvBean.put(inventoryDetail.getAssetsInfos().getAst_epc_code(), inventoryDetail);
+            epcInvBean.put(inventoryDetail.getAst_epc_code(), inventoryDetail);
         }
         mAllNum.setText(String.valueOf(mInventoryDetails.size()));
         mInNum.setText(String.valueOf(mInvedDetails.size()));

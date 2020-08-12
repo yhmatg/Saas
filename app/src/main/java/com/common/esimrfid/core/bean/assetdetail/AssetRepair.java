@@ -1,37 +1,42 @@
 package com.common.esimrfid.core.bean.assetdetail;
 
 public class AssetRepair {
+
     /**
-     * create_date : 1584948883000
-     * creator : {"user_mobile":"13635302912","user_name":"testadmin","user_real_name":"超级管理员"}
-     * creator_id : 94b27def173811eaabcf00163e0a6695
-     * id : 51e0e12900be4352a2bbff09a7882a77
-     * maintain_discription : 电脑损坏
-     * maintain_finish_date : 1584948910000
-     * maintain_price : 100.0
-     * odr_code : WX20200323000006
-     * odr_date : 1584948883000
-     * odr_status : 审批中
-     * odr_transactor_id : 94b27def173811eaabcf00163e0a6695
-     * odr_type : 员工申请报修
-     * repUser : {"user_mobile":"18621521588","user_name":"18621521588","user_real_name":"杜甫"}
-     * rep_user_id : 830191273e654f599d4a9e577adc2ff3
-     * transactor : {"user_mobile":"13635302912","user_name":"testadmin","user_real_name":"超级管理员"}
-     * updater : {"user_mobile":"13635302912","user_name":"testadmin","user_real_name":"超级管理员"}
-     * updater_id : 94b27def173811eaabcf00163e0a6695
+     * create_date : 1597211129000
+     * creator_id : 6edbaf66d6a84e3a86ac6cb9f4e006e7
+     * id : c7c53f4ed86343ba82110d70ee44a12d
+     * maintain_finish_date : 1597211890000
+     * maintain_price : 1.0
+     * odr_code : WX20200812000001
+     * odr_date : 1597852800000
+     * odr_remark : 说明121
+     * odr_status : 已完成
+     * odr_type : 管理员报修
+     * rep_user_id : 00446e33eae44459a4edc646c913e28e
+     * rep_user_name : a部门
+     * tra_user_id : 6edbaf66d6a84e3a86ac6cb9f4e006e7
+     * tra_user_name : 周
+     * update_date : 1597211129000
+     * updater_id : 6edbaf66d6a84e3a86ac6cb9f4e006e7
      */
 
     private long create_date;
-    private CreatorBean creator;
+    private String creator_id;
     private String id;
     private long maintain_finish_date;
     private double maintain_price;
     private String odr_code;
     private long odr_date;
-    private String odr_status;
     private String odr_remark;
-    private RepUserBean repUser;
-    private TransactorBean transactor;
+    private String odr_status;
+    private String odr_type;
+    private String rep_user_id;
+    private String rep_user_name;
+    private String tra_user_id;
+    private String tra_user_name;
+    private long update_date;
+    private String updater_id;
 
     public long getCreate_date() {
         return create_date;
@@ -41,12 +46,12 @@ public class AssetRepair {
         this.create_date = create_date;
     }
 
-    public CreatorBean getCreator() {
-        return creator;
+    public String getCreator_id() {
+        return creator_id;
     }
 
-    public void setCreator(CreatorBean creator) {
-        this.creator = creator;
+    public void setCreator_id(String creator_id) {
+        this.creator_id = creator_id;
     }
 
     public String getId() {
@@ -89,30 +94,6 @@ public class AssetRepair {
         this.odr_date = odr_date;
     }
 
-    public String getOdr_status() {
-        return odr_status;
-    }
-
-    public void setOdr_status(String odr_status) {
-        this.odr_status = odr_status;
-    }
-
-    public RepUserBean getRepUser() {
-        return repUser;
-    }
-
-    public void setRepUser(RepUserBean repUser) {
-        this.repUser = repUser;
-    }
-
-    public TransactorBean getTransactor() {
-        return transactor;
-    }
-
-    public void setTransactor(TransactorBean transactor) {
-        this.transactor = transactor;
-    }
-
     public String getOdr_remark() {
         return odr_remark;
     }
@@ -121,86 +102,67 @@ public class AssetRepair {
         this.odr_remark = odr_remark;
     }
 
-    public static class CreatorBean {
-        /**
-         * user_mobile : 13635302912
-         * user_name : testadmin
-         * user_real_name : 超级管理员
-         */
-
-        private String user_name;
-        private String user_real_name;
-
-        public String getUser_name() {
-            return user_name;
-        }
-
-        public void setUser_name(String user_name) {
-            this.user_name = user_name;
-        }
-
-        public String getUser_real_name() {
-            return user_real_name;
-        }
-
-        public void setUser_real_name(String user_real_name) {
-            this.user_real_name = user_real_name;
-        }
+    public String getOdr_status() {
+        return odr_status;
     }
 
-    public static class RepUserBean {
-        /**
-         * 报修人
-         * user_mobile : 18621521588
-         * user_name : 18621521588
-         * user_real_name : 杜甫
-         */
-
-        private String user_name;
-        private String user_real_name;
-
-        public String getUser_name() {
-            return user_name;
-        }
-
-        public void setUser_name(String user_name) {
-            this.user_name = user_name;
-        }
-
-        public String getUser_real_name() {
-            return user_real_name;
-        }
-
-        public void setUser_real_name(String user_real_name) {
-            this.user_real_name = user_real_name;
-        }
+    public void setOdr_status(String odr_status) {
+        this.odr_status = odr_status;
     }
 
-    public static class TransactorBean {
-        /**
-         * 处理人
-         * user_mobile : 13635302912
-         * user_name : testadmin
-         * user_real_name : 超级管理员
-         */
+    public String getOdr_type() {
+        return odr_type;
+    }
 
-        private String user_name;
-        private String user_real_name;
+    public void setOdr_type(String odr_type) {
+        this.odr_type = odr_type;
+    }
 
-        public String getUser_name() {
-            return user_name;
-        }
+    public String getRep_user_id() {
+        return rep_user_id;
+    }
 
-        public void setUser_name(String user_name) {
-            this.user_name = user_name;
-        }
+    public void setRep_user_id(String rep_user_id) {
+        this.rep_user_id = rep_user_id;
+    }
 
-        public String getUser_real_name() {
-            return user_real_name;
-        }
+    public String getRep_user_name() {
+        return rep_user_name;
+    }
 
-        public void setUser_real_name(String user_real_name) {
-            this.user_real_name = user_real_name;
-        }
+    public void setRep_user_name(String rep_user_name) {
+        this.rep_user_name = rep_user_name;
+    }
+
+    public String getTra_user_id() {
+        return tra_user_id;
+    }
+
+    public void setTra_user_id(String tra_user_id) {
+        this.tra_user_id = tra_user_id;
+    }
+
+    public String getTra_user_name() {
+        return tra_user_name;
+    }
+
+    public void setTra_user_name(String tra_user_name) {
+        this.tra_user_name = tra_user_name;
+    }
+
+    public long getUpdate_date() {
+        return update_date;
+    }
+
+    public void setUpdate_date(long update_date) {
+        this.update_date = update_date;
+    }
+
+    public String getUpdater_id() {
+        return updater_id;
+    }
+
+    public void setUpdater_id(String updater_id) {
+        this.updater_id = updater_id;
     }
 }

@@ -117,7 +117,7 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
                     InventoryDetail inventoryDetail = localInvDetailByAstId.get(0);
                     inventoryDetail.getInvdt_status().setCode(10);
                     inventoryDetail.setNeedUpload(true);
-                    inventoryDetail.getAssetsInfos().setInvdt_sign(sign);
+                    inventoryDetail.setInvdt_sign(sign);
                     DbBank.getInstance().getInventoryDetailDao().updateItem(inventoryDetail);
 
                     ResultInventoryOrder invOrderByInvId = DbBank.getInstance().getResultInventoryOrderDao().findInvOrderByInvId(invId);

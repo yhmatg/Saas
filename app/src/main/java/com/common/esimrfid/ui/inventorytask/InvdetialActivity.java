@@ -140,9 +140,9 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         mInventoryDetails.addAll(detailResults);
         for (InventoryDetail inventoryDetail : mInventoryDetails) {
             //资产未知
-            String locName = inventoryDetail.getAssetsInfos().getLoc_info() == null ? "未分配" : inventoryDetail.getAssetsInfos().getLoc_info().getLoc_name();
+            String locName = inventoryDetail.getLoc_name() == null ? "未分配" : inventoryDetail.getLoc_name();
             //资产盘盈位置
-            String pluLocName = inventoryDetail.getAssetsInfos().getInvdt_plus_loc_info() == null ? "未分配" : inventoryDetail.getAssetsInfos().getInvdt_plus_loc_info().getLoc_name();
+            String pluLocName = inventoryDetail.getInvdt_plus_loc_name() == null ? "未分配" : inventoryDetail.getInvdt_plus_loc_name();
             //资产盘点状态
             Integer code = inventoryDetail.getInvdt_status().getCode();
             //资产按地点分类  未完成还要考虑盘盈的资产
@@ -181,19 +181,19 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
                 if (invdetail.getInvdt_status().getCode() == InventoryStatus.INIT.getIndex()) {
                     notInvNum++;
                     if(StringUtils.isEmpty(invLocationBean.getLocId())){
-                        invLocationBean.setLocId(invdetail.getAssetsInfos().getLoc_id());
+                        invLocationBean.setLocId(invdetail.getLoc_id());
                     }
                 }else if (invdetail.getInvdt_status().getCode() == InventoryStatus.FINISH.getIndex()) {
                     invNum++;
                     if(StringUtils.isEmpty(invLocationBean.getLocId())){
-                        invLocationBean.setLocId(invdetail.getAssetsInfos().getLoc_id());
+                        invLocationBean.setLocId(invdetail.getLoc_id());
                     }
                 }else if (invdetail.getInvdt_status().getCode() == InventoryStatus.MORE.getIndex()) {
                     moreInvNum++;
                 }else if (invdetail.getInvdt_status().getCode() == InventoryStatus.LESS.getIndex()) {
                     lessInvNum++;
                     if(StringUtils.isEmpty(invLocationBean.getLocId())){
-                        invLocationBean.setLocId(invdetail.getAssetsInfos().getLoc_id());
+                        invLocationBean.setLocId(invdetail.getLoc_id());
                     }
                 }
             }

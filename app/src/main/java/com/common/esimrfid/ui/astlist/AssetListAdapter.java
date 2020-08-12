@@ -50,9 +50,9 @@ public class AssetListAdapter extends RecyclerView.Adapter<AssetListAdapter.View
         viewHolder.astCode.setText(astBarcode);
         String astName = TextUtils.isEmpty(astItemInfo.getAst_name()) ? "" : astItemInfo.getAst_name();
         viewHolder.astName.setText(astName);
-        String astBrand = astItemInfo.getUser_info() == null ? "" : astItemInfo.getUser_info().getUser_real_name();
+        String astBrand = astItemInfo.getUser_name() == null ? "" : astItemInfo.getUser_name();
         viewHolder.userName.setText(astBrand);
-        String astLocation = astItemInfo.getLoc_info() == null ? "" : astItemInfo.getLoc_info().getLoc_name();
+        String astLocation = astItemInfo.getLoc_name() == null ? "" : astItemInfo.getLoc_name();
         viewHolder.location.setText(astLocation);
         int astStatus = astItemInfo.getAst_used_status();
         String statusName = TextUtils.isEmpty(AssetsUseStatus.getName(astStatus)) ? "" : AssetsUseStatus.getName(astStatus);

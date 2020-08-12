@@ -60,7 +60,7 @@ public class AssetsRepairAdapter extends RecyclerView.Adapter<AssetsRepairAdapte
         viewHolder.astName.setText(name);
         String code = TextUtils.isEmpty(assetsInfo.getAst_barcode()) ? "" : assetsInfo.getAst_barcode();
         viewHolder.astNumber.setText(code);
-        String type = TextUtils.isEmpty(assetsInfo.getType_info().getType_name()) ? "" : assetsInfo.getType_info().getType_name();
+        String type = TextUtils.isEmpty(assetsInfo.getType_name()) ? "" : assetsInfo.getType_name();
         viewHolder.astType.setText(type);
         String astBrand = TextUtils.isEmpty(assetsInfo.getAst_brand()) ? "" : assetsInfo.getAst_brand();
         viewHolder.astBrand.setText(astBrand);

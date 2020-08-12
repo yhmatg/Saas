@@ -7,6 +7,7 @@ import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.HomeConstract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
@@ -46,13 +47,13 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
 
     @Override
     public void getAssetsNmbDiffLocation() {
-        addSubscribe(mDataManager.getAssetsNmbDiffLocation()
+        addSubscribe(mDataManager.getAssetsNmbInDiffLocation()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
-                .subscribeWith(new BaseObserver<HashMap<String, Integer>>(mView, false) {
+                .subscribeWith(new BaseObserver<List<AssetLocNmu>>(mView, false) {
                     @Override
-                    public void onNext(HashMap<String, Integer> stringIntegerHashMap) {
-                        mView.handleAssetsNmbDiffLocation(stringIntegerHashMap);
+                    public void onNext(List<AssetLocNmu> assetLocNmus) {
+                        mView.handleAssetsNmbDiffLocation(assetLocNmus);
                     }
                 }));
     }
@@ -170,7 +171,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
     @Override
     public void fetchLatestAssets() {
         if(CommonUtils.isNetworkConnected()){
-            addSubscribe(mDataManager.fetchLatestAssets(mDataManager.getLatestSyncTime())
+            addSubscribe(mDataManager.fetchLatestAssets("0")
             .compose(RxUtils.rxSchedulerHelper())
             .compose(RxUtils.handleResult())
             .subscribeWith(new BaseObserver<LatestModifyAssets>(mView, false) {

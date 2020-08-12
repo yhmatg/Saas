@@ -321,7 +321,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             barcode.setText(code);
             String name = TextUtils.isEmpty(assetsAllInfo.getAst_name()) ? "" : assetsAllInfo.getAst_name();
             astName.setText(name);
-            String type = assetsAllInfo.getType_info() == null ? "" : assetsAllInfo.getType_info().getType_name();
+            String type = assetsAllInfo.getType_name() == null ? "" : assetsAllInfo.getType_name();
             type = TextUtils.isEmpty(type) ? "" : type;
             astType.setText(type);
 
@@ -341,15 +341,15 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             String material = TextUtils.isEmpty(AssetsMaterial.getName(number)) ? "" : AssetsMaterial.getName(number);
             ast_material.setText(material);
 
-            String corp = assetsAllInfo.getOrg_belongcorp() == null ? "" : assetsAllInfo.getOrg_belongcorp().getOrg_name();
+            String corp = assetsAllInfo.getOrg_belongcorp_name() == null ? "" : assetsAllInfo.getOrg_belongcorp_name();
             corp = TextUtils.isEmpty(code) ? "" : corp;
             belong_crop.setText(corp);
 
-            String location = assetsAllInfo.getLoc_info() == null ? "" : assetsAllInfo.getLoc_info().getLoc_name();
+            String location = assetsAllInfo.getLoc_name() == null ? "" : assetsAllInfo.getLoc_name();
             location = TextUtils.isEmpty(location) ? "" : location;
             stroe_loaction.setText(location);
 
-            String person = assetsAllInfo.getCreator() == null ? "" : assetsAllInfo.getCreator().getUser_real_name();
+            String person = assetsAllInfo.getManager_name() == null ? "" : assetsAllInfo.getManager_name();
             person = TextUtils.isEmpty(person) ? "" : person;
             manager.setText(person);
 
@@ -382,15 +382,15 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 //            String month = TextUtils.isEmpty(assetsAllInfo.getAst_expiration_months()) ? "" : assetsAllInfo.getAst_expiration_months();
 //            use_months.setText(month+"个月");
 
-            String company = assetsAllInfo.getOrg_usedcorp() == null ? "" : assetsAllInfo.getOrg_usedcorp().getOrg_name();
+            String company = assetsAllInfo.getOrg_usedcorp_name() == null ? "" : assetsAllInfo.getOrg_usedcorp_name();
             company = TextUtils.isEmpty(company) ? "" : company;
             use_company.setText(company);
 
-            String department = assetsAllInfo.getOrg_useddept() == null ? "" : assetsAllInfo.getOrg_useddept().getOrg_name();
+            String department = assetsAllInfo.getOrg_useddept_name() == null ? "" : assetsAllInfo.getOrg_useddept_name();
             department = TextUtils.isEmpty(department) ? "" : department;
             use_department.setText(department);
 
-            String Name = assetsAllInfo.getUser_info() == null ? "" : assetsAllInfo.getUser_info().getUser_real_name();
+            String Name = assetsAllInfo.getUser_name() == null ? "" : assetsAllInfo.getUser_name();
             Name = TextUtils.isEmpty(Name) ? "" : Name;
             user.setText(Name);
 
@@ -442,35 +442,33 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             }
 
             //维保信息
-            String Supplier = assetsAllInfo.getWarranty_info() == null ? "" : assetsAllInfo.getWarranty_info().getSupplier_name();
+            String Supplier = assetsAllInfo.getSupplier_name() == null ? "" : assetsAllInfo.getSupplier_name();
             Supplier = TextUtils.isEmpty(Supplier) ? "" : Supplier;
             supplier.setText(Supplier);
 
-            String s_name = assetsAllInfo.getWarranty_info() == null ? "" : assetsAllInfo.getWarranty_info().getSupplier_person();
+            String s_name = assetsAllInfo.getSupplier_person() == null ? "" : assetsAllInfo.getSupplier_person();
             s_name = TextUtils.isEmpty(s_name) ? "" : s_name;
             contacts.setText(s_name);
 
-            String figure = assetsAllInfo.getWarranty_info() == null ? "" : assetsAllInfo.getWarranty_info().getSupplier_mobile();
+            String figure = assetsAllInfo.getSupplier_mobile() == null ? "" : assetsAllInfo.getSupplier_mobile();
             figure = TextUtils.isEmpty(figure) ? "" : figure;
             contact_information.setText(figure);
 
             //维保日期
-            long end_date = assetsAllInfo.getWarranty_info() == null ? 0 : assetsAllInfo.getWarranty_info().getWar_enddate();
+            long end_date = assetsAllInfo.getWar_enddate();
             if (end_date == 0) {
                 maintenance_expire.setText("");
             } else {
                 maintenance_expire.setText(DateUtils.long2String(end_date, DateUtils.FORMAT_TYPE_1));
             }
-            String message = assetsAllInfo.getWarranty_info() == null ? "" : assetsAllInfo.getWarranty_info().getWar_message();
+            String message = assetsAllInfo.getWar_message() == null ? "" : assetsAllInfo.getWar_message();
             message = TextUtils.isEmpty(message) ? "" : message;
             instructions.setText(message);
             repairAsset.setId(assetsAllInfo.getId());
             repairAsset.setAst_used_status(assetsAllInfo.getAst_used_status());
             repairAsset.setAst_name(assetsAllInfo.getAst_name());
             repairAsset.setAst_barcode(assetsAllInfo.getAst_barcode());
-            AssetsInfo.TypeInfo typeInfo = new AssetsInfo.TypeInfo();
-            typeInfo.setType_name(type);
-            repairAsset.setType_info(typeInfo);
+            repairAsset.setType_name(type);
             repairAsset.setAst_brand(assetsAllInfo.getAst_brand());
             repairAsset.setAst_model(assetsAllInfo.getAst_model());
             epcCode = assetsAllInfo.getAst_epc_code();

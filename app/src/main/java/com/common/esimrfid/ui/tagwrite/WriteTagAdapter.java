@@ -51,7 +51,7 @@ public class WriteTagAdapter extends RecyclerView.Adapter<WriteTagAdapter.ViewHo
         viewHolder.brand.setText(astBrand);
         String astModel = TextUtils.isEmpty(assetsInfo.getAst_model()) ? "" : assetsInfo.getAst_model();
         viewHolder.model.setText(astModel);
-        String astLocation = assetsInfo.getLoc_info() == null ? "" : assetsInfo.getLoc_info().getLoc_name();
+        String astLocation = assetsInfo.getLoc_name() == null ? "" : assetsInfo.getLoc_name();
         viewHolder.location.setText(astLocation);
 
         viewHolder.search.setOnClickListener(new View.OnClickListener() {

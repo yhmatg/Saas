@@ -2,15 +2,17 @@ package com.common.esimrfid.contract.home;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
+import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface HomeConstract {
     interface View extends AbstractView {
-        void handleAssetsNmbDiffLocation(HashMap<String,Integer> assetLocations);
+        void handleAssetsNmbDiffLocation(List<AssetLocNmu> assetLocations);
 
         void handleAssetsNmbDiffStatus(AssetStatusNum assetStatus);
 

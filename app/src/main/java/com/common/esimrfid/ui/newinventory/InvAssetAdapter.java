@@ -50,26 +50,25 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         InventoryDetail invDetail = mInventoryDetails.get(i);
-        AssetsInfo assetsInfo = invDetail.getAssetsInfos();
-        String astName = TextUtils.isEmpty(assetsInfo.getAst_name()) ? "" : assetsInfo.getAst_name();
+        String astName = TextUtils.isEmpty(invDetail.getAst_name()) ? "" : invDetail.getAst_name();
         viewHolder.tvAstName.setText(astName);
-        String astBarcode = TextUtils.isEmpty(assetsInfo.getAst_barcode()) ? "" : assetsInfo.getAst_barcode();
+        String astBarcode = TextUtils.isEmpty(invDetail.getAst_barcode()) ? "" : invDetail.getAst_barcode();
         viewHolder.tvAssetNum.setText(astBarcode);
-        String storeLoc = assetsInfo.getLoc_info() == null ? "" : assetsInfo.getLoc_info().getLoc_name();
+        String storeLoc = invDetail.getLoc_name() == null ? "" : invDetail.getLoc_name();
         viewHolder.tvLocName.setText(storeLoc);
-        String useDepart = assetsInfo.getOrg_useddept() == null ? "" : assetsInfo.getOrg_useddept().getOrg_name();
+        String useDepart = invDetail.getOrg_useddept_name() == null ? "" : invDetail.getOrg_useddept_name();
         viewHolder.tvDepartName.setText(useDepart);
-        String userName = assetsInfo.getUser_info() == null ? "" : assetsInfo.getUser_info().getUser_real_name();
+        String userName = invDetail.getUser_name() == null ? "" : invDetail.getUser_name();
         viewHolder.tvUserName.setText(userName);
         viewHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra(ASSETS_ID, assetsInfo.getId());
+                intent.putExtra(ASSETS_ID, invDetail.getAst_id());
                 if (invDetail.getInvdt_status().getCode() == 0) {
                     intent.putExtra(WHERE_FROM, "InvAssetLocActivity");
                     intent.putExtra(INV_ID, invDetail.getInv_id());
-                    intent.putExtra(LOC_IC, assetsInfo.getLoc_id());
+                    intent.putExtra(LOC_IC, invDetail.getLoc_id());
                     EsimAndroidApp.invStatus = "notInvEdAsset";
                 }else {
                     EsimAndroidApp.invStatus = "InvEdAsset";
@@ -111,7 +110,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
                 }
             }
         });
-        String signTag = assetsInfo.getInvdt_sign();
+        String signTag = invDetail.getInvdt_sign();
         if(!StringUtils.isEmpty(signTag)){
             viewHolder.tvTagContent.setVisibility(View.VISIBLE);
             viewHolder.tvTagContent.setText(signTag);

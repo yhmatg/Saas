@@ -83,24 +83,21 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
                 DbBank.getInstance().getInventoryDetailDao().updateItems(oneInvDetails);
                 List<InventoryDetail> locMoreInvDetail = DbBank.getInstance().getInventoryDetailDao().findMoreInvDetailByInvidAndLocid(invId, locId);
-                List<AssetsInfo> localAssetsByEpcs = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByEpcs(oneMoreInvEpcs);
+                List<InventoryDetail> localAssetsByEpcs = DbBank.getInstance().getAssetsAllInfoDao().findLocalInvdetailByEpcs(oneMoreInvEpcs);
                 ArrayList<InventoryDetail> moreInvDetails = new ArrayList<>();
-                for (AssetsInfo localAssetsByEpc : localAssetsByEpcs) {
+                for (InventoryDetail localAssetsByEpc : localAssetsByEpcs) {
                     if (!isLocalMoreContains(localAssetsByEpc.getId(), locMoreInvDetail)) {
-                        localAssetsByEpc.setInvdt_plus_loc_info(new AssetsInfo.InvdtPlusLocInfo());
-                        localAssetsByEpc.getInvdt_plus_loc_info().setId(locId);
-                        localAssetsByEpc.getInvdt_plus_loc_info().setLoc_name(locName);
-                        InventoryDetail inventoryDetail = new InventoryDetail();
-                        inventoryDetail.setAssetsInfos(localAssetsByEpc);
-                        inventoryDetail.setInv_id(invId);
-                        inventoryDetail.setInvdt_plus_loc_id(locId);
-                        inventoryDetail.setId(Md5Util.getMD5(localAssetsByEpc.getId() + locId + invId));
-                        inventoryDetail.setAst_id(localAssetsByEpc.getId());
-                        inventoryDetail.setInvdt_status(new InventoryDetail.InvdtStatus());
-                        inventoryDetail.getInvdt_status().setCode(2);
-                        inventoryDetail.getInvdt_status().setName("盘盈");
-                        inventoryDetail.setNeedUpload(true);
-                        moreInvDetails.add(inventoryDetail);
+                        localAssetsByEpc.setInvdt_plus_loc_id(locId);
+                        localAssetsByEpc.setInvdt_plus_loc_name(locName);
+                        localAssetsByEpc.setInv_id(invId);
+                        localAssetsByEpc.setInvdt_plus_loc_id(locId);
+                        localAssetsByEpc.setAst_id(localAssetsByEpc.getId());
+                        localAssetsByEpc.setId(Md5Util.getMD5(localAssetsByEpc.getId() + locId + invId));
+                        localAssetsByEpc.setInvdt_status(new InventoryDetail.InvdtStatus());
+                        localAssetsByEpc.getInvdt_status().setCode(2);
+                        localAssetsByEpc.getInvdt_status().setName("盘盈");
+                        localAssetsByEpc.setNeedUpload(true);
+                        moreInvDetails.add(localAssetsByEpc);
                     }
                 }
                 DbBank.getInstance().getInventoryDetailDao().insertItems(moreInvDetails);

@@ -308,7 +308,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                         ArrayList<AssetUploadParameter> assetUploadParameters = new ArrayList<>();
                         for (InventoryDetail inventoryDetail : inventoryDetails) {
                             AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
-                            assetUploadParameter.setInvdt_sign(inventoryDetail.getAssetsInfos().getInvdt_sign());
+                            assetUploadParameter.setInvdt_sign(inventoryDetail.getInvdt_sign());
                             assetUploadParameter.setInvdt_status(inventoryDetail.getInvdt_status().getCode());
                             assetUploadParameter.setInvdt_plus_loc_id(inventoryDetail.getInvdt_plus_loc_id());
                             assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
@@ -351,7 +351,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                         ArrayList<AssetUploadParameter> assetUploadParameters = new ArrayList<>();
                         for (InventoryDetail inventoryDetail : inventoryDetails) {
                             AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
-                            assetUploadParameter.setInvdt_sign(inventoryDetail.getAssetsInfos().getInvdt_sign());
+                            assetUploadParameter.setInvdt_sign(inventoryDetail.getInvdt_sign());
                             assetUploadParameter.setInvdt_status(inventoryDetail.getInvdt_status().getCode());
                             assetUploadParameter.setInvdt_plus_loc_id(inventoryDetail.getInvdt_plus_loc_id());
                             assetUploadParameter.setAst_id(inventoryDetail.getAst_id());

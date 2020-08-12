@@ -40,10 +40,10 @@ public class AssetsRepairAdapter extends RecyclerView.Adapter<AssetsRepairAdapte
         AssetRepair assetRepair=mData.get(i);
         String tv_code= TextUtils.isEmpty(assetRepair.getOdr_code())?"":assetRepair.getOdr_code();
         viewHolder.code.setText(tv_code);
-        String tv_name=assetRepair.getTransactor()==null?"":assetRepair.getTransactor().getUser_real_name();
+        String tv_name=assetRepair.getTra_user_name()==null?"":assetRepair.getTra_user_name();
         tv_name=TextUtils.isEmpty(tv_code)?"":tv_name;
         viewHolder.name.setText(tv_name);
-        String rep_name=assetRepair.getRepUser()==null?"":assetRepair.getRepUser().getUser_real_name();
+        String rep_name=assetRepair.getRep_user_name()==null?"":assetRepair.getRep_user_name();
         rep_name=TextUtils.isEmpty(rep_name)?"":rep_name;
         viewHolder.repair_name.setText(rep_name);
         double tv_cost=assetRepair.getMaintain_price();

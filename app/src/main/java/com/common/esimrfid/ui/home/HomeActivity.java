@@ -34,6 +34,7 @@ import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.HomeConstract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
@@ -63,6 +64,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -275,15 +277,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     @Override
-    public void handleAssetsNmbDiffLocation(HashMap<String, Integer> assetLocations) {
-        Set<Map.Entry<String, Integer>> entries = assetLocations.entrySet();
+    public void handleAssetsNmbDiffLocation(List<AssetLocNmu> assetLocations) {
         mAstLocaionNum.clear();
-        for (Map.Entry<String, Integer> entry : entries) {
+        for (AssetLocNmu assetLocation : assetLocations) {
             AssetLocationNum assetLocationNum = new AssetLocationNum();
-            assetLocationNum.setLocation(entry.getKey());
-            assetLocationNum.setNumber(entry.getValue());
-            if (entry.getValue() > maxAssetNum) {
-                maxAssetNum = entry.getValue();
+            assetLocationNum.setLocation(assetLocation.getField_name());
+            assetLocationNum.setNumber(assetLocation.getField_count());
+            if (assetLocation.getField_count() > maxAssetNum) {
+                maxAssetNum = assetLocation.getField_count();
             }
             mAstLocaionNum.add(assetLocationNum);
         }

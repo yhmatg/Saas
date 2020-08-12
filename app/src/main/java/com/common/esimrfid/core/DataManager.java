@@ -12,6 +12,7 @@ import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
@@ -366,5 +367,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<DataAuthority>> getDataAuthority(String id) {
         return mHttpHelper.getDataAuthority(id);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation() {
+        return mHttpHelper.getAssetsNmbInDiffLocation();
     }
 }

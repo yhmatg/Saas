@@ -62,7 +62,7 @@ public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapte
         viewHolder.brand.setText(astBrand);
         String astModel = TextUtils.isEmpty(assetsInfo.getAst_model()) ? "" : assetsInfo.getAst_model();
         viewHolder.model.setText(astModel);
-        String astLocation = TextUtils.isEmpty(assetsInfo.getLoc_info_loc_name()) ? "" : assetsInfo.getLoc_info_loc_name();
+        String astLocation = TextUtils.isEmpty(assetsInfo.getLoc_name()) ? "" : assetsInfo.getLoc_name();
         viewHolder.location.setText(astLocation);
         viewHolder.search.setOnClickListener(new View.OnClickListener() {
             @Override

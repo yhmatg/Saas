@@ -118,7 +118,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 if(selectNotInvBean != null){
                     tvLost.setTextColor(getColor(R.color.titele_color));
                     mPrePopTextview = tvLost;
-                    selectNotInvBean.getAssetsInfos().setInvdt_sign("资产已丢失");
+                    selectNotInvBean.setInvdt_sign("资产已丢失");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
                     mPresenter.setOneLessAssetInv(selectNotInvBean);
@@ -143,7 +143,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 if(selectNotInvBean != null){
                     tvTransfer.setTextColor(getColor(R.color.titele_color));
                     mPrePopTextview = tvTransfer;
-                    selectNotInvBean.getAssetsInfos().setInvdt_sign("资产转移了");
+                    selectNotInvBean.setInvdt_sign("资产转移了");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
                     mPresenter.setOneLessAssetInv(selectNotInvBean);
@@ -168,7 +168,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 if(selectNotInvBean != null){
                     tvUserOut.setTextColor(getColor(R.color.titele_color));
                     mPrePopTextview = tvUserOut;
-                    selectNotInvBean.getAssetsInfos().setInvdt_sign("人员外出中");
+                    selectNotInvBean.setInvdt_sign("人员外出中");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
                     mPresenter.setOneLessAssetInv(selectNotInvBean);
@@ -193,7 +193,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 if(selectNotInvBean != null){
                     tvAstBorrow.setTextColor(getColor(R.color.titele_color));
                     mPrePopTextview = tvAstBorrow;
-                    selectNotInvBean.getAssetsInfos().setInvdt_sign("资产外借中");
+                    selectNotInvBean.setInvdt_sign("资产外借中");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
                     mPresenter.setOneLessAssetInv(selectNotInvBean);
@@ -218,7 +218,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 if(selectNotInvBean != null){
                     tvAstRepair.setTextColor(getColor(R.color.titele_color));
                     mPrePopTextview = tvAstRepair;
-                    selectNotInvBean.getAssetsInfos().setInvdt_sign("资产维修中");
+                    selectNotInvBean.setInvdt_sign("资产维修中");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
                     mPresenter.setOneLessAssetInv(selectNotInvBean);

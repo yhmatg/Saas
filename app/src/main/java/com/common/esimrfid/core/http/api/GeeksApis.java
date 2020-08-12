@@ -12,6 +12,7 @@ import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
@@ -84,11 +85,17 @@ public interface GeeksApis {
     @POST("inventory-server/inventoryorders/{orderId}/commit")
     Observable<BaseResponse> uploadInvDetails(@Path("orderId") String orderId, @Body List<String> invDetails, @Query("uid") String uid);
 
-    //获取不同位置下资产数量
+    //获取不同位置下资产数量(数据权限版本前使用)
     //@return 位置和对应资产数目
 
     @GET("/assets-server/assets/countbyloc")
     Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation();
+
+    //获取不同位置下资产数量(数据权限版本后使用)
+    //@return 位置和对应资产数目
+
+    @GET("/assets-server/dashboard/countbyloc")
+    Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation();
 
     //获取不同状态的资产数量
     //@return 不同状态下的资产数目
