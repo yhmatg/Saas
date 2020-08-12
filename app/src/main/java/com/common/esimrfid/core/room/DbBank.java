@@ -36,14 +36,6 @@ public abstract class DbBank extends RoomDatabase {
         }
         return instance;
     }
-
-    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
-        @Override
-        public void migrate(SupportSQLiteDatabase database) {
-            DataManager.getInstance().setLatestSyncTime("0");
-        }
-    };
-
     private static DbBank createDb() {
         DbBank build = Room.databaseBuilder(
                 EsimAndroidApp.getInstance(),
@@ -53,7 +45,6 @@ public abstract class DbBank extends RoomDatabase {
             @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
-                Log.e("DbBank","oncreate");
             }
 
             //当数据库被打开时调用
@@ -62,8 +53,8 @@ public abstract class DbBank extends RoomDatabase {
                 super.onOpen(db);
             }
         }).allowMainThreadQueries()
-                .addMigrations(MIGRATION_1_2)
-                .fallbackToDestructiveMigration().build();
+                .fallbackToDestructiveMigration()
+                .build();
         return build;
     }
 

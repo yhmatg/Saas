@@ -171,7 +171,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
     @Override
     public void fetchLatestAssets() {
         if(CommonUtils.isNetworkConnected()){
-            addSubscribe(mDataManager.fetchLatestAssets("0")
+            addSubscribe(mDataManager.fetchLatestAssets(mDataManager.getLatestSyncTime())
             .compose(RxUtils.rxSchedulerHelper())
             .compose(RxUtils.handleResult())
             .subscribeWith(new BaseObserver<LatestModifyAssets>(mView, false) {

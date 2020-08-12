@@ -309,6 +309,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     public void handelCheckoutVersion(UpdateVersion updateInfo) {
         if (getAppVersionCode(this) < updateInfo.getApp_version_code() || !getAppVersionName(this).equals(updateInfo.getApp_version())) {
+            if(getAppVersionCode(this) == 5 && updateInfo.getApp_version_code() == 6){
+                DataManager.getInstance().setLatestSyncTime("0");
+            }
             thirdUpdate(updateInfo);
         }
     }
