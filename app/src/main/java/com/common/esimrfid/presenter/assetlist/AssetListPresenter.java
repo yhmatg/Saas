@@ -75,7 +75,7 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
         Observable<BaseResponse<AssetsListPage>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsListPage>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<AssetsListPage>> emitter) throws Exception {
-                List<AssetsListItemInfo> assetList = DbBank.getInstance().getAssetsAllInfoDao().searchPageLocalAssetListByPara(size, patternName, currentSize, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
+                List<AssetsListItemInfo> assetList = DbBank.getInstance().getAssetsAllInfoDao().searchPageLocalAssetListByPara(size, patternName, currentSize);
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                 } else {

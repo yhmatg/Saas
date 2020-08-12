@@ -22,4 +22,7 @@ public interface ResultInventoryOrderDao extends BaseDao<ResultInventoryOrder> {
     @Query("SELECT * FROM ResultInventoryOrder where opt_status = 1")
     public List<ResultInventoryOrder> findNotSubmitInvOrders();
 
+    @Query("DELETE FROM ResultInventoryOrder")
+    public void deleteAllData();
+
 }

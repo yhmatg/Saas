@@ -38,4 +38,7 @@ public interface InventoryDetailDao extends BaseDao<InventoryDetail> {
     //获取盘点中待盘点的资产
     @Query("SELECT * FROM InventoryDetail where inv_id = :invId AND code = 0 ")
     public List<InventoryDetail> findLocalNotInvhAssets(String invId);
+
+    @Query("DELETE FROM InventoryDetail")
+    public void deleteAllData();
 }

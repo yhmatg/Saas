@@ -60,8 +60,11 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                         public void accept(UserLoginResponse userLoginResponse) throws Exception {
                             //保存UserLoginResponse到sp
                             UserLoginResponse localUserLogin = mDataManager.getUserLoginResponse();
-                            if(localUserLogin != null && !userLoginResponse.getUserinfo().getCorpid().equals(localUserLogin.getUserinfo().getCorpid())){
+                            //不同管理员对资产的数据权限不一样，要做清除处理
+                            if(localUserLogin != null && !userLoginResponse.getUserinfo().getId().equals(localUserLogin.getUserinfo().getId())){
                                 DbBank.getInstance().getAssetsAllInfoDao().deleteAllData();
+                                DbBank.getInstance().getInventoryDetailDao().deleteAllData();
+                                DbBank.getInstance().getResultInventoryOrderDao().deleteAllData();
                                 mDataManager.setLatestSyncTime("0");
                             }
                             mDataManager.setUserLoginResponse(userLoginResponse);
