@@ -55,6 +55,7 @@ import com.common.esimrfid.ui.inventorytask.FiltterAdapter;
 import com.common.esimrfid.ui.inventorytask.InvLocationAdapter;
 import com.common.esimrfid.ui.inventorytask.InvLocationBean;
 import com.common.esimrfid.ui.tagwrite.WriteTagAdapter;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.multilevel.treelist.Node;
@@ -140,7 +141,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     private RecyclerView filerRecycler;
     CustomPopWindow mCustomPopWindow;
     private FilterBean currentSortFilter = new FilterBean("11", "资产编号正序", false);
-    private FilterBean currentStatusFilter = new FilterBean("1", "再用", false);
+    private FilterBean currentStatusFilter = new FilterBean("1", "在用", false);
     private String currentCodition = "[]";
     private Dialog filterDialog;
     private RecyclerView multiRecycle;
@@ -353,6 +354,12 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 filterDialog.dismiss();
             }
         });
+        //无网状态下禁用侧滑
+        if(!CommonUtils.isNetworkConnected()){
+            // 禁止手势滑动
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            imFilter.setClickable(false);
+        }
     }
 
     private void initOptions() {
@@ -543,8 +550,9 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                     isNeedClearData = true;
                     currentPage = 1;
                     preFilter = assetsId;
-                    //mPresenter.getAssetsInfoById(assetsId);
                     conditions.clearData();
+                    currentStatusFilter.setSelected(false);
+                    filtterAdapter.notifyDataSetChanged();
                     mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, "", 0, conditions);
                     return true;
                 }
@@ -709,6 +717,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 statusOne.add(new Node("0", "-1", "闲置"));
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusOne);
+                search.setText("");
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "21":
@@ -719,6 +728,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 statusTwo.add(new Node("1", "-1", "在用"));
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusTwo);
+                search.setText("");
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "22":
@@ -729,6 +739,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 statusThree.add(new Node("6", "-1", "借用"));
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusThree);
+                search.setText("");
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "23":
@@ -739,6 +750,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 statusFour.add(new Node("10", "-1", "报废"));
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusFour);
+                search.setText("");
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             case "24":
@@ -755,6 +767,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 statusFive.add(new Node("14", "-1", "退库审批中"));
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusFive);
+                search.setText("");
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
             default:

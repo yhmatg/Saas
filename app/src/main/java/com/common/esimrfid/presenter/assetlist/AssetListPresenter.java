@@ -22,6 +22,7 @@ import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
+import com.multilevel.treelist.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +44,7 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
     @Override
     public void fetchPageAssetsInfos(Integer size, Integer page, String patternName, String userRealName, int currentSize, AssetFilterParameter conditions) {
         mView.showDialog("loading...");
-        //addSubscribe(mDataManager.fetchWriteAssetsInfo(assetsId)
-        addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize), mDataManager.fetchPageAssetsList(size, page, patternName,userRealName, conditions.toString()))
+        addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize, conditions), mDataManager.fetchPageAssetsList(size, page, patternName, userRealName, conditions.toString()))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<AssetsListPage>(mView, false) {
@@ -71,11 +71,20 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
                 }));
     }
 
-    public Observable<BaseResponse<AssetsListPage>> getLocalAssetsObservable(Integer size, String patternName, int currentSize) {
+    public Observable<BaseResponse<AssetsListPage>> getLocalAssetsObservable(Integer size, String patternName, int currentSize, AssetFilterParameter conditions) {
         Observable<BaseResponse<AssetsListPage>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsListPage>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<AssetsListPage>> emitter) throws Exception {
-                List<AssetsListItemInfo> assetList = DbBank.getInstance().getAssetsAllInfoDao().searchPageLocalAssetListByPara(size, patternName, currentSize,EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
+                List<Node> nodes = conditions.getmSelectAssetsStatus();
+                ArrayList<Integer> astStatus = new ArrayList<>();
+                if (nodes != null && nodes.size() > 0) {
+                    for (Node node : nodes) {
+                        astStatus.add(Integer.parseInt((String) node.getId()));
+                    }
+                }else {
+                    astStatus.add(-1);
+                }
+                List<AssetsListItemInfo> assetList = DbBank.getInstance().getAssetsAllInfoDao().searchPageLocalAssetListByPara(size, patternName, currentSize, astStatus, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(), EsimAndroidApp.getDataAuthority().getAuth_dept_scope(), EsimAndroidApp.getDataAuthority().getAuth_type_scope(), EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                 } else {
