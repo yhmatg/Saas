@@ -140,6 +140,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         mPresenter.getAssetsNmbDiffLocation();
         mPresenter.getAssetsNmbDiffStatus();
         mPresenter.getDataAuthority(uerLogin.getUserinfo().getId());
+        mPresenter.fetchLatestAssets();
     }
 
     //检查登录状态，未登录跳转登录界面
@@ -156,7 +157,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             if (uerLogin.getUserinfo().getCorpName() != null) {
                 mCompanyName.setText(uerLogin.getUserinfo().getCorpName());
             }
-            mPresenter.fetchLatestAssets();
             mPresenter.fetchAllIvnOrders(uerLogin.getUserinfo().getId(), true);
 
         } else {
