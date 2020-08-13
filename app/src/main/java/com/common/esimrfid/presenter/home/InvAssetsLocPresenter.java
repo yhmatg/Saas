@@ -1,5 +1,6 @@
 package com.common.esimrfid.presenter.home;
 
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
 import com.common.esimrfid.core.DataManager;
@@ -83,7 +84,7 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
                 DbBank.getInstance().getInventoryDetailDao().updateItems(oneInvDetails);
                 List<InventoryDetail> locMoreInvDetail = DbBank.getInstance().getInventoryDetailDao().findMoreInvDetailByInvidAndLocid(invId, locId);
-                List<InventoryDetail> localAssetsByEpcs = DbBank.getInstance().getAssetsAllInfoDao().findLocalInvdetailByEpcs(oneMoreInvEpcs);
+                List<InventoryDetail> localAssetsByEpcs = DbBank.getInstance().getAssetsAllInfoDao().findLocalInvdetailByEpcs(oneMoreInvEpcs,EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
                 ArrayList<InventoryDetail> moreInvDetails = new ArrayList<>();
                 for (InventoryDetail localAssetsByEpc : localAssetsByEpcs) {
                     if (!isLocalMoreContains(localAssetsByEpc.getId(), locMoreInvDetail)) {
@@ -164,7 +165,7 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
         Observable<List<EpcBean>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<EpcBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<EpcBean>> emitter) throws Exception {
-                List<EpcBean> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().getAllAssetEpcs();
+                List<EpcBean> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().getAllAssetEpcs( EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
                 emitter.onNext(allAssetEpcs);
             }
         });
