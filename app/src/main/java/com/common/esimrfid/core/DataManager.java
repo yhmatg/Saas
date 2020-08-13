@@ -206,6 +206,16 @@ public class DataManager implements HttpHelper, PreferenceHelper {
         return mPreferenceHelper.getLatestSyncTime();
     }
 
+    @Override
+    public void setDataAuthority(DataAuthority dataAuthority) {
+        mPreferenceHelper.setDataAuthority(dataAuthority);
+    }
+
+    @Override
+    public DataAuthority getDataAuthority() {
+        return mPreferenceHelper.getDataAuthority();
+    }
+
 
     @Override
     public Observable<BaseResponse<UserLoginResponse>> login(UserInfo userInfo) {

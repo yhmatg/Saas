@@ -212,9 +212,13 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                     if(dataAuthority.getAuth_loc_scope().size() == 0){
                         dataAuthority.getAuth_loc_scope().add("allData");
                     }
+                    mDataManager.setDataAuthority(dataAuthority);
                     EsimAndroidApp.setDataAuthority(dataAuthority);
                 }
             }));
+        }else {
+            DataAuthority dataAuthoritye = mDataManager.getDataAuthority();
+            EsimAndroidApp.setDataAuthority(dataAuthoritye);
         }
     }
 }

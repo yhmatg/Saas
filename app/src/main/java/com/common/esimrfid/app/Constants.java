@@ -80,6 +80,8 @@ public class Constants {
     public static final String HOSTBEEPER = "hostBeeper";
 
     public static final String LATEST_SYNC_ASSETS_TIME = "latest_update_time";
+
+    public static final String DATAAUTHORITY = "dataAuthority";
     //add yhm 20190707 end
 
 

@@ -1,5 +1,6 @@
 package com.common.esimrfid.core.prefs;
 
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 
 /**
@@ -116,5 +117,9 @@ public interface PreferenceHelper {
     void setLatestSyncTime(String time);
 
     String getLatestSyncTime();
+
+    void setDataAuthority(DataAuthority dataAuthority);
+
+    DataAuthority getDataAuthority();
 
 }

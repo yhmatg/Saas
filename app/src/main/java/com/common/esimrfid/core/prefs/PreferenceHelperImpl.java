@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.app.EsimAndroidApp;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.utils.GsonUtil;
 import com.google.gson.Gson;
@@ -179,6 +180,21 @@ public class PreferenceHelperImpl implements PreferenceHelper {
     @Override
     public String getLatestSyncTime() {
         return mPreferences.getString(Constants.LATEST_SYNC_ASSETS_TIME, "0");
+    }
+
+    @Override
+    public void setDataAuthority(DataAuthority dataAuthority) {
+        mPreferences.edit().putString(Constants.DATAAUTHORITY, new Gson().toJson(dataAuthority)).apply();
+    }
+
+    @Override
+    public DataAuthority getDataAuthority() {
+        String dataAuthority = mPreferences.getString(Constants.DATAAUTHORITY, "");
+        if (!"".equals(dataAuthority)) {
+            return GsonUtil.GsonToBean(dataAuthority, DataAuthority.class);
+        } else {
+            return new DataAuthority();
+        }
     }
 
 
