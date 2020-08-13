@@ -443,15 +443,14 @@ public class AssetsInfo {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof InventoryDetail)) return false;
-        InventoryDetail that = (InventoryDetail) o;
-        return getAst_id().equals(that.getAst_id()) &&
-                getId().equals(that.getId()) &&
-                getInv_id().equals(that.getInv_id());
+        if (!(o instanceof AssetsInfo)) return false;
+        AssetsInfo that = (AssetsInfo) o;
+        return getAst_barcode().equals(that.getAst_barcode()) &&
+                getId().equals(that.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAst_id(), getId(), getInv_id());
+        return Objects.hash(getAst_barcode(), getId());
     }
 }
