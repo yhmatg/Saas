@@ -83,8 +83,8 @@ public interface AssetsAllInfoDao extends BaseDao<AssetsAllInfo> {
     public List<InventoryDetail> findLocalInvdetailByEpcs(Set<String> epcs, List<String> auth_corp_scope, List<String> auth_dept_scope, List<String> auth_type_scope, List<String> auth_loc_scope);
 
     //获取所有的资产（资产搜索查找使用）
-    @Query("SELECT ast_brand,ast_barcode,ast_epc_code,ast_model,ast_name,id,loc_name FROM AssetsAllInfo where ('allData' in (:auth_corp_scope) or org_usedcorp_id in (:auth_corp_scope)) and ('allData' in (:auth_dept_scope) or org_useddept_id in (:auth_dept_scope)) and ('allData' in (:auth_type_scope) or type_id in (:auth_type_scope)) and ('allData' in (:auth_loc_scope) or loc_id in (:auth_loc_scope)) ")
-    public List<SearchAssetsInfo> getAllAssetForSearch(List<String> auth_corp_scope, List<String> auth_dept_scope, List<String> auth_type_scope, List<String> auth_loc_scope);
+    @Query("SELECT ast_brand,ast_barcode,ast_epc_code,ast_model,ast_name,id,loc_name FROM AssetsAllInfo")
+    public List<SearchAssetsInfo> getAllAssetForSearch();
 
 
     //根据资产名称，资产编号模糊查询(资产查找页面使用，不分页)

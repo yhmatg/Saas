@@ -89,7 +89,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
         Observable<List<SearchAssetsInfo>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
             @Override
             public void subscribe(ObservableEmitter<List<SearchAssetsInfo>> emitter) throws Exception {
-                List<SearchAssetsInfo> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().getAllAssetForSearch(EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
+                List<SearchAssetsInfo> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().getAllAssetForSearch();
                 emitter.onNext(allAssetEpcs);
             }
         });
