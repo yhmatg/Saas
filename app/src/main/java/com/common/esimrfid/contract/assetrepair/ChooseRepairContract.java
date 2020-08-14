@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface ChooseRepairContract {
     interface View extends AbstractView {
-        void handleAssetsById(List<AssetsInfo> assetsInfos);
+        void handlePageAssetsByOpt(List<AssetsInfo> assetsInfos);
         void handleAllAssetsByOpt(List<AssetsInfo> assetsInfos);
     }
 
     interface Presenter extends AbstractPresenter<View> {
-        void getAssetsInfoById(String assetsId);
         void getAllAssetsByOpt(String optType,String patternName);
+        void getAllAssetsByOpt(Integer size, Integer page,String optType,String patternName);
     }
 }
