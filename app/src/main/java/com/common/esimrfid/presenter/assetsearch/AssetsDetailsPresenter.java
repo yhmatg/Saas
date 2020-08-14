@@ -2,6 +2,7 @@ package com.common.esimrfid.presenter.assetsearch;
 
 import android.util.Log;
 
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
 import com.common.esimrfid.core.DataManager;
@@ -34,10 +35,9 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
     }
 
     @Override
-    public void getAssetsDetailsById(String astId,String astCode) {
+    public void getAssetsDetailsById(String astId,String astCode,String whereFrom) {
         mView.showDialog("loading...");
-        //addSubscribe(mDataManager.fetchAssetsInfo(astId,astCode)
-        addSubscribe(Observable.concat(getLocalAssetAllInfoObservable(astId,astCode),mDataManager.fetchAssetsInfo(astId,astCode))
+        addSubscribe(Observable.concat(getLocalAssetAllInfoObservable(astId,astCode,whereFrom),"AssetRepairActivity".equals(whereFrom) ? mDataManager.fetchAssetsInfoWithAuth(astId,astCode) : mDataManager.fetchAssetsInfo(astId,astCode))
         .compose(RxUtils.rxSchedulerHelper())
         .compose(RxUtils.handleResult())
         .subscribeWith(new BaseObserver<AssetsAllInfo>(mView, false) {
@@ -136,17 +136,29 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
     }
 
 
-    public Observable<BaseResponse<AssetsAllInfo>> getLocalAssetAllInfoObservable(String astId, String astCode) {
+    public Observable<BaseResponse<AssetsAllInfo>> getLocalAssetAllInfoObservable(String astId, String astCode,String whereFrom) {
         Observable<BaseResponse<AssetsAllInfo>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsAllInfo>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<AssetsAllInfo>> emitter) throws Exception {
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                 } else {
-                    List<AssetsAllInfo> localAssetsByAstIdOrEpc = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByAstIdOrEpc(astId, astCode);
+                    List<AssetsAllInfo> localAssetsByAstIdOrEpc = new ArrayList<>();
+                    if("AssetRepairActivity".equals(whereFrom)){
+                        localAssetsByAstIdOrEpc = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByAstIdOrEpc(astId, astCode, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
+                    }else {
+                        localAssetsByAstIdOrEpc = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByAstIdOrEpc(astId, astCode);
+                    }
                     if(localAssetsByAstIdOrEpc.size() > 0){
                         BaseResponse<AssetsAllInfo> baseResponse = new BaseResponse<>();
                         baseResponse.setResult(localAssetsByAstIdOrEpc.get(0));
+                        baseResponse.setCode("200000");
+                        baseResponse.setMessage("成功");
+                        baseResponse.setSuccess(true);
+                        emitter.onNext(baseResponse);
+                    }else {
+                        BaseResponse<AssetsAllInfo> baseResponse = new BaseResponse<>();
+                        baseResponse.setResult(null);
                         baseResponse.setCode("200000");
                         baseResponse.setMessage("成功");
                         baseResponse.setSuccess(true);

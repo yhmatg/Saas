@@ -181,20 +181,13 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         title.setText(R.string.assets_details);
         Intent intent = getIntent();
         String assetsId = intent.getStringExtra(ASSETS_ID);
+        String assetsCode = intent.getStringExtra(ASSETS_CODE);
+        activityFrom = intent.getStringExtra(WHERE_FROM);
         mInvId = intent.getStringExtra(INV_ID);
         mLocId = intent.getStringExtra(LOC_IC);
-        if (assetsId != null && !assetsId.isEmpty()) {
-            mPresenter.getAssetsDetailsById(assetsId, null);
-            mPresenter.getAssetsResumeById(assetsId, null);
-            mPresenter.getAssetsRepairById(assetsId, null);
-        }
-        String assetsCode = intent.getStringExtra(ASSETS_CODE);
-        if (assetsCode != null && !assetsCode.isEmpty()) {
-            mPresenter.getAssetsDetailsById(null, assetsCode);
-            mPresenter.getAssetsResumeById(null, assetsCode);
-            mPresenter.getAssetsRepairById(null, assetsCode);
-        }
-        activityFrom = intent.getStringExtra(WHERE_FROM);
+        mPresenter.getAssetsDetailsById(assetsId, assetsCode, activityFrom);
+        mPresenter.getAssetsResumeById(assetsId, assetsCode);
+        mPresenter.getAssetsRepairById(assetsId, assetsCode);
         empty_page.setVisibility(View.VISIBLE);
         li_assetDetail.setVisibility(View.GONE);
         li_maintenance.setVisibility(View.GONE);

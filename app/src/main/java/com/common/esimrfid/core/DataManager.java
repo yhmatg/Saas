@@ -383,4 +383,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     public Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation() {
         return mHttpHelper.getAssetsNmbInDiffLocation();
     }
+
+    @Override
+    public Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfoWithAuth(String astId, String astCode) {
+        return mHttpHelper.fetchAssetsInfoWithAuth(astId, astCode);
+    }
+
 }

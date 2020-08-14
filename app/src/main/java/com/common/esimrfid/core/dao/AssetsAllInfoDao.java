@@ -86,6 +86,9 @@ public interface AssetsAllInfoDao extends BaseDao<AssetsAllInfo> {
     @Query("SELECT ast_brand,ast_barcode,ast_epc_code,ast_model,ast_name,id,loc_name FROM AssetsAllInfo")
     public List<SearchAssetsInfo> getAllAssetForSearch();
 
+    //根据资产id或者epc获取资产详情(资产详情页面使用)
+    @Query("SELECT * FROM AssetsAllInfo where id = :astId or ast_epc_code = :epcCode and ('allData' in (:auth_corp_scope) or org_usedcorp_id in (:auth_corp_scope)) and ('allData' in (:auth_dept_scope) or org_useddept_id in (:auth_dept_scope)) and ('allData' in (:auth_type_scope) or type_id in (:auth_type_scope)) and ('allData' in (:auth_loc_scope) or loc_id in (:auth_loc_scope))")
+    public List<AssetsAllInfo> findLocalAssetsByAstIdOrEpc(String astId, String epcCode, List<String> auth_corp_scope, List<String> auth_dept_scope, List<String> auth_type_scope, List<String> auth_loc_scope);
 
     //根据资产名称，资产编号模糊查询(资产查找页面使用，不分页)
     @Query("SELECT ast_brand,ast_barcode,ast_epc_code,ast_model,ast_name,id,loc_name FROM AssetsAllInfo where (ast_name LIKE '%' || :para || '%' OR ast_barcode LIKE '%' || :para || '%') and ('allData' in (:auth_corp_scope) or org_usedcorp_id in (:auth_corp_scope)) and ('allData' in (:auth_dept_scope) or org_useddept_id in (:auth_dept_scope)) and ('allData' in (:auth_type_scope) or type_id in (:auth_type_scope)) and ('allData' in (:auth_loc_scope) or loc_id in (:auth_loc_scope))")

@@ -227,6 +227,11 @@ public class HttpHelperImpl implements HttpHelper {
         return mGeeksApis.getAssetsNmbInDiffLocation();
     }
 
+    @Override
+    public Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfoWithAuth(String astId, String astCode) {
+        return mGeeksApis.fetchAssetsInfoWithAuth(astId, astCode);
+    }
+
 
     @Override
     public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {

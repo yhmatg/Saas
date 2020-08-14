@@ -244,4 +244,12 @@ public interface GeeksApis {
     //查询管理员权限范围
     @GET("user-server/sysusers/{id}/authscope")
     Observable<BaseResponse<DataAuthority>> getDataAuthority(@Path("id") String id);
+
+    //根据资产id或者二维码获取资产详情
+    //@param ast_id 资产id ast_code 资产二维码
+    //@return 资产详情信息
+
+    @GET("/assets-server/assets/detail/withauth")
+    Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfoWithAuth(@Query("ast_id") String astId, @Query("ast_barcode") String astCode);
+
 }

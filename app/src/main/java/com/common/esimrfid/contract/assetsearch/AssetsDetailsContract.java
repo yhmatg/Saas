@@ -18,7 +18,7 @@ public interface AssetsDetailsContract {
     }
 
     interface Presenter extends AbstractPresenter<View> {
-        void getAssetsDetailsById(String astId,String astCode);
+        void getAssetsDetailsById(String astId,String astCode,String whereFrom);
         void getAssetsResumeById(String astId,String astCode);
         void getAssetsRepairById(String astid,String astCode);
         //手动将一个资产设置未已经盘点状态
