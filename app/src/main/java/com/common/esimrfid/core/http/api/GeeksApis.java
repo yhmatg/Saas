@@ -99,8 +99,9 @@ public interface GeeksApis {
 
     //获取不同状态的资产数量
     //@return 不同状态下的资产数目
-
-    @GET("/assets-server/assets/countbystatus")
+    //@GET("/assets-server/assets/countbystatus")(修改数据权限前使用)
+    //修改数据权限后使用
+    @GET("/assets-server/dashboard/countbystatus")
     Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus();
 
     //查询所有管理员
