@@ -118,7 +118,7 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
 
     @Override
     public void getAllCompany() {
-        addSubscribe(mDataManager.getAllCompany()
+        addSubscribe(mDataManager.getAllAuthCompany(1)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<CompanyBean>>(mView, false) {

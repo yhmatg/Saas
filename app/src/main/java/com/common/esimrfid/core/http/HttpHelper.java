@@ -106,4 +106,6 @@ public interface HttpHelper {
     Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation();
 
     Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfoWithAuth(String astId, String astCode);
+
+    Observable<BaseResponse<List<CompanyBean>>> getAllAuthCompany(Integer type);
 }

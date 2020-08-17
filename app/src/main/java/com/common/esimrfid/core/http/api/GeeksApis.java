@@ -252,4 +252,12 @@ public interface GeeksApis {
     @GET("/assets-server/assets/detail/withauth")
     Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfoWithAuth(@Query("ast_id") String astId, @Query("ast_barcode") String astCode);
 
+    /**
+     *  查询数据授权使用公司
+     * @param type  1:公司 0:部门
+     * @return 数据授权使用公司
+     */
+    @GET("/user-server/orgs/authOrgs")
+    Observable<BaseResponse<List<CompanyBean>>> getAllAuthCompany(@Query("org_type") Integer type);
+
 }

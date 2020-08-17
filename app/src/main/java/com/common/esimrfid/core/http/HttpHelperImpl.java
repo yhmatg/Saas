@@ -232,6 +232,11 @@ public class HttpHelperImpl implements HttpHelper {
         return mGeeksApis.fetchAssetsInfoWithAuth(astId, astCode);
     }
 
+    @Override
+    public Observable<BaseResponse<List<CompanyBean>>> getAllAuthCompany(Integer type) {
+        return mGeeksApis.getAllAuthCompany(type);
+    }
+
 
     @Override
     public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {

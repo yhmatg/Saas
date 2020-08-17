@@ -389,4 +389,9 @@ public class DataManager implements HttpHelper, PreferenceHelper {
         return mHttpHelper.fetchAssetsInfoWithAuth(astId, astCode);
     }
 
+    @Override
+    public Observable<BaseResponse<List<CompanyBean>>> getAllAuthCompany(Integer type) {
+        return mHttpHelper.getAllAuthCompany(type);
+    }
+
 }
