@@ -50,6 +50,7 @@ public class UserLoginResponse {
         private String user_name;
         private String corpName;
         private String corpid;
+        private CorpInfo corpInfo;
 
         public String getCorpName() {
             return corpName;
@@ -89,6 +90,37 @@ public class UserLoginResponse {
 
         public void setCorpid(String corpid) {
             this.corpid = corpid;
+        }
+
+        public CorpInfo getCorpInfo() {
+            return corpInfo;
+        }
+
+        public void setCorpInfo(CorpInfo corpInfo) {
+            this.corpInfo = corpInfo;
+        }
+
+        public static class CorpInfo {
+            /**
+             * create_date : 1596765785000
+             * id : 82710adc25d94171a9566cd65701104f
+             * org_code : 0002
+             * org_isleaf : 0
+             * org_name : ccccc
+             * org_superid :
+             * org_type : 1
+             * tenantid : tenantid5019
+             * update_date : 1596765785000
+             */
+            private String org_name;
+
+            public String getOrg_name() {
+                return org_name;
+            }
+
+            public void setOrg_name(String org_name) {
+                this.org_name = org_name;
+            }
         }
     }
 }
