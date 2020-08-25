@@ -22,10 +22,6 @@ public interface IEsimUhfService {
 
     boolean isStart();
 
-    void setSoundOpen(boolean isOpen);
-
-    boolean isSound();
-
     int getDownKey();
 
     void writeEpcTag(String selectEpc, String epcData);
