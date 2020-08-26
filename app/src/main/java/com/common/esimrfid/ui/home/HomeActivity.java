@@ -37,6 +37,7 @@ import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.presenter.home.HomePresenter;
@@ -139,7 +140,17 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         super.onResume();
         mPresenter.getAssetsNmbDiffLocation();
         mPresenter.getAssetsNmbDiffStatus();
-        mPresenter.getDataAuthority(uerLogin.getUserinfo().getId());
+        if (uerLogin.getUserinfo().isSuperManagerUser()) {
+            DataAuthority dataAuthority = new DataAuthority();
+            dataAuthority.getAuth_corp_scope().add("allData");
+            dataAuthority.getAuth_dept_scope().add("allData");
+            dataAuthority.getAuth_type_scope().add("allData");
+            dataAuthority.getAuth_loc_scope().add("allData");
+            DataManager.getInstance().setDataAuthority(dataAuthority);
+            EsimAndroidApp.setDataAuthority(dataAuthority);
+        } else {
+            mPresenter.getDataAuthority(uerLogin.getUserinfo().getId());
+        }
         mPresenter.fetchLatestAssets();
     }
 
@@ -309,7 +320,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     public void handelCheckoutVersion(UpdateVersion updateInfo) {
         if (getAppVersionCode(this) < updateInfo.getApp_version_code() || !getAppVersionName(this).equals(updateInfo.getApp_version())) {
-            if(getAppVersionCode(this) == 5 && updateInfo.getApp_version_code() == 6){
+            if (getAppVersionCode(this) == 5 && updateInfo.getApp_version_code() == 6) {
                 DataManager.getInstance().setLatestSyncTime("0");
             }
             thirdUpdate(updateInfo);
@@ -424,7 +435,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 String[] strArry = str.split("[；]");
                 String content = "";
                 for (int i = 0; i < strArry.length; i++) {
-                    content = content + strArry[i] ;
+                    content = content + strArry[i];
                     if (i != strArry.length - 1) {
                         content = content + "\n";
                     }
@@ -450,7 +461,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             String[] strArry = str.split("[；]");
             String content = "";
             for (int i = 0; i < strArry.length; i++) {
-                content = content + strArry[i] ;
+                content = content + strArry[i];
                 if (i != strArry.length - 1) {
                     content = content + "\n";
                 }
