@@ -82,7 +82,7 @@ public class HttpHelperImpl implements HttpHelper {
 
     @Override
     public Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(String orderId) {
-        return mGeeksApis.fetchAllInvDetails(orderId);
+        return mGeeksApis.fetchAllInvDetails(orderId,"1");
     }
 
     @Override

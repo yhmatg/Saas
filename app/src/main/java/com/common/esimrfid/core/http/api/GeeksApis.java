@@ -65,7 +65,7 @@ public interface GeeksApis {
     //@return 盘点单详情
 
     @GET("inventory-server/inventoryorders/{orderId}/detail/unpage")
-    Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(@Path("orderId") String orderId);
+    Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(@Path("orderId") String orderId,@Query("my_tasks") String myTask);
 
     //完成盘点携带资产编号id
     //@param orderId 盘点单id
