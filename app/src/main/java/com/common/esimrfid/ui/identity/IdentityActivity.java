@@ -18,6 +18,7 @@ import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
+import com.common.esimrfid.uhf.XinLianUhfServiceImp;
 import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
 
@@ -48,7 +49,7 @@ public class IdentityActivity extends BaseActivity {
         Intent intent = getIntent();
         from = intent.getStringExtra(WHERE_FROM);
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
-        if( esimUhfService instanceof NewSpeedataUhfServiceImpl){
+        if( esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl){
             SystemProperties.set("persist.sys.PistolKey", "scan");
         }else if(esimUhfService instanceof ZebraUhfServiceImpl){
             if(!((ZebraUhfServiceImpl) esimUhfService).isTc20()){
@@ -95,7 +96,7 @@ public class IdentityActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
-        if( esimUhfService instanceof NewSpeedataUhfServiceImpl){
+        if( esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl){
             SystemProperties.set("persist.sys.PistolKey", "uhf");
         }else if(esimUhfService instanceof ZebraUhfServiceImpl){
             if(((ZebraUhfServiceImpl) esimUhfService).isTc20()){

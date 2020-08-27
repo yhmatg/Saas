@@ -16,9 +16,11 @@ import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
+import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
+import com.common.esimrfid.uhf.XinLianUhfServiceImp;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.utils.Utils;
@@ -46,6 +48,7 @@ public class LocationSearchActivity extends BaseActivity {
     private int soundId;
     private long currentMinute, oldMinute;
     private Boolean canRfid = true;
+
     @Override
     public AbstractPresenter initPresenter() {
         return null;
@@ -107,9 +110,17 @@ public class LocationSearchActivity extends BaseActivity {
                 UhfTag uhfTag = (UhfTag) uhfMsgEvent.getData();
                 String model = android.os.Build.MODEL;
                 if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
-                    epc = uhfTag.getAllData();
-                    handleEpc(epc);
-                }else {
+                    if (esimUhfService instanceof XinLianUhfServiceImp && AssetsEpc.equals(uhfTag.getEpc()) ) {
+                        String rssi = uhfTag.getRssi();
+                        if (rssi != null) {
+                            showRssiProgress(Integer.parseInt(rssi));
+                        }
+                    } else if (esimUhfService instanceof NewSpeedataUhfServiceImpl) {
+                        epc = uhfTag.getAllData();
+                        handleEpc(epc);
+                    }
+
+                } else {
                     zebraHandleData(uhfTag);
                 }
                 break;
@@ -163,6 +174,19 @@ public class LocationSearchActivity extends BaseActivity {
         //playSound(rssi);
     }
 
+    public void showRssiProgress(int rssi) {
+        if (rssi >= maxValue) {
+            rssi = maxValue;
+        } else if (rssi <= minValue) {
+            rssi = minValue;
+        }
+        rssi -= minValue;//rssi+80转为正数
+        String a = String.valueOf(rssi);
+        Log.e("wzmmmmmmmmmm", a);
+        rssi = rssi * 2;
+        progressBar.setProgress(rssi);
+    }
+
     private void filterSet() {
         if (TextUtils.isEmpty(AssetsEpc)) {
             ToastUtils.showShort(R.string.filter_data_null);
@@ -209,7 +233,7 @@ public class LocationSearchActivity extends BaseActivity {
         int ads = 0;
         int len = 0;
         int val = 1;
-            if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
+        if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
             esimUhfService.setFilterData(val, ads, len, "", false);
         }
 
@@ -221,7 +245,7 @@ public class LocationSearchActivity extends BaseActivity {
         if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()) {
             esimUhfService.stopScanning();
         }
-        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
+        if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
             esimUhfService.setEnable(false);
         }
     }
@@ -235,7 +259,7 @@ public class LocationSearchActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(canRfid){
+        if (canRfid) {
             if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                 if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
                     esimUhfService.startStopScanning();
@@ -257,7 +281,7 @@ public class LocationSearchActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
+        if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
             esimUhfService.setEnable(true);
         }
     }

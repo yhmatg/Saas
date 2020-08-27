@@ -5,13 +5,10 @@ import android.media.ToneGenerator;
 import android.serialport.DeviceControlSpd;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
-import com.common.esimrfid.R;
 import com.common.esimrfid.utils.SettingBeepUtil;
 import com.common.esimrfid.utils.StringUtils;
 import com.orhanobut.logger.Logger;
-import com.zebra.rfid.api3.BEEPER_VOLUME;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -160,16 +157,6 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
         int power = driver.GetTxPower();
         return power;
     }
-
-    @Override
-    public int getBatteryLevel() {
-        return 0;
-    }
-
-    @Override
-    public void setBeeper() {
-    }
-
 
     @Override
     public int getDownKey() {

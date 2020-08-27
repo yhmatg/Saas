@@ -13,6 +13,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
+import com.common.esimrfid.uhf.XinLianUhfServiceImp;
 import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.utils.Utils;
 import com.common.esimrfid.utils.logger.MyCrashListener;
@@ -21,6 +22,7 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.speedata.libuhf.UHFManager;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.xuexiang.xlog.XLog;
@@ -137,7 +139,7 @@ public class EsimAndroidApp extends Application {
         String model = android.os.Build.MODEL;
         IEsimUhfService iEsimUhfService;
         if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
-            iEsimUhfService = new NewSpeedataUhfServiceImpl();
+            iEsimUhfService = new XinLianUhfServiceImp();
             SystemProperties.set("persist.sys.PistolKey", "uhf");
         }else {
             iEsimUhfService = new ZebraUhfServiceImpl();

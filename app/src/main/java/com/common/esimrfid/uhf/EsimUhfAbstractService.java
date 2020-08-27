@@ -64,4 +64,24 @@ public abstract class EsimUhfAbstractService implements IEsimUhfService {
     public boolean isStart() {
         return isStart;
     }
+
+    @Override
+    public void setPower(int data) {
+
+    }
+
+    @Override
+    public int getPower() {
+        return 0;
+    }
+
+    @Override
+    public int getBatteryLevel() {
+        return 0;
+    }
+
+    @Override
+    public void setBeeper() {
+
+    }
 }

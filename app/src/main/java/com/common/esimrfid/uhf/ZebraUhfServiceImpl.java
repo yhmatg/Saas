@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
+
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.ui.identity.IDcsSdkApiDelegateImp;
 import com.common.esimrfid.utils.SettingBeepUtil;
@@ -972,7 +973,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
 
     private void releaseTrigger() {
         String in_xml = "<inArgs><scannerID>" + scannerId + "</scannerID></inArgs>";
-        cmdExecTask = new ScanAsyncTask(scannerId,DCSSDKDefs.DCSSDK_COMMAND_OPCODE.DCSSDK_DEVICE_RELEASE_TRIGGER,null);
+        cmdExecTask = new ScanAsyncTask(scannerId, DCSSDKDefs.DCSSDK_COMMAND_OPCODE.DCSSDK_DEVICE_RELEASE_TRIGGER,null);
         cmdExecTask.execute(in_xml);
     }
 

@@ -69,6 +69,9 @@ public class SearchTagActivity extends BaseActivity {
         rotateAnim1();
         rotateAnim2();
         initRfidAndEvent();
+        int i = esimUhfService.setFilterData(1, 0, 0, getTagEpc, true);
+        Log.e("SearchTagActivity","filterStatus===" + i);
+        Log.e("SearchTagActivity","getTagEpc===" + getTagEpc);
     }
 
     @Override
@@ -245,7 +248,9 @@ public class SearchTagActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
-                        esimUhfService.writeEpcTag(scanTagEpc, getTagEpc);
+                        String selectEpc = scanEpcs.size() > 0 ? scanEpcs.get(0) : scanTagEpc;
+                        //esimUhfService.setFilterData(1,0,0,selectEpc,true);
+                        esimUhfService.writeEpcTag(selectEpc, getTagEpc);
                     } else {
                         ToastUtils.showShort(R.string.not_connect_prompt);
                     }
@@ -261,6 +266,7 @@ public class SearchTagActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        esimUhfService.setFilterData(1,0,0,"",false);
     }
 
 

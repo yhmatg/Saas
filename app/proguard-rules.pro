@@ -191,3 +191,15 @@
 -dontwarn com.zebra.**
 
 -keep class com.zebra.** { *; }
+
+-dontwarn android.serialport.SerialportApi
+
+-keep class android.serialport.SerialportApi { *; }
+
+-dontwarn com.pax.api.BaseSystemManager
+
+-keep class com.pax.api.BaseSystemManager { *; }
+
+-dontwarn com.pax.api.BaseSystemException
+
+-keep class com.pax.api.BaseSystemException { *; }
