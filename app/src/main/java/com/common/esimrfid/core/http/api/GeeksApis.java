@@ -146,7 +146,7 @@ public interface GeeksApis {
     //@param inv_loc_filter 存放地点
     //@return 新建盘点单详情
 
-    @POST("/inventory-server/inventoryorders")
+    @POST("/inventory-server/inventoryorders/createbyapp")
     Observable<BaseResponse<CreateInvResult>> createNewInventory(@Body InventoryParameter invpara);
 
     //模糊查询资产详情（写入标签）
