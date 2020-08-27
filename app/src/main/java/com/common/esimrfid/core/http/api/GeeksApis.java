@@ -65,7 +65,7 @@ public interface GeeksApis {
     //@return 盘点单详情
 
     @GET("inventory-server/inventoryorders/{orderId}/detail/unpage")
-    Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(@Path("orderId") String orderId);
+    Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(@Path("orderId") String orderId, @Query("my_tasks") String myTask);
 
     //完成盘点携带资产编号id
     //@param orderId 盘点单id
@@ -254,8 +254,9 @@ public interface GeeksApis {
     Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfoWithAuth(@Query("ast_id") String astId, @Query("ast_barcode") String astCode);
 
     /**
-     *  查询数据授权使用公司
-     * @param type  1:公司 0:部门
+     * 查询数据授权使用公司
+     *
+     * @param type 1:公司 0:部门
      * @return 数据授权使用公司
      */
     @GET("/user-server/orgs/authOrgs")
