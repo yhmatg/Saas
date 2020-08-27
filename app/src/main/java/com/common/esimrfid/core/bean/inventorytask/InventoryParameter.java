@@ -6,12 +6,14 @@ import java.util.List;
 public class InventoryParameter {
     private String inv_name;
     private String inv_assigner_id;
+    private String inv_assigner_name;
     private Date inv_exptfinish_date;
     private List<String> inv_used_corp_filter;
     private List<String> inv_belong_corp_filter;
     private List<String> inv_used_dept_filter;
     private List<String> inv_type_filter;
     private List<String> inv_loc_filter;
+    private boolean createByApp = true;
 
     public String getInv_name() {
         return inv_name;
@@ -27,6 +29,14 @@ public class InventoryParameter {
 
     public void setInv_assigner_id(String inv_assigner_id) {
         this.inv_assigner_id = inv_assigner_id;
+    }
+
+    public String getInv_assigner_name() {
+        return inv_assigner_name;
+    }
+
+    public void setInv_assigner_name(String inv_assigner_name) {
+        this.inv_assigner_name = inv_assigner_name;
     }
 
     public Date getInv_exptfinish_date() {
@@ -75,5 +85,13 @@ public class InventoryParameter {
 
     public void setInv_loc_filter(List<String> inv_loc_filter) {
         this.inv_loc_filter = inv_loc_filter;
+    }
+
+    public boolean isCreateByApp() {
+        return createByApp;
+    }
+
+    public void setCreateByApp(boolean createByApp) {
+        this.createByApp = createByApp;
     }
 }
