@@ -99,7 +99,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public String getHostUrl() {
-        return mPreferences.getString(Constants.HOSTURL, "https://cloud.assettag.vip");
+        return mPreferences.getString(Constants.HOSTURL, "http://deve.esimtek.com:18618");
     }
 
     @Override

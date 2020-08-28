@@ -203,3 +203,7 @@
 -dontwarn com.pax.api.BaseSystemException
 
 -keep class com.pax.api.BaseSystemException { *; }
+
+-dontwarn android.serialport.**
+
+-keep class android.serialport.** { *; }
