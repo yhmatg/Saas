@@ -56,6 +56,11 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                     public void accept(ResultInventoryDetail resultInventoryDetail) throws Exception {
                         if (resultInventoryDetail.getDetailResults() != null) {
                             //保存盘点单资产
+                            if(resultInventoryDetail.getInv_status() == 11){
+                                ArrayList<String> invIds = new ArrayList<>();
+                                invIds.add(resultInventoryDetail.getId());
+                                DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvids(invIds);
+                            }
                             DbBank.getInstance().getInventoryDetailDao().insertItems(resultInventoryDetail.getDetailResults());
                             //add 2020/02/17 start
                             ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
@@ -253,6 +258,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                     resultInventoryDetail.setCreate_date(invOrderByInvId.getCreate_date());
                     resultInventoryDetail.setInv_exptfinish_date(invOrderByInvId.getInv_exptfinish_date());
                     resultInventoryDetail.setId(invOrderByInvId.getId());
+                    resultInventoryDetail.setInv_status(invOrderByInvId.getInv_status());
                     //20191219 end
                     localInvDetailResponse.setResult(resultInventoryDetail);
                     localInvDetailResponse.setCode("200000");

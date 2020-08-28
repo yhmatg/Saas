@@ -34,6 +34,7 @@ public class ResultInventoryDetail {
     private String id;
     private int inv_finish_count;
     private int inv_total_count;
+    private Integer inv_status;
     private List<InventoryDetail> detailResults;
 
     public Date getCreate_date() {
@@ -93,4 +94,11 @@ public class ResultInventoryDetail {
         this.detailResults = detailResults;
     }
 
+    public Integer getInv_status() {
+        return inv_status;
+    }
+
+    public void setInv_status(Integer inv_status) {
+        this.inv_status = inv_status;
+    }
 }
