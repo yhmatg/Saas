@@ -51,6 +51,7 @@ public class UserLoginResponse {
         private String corpName;
         private String corpid;
         private CorpInfo corpInfo;
+        private boolean superManagerUser;
 
         public String getCorpName() {
             return corpName;
@@ -98,6 +99,14 @@ public class UserLoginResponse {
 
         public void setCorpInfo(CorpInfo corpInfo) {
             this.corpInfo = corpInfo;
+        }
+
+        public boolean isSuperManagerUser() {
+            return superManagerUser;
+        }
+
+        public void setSuperManagerUser(boolean superManagerUser) {
+            this.superManagerUser = superManagerUser;
         }
 
         public static class CorpInfo {

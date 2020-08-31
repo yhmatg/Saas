@@ -88,7 +88,7 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
     implementation project(path: ':RFIDAPI3Library')
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation files('libs/ksoap2-android-assembly-2.5.2-jar-with-dependencies.jar')
+    //implementation files('libs/ksoap2-android-assembly-2.5.2-jar-with-dependencies.jar')
     implementation 'com.github.ganfra:material-spinner:1.1.1'
     implementation 'com.github.speedatag:uhf:7.8.3'
     api 'com.github.SpeedataG:Device:1.6.7'
