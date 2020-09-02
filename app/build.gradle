@@ -90,8 +90,8 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     //implementation files('libs/ksoap2-android-assembly-2.5.2-jar-with-dependencies.jar')
     implementation 'com.github.ganfra:material-spinner:1.1.1'
-    implementation 'com.github.speedatag:uhf:7.8.3'
-    api 'com.github.SpeedataG:Device:1.6.7'
+    //implementation 'com.github.speedatag:uhf:7.8.3'
+    //api 'com.github.SpeedataG:Device:1.6.7'
     implementation 'com.github.xuexiangjys.XLog:xlog-core:1.2.1'
     implementation 'com.github.xuexiangjys.XLog:xlog-crash:1.2.1'
     implementation files('libs/App_Demo_API_V1.0.5.jar')
@@ -101,4 +101,5 @@ dependencies {
     implementation 'com.allenliu.versionchecklib:library:2.2.0'
     implementation 'com.github.zhangke3016:MultilevelTreeList:1.0.2'
     implementation 'com.alibaba:fastjson:1.2.68'
+    implementation (name:'device', ext:'aar')
 }
