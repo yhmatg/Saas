@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -36,7 +35,6 @@ import com.common.esimrfid.contract.home.HomeConstract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
-import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
@@ -52,7 +50,6 @@ import com.common.esimrfid.ui.identity.IdentityActivity;
 import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
-import com.common.esimrfid.utils.DensityUtil;
 import com.common.esimrfid.utils.SettingBeepUtil;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
@@ -64,17 +61,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class HomeActivity extends BaseActivity<HomePresenter> implements HomeConstract.View {
     @BindView(R.id.tv_username)
@@ -169,7 +160,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 mCompanyName.setText(uerLogin.getUserinfo().getCorpInfo().getOrg_name());
             }
             mPresenter.fetchAllIvnOrders(uerLogin.getUserinfo().getId(), true);
-
         } else {
             startActivity(new Intent(this, LoginActivity.class));
             finish();

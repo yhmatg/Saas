@@ -24,17 +24,19 @@ public interface InvOrderContract {
     }
 
     interface Presenter extends AbstractPresenter<View> {
-        void  fetchAllIvnOrders( String userId,boolean online);
+        void fetchAllIvnOrders(String userId, boolean online);
 
-        void fetchAllInvDetails( String orderId,boolean online);
+        void fetchAllIvnOrdersPage(Integer size, Integer page, int currentSize, String userId, boolean online);
+
+        void fetchAllInvDetails(String orderId, boolean online);
 
         void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid);
 
         void finishInvOrderWithAsset(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid);
 
-        void uploadLocalInvDetailState(String orderId,String uid);
+        void uploadLocalInvDetailState(String orderId, String uid);
 
-        void finishLocalInvDetailStat(String orderId,String uid);
+        void finishLocalInvDetailStat(String orderId, String uid);
 
         void getNotInvAssetLeftStatus(String orderId);
     }

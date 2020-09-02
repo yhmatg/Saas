@@ -1,6 +1,7 @@
 package com.common.esimrfid.core.http.api;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
+import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
@@ -20,13 +21,13 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
-import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +60,13 @@ public interface GeeksApis {
 
     @GET("inventory-server/inventoryorders/unpage")
     Observable<BaseResponse<List<ResultInventoryOrder>>> fetchAllIvnOrders(@Query("user_id") String userId);
+
+    //获取盘点数据（分页）
+    //@param userId 用户userId
+    //@return 用户分配的盘点任务列表
+
+    @GET("inventory-server/inventoryorders")
+    Observable<BaseResponse<InventoryOrderPage>> fetchAllIvnOrdersPage(@Query("size") Integer size, @Query("page") Integer page,@Query("user_id") String userId);
 
     //获取盘点条目详情
     //@param orderId 盘点单id

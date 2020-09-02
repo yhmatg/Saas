@@ -73,6 +73,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
             public void onClick(View v) {
                 if (isNormalClick()) {
                     showInvDetailActivity(invTaskItem);
+                    mOnItemClickListener.onDetailInv(invTaskItem, i);
                 }
             }
         });
@@ -140,6 +141,8 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         void onSyncData(ResultInventoryOrder invOder, int position);
 
         void onFinishInv(ResultInventoryOrder invOder, int position);
+
+        void onDetailInv(ResultInventoryOrder invOder, int position);
 
     }
 

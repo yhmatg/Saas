@@ -20,6 +20,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
@@ -394,4 +395,8 @@ public class DataManager implements HttpHelper, PreferenceHelper {
         return mHttpHelper.getAllAuthCompany(type);
     }
 
+    @Override
+    public Observable<BaseResponse<InventoryOrderPage>> fetchAllIvnOrdersPage(Integer size, Integer page, String userId) {
+        return mHttpHelper.fetchAllIvnOrdersPage(size, page, userId);
+    }
 }
