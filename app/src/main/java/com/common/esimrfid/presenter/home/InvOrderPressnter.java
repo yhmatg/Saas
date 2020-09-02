@@ -10,6 +10,7 @@ import com.common.esimrfid.core.bean.emun.InventoryStatus;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.nanhua.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
@@ -40,7 +41,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     }
 
 
-    //获取盘点数据
+    //获取盘点数据不分页
     @Override
     public void fetchAllIvnOrders(String userId, boolean online) {
         mView.showDialog("loading...");
@@ -56,9 +57,9 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                     public ObservableSource<List<ResultInventoryOrder>> apply(List<ResultInventoryOrder> resultInventoryOrders) throws Exception {
                         ArrayList<String> unInvedRemoteOrders = new ArrayList<>();
                         for (ResultInventoryOrder resultInventoryOrder : resultInventoryOrders) {
-                             if(resultInventoryOrder.getInv_status() == 10){
-                                 unInvedRemoteOrders.add(resultInventoryOrder.getId());
-                             }
+                            if (resultInventoryOrder.getInv_status() == 10) {
+                                unInvedRemoteOrders.add(resultInventoryOrder.getId());
+                            }
                         }
                         //根据服务端没有盘点完场的盘点单，获取本地没有盘点完场的盘点单，替换服务端中未完成的盘点单（本地可能做过盘点任务，但是数据没有上传）
                         List<ResultInventoryOrder> localOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrders();
@@ -107,6 +108,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                 }));
     }
 
+    //不分页
     public Observable<BaseResponse<List<ResultInventoryOrder>>> getLocalInOrderObservable(final boolean online) {
         Observable<BaseResponse<List<ResultInventoryOrder>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<ResultInventoryOrder>>>() {
             @Override
@@ -119,6 +121,108 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                     Log.e(TAG, "newestOrders======" + newestOrders);
                     BaseResponse<List<ResultInventoryOrder>> invOrderResponse = new BaseResponse<>();
                     invOrderResponse.setResult(newestOrders);
+                    invOrderResponse.setCode("200000");
+                    invOrderResponse.setMessage("成功");
+                    invOrderResponse.setSuccess(true);
+                    emitter.onNext(invOrderResponse);
+                }
+            }
+        });
+        return invOrderObservable;
+    }
+
+    //分页获取盘点单列表
+    @Override
+    public void fetchAllIvnOrdersPage(Integer size, Integer page, int currentSize,String userId, boolean online) {
+        mView.showDialog("loading...");
+        if (!CommonUtils.isNetworkConnected()) {
+            online = false;
+        }
+        addSubscribe(Observable.concat(getLocalInOrderPageObservable(size, currentSize, online), mDataManager.fetchAllIvnOrdersPage(size,page,userId))
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .observeOn(Schedulers.io())
+                .flatMap(new Function<InventoryOrderPage, ObservableSource<InventoryOrderPage>>() {
+                    @Override
+                    public ObservableSource<InventoryOrderPage> apply(InventoryOrderPage InventoryOrderPage) throws Exception {
+                        List<ResultInventoryOrder> resultInventoryOrders = InventoryOrderPage.getList();
+                        ArrayList<String> unInvedRemoteOrders = new ArrayList<>();
+                        for (ResultInventoryOrder resultInventoryOrder : resultInventoryOrders) {
+                            if (resultInventoryOrder.getInv_status() == 10) {
+                                unInvedRemoteOrders.add(resultInventoryOrder.getId());
+                            }
+                        }
+                        //根据服务端没有盘点完场的盘点单，获取本地没有盘点完场的盘点单，替换服务端中未完成的盘点单（本地可能做过盘点任务，但是数据没有上传）
+                        //List<ResultInventoryOrder> localOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrders();
+                        List<ResultInventoryOrder> notInvedLocalOrders = DbBank.getInstance().getResultInventoryOrderDao().findNotInvedInvOrders(unInvedRemoteOrders);
+                        //本地同步服务端已经删除的数据
+                        /*List<ResultInventoryOrder> tempLocal = new ArrayList<>();
+                        tempLocal.addAll(localOrders);
+                        tempLocal.removeAll(resultInventoryOrders);
+                        //数据库同步删除盘点单
+                        DbBank.getInstance().getResultInventoryOrderDao().deleteItems(tempLocal);
+                        //数据库同步删除盘点单下的资产
+                        List<String> deleteIds = new ArrayList<>();
+                        for (int i = 0; i < tempLocal.size(); i++) {
+                            deleteIds.add(tempLocal.get(i).getId());
+                        }
+                        DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvids(deleteIds);*/
+                        //本地数据和服务器数据的交集，服务端删除盘点单，本地同步跟新显示
+                        notInvedLocalOrders.retainAll(resultInventoryOrders);
+                        //服务端新增的数据
+                        resultInventoryOrders.removeAll(notInvedLocalOrders);
+                        List<ResultInventoryOrder> tempRemount = new ArrayList<>();
+                        tempRemount.addAll(resultInventoryOrders);
+                        tempRemount.addAll(notInvedLocalOrders);
+                        DbBank.getInstance().getResultInventoryOrderDao().insertItems(resultInventoryOrders);
+                        InventoryOrderPage.setList(tempRemount);
+                        return Observable.just(InventoryOrderPage);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseObserver<InventoryOrderPage>(mView, false) {
+                    @Override
+                    public void onNext(InventoryOrderPage inventoryOrderPage) {
+                        mView.dismissDialog();
+                        if (inventoryOrderPage.isLocal()) {
+                            mView.showInvOrders(inventoryOrderPage.getList());
+                        } else {
+                            if (page <= inventoryOrderPage.getPages()) {
+                                mView.showInvOrders(inventoryOrderPage.getList());
+                            } else {
+                                mView.showInvOrders(new ArrayList<>());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                    }
+                }));
+    }
+
+    //分页
+    public Observable<BaseResponse<InventoryOrderPage>> getLocalInOrderPageObservable(Integer size, Integer currentSize, final boolean online) {
+        Observable<BaseResponse<InventoryOrderPage>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<InventoryOrderPage>>() {
+            @Override
+            public void subscribe(ObservableEmitter<BaseResponse<InventoryOrderPage>> emitter) throws Exception {
+                List<ResultInventoryOrder> newestOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrdersPage(size, currentSize);
+                if (online) {
+                    emitter.onComplete();
+                    Log.e(TAG, "network get data");
+                } else {
+                    Log.e(TAG, "newestOrders======" + newestOrders);
+                    BaseResponse<InventoryOrderPage> invOrderResponse = new BaseResponse<>();
+                    InventoryOrderPage inventoryOrderPage = new InventoryOrderPage();
+                    inventoryOrderPage.setList(newestOrders);
+                    inventoryOrderPage.setLocal(true);
+                    invOrderResponse.setResult(inventoryOrderPage);
                     invOrderResponse.setCode("200000");
                     invOrderResponse.setMessage("成功");
                     invOrderResponse.setSuccess(true);
@@ -178,7 +282,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
             public void subscribe(ObservableEmitter<BaseResponse<ResultInventoryDetail>> emitter) throws Exception {
                 List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
                 ResultInventoryOrder invOrderByInvId = DbBank.getInstance().getResultInventoryOrderDao().findInvOrderByInvId(orderId);
-                if ( online && (localInvDetailsByInvid.size() == 0 || invOrderByInvId.getInv_status() == 11)) {
+                if (online && (localInvDetailsByInvid.size() == 0 || invOrderByInvId.getInv_status() == 11)) {
                     emitter.onComplete();
                 } else {
                     BaseResponse<ResultInventoryDetail> localInvDetailResponse = new BaseResponse<>();
@@ -225,8 +329,8 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                             invOrderByInvId.setInv_finish_count(finishCount);*/
                             //1223 end
                             //modify bug 253 20191230 start
-                            int  notSubmitCount = invOrderByInvId.getInv_notsubmit_count() == null ? 0 : invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
-                            if(notSubmitCount < 0){
+                            int notSubmitCount = invOrderByInvId.getInv_notsubmit_count() == null ? 0 : invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
+                            if (notSubmitCount < 0) {
                                 notSubmitCount = 0;
                             }
                             //modify bug 253 20191230 end
@@ -273,7 +377,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                             //1223 end
                             //modify bug 253 20191230 start
                             int notSubmitCount = invOrderByInvId.getInv_notsubmit_count() == null ? 0 : invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
-                            if(notSubmitCount < 0){
+                            if (notSubmitCount < 0) {
                                 notSubmitCount = 0;
                             }
                             //modify bug 253 20191230 end
@@ -299,7 +403,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
 
     //上传盘点未提交的资产
     @Override
-    public void uploadLocalInvDetailState(String orderId,String uid) {
+    public void uploadLocalInvDetailState(String orderId, String uid) {
         addSubscribe(getNeedSbumitOneAssetObservable(orderId)
                 .subscribeOn(Schedulers.io())
                 .flatMap(new Function<List<InventoryDetail>, ObservableSource<BaseResponse>>() {
@@ -314,13 +418,13 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                             assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
                             assetUploadParameters.add(assetUploadParameter);
                         }
-                        return mDataManager.uploadInvAssets(orderId,uid,assetUploadParameters);
+                        return mDataManager.uploadInvAssets(orderId, uid, assetUploadParameters);
                     }
                 })
                 .doOnNext(new Consumer<BaseResponse>() {
                     @Override
                     public void accept(BaseResponse baseResponse) throws Exception {
-                        if(baseResponse.isSuccess()){
+                        if (baseResponse.isSuccess()) {
                             List<InventoryDetail> needSubmitAssets = DbBank.getInstance().getInventoryDetailDao().findNeedSubmitAssets(orderId, true);
                             for (InventoryDetail needSubmitAsset : needSubmitAssets) {
                                 needSubmitAsset.setNeedUpload(false);
@@ -357,13 +461,13 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                             assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
                             assetUploadParameters.add(assetUploadParameter);
                         }
-                        return mDataManager.finishInvAssets(orderId,uid,assetUploadParameters);
+                        return mDataManager.finishInvAssets(orderId, uid, assetUploadParameters);
                     }
                 })
                 .doOnNext(new Consumer<BaseResponse>() {
                     @Override
                     public void accept(BaseResponse baseResponse) throws Exception {
-                        if(baseResponse.isSuccess()){
+                        if (baseResponse.isSuccess()) {
                             List<InventoryDetail> needSubmitAssets = DbBank.getInstance().getInventoryDetailDao().findNeedSubmitAssets(orderId, true);
                             for (InventoryDetail needSubmitAsset : needSubmitAssets) {
                                 needSubmitAsset.setNeedUpload(false);
@@ -410,7 +514,6 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     }
 
 
-
     //获取盘点单中待盘点的资产
     public Observable<Boolean> getNotInvAssetObservable(String orderId) {
         Observable<Boolean> baseResponseObservable = Observable.create(new ObservableOnSubscribe<Boolean>() {
@@ -419,7 +522,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                 boolean isAllInved = false;
                 List<InventoryDetail> needSubmitAssets = DbBank.getInstance().getInventoryDetailDao().findLocalNotInvhAssets(orderId);
                 List<InventoryDetail> allInvDetails = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
-                if(allInvDetails.size() > 0 &&needSubmitAssets.size() == 0){
+                if (allInvDetails.size() > 0 && needSubmitAssets.size() == 0) {
                     isAllInved = true;
                 }
                 emitter.onNext(isAllInved);

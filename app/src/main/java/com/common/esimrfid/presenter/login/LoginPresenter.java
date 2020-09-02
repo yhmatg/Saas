@@ -1,9 +1,5 @@
 package com.common.esimrfid.presenter.login;
 
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.login.LoginContract;
@@ -12,7 +8,6 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.http.exception.WrongAccountOrPassException;
 import com.common.esimrfid.core.room.DbBank;
-import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
@@ -60,13 +55,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                         public void accept(UserLoginResponse userLoginResponse) throws Exception {
                             //保存UserLoginResponse到sp
                             UserLoginResponse localUserLogin = mDataManager.getUserLoginResponse();
-                            //不同管理员对资产的数据权限不一样，要做清除处理
+                            //不同管理员分配的盘点任务不一样，盘点相关的数据需要清除
                             if(localUserLogin != null && !userLoginResponse.getUserinfo().getId().equals(localUserLogin.getUserinfo().getId())){
                                 DbBank.getInstance().getAssetsAllInfoDao().deleteAllData();
                                 DbBank.getInstance().getInventoryDetailDao().deleteAllData();
                                 DbBank.getInstance().getResultInventoryOrderDao().deleteAllData();
                                 mDataManager.setLatestSyncTime("0");
                             }
+                            //不同公司的
                             mDataManager.setUserLoginResponse(userLoginResponse);
                         }
                     })
