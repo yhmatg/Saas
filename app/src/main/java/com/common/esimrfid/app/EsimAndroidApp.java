@@ -22,7 +22,10 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
+import com.speedata.libuhf.XinLianQilian;
+import com.speedata.libuhf.YiXin;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.xuexiang.xlog.XLog;
@@ -139,7 +142,12 @@ public class EsimAndroidApp extends Application {
         String model = android.os.Build.MODEL;
         IEsimUhfService iEsimUhfService;
         if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
-            iEsimUhfService = new XinLianUhfServiceImp();
+            IUHFService uhfService = UHFManager.getUHFService(this);
+            if(uhfService instanceof XinLianQilian){
+                iEsimUhfService = new XinLianUhfServiceImp();
+            }else {
+                iEsimUhfService = new NewSpeedataUhfServiceImpl();
+            }
             SystemProperties.set("persist.sys.PistolKey", "uhf");
         }else {
             iEsimUhfService = new ZebraUhfServiceImpl();
