@@ -20,12 +20,10 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
 public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.View> implements InvAssetLocContract.Presenter {
-    private DataManager mDataManager;
     private String TAG = "HomePresenter";
 
-    public InvAssetsLocPresenter(DataManager dataManager) {
-        super(dataManager);
-        mDataManager = dataManager;
+    public InvAssetsLocPresenter() {
+        super();
     }
 
     @Override

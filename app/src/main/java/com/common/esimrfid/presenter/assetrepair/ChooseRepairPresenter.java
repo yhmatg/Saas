@@ -14,19 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChooseRepairPresenter extends BasePresenter<ChooseRepairContract.View> implements ChooseRepairContract.Presenter {
-    private DataManager mDataManager;
     private String TAG = "WriteTagPresenter";
 
-    public ChooseRepairPresenter(DataManager dataManager) {
-        super(dataManager);
-        mDataManager = dataManager;
+    public ChooseRepairPresenter() {
+        super();
     }
 
     //未分页
     @Override
     public void getAllAssetsByOpt(String optType,String patternName) {
         mView.showDialog("loading...");
-        addSubscribe(mDataManager.getAllAssetsByOpt(optType,patternName)
+        addSubscribe(DataManager.getInstance().getAllAssetsByOpt(optType,patternName)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
@@ -47,7 +45,7 @@ public class ChooseRepairPresenter extends BasePresenter<ChooseRepairContract.Vi
     @Override
     public void getAllAssetsByOpt(Integer size, Integer page, String optType, String patternName) {
         mView.showDialog("loading...");
-        addSubscribe(mDataManager.getAllAssetsByOptPage(optType,size,page,patternName)
+        addSubscribe(DataManager.getInstance().getAllAssetsByOptPage(optType,size,page,patternName)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<AssetsInfoPage>(mView, false) {

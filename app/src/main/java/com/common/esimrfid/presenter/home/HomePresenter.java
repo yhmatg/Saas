@@ -37,17 +37,15 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class HomePresenter extends BasePresenter<HomeConstract.View> implements HomeConstract.Presenter {
-    private DataManager mDataManager;
     private String TAG = "HomePresenter";
 
-    public HomePresenter(DataManager dataManager) {
-        super(dataManager);
-        mDataManager = dataManager;
+    public HomePresenter() {
+        super();
     }
 
     @Override
     public void getAssetsNmbDiffLocation() {
-        addSubscribe(mDataManager.getAssetsNmbInDiffLocation()
+        addSubscribe(DataManager.getInstance().getAssetsNmbInDiffLocation()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<AssetLocNmu>>(mView, false) {
@@ -60,7 +58,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
 
     @Override
     public void getAssetsNmbDiffStatus() {
-        addSubscribe(mDataManager.getAssetsNmbDiffStatus()
+        addSubscribe(DataManager.getInstance().getAssetsNmbDiffStatus()
         .compose(RxUtils.rxSchedulerHelper())
         .compose(RxUtils.handleResult())
         .subscribeWith(new BaseObserver<AssetStatusNum>(mView, false) {
@@ -73,7 +71,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
 
     @Override
     public void checkUpdateVersion() {
-        addSubscribe(mDataManager.updateVersion()
+        addSubscribe(DataManager.getInstance().updateVersion()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<UpdateVersion>(mView, false) {
@@ -90,7 +88,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
         if (!CommonUtils.isNetworkConnected()) {
             online = false;
         }
-        addSubscribe(Observable.concat(getLocalInOrderObservable(online), mDataManager.fetchAllIvnOrders(userId))
+        addSubscribe(Observable.concat(getLocalInOrderObservable(online), DataManager.getInstance().fetchAllIvnOrders(userId))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .observeOn(Schedulers.io())
@@ -171,7 +169,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
     @Override
     public void fetchLatestAssets() {
         if(CommonUtils.isNetworkConnected()){
-            addSubscribe(mDataManager.fetchLatestAssets(mDataManager.getLatestSyncTime())
+            addSubscribe(DataManager.getInstance().fetchLatestAssets(DataManager.getInstance().getLatestSyncTime())
             .compose(RxUtils.rxSchedulerHelper())
             .compose(RxUtils.handleResult())
             .subscribeWith(new BaseObserver<LatestModifyAssets>(mView, false) {
@@ -184,7 +182,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                     if(latestModifyAssets.getRemoved()!= null && latestModifyAssets.getRemoved().size() > 0){
                         assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
                     }
-                    mDataManager.setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 600000));
+                    DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 600000));
                 }
             }));
         }
@@ -194,7 +192,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
     @Override
     public void getDataAuthority(String id) {
         if(CommonUtils.isNetworkConnected()){
-            addSubscribe(mDataManager.getDataAuthority(id)
+            addSubscribe(DataManager.getInstance().getDataAuthority(id)
             .compose(RxUtils.rxSchedulerHelper())
             .compose(RxUtils.handleResult())
             .subscribeWith(new BaseObserver<DataAuthority>(mView, false) {
@@ -212,12 +210,12 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                     if(dataAuthority.getAuth_loc_scope().size() == 0){
                         dataAuthority.getAuth_loc_scope().add("allData");
                     }
-                    mDataManager.setDataAuthority(dataAuthority);
+                    DataManager.getInstance().setDataAuthority(dataAuthority);
                     EsimAndroidApp.setDataAuthority(dataAuthority);
                 }
             }));
         }else {
-            DataAuthority dataAuthoritye = mDataManager.getDataAuthority();
+            DataAuthority dataAuthoritye = DataManager.getInstance().getDataAuthority();
             EsimAndroidApp.setDataAuthority(dataAuthoritye);
         }
     }

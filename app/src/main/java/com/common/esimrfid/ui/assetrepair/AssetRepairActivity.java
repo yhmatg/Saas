@@ -96,7 +96,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
 
     @Override
     public AssetRepairPresenter initPresenter() {
-        return new AssetRepairPresenter(DataManager.getInstance());
+        return new AssetRepairPresenter();
     }
 
     @Override

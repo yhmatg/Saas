@@ -19,10 +19,9 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
 public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.View> implements AssetsSearchContract.Presenter {
-    private DataManager dataManager;
-    public AssetsSearchPresenter(DataManager dataManager) {
-        super(dataManager);
-        this.dataManager=dataManager;
+    
+    public AssetsSearchPresenter() {
+        super();
     }
 
     @Override
@@ -52,7 +51,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
     @Override
     public void fetchLatestAssets() {
         if(CommonUtils.isNetworkConnected()){
-            addSubscribe(dataManager.fetchLatestAssets(dataManager.getLatestSyncTime())
+            addSubscribe(DataManager.getInstance().fetchLatestAssets(DataManager.getInstance().getLatestSyncTime())
                     .compose(RxUtils.rxSchedulerHelper())
                     .compose(RxUtils.handleResult())
                     .subscribeWith(new BaseObserver<LatestModifyAssets>(mView, false) {
@@ -65,7 +64,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
                             if(latestModifyAssets.getRemoved()!= null && latestModifyAssets.getRemoved().size() > 0){
                                 assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
                             }
-                            dataManager.setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 600000));
+                            DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 600000));
                         }
                     }));
         }

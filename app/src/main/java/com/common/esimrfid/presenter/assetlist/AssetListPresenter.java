@@ -32,19 +32,17 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
 public class AssetListPresenter extends BasePresenter<AssetListContract.View> implements AssetListContract.Presenter {
-    private DataManager mDataManager;
-    private String TAG = "WriteTagPresenter";
+    private String TAG = "AssetListPresenter";
 
-    public AssetListPresenter(DataManager dataManager) {
-        super(dataManager);
-        mDataManager = dataManager;
+    public AssetListPresenter() {
+        super();
     }
 
     //分页
     @Override
     public void fetchPageAssetsInfos(Integer size, Integer page, String patternName, String userRealName, int currentSize, AssetFilterParameter conditions) {
         mView.showDialog("loading...");
-        addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize, conditions), mDataManager.fetchPageAssetsList(size, page, patternName, userRealName, conditions.toString()))
+        addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize, conditions), DataManager.getInstance().fetchPageAssetsList(size, page, patternName, userRealName, conditions.toString()))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<AssetsListPage>(mView, false) {
@@ -105,7 +103,7 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
 
     @Override
     public void getAllManagerUsers() {
-        addSubscribe(mDataManager.getAllManagerUsers()
+        addSubscribe(DataManager.getInstance().getAllManagerUsers()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<MangerUser>>(mView, false) {
@@ -118,7 +116,7 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
 
     @Override
     public void getAllCompany() {
-        addSubscribe(mDataManager.getAllAuthCompany(1)
+        addSubscribe(DataManager.getInstance().getAllAuthCompany(1)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<CompanyBean>>(mView, false) {
@@ -132,7 +130,7 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
 
     @Override
     public void getAllDeparts(String comId) {
-        addSubscribe(mDataManager.getAllDeparts(comId)
+        addSubscribe(DataManager.getInstance().getAllDeparts(comId)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<DepartmentBean>>(mView, false) {
@@ -145,7 +143,7 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
 
     @Override
     public void getAllAssetsType() {
-        addSubscribe(mDataManager.getAllAssetsType()
+        addSubscribe(DataManager.getInstance().getAllAssetsType()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<AssetsType>>(mView, false) {
@@ -158,7 +156,7 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
 
     @Override
     public void getAllAssetsLocation() {
-        addSubscribe(mDataManager.getAllAssetsLocation()
+        addSubscribe(DataManager.getInstance().getAllAssetsLocation()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<AssetsLocation>>(mView, false) {

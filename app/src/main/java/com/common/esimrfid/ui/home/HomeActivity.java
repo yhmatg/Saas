@@ -108,7 +108,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     public HomePresenter initPresenter() {
-        return new HomePresenter(DataManager.getInstance());
+        return new HomePresenter();
     }
 
     @Override

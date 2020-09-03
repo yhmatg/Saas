@@ -173,7 +173,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
     @Override
     public AssetsDetailsPresenter initPresenter() {
-        return new AssetsDetailsPresenter(DataManager.getInstance());
+        return new AssetsDetailsPresenter();
     }
 
     @Override

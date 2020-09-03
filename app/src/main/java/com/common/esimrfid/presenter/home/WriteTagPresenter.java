@@ -24,20 +24,18 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
 public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> implements WriteTagContract.Presenter {
-    private DataManager mDataManager;
     private String TAG = "WriteTagPresenter";
 
-    public WriteTagPresenter(DataManager dataManager) {
-        super(dataManager);
-        mDataManager = dataManager;
+    public WriteTagPresenter() {
+        super();
     }
 
     //不分页
     @Override
     public void getAssetsInfoById(String assetsId) {
         mView.showDialog("loading...");
-        //addSubscribe(mDataManager.fetchWriteAssetsInfo(assetsId)
-        addSubscribe(Observable.concat(getLocalAssetsObservable(assetsId), mDataManager.fetchWriteAssetsInfo(assetsId))
+        //addSubscribe(DataManager.getInstance().fetchWriteAssetsInfo(assetsId)
+        addSubscribe(Observable.concat(getLocalAssetsObservable(assetsId), DataManager.getInstance().fetchWriteAssetsInfo(assetsId))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
@@ -81,8 +79,8 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
     @Override
     public void fetchPageAssetsInfos(Integer size, Integer page, String patternName, int currentSize) {
         mView.showDialog("loading...");
-        //addSubscribe(mDataManager.fetchWriteAssetsInfo(assetsId)
-        addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize), mDataManager.fetchPageAssetsInfos(size, page, patternName))
+        //addSubscribe(DataManager.getInstance().fetchWriteAssetsInfo(assetsId)
+        addSubscribe(Observable.concat(getLocalAssetsObservable(size, patternName, currentSize), DataManager.getInstance().fetchPageAssetsInfos(size, page, patternName))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<AssetsInfoPage>(mView, false) {

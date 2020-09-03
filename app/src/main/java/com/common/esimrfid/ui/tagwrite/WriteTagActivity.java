@@ -57,7 +57,7 @@ public class WriteTagActivity extends BaseActivity<WriteTagPresenter> implements
 
     @Override
     public WriteTagPresenter initPresenter() {
-        return new WriteTagPresenter(DataManager.getInstance());
+        return new WriteTagPresenter();
     }
 
     @Override

@@ -58,7 +58,7 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
 
     @Override
     public ChooseRepairPresenter initPresenter() {
-        return new ChooseRepairPresenter(DataManager.getInstance());
+        return new ChooseRepairPresenter();
     }
 
     @Override

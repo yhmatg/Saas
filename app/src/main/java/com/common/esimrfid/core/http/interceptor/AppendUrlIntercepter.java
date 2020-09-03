@@ -28,7 +28,7 @@ public class AppendUrlIntercepter implements Interceptor {
         //add 20190729 start
         builder.addQueryParameter("token",token);
         //add 20190729 start
-        HttpUrl httpUrl = oldRequest.url();
+        /*HttpUrl httpUrl = oldRequest.url();
         if (!StringUtils.isEmpty(cacheHost) && !baseUrl.equals(cacheHost)) {
             if(cacheHost.startsWith("https")){
                 builder.scheme("https");
@@ -47,7 +47,7 @@ public class AppendUrlIntercepter implements Interceptor {
                 String cacheP = split[1];
                 builder.host(cacheH).port(Integer.valueOf(cacheP));
             }
-        }
+        }*/
         Log.e("AppendUrlIntercepter","builder.build()===" + builder.build());
         Request newRequest = oldRequest
                 .newBuilder()

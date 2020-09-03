@@ -16,17 +16,15 @@ import com.common.esimrfid.widget.BaseObserver;
 import java.util.List;
 
 public class NewInventoryPressnter extends BasePresenter<NewInventoryContract.View> implements NewInventoryContract.Presenter {
-    private DataManager mDataManager;
     private String TAG = "NewInventoryPre";
 
-    public NewInventoryPressnter(DataManager dataManager) {
-        super(dataManager);
-        mDataManager = dataManager;
+    public NewInventoryPressnter() {
+        super();
     }
 
     @Override
     public void getAllManagerUsers() {
-        addSubscribe(mDataManager.getAllManagerUsers()
+        addSubscribe(DataManager.getInstance().getAllManagerUsers()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<MangerUser>>(mView, false) {
@@ -39,7 +37,7 @@ public class NewInventoryPressnter extends BasePresenter<NewInventoryContract.Vi
 
     @Override
     public void getAllCompany() {
-        addSubscribe(mDataManager.getAllCompany()
+        addSubscribe(DataManager.getInstance().getAllCompany()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<CompanyBean>>(mView, false) {
@@ -53,7 +51,7 @@ public class NewInventoryPressnter extends BasePresenter<NewInventoryContract.Vi
 
     @Override
     public void getAllDeparts(String comId) {
-        addSubscribe(mDataManager.getAllDeparts(comId)
+        addSubscribe(DataManager.getInstance().getAllDeparts(comId)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<DepartmentBean>>(mView, false) {
@@ -66,7 +64,7 @@ public class NewInventoryPressnter extends BasePresenter<NewInventoryContract.Vi
 
     @Override
     public void getAllAssetsType() {
-        addSubscribe(mDataManager.getAllAssetsType()
+        addSubscribe(DataManager.getInstance().getAllAssetsType()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<AssetsType>>(mView, false) {
@@ -79,7 +77,7 @@ public class NewInventoryPressnter extends BasePresenter<NewInventoryContract.Vi
 
     @Override
     public void getAllAssetsLocation() {
-        addSubscribe(mDataManager.getAllAssetsLocation()
+        addSubscribe(DataManager.getInstance().getAllAssetsLocation()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<AssetsLocation>>(mView, false) {
@@ -93,7 +91,7 @@ public class NewInventoryPressnter extends BasePresenter<NewInventoryContract.Vi
     @Override
     public void createNewInventory(InventoryParameter invpara) {
         mView.showDialog("loading...");
-        addSubscribe(mDataManager.createNewInventory(invpara)
+        addSubscribe(DataManager.getInstance().createNewInventory(invpara)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<CreateInvResult>(mView, false) {

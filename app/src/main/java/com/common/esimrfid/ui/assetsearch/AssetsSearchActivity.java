@@ -92,7 +92,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
 
     @Override
     public AssetsSearchPresenter initPresenter() {
-        return new AssetsSearchPresenter(DataManager.getInstance());
+        return new AssetsSearchPresenter();
     }
 
     @Override

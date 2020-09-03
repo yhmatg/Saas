@@ -36,22 +36,19 @@ import retrofit2.HttpException;
  * @date 2018/2/26
  */
 public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
+    
 
-    private DataManager mDataManager;
-
-    public LoginPresenter(DataManager dataManager) {
-        super(dataManager);
-        mDataManager = dataManager;
+    public LoginPresenter() {
+        super();
     }
-
-
+    
     @Override
     public void login(final UserInfo userInfo) {
         final String passWord = userInfo.getUser_password();
         final String userName = userInfo.getUser_name();
         if(CommonUtils.isNetworkConnected()){
             userInfo.setUser_password(Md5Util.getMD5(passWord));
-            addSubscribe(mDataManager.login(userInfo)
+            addSubscribe(DataManager.getInstance().login(userInfo)
                     .compose(RxUtils.rxSchedulerHelper())
                     .compose(RxUtils.handleResult())
                     .observeOn(Schedulers.io())
@@ -59,15 +56,15 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                         @Override
                         public void accept(UserLoginResponse userLoginResponse) throws Exception {
                             //保存UserLoginResponse到sp
-                            UserLoginResponse localUserLogin = mDataManager.getUserLoginResponse();
+                            UserLoginResponse localUserLogin = DataManager.getInstance().getUserLoginResponse();
                             //不同管理员对资产的数据权限不一样，要做清除处理
                             if(localUserLogin != null && !userLoginResponse.getUserinfo().getId().equals(localUserLogin.getUserinfo().getId())){
                                 DbBank.getInstance().getAssetsAllInfoDao().deleteAllData();
                                 DbBank.getInstance().getInventoryDetailDao().deleteAllData();
                                 DbBank.getInstance().getResultInventoryOrderDao().deleteAllData();
-                                mDataManager.setLatestSyncTime("0");
+                                DataManager.getInstance().setLatestSyncTime("0");
                             }
-                            mDataManager.setUserLoginResponse(userLoginResponse);
+                            DataManager.getInstance().setUserLoginResponse(userLoginResponse);
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())
@@ -80,7 +77,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                             setLoginAccount(userInfo.getUser_name());
                             setLoginPassword(passWord);
                             setToken(userLoginResponse.getToken());
-                            mDataManager.setLoginStatus(true);
+                            DataManager.getInstance().setLoginStatus(true);
                             mView.startMainActivity();
                         }
 
@@ -106,8 +103,8 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                         }
                     }));
         }else {
-            if(passWord.equals(mDataManager.getLoginPassword()) && userName.equals(mDataManager.getLoginAccount())){
-                mDataManager.setLoginStatus(true);
+            if(passWord.equals(DataManager.getInstance().getLoginPassword()) && userName.equals(DataManager.getInstance().getLoginAccount())){
+                DataManager.getInstance().setLoginStatus(true);
                 mView.startMainActivity();
             }else {
                 ToastUtils.showShort(R.string.http_error);
@@ -118,19 +115,19 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     }
 
     public void saveHostUrl(String hostUrl) {
-        mDataManager.saveHostUrl(hostUrl);
+        DataManager.getInstance().saveHostUrl(hostUrl);
     }
 
     public String getHostUrl() {
-        return mDataManager.getHostUrl();
+        return DataManager.getInstance().getHostUrl();
     }
 
     public void saveOpenSound(boolean isOpen) {
-        mDataManager.saveOpenSound(isOpen);
+        DataManager.getInstance().saveOpenSound(isOpen);
     }
 
     public boolean getOpenSound() {
-        return mDataManager.getOpenSound();
+        return DataManager.getInstance().getOpenSound();
     }
 
 

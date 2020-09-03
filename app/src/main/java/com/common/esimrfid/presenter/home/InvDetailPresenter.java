@@ -32,12 +32,10 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> implements InvDetailContract.Presenter {
-    private DataManager mDataManager;
     private String TAG = "InvOrderPressnter";
 
-    public InvDetailPresenter(DataManager dataManager) {
-        super(dataManager);
-        mDataManager = dataManager;
+    public InvDetailPresenter() {
+        super();
     }
 
     //网络获取盘点数据
@@ -47,7 +45,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
         if (!CommonUtils.isNetworkConnected()) {
             online = false;
         }
-        addSubscribe(Observable.concat(getLocalInvDetailsObservable(orderId, online), mDataManager.fetchAllInvDetails(orderId))
+        addSubscribe(Observable.concat(getLocalInvDetailsObservable(orderId, online), DataManager.getInstance().fetchAllInvDetails(orderId))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .observeOn(Schedulers.io())
@@ -97,7 +95,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
     //上传盘点数据到服务器
     @Override
     public void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid) {
-        addSubscribe(mDataManager.uploadInvDetails(orderId, invDetails, uid)
+        addSubscribe(DataManager.getInstance().uploadInvDetails(orderId, invDetails, uid)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleBaseResponse())
                 .observeOn(Schedulers.io())
@@ -212,7 +210,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                             assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
                             assetUploadParameters.add(assetUploadParameter);
                         }
-                        return mDataManager.uploadInvAssets(orderId,uid,assetUploadParameters);
+                        return DataManager.getInstance().uploadInvAssets(orderId,uid,assetUploadParameters);
                     }
                 })
                 .doOnNext(new Consumer<BaseResponse>() {

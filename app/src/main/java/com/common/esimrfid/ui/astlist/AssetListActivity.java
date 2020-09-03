@@ -168,7 +168,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
 
     @Override
     public AssetListPresenter initPresenter() {
-        return new AssetListPresenter(DataManager.getInstance());
+        return new AssetListPresenter();
     }
 
     @Override

@@ -31,12 +31,10 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> implements InvOrderContract.Presenter {
-    private DataManager mDataManager;
     private String TAG = "InvOrderPressnter";
 
-    public InvOrderPressnter(DataManager dataManager) {
-        super(dataManager);
-        mDataManager = dataManager;
+    public InvOrderPressnter() {
+        super();
     }
 
 
@@ -47,7 +45,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
         if (!CommonUtils.isNetworkConnected()) {
             online = false;
         }
-        addSubscribe(Observable.concat(getLocalInOrderObservable(online), mDataManager.fetchAllIvnOrders(userId))
+        addSubscribe(Observable.concat(getLocalInOrderObservable(online), DataManager.getInstance().fetchAllIvnOrders(userId))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .observeOn(Schedulers.io())
@@ -136,7 +134,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
         if (!CommonUtils.isNetworkConnected()) {
             online = false;
         }
-        addSubscribe(Observable.concat(getLocalInvDetailsObservable(orderId, online), mDataManager.fetchAllInvDetails(orderId))
+        addSubscribe(Observable.concat(getLocalInvDetailsObservable(orderId, online), DataManager.getInstance().fetchAllInvDetails(orderId))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .observeOn(Schedulers.io())
@@ -205,7 +203,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     //上传盘点数据到服务器
     @Override
     public void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid) {
-        addSubscribe(mDataManager.uploadInvDetails(orderId, invDetails, uid)
+        addSubscribe(DataManager.getInstance().uploadInvDetails(orderId, invDetails, uid)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleBaseResponse())
                 .observeOn(Schedulers.io())
@@ -252,7 +250,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
 
     @Override
     public void finishInvOrderWithAsset(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid) {
-        addSubscribe(mDataManager.finishInvOrderWithAsset(orderId, uid, invDetails)
+        addSubscribe(DataManager.getInstance().finishInvOrderWithAsset(orderId, uid, invDetails)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleBaseResponse())
                 .observeOn(Schedulers.io())
@@ -314,7 +312,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                             assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
                             assetUploadParameters.add(assetUploadParameter);
                         }
-                        return mDataManager.uploadInvAssets(orderId,uid,assetUploadParameters);
+                        return DataManager.getInstance().uploadInvAssets(orderId,uid,assetUploadParameters);
                     }
                 })
                 .doOnNext(new Consumer<BaseResponse>() {
@@ -357,7 +355,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                             assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
                             assetUploadParameters.add(assetUploadParameter);
                         }
-                        return mDataManager.finishInvAssets(orderId,uid,assetUploadParameters);
+                        return DataManager.getInstance().finishInvAssets(orderId,uid,assetUploadParameters);
                     }
                 })
                 .doOnNext(new Consumer<BaseResponse>() {

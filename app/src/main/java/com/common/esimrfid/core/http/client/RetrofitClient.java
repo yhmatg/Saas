@@ -5,6 +5,8 @@ import android.content.Context;
 import com.common.esimrfid.BuildConfig;
 import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.app.EsimAndroidApp;
+import com.common.esimrfid.core.http.HttpHelperImpl;
+import com.common.esimrfid.core.http.api.GeeksApis;
 import com.common.esimrfid.core.http.interceptor.AppendUrlIntercepter;
 import com.common.esimrfid.core.http.interceptor.CacheInterceptor;
 import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
@@ -55,18 +57,26 @@ public class RetrofitClient {
     private Cache cache = null;
     private File httpCacheDirectory;
     private String url;
+    private volatile static RetrofitClient INSTANCE = null;
 
-    private static class SingletonHolder {
-        private static RetrofitClient INSTANCE = new RetrofitClient();
-    }
 
     public static RetrofitClient getInstance() {
-        return SingletonHolder.INSTANCE;
+        if (INSTANCE == null) {
+            synchronized (RetrofitClient.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new RetrofitClient();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+    public static void destroyInstance() {
+        INSTANCE = null;
     }
     private RetrofitClient() {
         url = PreferenceHelperImpl.getInstance().getHostUrl();
         if(StringUtils.isEmpty(url)){
-            url ="http://deve.esimtek.com:18618";
+            url ="https://iwms.cloud.cmbchina.com/asset/";
         }
         retrofit = createRetrofit(provideClient(), url);
 

@@ -67,7 +67,7 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
 
     @Override
     public InvOrderPressnter initPresenter() {
-        return new InvOrderPressnter(DataManager.getInstance());
+        return new InvOrderPressnter();
     }
 
     @Override
