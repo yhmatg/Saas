@@ -94,7 +94,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
 
     @Override
     public InvAssetsLocPresenter initPresenter() {
-        return new InvAssetsLocPresenter(DataManager.getInstance());
+        return new InvAssetsLocPresenter();
     }
 
     @Override

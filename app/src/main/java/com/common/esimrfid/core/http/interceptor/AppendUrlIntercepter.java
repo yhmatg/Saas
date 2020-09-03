@@ -3,7 +3,7 @@ package com.common.esimrfid.core.http.interceptor;
 import android.util.Log;
 
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.utils.StringUtils;
+
 import java.io.IOException;
 
 import okhttp3.HttpUrl;
@@ -28,7 +28,7 @@ public class AppendUrlIntercepter implements Interceptor {
         //add 20190729 start
         builder.addQueryParameter("token",token);
         //add 20190729 start
-        HttpUrl httpUrl = oldRequest.url();
+        /*HttpUrl httpUrl = oldRequest.url();
         if (!StringUtils.isEmpty(cacheHost) && !baseUrl.equals(cacheHost)) {
             if(cacheHost.startsWith("https")){
                 builder.scheme("https");
@@ -47,7 +47,7 @@ public class AppendUrlIntercepter implements Interceptor {
                 String cacheP = split[1];
                 builder.host(cacheH).port(Integer.valueOf(cacheP));
             }
-        }
+        }*/
         Log.e("AppendUrlIntercepter","builder.build()===" + builder.build());
         Request newRequest = oldRequest
                 .newBuilder()

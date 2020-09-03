@@ -22,6 +22,8 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
+import com.common.esimrfid.core.http.HttpHelperImpl;
+import com.common.esimrfid.core.http.client.RetrofitClient;
 import com.common.esimrfid.presenter.login.LoginPresenter;
 import com.common.esimrfid.ui.home.HomeActivity;
 import com.common.esimrfid.utils.ScreenSizeUtils;
@@ -52,6 +54,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private String TAG = "LoginActivity";
     private boolean isOpenEye = false;
     Toast toast;
+    private String hostUrl;
 
     @Override
     protected int getLayoutId() {
@@ -148,8 +151,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     //URL弹出框
     private void showSettingDialog() {
-        final String hostUrl = mPresenter.getHostUrl();
-        final boolean isSoundOpen = mPresenter.getOpenSound();
+        hostUrl = mPresenter.getHostUrl();
         final Dialog dialog = new Dialog(this, R.style.SettingDialog);
         View view = View.inflate(this, R.layout.settingurl_dialog, null);
         TextView cancel = (TextView) view.findViewById(R.id.btn_cancel);
@@ -175,7 +177,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                     ToastUtils.showShort(R.string.url_error);
                     return;
                 }else if(!newHostUrl.equals(hostUrl)){
+                    if(!newHostUrl.endsWith("/")){
+                        newHostUrl += "/";
+                    }
                     mPresenter.saveHostUrl(newHostUrl);
+                    RetrofitClient.destroyInstance();
+                    HttpHelperImpl.destroyInstance();
+                    DataManager.destroyInstance();
                 }
                 dialog.dismiss();
             }
@@ -204,7 +212,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public LoginPresenter initPresenter() {
-        return new LoginPresenter(DataManager.getInstance());
+        return new LoginPresenter();
     }
 
     @Override

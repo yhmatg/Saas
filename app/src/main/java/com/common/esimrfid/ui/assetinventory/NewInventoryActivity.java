@@ -138,7 +138,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
 
     @Override
     public NewInventoryPressnter initPresenter() {
-        return new NewInventoryPressnter(DataManager.getInstance());
+        return new NewInventoryPressnter();
     }
 
     @Override

@@ -96,51 +96,51 @@ public interface GeeksApis {
     //获取不同位置下资产数量(数据权限版本前使用)
     //@return 位置和对应资产数目
 
-    @GET("/assets-server/assets/countbyloc")
+    @GET("assets-server/assets/countbyloc")
     Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation();
 
     //获取不同位置下资产数量(数据权限版本后使用)
     //@return 位置和对应资产数目
 
-    @GET("/assets-server/dashboard/countbyloc")
+    @GET("assets-server/dashboard/countbyloc")
     Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation();
 
     //获取不同状态的资产数量
     //@return 不同状态下的资产数目
     //@GET("/assets-server/assets/countbystatus")(修改数据权限前使用)
     //修改数据权限后使用
-    @GET("/assets-server/dashboard/countbystatus")
+    @GET("assets-server/dashboard/countbystatus")
     Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus();
 
     //查询所有管理员
     //@return 所有管理员信息
 
-    @GET("/user-server/sysusers/querymanager/unpage")
+    @GET("user-server/sysusers/querymanager/unpage")
     Observable<BaseResponse<List<MangerUser>>> getAllManagerUsers();
 
     //查询所有公司
     //@return 所有公司信息
 
-    @GET("/user-server/orgs/corps")
+    @GET("user-server/orgs/corps")
     Observable<BaseResponse<List<CompanyBean>>> getAllCompany();
 
     //获取公司下的所有部门
     //@param comId 公司id
     //@return 公司下所有部门
 
-    @GET("/user-server/orgs/{comId}/subs")
+    @GET("user-server/orgs/{comId}/subs")
     Observable<BaseResponse<List<DepartmentBean>>> getAllDeparts(@Path("comId") String comId);
 
     //获取所有资产类型
     //@return
     //所有资产类型
-    @GET("/assets-server/assetstypes")
+    @GET("assets-server/assetstypes")
     Observable<BaseResponse<List<AssetsType>>> getAllAssetsType();
 
     //获取所有资产位置
     //@return 所有资产位置
 
-    @GET("/assets-server/locations")
+    @GET("assets-server/locations")
     Observable<BaseResponse<List<AssetsLocation>>> getAllAssetsLocation();
 
     //创建盘点单
@@ -154,14 +154,14 @@ public interface GeeksApis {
     //@param inv_loc_filter 存放地点
     //@return 新建盘点单详情
 
-    @POST("/inventory-server/inventoryorders/createbyapp")
+    @POST("inventory-server/inventoryorders/createbyapp")
     Observable<BaseResponse<CreateInvResult>> createNewInventory(@Body InventoryParameter invpara);
 
     //模糊查询资产详情（写入标签）
     //@param patternName 资产过滤信息
     //@return 资产列表
 
-    @GET("/assets-server/assets/unpage")
+    @GET("assets-server/assets/unpage")
         //@GET("/assets-server/assets/findforapp")
     Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfos(@Query("pattern_name") String patternName);
 
@@ -169,14 +169,14 @@ public interface GeeksApis {
     //@param patternName 资产过滤信息
     //@return 资产列表
 
-    @GET("/assets-server/assets")
+    @GET("assets-server/assets")
     Observable<BaseResponse<AssetsInfoPage>> fetchPageAssetsInfos(@Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName);
 
     //模糊查询资产详情（写入标签）分页
     //@param patternName 资产过滤信息
     //@return 资产列表
 
-    @GET("/assets-server/assets/multiconditions")
+    @GET("assets-server/assets/multiconditions")
     Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(@Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName, @Query("user_real_name") String userRealName, @Query("conditions") String conditions);
 
 
@@ -184,26 +184,26 @@ public interface GeeksApis {
     //@param Epcs EPC集合
     //@return 资产信息列表
 
-    @POST("/assets-server/assets/byrfids")
+    @POST("assets-server/assets/byrfids")
     Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(@Body Set<String> Epcs);
 
     //根据资产id或者二维码获取资产详情
     //@param ast_id 资产id ast_code 资产二维码
     //@return 资产详情信息
 
-    @GET("/assets-server/assets/detail")
+    @GET("assets-server/assets/detail")
     Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfo(@Query("ast_id") String astId, @Query("ast_barcode") String astCode);
 
     //版本更新
     //@return 版本更新详情
 
-    @GET("/tagorder-server/appversions/latest")
+    @GET("tagorder-server/appversions/latest")
     Observable<BaseResponse<UpdateVersion>> updateVersion();
 
     //获取公司信息详情
     //@return 公司详情信息
 
-    @GET("/user-server/sysusers/selectCurrentOrg")
+    @GET("user-server/sysusers/selectCurrentOrg")
     Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
 
     //根据资产id查询资产履历
@@ -211,23 +211,23 @@ public interface GeeksApis {
     Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(@Query("ast_id") String astid, @Query("ast_barcode") String astCode);
 
     //根据资产id或者二维码获取资产维修信息
-    @GET("/assets-server/assets/reprecords/unpage")
+    @GET("assets-server/assets/reprecords/unpage")
     Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(@Query("ast_id") String astid, @Query("ast_barcode") String astCode);
 
     //新建报修单 未加审批流程前使用
-    @POST("/assets-server/repairs/bymanager")
+    @POST("assets-server/repairs/bymanager")
     Observable<BaseResponse> createNewRepairOrder(@Body AssetRepairParameter repairParameter);
 
     //获取所有员工
-    @GET("/user-server/emps/unpage")
+    @GET("user-server/emps/unpage")
     Observable<BaseResponse<List<MangerUser>>> getAllEmpUsers();
 
     //根据操作查询资产列表 分页
-    @GET("/assets-server/assets/choiceAssetsByOpt")
+    @GET("assets-server/assets/choiceAssetsByOpt")
     Observable<BaseResponse<AssetsInfoPage>> getAllAssetsByOptPage(@Query("opt_type") String optType, @Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName);
 
     //根据操作查询资产列表 不分页
-    @GET("/assets-server/assets/choiceAssetsByOpt/unpage")
+    @GET("assets-server/assets/choiceAssetsByOpt/unpage")
     Observable<BaseResponse<List<AssetsInfo>>> getAllAssetsByOpt(@Query("opt_type") String optType, @Query("pattern_name") String patternName);
 
     //新盘点数据上传
@@ -239,15 +239,15 @@ public interface GeeksApis {
     Observable<BaseResponse> finishInvAssets(@Path("id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invReq);
 
     //获取资产的所有详情
-    @GET("/assets-server/assets/unpage")
+    @GET("assets-server/assets/unpage")
     Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(@Query("pattern_name") String patternName);
 
     //根据时间戳获取变动更新资产
-    @GET("/assets-server/assets/lastupdate")
+    @GET("assets-server/assets/lastupdate")
     Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(@Query("lasttime") String lastTime);
 
     //新建报修单和审批流程相关
-    @POST("/assets-server/bussiness/apply/REPAIR")
+    @POST("assets-server/bussiness/apply/REPAIR")
     Observable<BaseResponse> createNewRepairOrder(@Body NewAssetRepairPara repariPara);
 
     //查询管理员权限范围
@@ -258,7 +258,7 @@ public interface GeeksApis {
     //@param ast_id 资产id ast_code 资产二维码
     //@return 资产详情信息
 
-    @GET("/assets-server/assets/detail/withauth")
+    @GET("assets-server/assets/detail/withauth")
     Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfoWithAuth(@Query("ast_id") String astId, @Query("ast_barcode") String astCode);
 
     /**
@@ -266,7 +266,7 @@ public interface GeeksApis {
      * @param type  1:公司 0:部门
      * @return 数据授权使用公司
      */
-    @GET("/user-server/orgs/authOrgs")
+    @GET("user-server/orgs/authOrgs")
     Observable<BaseResponse<List<CompanyBean>>> getAllAuthCompany(@Query("org_type") Integer type);
 
 }

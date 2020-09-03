@@ -21,8 +21,8 @@ public class BasePresenter<T extends AbstractView> implements AbstractPresenter<
     private CompositeDisposable compositeDisposable;
     private DataManager mDataManager;
 
-    public BasePresenter(DataManager dataManager) {
-        this.mDataManager = dataManager;
+    public BasePresenter() {
+        this.mDataManager = DataManager.getInstance();
     }
 
     @Override

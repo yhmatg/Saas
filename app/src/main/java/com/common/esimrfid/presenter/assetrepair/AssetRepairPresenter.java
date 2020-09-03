@@ -13,17 +13,15 @@ import com.common.esimrfid.widget.BaseObserver;
 import java.util.List;
 
 public class AssetRepairPresenter extends BasePresenter<AssetRepairContract.View> implements AssetRepairContract.Presenter {
-    private DataManager mDataManager;
     private String TAG = "NewInventoryPre";
 
-    public AssetRepairPresenter(DataManager dataManager) {
-        super(dataManager);
-        mDataManager = dataManager;
+    public AssetRepairPresenter() {
+        super();
     }
 
     @Override
     public void getAllEmpUsers() {
-        addSubscribe(mDataManager.getAllEmpUsers()
+        addSubscribe(DataManager.getInstance().getAllEmpUsers()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<MangerUser>>(mView, false) {
@@ -38,7 +36,7 @@ public class AssetRepairPresenter extends BasePresenter<AssetRepairContract.View
     @Override
     public void createNewRepairOrder(AssetRepairParameter repairParameter) {
         mView.showDialog("loading...");
-        addSubscribe(mDataManager.createNewRepairOrder(repairParameter)
+        addSubscribe(DataManager.getInstance().createNewRepairOrder(repairParameter)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleBaseResponse())
                 .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
@@ -53,7 +51,7 @@ public class AssetRepairPresenter extends BasePresenter<AssetRepairContract.View
     @Override
     public void createNewRepairOrder(NewAssetRepairPara repariPara) {
         mView.showDialog("loading...");
-        addSubscribe(mDataManager.createNewRepairOrder(repariPara)
+        addSubscribe(DataManager.getInstance().createNewRepairOrder(repariPara)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleBaseResponse())
                 .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {

@@ -83,7 +83,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
 
     @Override
     public InvDetailPresenter initPresenter() {
-        return new InvDetailPresenter(DataManager.getInstance());
+        return new InvDetailPresenter();
     }
 
     @Override

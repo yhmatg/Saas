@@ -66,7 +66,7 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
 
     @Override
     public InvOrderPressnter initPresenter() {
-        return new InvOrderPressnter(DataManager.getInstance());
+        return new InvOrderPressnter();
     }
 
     @Override

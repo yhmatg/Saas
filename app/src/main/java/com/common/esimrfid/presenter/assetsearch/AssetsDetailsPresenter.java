@@ -28,16 +28,15 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
 public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.View> implements AssetsDetailsContract.Presenter {
-    private DataManager mDataManager;
-    public AssetsDetailsPresenter(DataManager dataManager) {
-        super(dataManager);
-        this.mDataManager=dataManager;
+   
+    public AssetsDetailsPresenter() {
+        super();
     }
 
     @Override
     public void getAssetsDetailsById(String astId,String astCode,String whereFrom) {
         mView.showDialog("loading...");
-        addSubscribe(Observable.concat(getLocalAssetAllInfoObservable(astId,astCode,whereFrom),"AssetRepairActivity".equals(whereFrom) ? mDataManager.fetchAssetsInfoWithAuth(astId,astCode) : mDataManager.fetchAssetsInfo(astId,astCode))
+        addSubscribe(Observable.concat(getLocalAssetAllInfoObservable(astId,astCode,whereFrom),"AssetRepairActivity".equals(whereFrom) ? DataManager.getInstance().fetchAssetsInfoWithAuth(astId,astCode) : DataManager.getInstance().fetchAssetsInfo(astId,astCode))
         .compose(RxUtils.rxSchedulerHelper())
         .compose(RxUtils.handleResult())
         .subscribeWith(new BaseObserver<AssetsAllInfo>(mView, false) {
@@ -58,7 +57,7 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
     @Override
     public void getAssetsResumeById(String astId,String astCode) {
         mView.showDialog("loading...");
-       addSubscribe(mDataManager.fetchAssetResume(astId,astCode)
+       addSubscribe(DataManager.getInstance().fetchAssetResume(astId,astCode)
        .compose(RxUtils.rxSchedulerHelper())
        .compose(RxUtils.handleResult())
        .subscribeWith(new BaseObserver<List<AssetResume>>(mView, false) {
@@ -78,7 +77,7 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
     @Override
     public void getAssetsRepairById(String astid,String astCode) {
         mView.showDialog("loading...");
-        addSubscribe(mDataManager.fetchAssetRepair(astid,astCode)
+        addSubscribe(DataManager.getInstance().fetchAssetRepair(astid,astCode)
         .compose(RxUtils.rxSchedulerHelper())
         .compose(RxUtils.handleResult())
         .subscribeWith(new BaseObserver<List<AssetRepair>>(mView, false) {
