@@ -31,7 +31,7 @@ public class InventoryDetail {
      * id : 0863d4c3919b46a8b44fa9d3f24a7c15
      * inv_id : f3802bc7db7611eabdc3000c29a8812b
      * invdt_sign : 标签丢失
-     * invdt_status : {"code":0,"index":0,"name":"待盘点"}
+     * invdt_status : {"code":0,"index":0,"name":"未盘点"}
      * loc_id : f7cf4aa1d85111ea891c000c29a8812b
      * loc_name : 1楼
      * manager_id : 6edbaf66d6a84e3a86ac6cb9f4e006e7
@@ -375,7 +375,7 @@ public class InventoryDetail {
         /**
          * code : 0
          * index : 0
-         * name : 待盘点
+         * name : 未盘点
          */
 
         private int code;

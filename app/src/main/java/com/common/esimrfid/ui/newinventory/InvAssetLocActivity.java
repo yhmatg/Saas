@@ -61,7 +61,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
     List<InventoryDetail> mInventoryDetails = new ArrayList<>();
     //当前显示的资产
     List<InventoryDetail> mCurrentDetails = new ArrayList<>();
-    //待盘点
+    //未盘点
     List<InventoryDetail> mNotInvDetails = new ArrayList<>();
     //已盘
     List<InventoryDetail> mInvedDetails = new ArrayList<>();
@@ -124,7 +124,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     mPresenter.setOneLessAssetInv(selectNotInvBean);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
-                    notInvedRadio.setText("待盘点" + mNotInvDetails.size());
+                    notInvedRadio.setText("未盘点" + mNotInvDetails.size());
                     invLessRadio.setText("盘亏" + mLessDetails.size());
                     if(currentShowStatus == 0){
                         mCurrentDetails.remove(selectNotInvBean);
@@ -149,7 +149,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     mPresenter.setOneLessAssetInv(selectNotInvBean);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
-                    notInvedRadio.setText("待盘点" + mNotInvDetails.size());
+                    notInvedRadio.setText("未盘点" + mNotInvDetails.size());
                     invLessRadio.setText("盘亏" + mLessDetails.size());
                     if(currentShowStatus == 0){
                         mCurrentDetails.remove(selectNotInvBean);
@@ -174,7 +174,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     mPresenter.setOneLessAssetInv(selectNotInvBean);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
-                    notInvedRadio.setText("待盘点" + mNotInvDetails.size());
+                    notInvedRadio.setText("未盘点" + mNotInvDetails.size());
                     invLessRadio.setText("盘亏" + mLessDetails.size());
                     if(currentShowStatus == 0){
                         mCurrentDetails.remove(selectNotInvBean);
@@ -199,7 +199,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     mPresenter.setOneLessAssetInv(selectNotInvBean);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
-                    notInvedRadio.setText("待盘点" + mNotInvDetails.size());
+                    notInvedRadio.setText("未盘点" + mNotInvDetails.size());
                     invLessRadio.setText("盘亏" + mLessDetails.size());
                     if(currentShowStatus == 0){
                         mCurrentDetails.remove(selectNotInvBean);
@@ -224,7 +224,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     mPresenter.setOneLessAssetInv(selectNotInvBean);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
-                    notInvedRadio.setText("待盘点" + mNotInvDetails.size());
+                    notInvedRadio.setText("未盘点" + mNotInvDetails.size());
                     invLessRadio.setText("盘亏" + mLessDetails.size());
                     if(currentShowStatus == 0){
                         mCurrentDetails.remove(selectNotInvBean);
@@ -355,7 +355,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 mInvedDetails.add(inventoryDetail);
             }
         }
-        notInvedRadio.setText("待盘点" + mNotInvDetails.size());
+        notInvedRadio.setText("未盘点" + mNotInvDetails.size());
         invedRadio.setText("已盘" + mInvedDetails.size());
         invMoreRadio.setText("盘盈" + mMoreDetails.size());
         invLessRadio.setText("盘亏" + mLessDetails.size());
