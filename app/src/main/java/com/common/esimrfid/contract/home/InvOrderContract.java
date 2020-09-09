@@ -3,11 +3,10 @@ package com.common.esimrfid.contract.home;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
-import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
-
 import java.util.List;
 
 public interface InvOrderContract {

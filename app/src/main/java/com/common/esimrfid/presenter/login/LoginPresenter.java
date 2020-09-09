@@ -13,13 +13,10 @@ import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
-
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-
 import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLPeerUnverifiedException;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -118,14 +115,5 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     public String getHostUrl() {
         return DataManager.getInstance().getHostUrl();
     }
-
-    public void saveOpenSound(boolean isOpen) {
-        DataManager.getInstance().saveOpenSound(isOpen);
-    }
-
-    public boolean getOpenSound() {
-        return DataManager.getInstance().getOpenSound();
-    }
-
 
 }

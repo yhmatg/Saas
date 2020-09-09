@@ -1,4 +1,4 @@
-package com.common.esimrfid.core.bean.nanhua;
+package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 
 
 /**

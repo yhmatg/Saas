@@ -5,11 +5,10 @@ import com.common.esimrfid.contract.assetrepair.AssetRepairContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
-import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
-
 import java.util.List;
 
 public class AssetRepairPresenter extends BasePresenter<AssetRepairContract.View> implements AssetRepairContract.Presenter {

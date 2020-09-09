@@ -1,7 +1,5 @@
 package com.common.esimrfid.presenter.assetlist;
 
-import android.util.Log;
-
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
@@ -13,8 +11,7 @@ import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
 import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
-import com.common.esimrfid.core.bean.nanhua.BaseResponse;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.room.DbBank;
@@ -23,10 +20,8 @@ import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
 import com.multilevel.treelist.Node;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;

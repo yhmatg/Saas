@@ -8,15 +8,11 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.login.LoginContract;
@@ -26,10 +22,8 @@ import com.common.esimrfid.core.http.HttpHelperImpl;
 import com.common.esimrfid.core.http.client.RetrofitClient;
 import com.common.esimrfid.presenter.login.LoginPresenter;
 import com.common.esimrfid.ui.home.HomeActivity;
-import com.common.esimrfid.utils.ScreenSizeUtils;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -157,7 +151,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         TextView cancel = (TextView) view.findViewById(R.id.btn_cancel);
         TextView confirm = (TextView) view.findViewById(R.id.btn_save);
         EditText editText = (EditText) view.findViewById(R.id.edit_url);
-//        editText.setHint("http://");
         dialog.setContentView(view);
         editText.setText(hostUrl);
         editText.setSelection(hostUrl.length());

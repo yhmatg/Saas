@@ -1,34 +1,25 @@
 package com.common.esimrfid.ui.inventorytask;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvDetailContract;
-import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.emun.InventoryStatus;
-import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.customview.CustomPopWindow;
-import com.common.esimrfid.customview.MaxHeightRecyclerView;
 import com.common.esimrfid.presenter.home.InvDetailPresenter;
-import com.common.esimrfid.ui.home.AssetLocationNum;
 import com.common.esimrfid.utils.CommonUtils;
-import com.common.esimrfid.utils.DateUtils;
 import com.common.esimrfid.utils.StringUtils;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 

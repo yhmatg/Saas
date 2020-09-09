@@ -2,7 +2,6 @@ package com.common.esimrfid.ui.assetrepair;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -27,11 +26,10 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetrepair.AssetRepairContract;
-import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
-import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.presenter.assetrepair.AssetRepairPresenter;
 import com.common.esimrfid.ui.home.BaseDialog;
@@ -40,19 +38,15 @@ import com.common.esimrfid.utils.DateUtils;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.contrarywind.view.WheelView;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
 
