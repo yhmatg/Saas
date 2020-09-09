@@ -18,7 +18,6 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.allenliu.versionchecklib.core.http.AllenHttp;
 import com.allenliu.versionchecklib.v2.AllenVersionChecker;
@@ -53,16 +52,13 @@ import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
 import com.common.esimrfid.utils.SettingBeepUtil;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -104,7 +100,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     protected void initEventAndData() {
-        //initRfid();
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             isFirstInstall = true;
             finish();
@@ -472,8 +467,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             updateDialog.show();
         } else {
             View contentView = LayoutInflater.from(this).inflate(R.layout.connect_loading_dialog, null);
-            /*TextView content = contentView.findViewById(R.id.tv_status);
-            content.setVisibility(View.GONE);*/
             updateDialog = new MaterialDialog.Builder(this)
                     .customView(contentView, false)
                     .canceledOnTouchOutside(false)

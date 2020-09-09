@@ -1,15 +1,13 @@
 package com.common.esimrfid.utils;
 
-import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.http.exception.ExpiredExpection;
 import com.common.esimrfid.core.http.exception.NoAssetInCreateInvException;
 import com.common.esimrfid.core.http.exception.OtherException;
 import com.common.esimrfid.core.http.exception.ResultIsNullException;
 import com.common.esimrfid.core.http.exception.TokenException;
 import com.common.esimrfid.core.http.exception.WrongAccountOrPassException;
-
 import org.reactivestreams.Publisher;
-
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;

@@ -11,7 +11,7 @@ import com.common.esimrfid.core.bean.inventorytask.CreateInvResult;
 import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
-import com.common.esimrfid.core.bean.nanhua.BaseResponse;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
@@ -32,11 +32,9 @@ import com.common.esimrfid.core.http.HttpHelperImpl;
 import com.common.esimrfid.core.prefs.PreferenceHelper;
 import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
 import io.reactivex.Observable;
 
 /**
