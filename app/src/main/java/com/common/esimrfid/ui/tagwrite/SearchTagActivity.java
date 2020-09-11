@@ -23,6 +23,7 @@ import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
+import com.common.esimrfid.uhf.XinLianUhfServiceImp;
 import com.common.esimrfid.utils.ScreenSizeUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.utils.Utils;
@@ -61,6 +62,8 @@ public class SearchTagActivity extends BaseActivity {
     private boolean isClick;
     private Animation anim1, anim2;
     private Boolean canRfid = true;
+    private final int minClickDelayTime = 1000;
+    private long lastClickTime;
     @Override
     protected void initEventAndData() {
         title.setText("确认写入");
@@ -69,9 +72,10 @@ public class SearchTagActivity extends BaseActivity {
         rotateAnim1();
         rotateAnim2();
         initRfidAndEvent();
-        int i = esimUhfService.setFilterData(1, 0, 0, getTagEpc, true);
-        Log.e("SearchTagActivity","filterStatus===" + i);
-        Log.e("SearchTagActivity","getTagEpc===" + getTagEpc);
+        if(esimUhfService instanceof XinLianUhfServiceImp){
+            esimUhfService.setFilterData(1, 0, 0, getTagEpc, true);
+        }
+
     }
 
     @Override
@@ -247,12 +251,13 @@ public class SearchTagActivity extends BaseActivity {
             confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
-                        String selectEpc = scanEpcs.size() > 0 ? scanEpcs.get(0) : scanTagEpc;
-                        //esimUhfService.setFilterData(1,0,0,selectEpc,true);
-                        esimUhfService.writeEpcTag(selectEpc, getTagEpc);
-                    } else {
-                        ToastUtils.showShort(R.string.not_connect_prompt);
+                    if(isNormalClick()){
+                        if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
+                            String selectEpc = scanEpcs.size() > 0 ? scanEpcs.get(0) : scanTagEpc;
+                            esimUhfService.writeEpcTag(selectEpc, getTagEpc);
+                        } else {
+                            ToastUtils.showShort(R.string.not_connect_prompt);
+                        }
                     }
                 }
             });
@@ -266,7 +271,9 @@ public class SearchTagActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        esimUhfService.setFilterData(1,0,0,"",false);
+        if(esimUhfService instanceof XinLianUhfServiceImp){
+            esimUhfService.setFilterData(1,0,0,"",false);
+        }
     }
 
 
@@ -305,5 +312,15 @@ public class SearchTagActivity extends BaseActivity {
         if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
             esimUhfService.setEnable(false);
         }
+    }
+
+    public boolean isNormalClick() {
+        boolean flag = false;
+        long curClickTime = System.currentTimeMillis();
+        if ((curClickTime - lastClickTime) >= minClickDelayTime) {
+            flag = true;
+        }
+        lastClickTime = curClickTime;
+        return flag;
     }
 }

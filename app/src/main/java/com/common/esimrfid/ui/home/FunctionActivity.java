@@ -13,15 +13,7 @@ import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.uhf.IEsimUhfService;
-import com.common.esimrfid.uhf.UhfMsgEvent;
-import com.common.esimrfid.uhf.UhfMsgType;
-import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.utils.SettingBeepUtil;
-import com.common.esimrfid.utils.ToastUtils;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -77,7 +69,7 @@ public class FunctionActivity extends BaseActivity {
             setting2.setVisibility(View.GONE);
             seekBar.setVisibility(View.VISIBLE);
             seekBar_zebra.setVisibility(View.GONE);
-        } else if ("TC20".equals(model)) {
+        } else if ("TC20".equals(model) || "MC33".equals(model)) {
             seekBar_zebra.setVisibility(View.VISIBLE);
             seekBar.setVisibility(View.GONE);
             setting1.setVisibility(View.VISIBLE);

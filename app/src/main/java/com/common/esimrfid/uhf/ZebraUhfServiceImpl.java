@@ -68,7 +68,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     private static ReaderDevice readerDevice;
     private static RFIDReader reader;
     private EventHandler eventHandler;
-    private int MAX_POWER = 270;
+    private int MAX_POWER = 300;
     private String readername = "RFD8500";
     private Application instance;
     private boolean locaitonStart = false;
@@ -98,7 +98,9 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         instance = EsimAndroidApp.getInstance();
         if (Build.MODEL.contains("TC20")) {
             readername = "RFD2000";
-        } else {
+        } else if(Build.MODEL.contains("MC33")){
+            readername = "MC33";
+        }else {
             readername = "RFD8500";
         }
         //initRFID();
@@ -109,6 +111,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     public boolean initRFID() {
         try {
             Log.d(TAG, "InitSDK");
+            beeperSettings();
             if (readers == null) {
                 new CreateInstanceTask().execute();
             } else
@@ -312,7 +315,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         protected Void doInBackground(Void... voids) {
             Log.d(TAG, "CreateInstanceTask");
             if (readers == null) {
-                if (Build.MODEL.contains("TC20")) {
+                if (Build.MODEL.contains("TC20") || Build.MODEL.contains("MC33")) {
                     readers = new Readers(instance, ENUM_TRANSPORT.SERVICE_SERIAL);
                 } else {
                     readers = new Readers(instance, ENUM_TRANSPORT.BLUETOOTH);
@@ -352,7 +355,6 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                 config.setrfModeTableIndex(0);
                 config.setTari(0);
                 reader.Config.Antennas.setAntennaRfConfig(1, config);
-                beeperSettings();
                 if (readername.equals("RFD8500")) {
                     sledBeeperEnable = true;
                     sledBeeperVolume = reader.Config.getBeeperVolume();
@@ -774,7 +776,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
     public void setBeeper() {
         boolean hostBeeper = SettingBeepUtil.isHostOpen();
         boolean sledBeeper = SettingBeepUtil.isSledOpen();
-        if (readername.equals("RFD2000")) {
+        if (readername.equals("RFD2000") || readername.equals("MC33")) {
             hostBeeper = SettingBeepUtil.isOpen();
         }
         boolean finalHostBeeper = hostBeeper;
@@ -795,7 +797,6 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
                                 e.printStackTrace();
                                 result = false;
                                 invalidUsageException = e;
-
                             } catch (OperationFailureException e) {
                                 e.printStackTrace();
                                 result = false;

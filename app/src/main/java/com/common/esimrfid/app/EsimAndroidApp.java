@@ -25,7 +25,6 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import com.speedata.libuhf.IUHFService;
 import com.speedata.libuhf.UHFManager;
 import com.speedata.libuhf.XinLianQilian;
-import com.speedata.libuhf.YiXin;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.xuexiang.xlog.XLog;
