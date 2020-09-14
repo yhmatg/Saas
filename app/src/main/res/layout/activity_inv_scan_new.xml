@@ -32,7 +32,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/dp_70"
-        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_6"
         android:scaleType="centerCrop"
         android:src="@drawable/iv_radar" />
 
@@ -49,9 +49,10 @@
         android:textSize="@dimen/sp_18" />
 
     <RelativeLayout
+        android:layout_below="@+id/bt_start_scan"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/bt_start_scan"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_52"
         android:layout_marginEnd="@dimen/dp_10"
@@ -101,7 +102,7 @@
             android:layout_below="@+id/area_title"
             android:layout_alignStart="@+id/head_one"
             android:layout_alignEnd="@+id/asset_out_name"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_16"
             android:background="@color/login_line_color" />
 
         <View
@@ -119,7 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/divide_one"
-            android:layout_marginTop="@dimen/dp_26"
+            android:layout_marginTop="@dimen/dp_16"
             android:layout_toEndOf="@+id/head_two"
             android:text="@string/all_asset_str"
             android:textColor="@color/home_text_one"
@@ -181,7 +182,8 @@
             android:text="108"
             android:textColor="@color/repair_text"
             android:textSize="@dimen/sp_25"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/dp_6"/>
 
         <TextView
             android:id="@+id/ast_in_num"

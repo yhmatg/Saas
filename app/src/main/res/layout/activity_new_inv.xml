@@ -187,246 +187,254 @@
         android:layout_marginEnd="@dimen/dp_15"
         android:layout_below="@+id/ll_inv_range"
         android:background="@color/login_line_color" />
-
-    <RelativeLayout
-        android:id="@+id/rl_use_company"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_47"
-        android:gravity="center"
+        android:layout_height="match_parent"
         android:layout_below="@+id/divider_four"
-        android:paddingStart="@dimen/dp_15"
-        android:paddingEnd="@dimen/dp_15">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/inv_usecom"
-            android:layout_centerVertical="true"
-            android:textColor="@color/home_text_two"
-            android:textSize="@dimen/sp_14" />
-
-        <TextView
-            android:id="@+id/tv_inv_usecom"
+        android:layout_above="@id/btn_submit">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_6"
-            android:layout_toStartOf="@+id/iv_usecom_arrow"
-            android:gravity="end"
-            android:layout_centerVertical="true"
-            android:hint="@string/inv_usecom_hint"
-            android:textColorHint="@color/setting_text_one"
-            android:textColor="@color/setting_text_one"
-            android:textSize="@dimen/sp_13"  />
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/rl_use_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_47"
+                android:gravity="center"
+                android:paddingStart="@dimen/dp_15"
+                android:paddingEnd="@dimen/dp_15">
 
-        <ImageView
-            android:id="@+id/iv_usecom_arrow"
-            android:layout_width="@dimen/dp_10"
-            android:layout_height="@dimen/dp_10"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/right_arrow" />
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/inv_usecom"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
-    <View
-        android:id="@+id/divider_five"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginStart="@dimen/dp_15"
-        android:layout_marginEnd="@dimen/dp_15"
-        android:layout_below="@+id/rl_use_company"
-        android:background="@color/login_line_color" />
+                <TextView
+                    android:id="@+id/tv_inv_usecom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_6"
+                    android:layout_toStartOf="@+id/iv_usecom_arrow"
+                    android:gravity="end"
+                    android:layout_centerVertical="true"
+                    android:hint="@string/inv_usecom_hint"
+                    android:textColorHint="@color/setting_text_one"
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13"  />
 
-    <RelativeLayout
-        android:id="@+id/rl_use_depart"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_47"
-        android:layout_below="@+id/divider_five"
-        android:paddingStart="@dimen/dp_15"
-        android:paddingEnd="@dimen/dp_15">
+                <ImageView
+                    android:id="@+id/iv_usecom_arrow"
+                    android:layout_width="@dimen/dp_10"
+                    android:layout_height="@dimen/dp_10"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+            </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/inv_usedepart"
-            android:layout_centerVertical="true"
-            android:textColor="@color/home_text_two"
-            android:textSize="@dimen/sp_14" />
+            <View
+                android:id="@+id/divider_five"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_marginEnd="@dimen/dp_15"
+                android:layout_below="@+id/rl_use_company"
+                android:background="@color/login_line_color" />
 
-        <TextView
-            android:id="@+id/tv_inv_usedepart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_6"
-            android:layout_toStartOf="@+id/iv_usedepart_arrow"
-            android:gravity="end"
-            android:layout_centerVertical="true"
-            android:hint="@string/inv_usedepart_hint"
-            android:textColorHint="@color/setting_text_one"
-            android:textColor="@color/setting_text_one"
-            android:textSize="@dimen/sp_13"  />
+            <RelativeLayout
+                android:id="@+id/rl_use_depart"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_47"
+                android:layout_below="@+id/divider_five"
+                android:paddingStart="@dimen/dp_15"
+                android:paddingEnd="@dimen/dp_15">
 
-        <ImageView
-            android:id="@+id/iv_usedepart_arrow"
-            android:layout_width="@dimen/dp_10"
-            android:layout_height="@dimen/dp_10"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/right_arrow" />
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/inv_usedepart"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
-    <View
-        android:id="@+id/divider_six"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginStart="@dimen/dp_15"
-        android:layout_marginEnd="@dimen/dp_15"
-        android:layout_below="@+id/rl_use_depart"
-        android:background="@color/login_line_color" />
+                <TextView
+                    android:id="@+id/tv_inv_usedepart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_6"
+                    android:layout_toStartOf="@+id/iv_usedepart_arrow"
+                    android:gravity="end"
+                    android:layout_centerVertical="true"
+                    android:hint="@string/inv_usedepart_hint"
+                    android:textColorHint="@color/setting_text_one"
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13"  />
 
-    <RelativeLayout
-        android:id="@+id/rl_ast_type"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_47"
-        android:layout_below="@+id/divider_six"
-        android:paddingStart="@dimen/dp_15"
-        android:paddingEnd="@dimen/dp_15">
+                <ImageView
+                    android:id="@+id/iv_usedepart_arrow"
+                    android:layout_width="@dimen/dp_10"
+                    android:layout_height="@dimen/dp_10"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+            </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/inv_asstype"
-            android:layout_centerVertical="true"
-            android:textColor="@color/home_text_two"
-            android:textSize="@dimen/sp_14" />
+            <View
+                android:id="@+id/divider_six"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_marginEnd="@dimen/dp_15"
+                android:layout_below="@+id/rl_use_depart"
+                android:background="@color/login_line_color" />
 
-        <TextView
-            android:id="@+id/tv_inv_asstype"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_6"
-            android:layout_toStartOf="@+id/iv_asstype_arrow"
-            android:gravity="end"
-            android:hint="@string/inv_asstype_hint"
-            android:layout_centerVertical="true"
-            android:textColorHint="@color/setting_text_one"
-            android:textColor="@color/setting_text_one"
-            android:textSize="@dimen/sp_13"  />
+            <RelativeLayout
+                android:id="@+id/rl_ast_type"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_47"
+                android:layout_below="@+id/divider_six"
+                android:paddingStart="@dimen/dp_15"
+                android:paddingEnd="@dimen/dp_15">
 
-        <ImageView
-            android:id="@+id/iv_asstype_arrow"
-            android:layout_width="@dimen/dp_10"
-            android:layout_height="@dimen/dp_10"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/right_arrow" />
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/inv_asstype"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
-    <View
-        android:id="@+id/divider_seven"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginStart="@dimen/dp_15"
-        android:layout_marginEnd="@dimen/dp_15"
-        android:layout_below="@+id/rl_ast_type"
-        android:background="@color/login_line_color" />
+                <TextView
+                    android:id="@+id/tv_inv_asstype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_6"
+                    android:layout_toStartOf="@+id/iv_asstype_arrow"
+                    android:gravity="end"
+                    android:hint="@string/inv_asstype_hint"
+                    android:layout_centerVertical="true"
+                    android:textColorHint="@color/setting_text_one"
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13"  />
 
-    <RelativeLayout
-        android:layout_below="@+id/divider_seven"
-        android:id="@+id/rl_store_location"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_47"
-        android:paddingStart="@dimen/dp_15"
-        android:paddingEnd="@dimen/dp_15">
+                <ImageView
+                    android:id="@+id/iv_asstype_arrow"
+                    android:layout_width="@dimen/dp_10"
+                    android:layout_height="@dimen/dp_10"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+            </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/inv_location"
-            android:layout_centerVertical="true"
-            android:textColor="@color/home_text_two"
-            android:textSize="@dimen/sp_14" />
+            <View
+                android:id="@+id/divider_seven"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_marginEnd="@dimen/dp_15"
+                android:layout_below="@+id/rl_ast_type"
+                android:background="@color/login_line_color" />
 
-        <TextView
-            android:id="@+id/tv_inv_loc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_6"
-            android:layout_toStartOf="@+id/iv_loc_arrow"
-            android:gravity="end"
-            android:layout_centerVertical="true"
-            android:hint="@string/inv_loc_hint"
-            android:textColorHint="@color/setting_text_one"
-            android:textColor="@color/setting_text_one"
-            android:textSize="@dimen/sp_13"  />
+            <RelativeLayout
+                android:layout_below="@+id/divider_seven"
+                android:id="@+id/rl_store_location"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_47"
+                android:paddingStart="@dimen/dp_15"
+                android:paddingEnd="@dimen/dp_15">
 
-        <ImageView
-            android:id="@+id/iv_loc_arrow"
-            android:layout_width="@dimen/dp_10"
-            android:layout_height="@dimen/dp_10"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/right_arrow" />
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/inv_location"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
-    <View
-        android:id="@+id/divider_eight"
-        android:layout_below="@+id/rl_store_location"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginStart="@dimen/dp_15"
-        android:layout_marginEnd="@dimen/dp_15"
-        android:background="@color/login_line_color" />
+                <TextView
+                    android:id="@+id/tv_inv_loc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_6"
+                    android:layout_toStartOf="@+id/iv_loc_arrow"
+                    android:gravity="end"
+                    android:layout_centerVertical="true"
+                    android:hint="@string/inv_loc_hint"
+                    android:textColorHint="@color/setting_text_one"
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13"  />
 
-    <RelativeLayout
-        android:layout_below="@+id/divider_eight"
-        android:id="@+id/rl_own_company"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_47"
-        android:paddingStart="@dimen/dp_15"
-        android:paddingEnd="@dimen/dp_15">
+                <ImageView
+                    android:id="@+id/iv_loc_arrow"
+                    android:layout_width="@dimen/dp_10"
+                    android:layout_height="@dimen/dp_10"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+            </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/inv_owncom"
-            android:layout_centerVertical="true"
-            android:textColor="@color/home_text_two"
-            android:textSize="@dimen/sp_14" />
+            <View
+                android:id="@+id/divider_eight"
+                android:layout_below="@+id/rl_store_location"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_marginEnd="@dimen/dp_15"
+                android:background="@color/login_line_color" />
 
-        <TextView
-            android:id="@+id/tv_inv_owncom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_6"
-            android:layout_toStartOf="@+id/iv_owncom_arrow"
-            android:gravity="end"
-            android:hint="@string/inv_own_comp_hint"
-            android:layout_centerVertical="true"
-            android:textColorHint="@color/setting_text_one"
-            android:textColor="@color/setting_text_one"
-            android:textSize="@dimen/sp_13"  />
+            <RelativeLayout
+                android:layout_below="@+id/divider_eight"
+                android:id="@+id/rl_own_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_47"
+                android:paddingStart="@dimen/dp_15"
+                android:paddingEnd="@dimen/dp_15">
 
-        <ImageView
-            android:id="@+id/iv_owncom_arrow"
-            android:layout_width="@dimen/dp_10"
-            android:layout_height="@dimen/dp_10"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/right_arrow" />
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/inv_owncom"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/home_text_two"
+                    android:textSize="@dimen/sp_14" />
 
-    <View
-        android:layout_below="@+id/rl_own_company"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginStart="@dimen/dp_15"
-        android:layout_marginEnd="@dimen/dp_15"
-        android:background="@color/login_line_color" />
+                <TextView
+                    android:id="@+id/tv_inv_owncom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_6"
+                    android:layout_toStartOf="@+id/iv_owncom_arrow"
+                    android:gravity="end"
+                    android:hint="@string/inv_own_comp_hint"
+                    android:layout_centerVertical="true"
+                    android:textColorHint="@color/setting_text_one"
+                    android:textColor="@color/setting_text_one"
+                    android:textSize="@dimen/sp_13"  />
+
+                <ImageView
+                    android:id="@+id/iv_owncom_arrow"
+                    android:layout_width="@dimen/dp_10"
+                    android:layout_height="@dimen/dp_10"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+            </RelativeLayout>
+
+            <View
+                android:layout_below="@+id/rl_own_company"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_marginEnd="@dimen/dp_15"
+                android:background="@color/login_line_color" />
+        </RelativeLayout>
+    </ScrollView>
 
     <Button
         android:layout_alignParentBottom="true"

@@ -116,7 +116,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         locationAssetAdapter = new LocationAssetAdapter(mAstLocaionNum, this, maxAssetNum);
         mLocationRecycle.setLayoutManager(new LinearLayoutManager(this));
         mLocationRecycle.setAdapter(locationAssetAdapter);
-        if (Build.MODEL.contains("TC20")) {
+        if (Build.MODEL.contains("TC20") || Build.MODEL.contains("MC33")) {
             loctionLayout.setVisibility(View.GONE);
         }
     }
