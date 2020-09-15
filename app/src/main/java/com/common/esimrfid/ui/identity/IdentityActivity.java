@@ -52,7 +52,7 @@ public class IdentityActivity extends BaseActivity {
         if( esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl){
             SystemProperties.set("persist.sys.PistolKey", "scan");
         }else if(esimUhfService instanceof ZebraUhfServiceImpl){
-            if(!((ZebraUhfServiceImpl) esimUhfService).isTc20()){
+            if(!((ZebraUhfServiceImpl) esimUhfService).isTc20OrMc33()){
                 ((ZebraUhfServiceImpl) esimUhfService).setPressScan(true);
             }
         }
@@ -99,7 +99,7 @@ public class IdentityActivity extends BaseActivity {
         if( esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl){
             SystemProperties.set("persist.sys.PistolKey", "uhf");
         }else if(esimUhfService instanceof ZebraUhfServiceImpl){
-            if(((ZebraUhfServiceImpl) esimUhfService).isTc20()){
+            if(((ZebraUhfServiceImpl) esimUhfService).isTc20OrMc33()){
                 ((ZebraUhfServiceImpl)esimUhfService).setScanEnable(false);
             }else {
                 ((ZebraUhfServiceImpl) esimUhfService).setPressScan(false);

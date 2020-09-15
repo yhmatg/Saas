@@ -988,7 +988,7 @@ public class ZebraUhfServiceImpl extends EsimUhfAbstractService implements Reade
         keyScanEnable = enable;
     }
 
-    public Boolean isTc20(){
-        return readername.equals("RFD2000");
+    public Boolean isTc20OrMc33(){
+        return readername.equals("RFD2000") || readername.equals("MC33");
     }
 }
