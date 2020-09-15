@@ -11,6 +11,8 @@ public class AssetRepairParameter {
     private Date odr_date;
     private List<String> ast_ids;
     private String odr_type = "维修单";
+    private String tra_user_name ;
+    private String rep_user_name ;
 
     public String getRep_user_id() {
         return rep_user_id;
@@ -60,6 +62,22 @@ public class AssetRepairParameter {
         this.ast_ids = ast_ids;
     }
 
+    public String getTra_user_name() {
+        return tra_user_name;
+    }
+
+    public void setTra_user_name(String tra_user_name) {
+        this.tra_user_name = tra_user_name;
+    }
+
+    public String getRep_user_name() {
+        return rep_user_name;
+    }
+
+    public void setRep_user_name(String rep_user_name) {
+        this.rep_user_name = rep_user_name;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -69,6 +87,8 @@ public class AssetRepairParameter {
                 ",\"rep_user_id\":\"" + rep_user_id + '\"' +
                 ",\"odr_remark\":\"" + odr_remark + '\"' +
                 ",\"maintain_price\":\"" + maintain_price + '\"' +
+                ",\"tra_user_name\":\"" + tra_user_name + '\"' +
+                ",\"rep_user_name\":\"" + rep_user_name + '\"' +
                 ",\"odr_date\":" + odr_date.getTime() +
                 '}';
     }

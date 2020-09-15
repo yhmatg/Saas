@@ -29,8 +29,8 @@ import com.common.esimrfid.contract.assetrepair.AssetRepairContract;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.presenter.assetrepair.AssetRepairPresenter;
 import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.ui.identity.IdentityActivity;
@@ -38,15 +38,18 @@ import com.common.esimrfid.utils.DateUtils;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.contrarywind.view.WheelView;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -87,6 +90,9 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     ArrayList<AssetsInfo> selectedAssets = new ArrayList<>();
     private AssetsRepairAdapter repairAdapter;
     private String userName = "";
+    private String userId = "";
+    private final int MIN_CLICK_DELAY_TIME = 1000;
+    private long lastClickTime;
 
     @Override
     public AssetRepairPresenter initPresenter() {
@@ -106,6 +112,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
         initCustomOptionPicker();
         initOptions();
         userName = getUserLoginResponse().getUserinfo().getUser_real_name();
+        userId = getUserLoginResponse().getUserinfo().getId();
     }
 
     @Override
@@ -153,20 +160,26 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
                 finish();
                 break;
             case R.id.tv_scan_add:
-                mScanAdd.setTextColor(getColor(R.color.repair_way));
-                mChooseAdd.setTextColor(getColor(R.color.repair_text));
-                Intent intent = new Intent();
-                intent.putExtra(WHERE_FROM, "AssetRepairActivity");
-                intent.setClass(this, IdentityActivity.class);
-                startActivity(intent);
+                if (isNormalClick()) {
+                    mScanAdd.setTextColor(getColor(R.color.repair_way));
+                    mChooseAdd.setTextColor(getColor(R.color.repair_text));
+                    Intent intent = new Intent();
+                    intent.putExtra(WHERE_FROM, "AssetRepairActivity");
+                    intent.setClass(this, IdentityActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.tv_choose_add:
-                mScanAdd.setTextColor(getColor(R.color.repair_text));
-                mChooseAdd.setTextColor(getColor(R.color.repair_way));
-                startActivity(new Intent(this, ChooseRepairAstActivity.class));
+                if (isNormalClick()) {
+                    mScanAdd.setTextColor(getColor(R.color.repair_text));
+                    mChooseAdd.setTextColor(getColor(R.color.repair_way));
+                    startActivity(new Intent(this, ChooseRepairAstActivity.class));
+                }
                 break;
             case R.id.btn_submit:
-                createRepairOrder();
+                if (isNormalClick()) {
+                    createRepairOrder();
+                }
                 break;
         }
     }
@@ -193,7 +206,9 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
             return;
         }
         assetRepairParameter.setRep_user_id(mSelectMangerUser.getId());
-        assetRepairParameter.setOdr_transactor_id(mSelectMangerUser.getId());
+        assetRepairParameter.setOdr_transactor_id(userId);
+        assetRepairParameter.setRep_user_name(mSelectMangerUser.getUser_real_name());
+        assetRepairParameter.setTra_user_name(userName);
         assetRepairParameter.setMaintain_price(Double.parseDouble(costString));
         assetRepairParameter.setOdr_date(mSelectDate);
         assetRepairParameter.setOdr_remark(mRepairDirection.getText().toString());
@@ -452,5 +467,15 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
                 "{\"name\":\"所在部门\",\"value\":\"" + departName + "\"}," +
                 "{\"name\":\"报修原因\",\"value\":\"" + repairRemark + "\"}]"
                 ;
+    }
+
+    public boolean isNormalClick() {
+        boolean flag = false;
+        long curClickTime = System.currentTimeMillis();
+        if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
+            flag = true;
+        }
+        lastClickTime = curClickTime;
+        return flag;
     }
 }
