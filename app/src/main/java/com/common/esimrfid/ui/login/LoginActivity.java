@@ -166,7 +166,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             @Override
             public void onClick(View v) {
                 String newHostUrl = editText.getText().toString();
-                if (!(newHostUrl.startsWith("https://") || newHostUrl.startsWith("http://"))) {
+                if (!(newHostUrl.startsWith("https://") || newHostUrl.startsWith("http://")) || newHostUrl.contains(" ")) {
                     ToastUtils.showShort(R.string.url_error);
                     return;
                 }else if(!newHostUrl.equals(hostUrl)){
