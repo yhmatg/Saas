@@ -41,6 +41,8 @@ public class AssetsListPage {
     private int size;
     private int startRow;
     private int total;
+    private int astCount;
+    private double totalMoney;
     private List<AssetsListItemInfo> list;
     private List<Integer> navigatepageNums;
     private boolean isLocal;
@@ -211,5 +213,21 @@ public class AssetsListPage {
 
     public void setLocal(boolean local) {
         isLocal = local;
+    }
+
+    public int getAstCount() {
+        return astCount;
+    }
+
+    public void setAstCount(int astCount) {
+        this.astCount = astCount;
+    }
+
+    public double getTotalMoney() {
+        return totalMoney;
+    }
+
+    public void setTotalMoney(double totalMoney) {
+        this.totalMoney = totalMoney;
     }
 }

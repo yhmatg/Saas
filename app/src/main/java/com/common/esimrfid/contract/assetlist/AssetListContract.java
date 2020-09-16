@@ -8,14 +8,13 @@ import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
 import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
 
 import java.util.List;
 
 public interface AssetListContract {
     interface View extends AbstractView {
-        void handlefetchPageAssetsInfos(List<AssetsListItemInfo> assetsInfos);
+        void handlefetchPageAssetsInfos(List<AssetsListItemInfo> assetsInfos ,int astCount,double totalMoney);
 
         void handleAllManagerUsers(List<MangerUser> mangerUsers);
 

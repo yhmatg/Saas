@@ -2,16 +2,12 @@ package com.common.esimrfid.ui.astlist;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -26,40 +22,26 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
-import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetlist.AssetListContract;
-import com.common.esimrfid.contract.home.WriteTagContract;
-import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.assetdetail.AssetFilterParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
 import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
 import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.assetlist.AssetListPresenter;
-import com.common.esimrfid.presenter.home.WriteTagPresenter;
-import com.common.esimrfid.uhf.IEsimUhfService;
-import com.common.esimrfid.ui.assetinventory.NewInventoryActivity;
-import com.common.esimrfid.ui.assetinventory.SimpleTreeRecyclerAdapter;
 import com.common.esimrfid.ui.inventorytask.FilterBean;
 import com.common.esimrfid.ui.inventorytask.FiltterAdapter;
-import com.common.esimrfid.ui.inventorytask.InvLocationAdapter;
-import com.common.esimrfid.ui.inventorytask.InvLocationBean;
-import com.common.esimrfid.ui.tagwrite.WriteTagAdapter;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.multilevel.treelist.Node;
-import com.multilevel.treelist.TreeRecyclerAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -355,7 +337,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
             }
         });
         //无网状态下禁用侧滑
-        if(!CommonUtils.isNetworkConnected()){
+        if (!CommonUtils.isNetworkConnected()) {
             // 禁止手势滑动
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             imFilter.setClickable(false);
@@ -573,7 +555,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
     }
 
     @Override
-    public void handlefetchPageAssetsInfos(List<AssetsListItemInfo> assetsInfos) {
+    public void handlefetchPageAssetsInfos(List<AssetsListItemInfo> assetsInfos, int astCount, double totalMoney) {
         mRefreshLayout.finishLoadMore();
         if (isNeedClearData) {
             mData.clear();
@@ -582,12 +564,16 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         sortList(currentSortFilter);
         adapter.notifyDataSetChanged();
         handleResultList(mData);
-        double totalPrice = 0;
+       /* double totalPrice = 0;
         for (AssetsListItemInfo mDatum : mData) {
             totalPrice += mDatum.getAst_price();
         }
         mAstNum.setText(String.valueOf(mData.size()));
-        mAstPrice.setText(String.valueOf(totalPrice));
+        mAstPrice.setText(String.valueOf(totalPrice));*/
+        if (!(0 == astCount && 0 == totalMoney)) {
+            mAstNum.setText(String.valueOf(astCount));
+            mAstPrice.setText(String.valueOf(totalMoney));
+        }
     }
 
     @Override

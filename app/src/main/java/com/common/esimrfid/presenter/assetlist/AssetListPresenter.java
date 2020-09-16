@@ -45,12 +45,12 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
                     public void onNext(AssetsListPage assetsInfoPage) {
                         mView.dismissDialog();
                         if (assetsInfoPage.isLocal()) {
-                            mView.handlefetchPageAssetsInfos(assetsInfoPage.getList());
+                            mView.handlefetchPageAssetsInfos(assetsInfoPage.getList(),assetsInfoPage.getAstCount(),assetsInfoPage.getTotalMoney());
                         } else {
                             if (page <= assetsInfoPage.getPages()) {
-                                mView.handlefetchPageAssetsInfos(assetsInfoPage.getList());
+                                mView.handlefetchPageAssetsInfos(assetsInfoPage.getList(),assetsInfoPage.getAstCount(),assetsInfoPage.getTotalMoney());
                             } else {
-                                mView.handlefetchPageAssetsInfos(new ArrayList<>());
+                                mView.handlefetchPageAssetsInfos(new ArrayList<>(),0,0);
                             }
                         }
 
@@ -78,6 +78,8 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
                     astStatus.add(-1);
                 }
                 List<AssetsListItemInfo> assetList = DbBank.getInstance().getAssetsAllInfoDao().searchPageLocalAssetListByPara(size, patternName, currentSize, astStatus, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(), EsimAndroidApp.getDataAuthority().getAuth_dept_scope(), EsimAndroidApp.getDataAuthority().getAuth_type_scope(), EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
+                double money = DbBank.getInstance().getAssetsAllInfoDao().searchLocalAssetMoneyByPara(patternName, astStatus, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(), EsimAndroidApp.getDataAuthority().getAuth_dept_scope(), EsimAndroidApp.getDataAuthority().getAuth_type_scope(), EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
+                int count = DbBank.getInstance().getAssetsAllInfoDao().searchLocalAssetCountByPara(patternName, astStatus, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(), EsimAndroidApp.getDataAuthority().getAuth_dept_scope(), EsimAndroidApp.getDataAuthority().getAuth_type_scope(), EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                 } else {
@@ -86,6 +88,8 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
                     assetsInfoPage.setList(assetList);
                     invOrderResponse.setResult(assetsInfoPage);
                     assetsInfoPage.setLocal(true);
+                    assetsInfoPage.setAstCount(count);
+                    assetsInfoPage.setTotalMoney(money);
                     invOrderResponse.setCode("200000");
                     invOrderResponse.setMessage("成功");
                     invOrderResponse.setSuccess(true);

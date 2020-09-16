@@ -113,4 +113,12 @@ public interface AssetsAllInfoDao extends BaseDao<AssetsAllInfo> {
     @Query("SELECT ast_barcode,user_name,ast_name,id,loc_name,ast_price,ast_used_status,ast_buy_date FROM AssetsAllInfo where (ast_name LIKE '%' || :para || '%' OR ast_barcode LIKE '%' || :para || '%') and ( -1 in (:status) or ast_used_status in (:status))and ('allData' in (:auth_corp_scope) or org_usedcorp_id in (:auth_corp_scope)) and ('allData' in (:auth_dept_scope) or org_useddept_id in (:auth_dept_scope)) and ('allData' in (:auth_type_scope) or type_id in (:auth_type_scope)) and ('allData' in (:auth_loc_scope) or loc_id in (:auth_loc_scope)) LIMIT :size OFFSET :currentSize")
     public List<AssetsListItemInfo> searchPageLocalAssetListByPara(Integer size, String para, int currentSize, List<Integer> status, List<String> auth_corp_scope, List<String> auth_dept_scope, List<String> auth_type_scope, List<String> auth_loc_scope);
 
+    //根据资产名称，资产编号,状态模糊查询(精简)分页(资产价格使用不分页) 加权限过滤
+    @Query("SELECT sum(ast_price) FROM AssetsAllInfo where (ast_name LIKE '%' || :para || '%' OR ast_barcode LIKE '%' || :para || '%') and ( -1 in (:status) or ast_used_status in (:status))and ('allData' in (:auth_corp_scope) or org_usedcorp_id in (:auth_corp_scope)) and ('allData' in (:auth_dept_scope) or org_useddept_id in (:auth_dept_scope)) and ('allData' in (:auth_type_scope) or type_id in (:auth_type_scope)) and ('allData' in (:auth_loc_scope) or loc_id in (:auth_loc_scope))")
+    public double searchLocalAssetMoneyByPara(String para, List<Integer> status, List<String> auth_corp_scope, List<String> auth_dept_scope, List<String> auth_type_scope, List<String> auth_loc_scope);
+
+    //根据资产名称，资产编号,状态模糊查询(精简)分页(资产价格使用不分页) 加权限过滤
+    @Query("SELECT count(*) FROM AssetsAllInfo where (ast_name LIKE '%' || :para || '%' OR ast_barcode LIKE '%' || :para || '%') and ( -1 in (:status) or ast_used_status in (:status))and ('allData' in (:auth_corp_scope) or org_usedcorp_id in (:auth_corp_scope)) and ('allData' in (:auth_dept_scope) or org_useddept_id in (:auth_dept_scope)) and ('allData' in (:auth_type_scope) or type_id in (:auth_type_scope)) and ('allData' in (:auth_loc_scope) or loc_id in (:auth_loc_scope))")
+    public int searchLocalAssetCountByPara(String para, List<Integer> status, List<String> auth_corp_scope, List<String> auth_dept_scope, List<String> auth_type_scope, List<String> auth_loc_scope);
+
 }
