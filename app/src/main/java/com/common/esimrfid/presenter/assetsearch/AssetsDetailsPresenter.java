@@ -6,16 +6,19 @@ import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfInventoryDetail;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -161,5 +164,28 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
             }
         });
         return baseResponseObservable;
+    }
+
+    @Override
+    public void getXAssetsDetailsById(String invId,String invItemId) {
+        addSubscribe(getLocalXfInvDetails(invId,invItemId)
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<XfInventoryDetail>(mView, false) {
+
+                    @Override
+                    public void onNext(XfInventoryDetail xfInventoryDetails) {
+                        mView.handleInvItemDetail(xfInventoryDetails);
+                    }
+                }));
+    }
+
+    private Observable<XfInventoryDetail> getLocalXfInvDetails(String invId,String invItemId) {
+        return Observable.create(new ObservableOnSubscribe<XfInventoryDetail>() {
+            @Override
+            public void subscribe(ObservableEmitter<XfInventoryDetail> emitter) throws Exception {
+                List<XfInventoryDetail> xInventoryDetail = DbBank.getInstance().getXfInventoryDetailDao().findXInventoryItemDetail(invId,invItemId);
+                emitter.onNext(xInventoryDetail.get(0));
+            }
+        });
     }
 }

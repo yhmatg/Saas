@@ -13,12 +13,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetrepair.ChooseRepairContract;
-import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfInventoryDetail;
 import com.common.esimrfid.presenter.assetrepair.ChooseRepairPresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -29,6 +30,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -169,6 +171,11 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
         mData.addAll(assetsInfos);
         adapter.notifyDataSetChanged();
         handleResultList(mData);
+    }
+
+    @Override
+    public void handleXfInvDetails(List<XfInventoryDetail> inventoryDetails) {
+
     }
 
     private void handleResultList(List<AssetsInfo> mData) {

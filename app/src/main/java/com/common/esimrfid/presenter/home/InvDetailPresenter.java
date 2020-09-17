@@ -10,14 +10,17 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfInventoryDetail;
 import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -295,5 +298,28 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
             }
         });
         return baseResponseObservable;
+    }
+
+    @Override
+    public void fetchXfAllInvDetails(String orderId) {
+        addSubscribe(getLocalXfAllInvDetails(orderId)
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<List<XfInventoryDetail>>(mView, false) {
+
+                    @Override
+                    public void onNext(List<XfInventoryDetail> xfInventoryDetails) {
+                        mView.handleXfInvDetails(xfInventoryDetails);
+                    }
+                }));
+    }
+
+    private Observable<List<XfInventoryDetail>> getLocalXfAllInvDetails(String orderId) {
+        return  Observable.create(new ObservableOnSubscribe<List<XfInventoryDetail>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<XfInventoryDetail>> emitter) throws Exception {
+                List<XfInventoryDetail> xInventoryDetail = DbBank.getInstance().getXfInventoryDetailDao().findXInventoryDetail(orderId);
+                emitter.onNext(xInventoryDetail);
+            }
+        });
     }
 }

@@ -5,6 +5,7 @@ import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfInventoryDetail;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public interface AssetsDetailsContract {
         void handleAssetsRepair(List<AssetRepair> assetRepairs);
         void handleAssetsNoDetail();
         void handleSetOneAssetInved(Boolean result);
+        void handleInvItemDetail(XfInventoryDetail invItemDetail);
     }
 
     interface Presenter extends AbstractPresenter<View> {
@@ -23,5 +25,7 @@ public interface AssetsDetailsContract {
         void getAssetsRepairById(String astid,String astCode);
         //手动将一个资产设置未已经盘点状态
         void setOneAssetInved(String sign,String invId, String locId, String astId);
+
+        void getXAssetsDetailsById(String invId,String invItemId);
     }
 }

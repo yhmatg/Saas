@@ -5,6 +5,7 @@ import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.bean.inventorytask.EpcBean;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfInventoryDetail;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,8 @@ public interface InvAssetLocContract {
         void handleInvDetails(List<InventoryDetail> inventoryDetails);
 
         void handleAllAssetEpcs(List<EpcBean> allEpcs);
+
+        void handleXfInvDetails(List<XfInventoryDetail> xInventoryDetail);
     }
 
     interface Presenter extends AbstractPresenter<View> {
@@ -24,5 +27,7 @@ public interface InvAssetLocContract {
         void setOneLessAssetInv(InventoryDetail oneLessAsset);
 
         void getAllAssetEpcs();
+
+        void fetchXfInvDetails(String orderId,String locId);
     }
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_15"
+    android:id="@+id/li_asset_resume"
+    android:visibility="gone"
+    android:background="@color/bgcolor">
+
+    <TextView
+        android:id="@+id/tv_num_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="维修单号"
+        android:textSize="@dimen/sp_16" />
+
+    <TextView
+        android:id="@+id/tv_asset_num2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_15"
+        android:layout_toEndOf="@+id/tv_num_name2"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_16" />
+
+    <TextView
+        android:id="@+id/tv_device_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_num_name2"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="报修人"
+        android:textSize="@dimen/sp_16" />
+
+    <TextView
+        android:id="@+id/tv_device_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_num_name2"
+        android:layout_marginStart="@dimen/dp_15"
+        android:layout_toEndOf="@+id/tv_num_name2"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_16" />
+
+    <TextView
+        android:id="@+id/tv_ast_loc2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_device_title2"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="维修日期"
+        android:textSize="@dimen/sp_16" />
+
+    <TextView
+        android:id="@+id/tv_ast_loc_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_device_title2"
+        android:layout_marginStart="@dimen/dp_15"
+        android:layout_toEndOf="@+id/tv_num_name2"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_16" />
+
+    <TextView
+        android:id="@+id/tv_use_depart2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_ast_loc2"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="维修说明"
+        android:textSize="@dimen/sp_16" />
+
+    <TextView
+        android:id="@+id/tv_depart_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_ast_loc2"
+        android:layout_marginStart="@dimen/dp_15"
+        android:layout_toEndOf="@+id/tv_num_name2"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_16" />
+</RelativeLayout>

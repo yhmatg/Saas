@@ -25,11 +25,11 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".ui.assetinventory.AssetInventoryActivity"
@@ -86,6 +86,41 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.astlist.AssetListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
+        <activity
+            android:name=".xfxj.assetinventory.XfAssetInventoryActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".xfxj.XfHomeActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".xfxj.XfLoginActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".xfxj.assetinventory.XfInvdetialActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".xfxj.assetinventory.XfInvAssetLocActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".xfxj.identity.XfIdentityActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".xfxj.identity.XfAssetsDetailsActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".xfxj.repair.XfChooseRepairAstActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
+        <activity
+            android:name=".xfxj.repair.XfAssetRepairActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan"></activity>
     </application>

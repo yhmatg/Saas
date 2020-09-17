@@ -1,20 +1,20 @@
 package com.common.esimrfid.presenter.home;
 
-import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
-import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.inventorytask.EpcBean;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfInventoryDetail;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -149,13 +149,13 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
     @Override
     public void getAllAssetEpcs() {
         addSubscribe(getLocalAssetsEpcsObservable()
-        .compose(RxUtils.rxSchedulerHelper())
-        .subscribeWith(new BaseObserver<List<EpcBean>>(mView,false) {
-            @Override
-            public void onNext(List<EpcBean> epcBeans) {
-                mView.handleAllAssetEpcs(epcBeans);
-            }
-        }));
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<List<EpcBean>>(mView, false) {
+                    @Override
+                    public void onNext(List<EpcBean> epcBeans) {
+                        mView.handleAllAssetEpcs(epcBeans);
+                    }
+                }));
     }
 
     //获取本地所有资产epc
@@ -169,4 +169,28 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
         });
         return baseResponseObservable;
     }
+
+    @Override
+    public void fetchXfInvDetails(String orderId, String locId) {
+        addSubscribe(getLocalXfInvDetails(orderId, locId)
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<List<XfInventoryDetail>>(mView, false) {
+
+                    @Override
+                    public void onNext(List<XfInventoryDetail> xfInventoryDetails) {
+                        mView.handleXfInvDetails(xfInventoryDetails);
+                    }
+                }));
+    }
+
+    private Observable<List<XfInventoryDetail>> getLocalXfInvDetails(String orderId, String locId) {
+        return Observable.create(new ObservableOnSubscribe<List<XfInventoryDetail>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<XfInventoryDetail>> emitter) throws Exception {
+                List<XfInventoryDetail> xInventoryDetail = DbBank.getInstance().getXfInventoryDetailDao().findXInventoryDetail(orderId,locId);
+                emitter.onNext(xInventoryDetail);
+            }
+        });
+    }
+
 }

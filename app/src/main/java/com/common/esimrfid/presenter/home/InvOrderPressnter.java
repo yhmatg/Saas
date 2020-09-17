@@ -1,6 +1,7 @@
 package com.common.esimrfid.presenter.home;
 
 import android.util.Log;
+
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.DataManager;
@@ -12,13 +13,16 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfResultInventoryOrder;
 import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -524,5 +528,28 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
             }
         });
         return baseResponseObservable;
+    }
+
+    @Override
+    public void fetchXfAllIvnOrders() {
+        addSubscribe(getFetchXfAllIvnOrders()
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<List<XfResultInventoryOrder>>(mView, false) {
+
+                    @Override
+                    public void onNext(List<XfResultInventoryOrder> xfResultInventoryOrders) {
+                        mView.showXfInvOrders(xfResultInventoryOrders);
+                    }
+                }));
+    }
+
+    private Observable<List<XfResultInventoryOrder>> getFetchXfAllIvnOrders() {
+        return  Observable.create(new ObservableOnSubscribe<List<XfResultInventoryOrder>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<XfResultInventoryOrder>> emitter) throws Exception {
+                List<XfResultInventoryOrder> xfInvOrders = DbBank.getInstance().getXfResultInventoryOrderDao().findXfInvOrders();
+                emitter.onNext(xfInvOrders);
+            }
+        });
     }
 }

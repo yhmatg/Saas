@@ -7,6 +7,8 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfResultInventoryOrder;
+
 import java.util.List;
 
 public interface InvOrderContract {
@@ -20,6 +22,8 @@ public interface InvOrderContract {
         void handelFinishInvOrder(BaseResponse baseResponse);
 
         void handleNotInvAssetLeftStatus(Boolean isAllInved);
+
+        void showXfInvOrders(List<XfResultInventoryOrder> resultInventoryOrders);
     }
 
     interface Presenter extends AbstractPresenter<View> {
@@ -38,5 +42,7 @@ public interface InvOrderContract {
         void finishLocalInvDetailStat(String orderId, String uid);
 
         void getNotInvAssetLeftStatus(String orderId);
+
+        void fetchXfAllIvnOrders();
     }
 }

@@ -14,6 +14,7 @@ import com.common.esimrfid.contract.home.InvOrderContract;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -235,6 +236,11 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
 
     @Override
     public void handleNotInvAssetLeftStatus(Boolean isAllInved) {
+
+    }
+
+    @Override
+    public void showXfInvOrders(List<XfResultInventoryOrder> resultInventoryOrders) {
 
     }
 

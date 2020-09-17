@@ -23,6 +23,7 @@ import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.inventorytask.EpcBean;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfInventoryDetail;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.home.InvAssetsLocPresenter;
@@ -381,6 +382,11 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
 
     @Override
     public void handleAllAssetEpcs(List<EpcBean> allEpcs) {
+
+    }
+
+    @Override
+    public void handleXfInvDetails(List<XfInventoryDetail> xInventoryDetail) {
 
     }
 

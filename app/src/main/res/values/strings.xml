@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">一芯资产管理</string>
+    <string name="app_name">消防巡检</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -299,4 +299,6 @@
     <string name="ast_user_str">使用人</string>
     <string name="ast_user_hint">请选择使用人</string>
     <string name="reset_str">重置</string>
+    <string name="xf_helper">巡检小助手</string>
+    <string name="inspection_str">巡检任务</string>
 </resources>

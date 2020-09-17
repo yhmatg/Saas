@@ -16,6 +16,7 @@ import com.common.esimrfid.core.bean.emun.InventoryStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfInventoryDetail;
 import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.home.InvDetailPresenter;
 import com.common.esimrfid.utils.CommonUtils;
@@ -233,6 +234,11 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
 
     @Override
     public void uploadInvDetails(List<InventoryDetail> inventoryDetails) {
+
+    }
+
+    @Override
+    public void handleXfInvDetails(List<XfInventoryDetail> inventoryDetails) {
 
     }
 
