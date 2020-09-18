@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:padding="@dimen/dp_10">
 
-    <com.common.esimrfid.customview.CircleNumberProgress
+    <com.common.xfxj.customview.CircleNumberProgress
         android:id="@+id/circle_progress"
         android:layout_width="@dimen/dp_68"
         android:layout_height="@dimen/dp_68"

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
-    <com.common.esimrfid.customview.MaxHeightRecyclerView
+    <com.common.xfxj.customview.MaxHeightRecyclerView
         android:id="@+id/rv_filter"
         app:cus_max_height="@dimen/dp_240"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </com.common.esimrfid.customview.MaxHeightRecyclerView>
+    </com.common.xfxj.customview.MaxHeightRecyclerView>
 </RelativeLayout>

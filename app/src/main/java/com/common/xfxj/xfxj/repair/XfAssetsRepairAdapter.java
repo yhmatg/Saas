@@ -1,0 +1,143 @@
+package com.common.xfxj.xfxj.repair;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.common.xfxj.R;
+import com.common.xfxj.core.bean.nanhua.xfxj.XfInventoryDetail;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class XfAssetsRepairAdapter extends RecyclerView.Adapter<XfAssetsRepairAdapter.ViewHolder> {
+    private Context context;
+    private List<XfInventoryDetail> mData;
+    private String area;
+    private List<XfInventoryDetail> mSelectedData = new ArrayList<>();
+    private OnDeleteClickListener mDeleteListener;
+
+    public XfAssetsRepairAdapter(Context context, List<XfInventoryDetail> mData, String area) {
+        this.context = context;
+        this.mData = mData;
+        this.area = area;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View contentView = LayoutInflater.from(context).inflate(R.layout.xf_item_repair_layout, viewGroup, false);
+        return new ViewHolder(contentView);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        XfInventoryDetail assetsInfo = mData.get(i);
+        int astStatus = assetsInfo.getResult();
+        viewHolder.astStatus.setText(astStatus == 0 ? "正常":"异常");
+        String name = TextUtils.isEmpty(assetsInfo.getAst_name()) ? "" : assetsInfo.getAst_name();
+        viewHolder.astName.setText(name);
+        String code = TextUtils.isEmpty(assetsInfo.getAst_barcode()) ? "" : assetsInfo.getAst_barcode();
+        viewHolder.astNumber.setText(code);
+        String type = TextUtils.isEmpty(assetsInfo.getLoc_name()) ? "" : assetsInfo.getLoc_name();
+        viewHolder.astType.setText(type);
+        String astBrand = TextUtils.isEmpty(assetsInfo.getOrg_belongcorp_name()) ? "" : assetsInfo.getOrg_belongcorp_name();
+        viewHolder.astBrand.setText(astBrand);
+        String formatNum = String.format(viewHolder.stringPostion,i + 1);
+        viewHolder.tvPosition.setText(formatNum);
+        viewHolder.astDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mData.remove(i);
+                notifyDataSetChanged();
+                mDeleteListener.onDeleteClick(assetsInfo);
+            }
+        });
+        if(assetsInfo.isSelected()){
+            viewHolder.cbRepair.setChecked(true);
+        }else {
+            viewHolder.cbRepair.setChecked(false);
+        }
+        viewHolder.cbRepair.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(assetsInfo.isSelected()){
+                    assetsInfo.setSelected(false);
+                    mSelectedData.remove(assetsInfo);
+                }else {
+                    assetsInfo.setSelected(true);
+                    if(!mSelectedData.contains(assetsInfo)){
+                        mSelectedData.add(assetsInfo);
+                    }
+                }
+            }
+        });
+        if("AssetRepairActivity".equals(area)){
+            viewHolder.astDelete.setVisibility(View.VISIBLE);
+            viewHolder.tvPosition.setVisibility(View.VISIBLE);
+            viewHolder.cbRepair.setVisibility(View.GONE);
+        }else {
+            viewHolder.astDelete.setVisibility(View.GONE);
+            viewHolder.tvPosition.setVisibility(View.GONE);
+            viewHolder.cbRepair.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mData == null ? 0 : mData.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.ast_status)
+        TextView astStatus;
+        @BindView(R.id.ast_name)
+        TextView astName;
+        @BindView(R.id.ast_number)
+        TextView astNumber;
+        @BindView(R.id.ast_type)
+        TextView astType;
+        @BindView(R.id.ast_brand)
+        TextView astBrand;
+        @BindView(R.id.ast_delete)
+        ImageButton astDelete;
+        @BindView(R.id.cb_repair)
+        CheckBox cbRepair;
+        @BindView(R.id.tv_position)
+        TextView tvPosition;
+        @BindString(R.string.select_count)
+        String stringPostion;
+
+        public ViewHolder(@NonNull View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+
+    public interface OnDeleteClickListener {
+        void onDeleteClick(XfInventoryDetail assetsInfo);
+    }
+
+    public void setOnDeleteClickListener(OnDeleteClickListener onItemClickListener) {
+        this.mDeleteListener = onItemClickListener;
+    }
+
+    public List<XfInventoryDetail> getmData() {
+        return mData;
+    }
+
+    public List<XfInventoryDetail> getmSelectedData() {
+        return mSelectedData;
+    }
+}

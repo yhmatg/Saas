@@ -1,0 +1,22 @@
+package com.common.xfxj.contract.assetrepair;
+
+import com.common.xfxj.base.presenter.AbstractPresenter;
+import com.common.xfxj.base.view.AbstractView;
+import com.common.xfxj.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.xfxj.core.bean.nanhua.xfxj.XfInventoryDetail;
+
+import java.util.List;
+
+public interface ChooseRepairContract {
+    interface View extends AbstractView {
+        void handlePageAssetsByOpt(List<AssetsInfo> assetsInfos);
+        void handleAllAssetsByOpt(List<AssetsInfo> assetsInfos);
+        void handleXfInvDetails(List<XfInventoryDetail> inventoryDetails);
+    }
+
+    interface Presenter extends AbstractPresenter<View> {
+        void getAllAssetsByOpt(String optType,String patternName);
+        void getAllAssetsByOpt(Integer size, Integer page,String optType,String patternName);
+        void fetchXfAllInvDetails(String para);
+    }
+}
