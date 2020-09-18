@@ -66,7 +66,6 @@ public class XfInvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> i
 
     @Override
     protected void initEventAndData() {
-        EsimAndroidApp.activityFrom = "XfInvAssetLocActivity";
         if (getIntent() != null) {
             mInvId = getIntent().getStringExtra(INV_ID);
             mLocId = getIntent().getStringExtra(LOC_IC);
@@ -96,6 +95,7 @@ public class XfInvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> i
     @Override
     protected void onResume() {
         super.onResume();
+        EsimAndroidApp.activityFrom = "XfInvAssetLocActivity";
         mPresenter.fetchXfInvDetails(mInvId, mLocId);
     }
 
@@ -113,6 +113,7 @@ public class XfInvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> i
             case R.id.start_inv:
                 Intent intent = new Intent();
                 intent.putExtra(INV_ID,mInvId);
+                intent.putExtra(LOC_IC,mLocId);
                 intent.setClass(this,XfIdentityActivity.class);
                 startActivity(intent);
                 break;

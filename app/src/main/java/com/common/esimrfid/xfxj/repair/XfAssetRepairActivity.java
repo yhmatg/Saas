@@ -90,7 +90,6 @@ public class XfAssetRepairActivity extends BaseActivity<AssetRepairPresenter> im
 
     @Override
     protected void initEventAndData() {
-        EsimAndroidApp.activityFrom = "XfAssetRepairActivity";
         mTitle.setText("设备报修");
         Intent intent = getIntent();
         assetsCode = intent.getStringExtra(ASSETS_CODE);
@@ -111,6 +110,12 @@ public class XfAssetRepairActivity extends BaseActivity<AssetRepairPresenter> im
             }
             repairAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EsimAndroidApp.activityFrom = "XfAssetRepairActivity";
     }
 
     @Override
