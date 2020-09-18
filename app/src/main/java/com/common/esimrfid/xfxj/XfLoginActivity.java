@@ -42,6 +42,8 @@ public class XfLoginActivity extends BaseActivity<LoginPresenter> implements Log
     private boolean isOpenEye = false;
     Toast toast;
     private String hostUrl;
+    private final int MIN_CLICK_DELAY_TIME = 1000;
+    private long lastClickTime;
 
     @Override
     protected int getLayoutId() {
@@ -79,7 +81,9 @@ public class XfLoginActivity extends BaseActivity<LoginPresenter> implements Log
     void performClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                login();
+                if(isNormalClick()){
+                    login();
+                }
                 break;
             case R.id.password_invisible:
                 settingVisible();
@@ -162,5 +166,15 @@ public class XfLoginActivity extends BaseActivity<LoginPresenter> implements Log
     @Override
     public void startLoginActivity(){
 
+    }
+
+    public boolean isNormalClick() {
+        boolean flag = false;
+        long curClickTime = System.currentTimeMillis();
+        if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
+            flag = true;
+        }
+        lastClickTime = curClickTime;
+        return flag;
     }
 }

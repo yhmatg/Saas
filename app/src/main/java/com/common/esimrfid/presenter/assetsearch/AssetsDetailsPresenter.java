@@ -183,8 +183,18 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
         return Observable.create(new ObservableOnSubscribe<XfInventoryDetail>() {
             @Override
             public void subscribe(ObservableEmitter<XfInventoryDetail> emitter) throws Exception {
-                List<XfInventoryDetail> xInventoryDetail = DbBank.getInstance().getXfInventoryDetailDao().findXInventoryItemDetail(invId,invItemId);
-                emitter.onNext(xInventoryDetail.get(0));
+                List<XfInventoryDetail> xInventoryDetail = new ArrayList<>();
+                if(invId == null){
+                    xInventoryDetail = DbBank.getInstance().getXfInventoryDetailDao().findXInventoryItemDetail(invItemId);
+                }else {
+                    xInventoryDetail = DbBank.getInstance().getXfInventoryDetailDao().findXInventoryItemDetail(invId,invItemId);
+                }
+                if(xInventoryDetail.size() > 0){
+                    emitter.onNext(xInventoryDetail.get(0));
+                }else {
+                    emitter.onNext(null);
+                }
+
             }
         });
     }

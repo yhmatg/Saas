@@ -21,14 +21,18 @@ import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetrepair.AssetRepairContract;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.xfxj.XfInventoryDetail;
+import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.presenter.assetrepair.AssetRepairPresenter;
 import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.utils.DateUtils;
+import com.common.esimrfid.utils.StringUtils;
+import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.xfxj.identity.XfIdentityActivity;
 import com.contrarywind.view.WheelView;
 
@@ -46,6 +50,7 @@ import butterknife.OnClick;
 
 public class XfAssetRepairActivity extends BaseActivity<AssetRepairPresenter> implements AssetRepairContract.View, XfAssetsRepairAdapter.OnDeleteClickListener {
     private static final String WHERE_FROM = "where_from";
+    private static final String ASSETS_CODE = "assets_code";
     @BindView(R.id.title_back)
     ImageView mBackImg;
     @BindView(R.id.title_content)
@@ -76,6 +81,7 @@ public class XfAssetRepairActivity extends BaseActivity<AssetRepairPresenter> im
     Date mSelectDate = new Date();
     ArrayList<XfInventoryDetail> selectedAssets = new ArrayList<>();
     private XfAssetsRepairAdapter repairAdapter;
+    private String assetsCode;
 
     @Override
     public AssetRepairPresenter initPresenter() {
@@ -84,7 +90,10 @@ public class XfAssetRepairActivity extends BaseActivity<AssetRepairPresenter> im
 
     @Override
     protected void initEventAndData() {
+        EsimAndroidApp.activityFrom = "XfAssetRepairActivity";
         mTitle.setText("设备报修");
+        Intent intent = getIntent();
+        assetsCode = intent.getStringExtra(ASSETS_CODE);
         mTvRepairDate.setText(DateUtils.date2String(mSelectDate));
         EventBus.getDefault().register(this);
         repairAdapter = new XfAssetsRepairAdapter(this, selectedAssets, "AssetRepairActivity");
@@ -92,6 +101,16 @@ public class XfAssetRepairActivity extends BaseActivity<AssetRepairPresenter> im
         mSelectedRecy.setLayoutManager(new LinearLayoutManager(this));
         mSelectedRecy.setAdapter(repairAdapter);
         initCustomTimePicker();
+        if(assetsCode != null){
+            List<XfInventoryDetail> xInventoryItemDetail = DbBank.getInstance().getXfInventoryDetailDao().findXInventoryItemDetail(assetsCode);
+            selectedAssets.addAll(xInventoryItemDetail);
+            if (selectedAssets.size() > 0) {
+                divideView.setVisibility(View.VISIBLE);
+            } else {
+                divideView.setVisibility(View.GONE);
+            }
+            repairAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -140,7 +159,19 @@ public class XfAssetRepairActivity extends BaseActivity<AssetRepairPresenter> im
                 startActivity(new Intent(this, XfChooseRepairAstActivity.class));
                 break;
             case R.id.btn_submit:
-
+                if (StringUtils.isEmpty(mRepairPerson.getText().toString())) {
+                    ToastUtils.showShort("请输入报修人");
+                    return;
+                }
+                if (StringUtils.isEmpty(mRepairDirection.getText().toString())) {
+                    ToastUtils.showShort("请输入维修说明");
+                    return;
+                }
+                if (selectedAssets.size() < 1) {
+                    ToastUtils.showShort("请选择报修资产");
+                    return;
+                }
+                ToastUtils.showShort("报修提交成功");
                 break;
         }
     }

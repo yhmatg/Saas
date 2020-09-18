@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
@@ -18,7 +19,12 @@ import com.common.esimrfid.core.bean.nanhua.xfxj.XfInventoryDetail;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
 import com.common.esimrfid.utils.ToastUtils;
+import com.common.esimrfid.xfxj.repair.XfAssetRepairActivity;
+import com.common.esimrfid.xfxj.repair.XfRepairAssetEvent;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -217,7 +223,18 @@ public class XfAssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter
                 ToastUtils.showShort("提交成功");
                 break;
             case R.id.bt_repair:
-
+                if("XfInvAssetLocActivity".equals(EsimAndroidApp.activityFrom)){
+                    Intent intent = new Intent();
+                    intent.putExtra(ASSETS_CODE, assetsCode);
+                    intent.setClass(this, XfAssetRepairActivity.class);
+                    startActivity(intent);
+                }else {
+                    List<XfInventoryDetail> assetsInfos = new ArrayList<>();
+                    assetsInfos.add(mInvItemDetail);
+                    XfRepairAssetEvent repairAssetEvent = new XfRepairAssetEvent(assetsInfos);
+                    EventBus.getDefault().post(repairAssetEvent);
+                }
+                finish();
                 break;
         }
     }
@@ -277,56 +294,58 @@ public class XfAssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter
     TextView departName2;*/
     @Override
     public void handleInvItemDetail(XfInventoryDetail invItemDetail) {
-        mInvItemDetail = invItemDetail;
-        astName.setText(mInvItemDetail.getAst_name());
-        locName.setText(mInvItemDetail.getLoc_name());
-        companyName.setText(mInvItemDetail.getOrg_belongcorp_name());
-        int zhiJia = mInvItemDetail.getZhiJia();
-        if(zhiJia == 0){
-            zhijiaGroup.check(R.id.rb_normal1);
-        }else {
-            zhijiaGroup.check(R.id.rb_unNormal1);
-        }
-        int yaLi = mInvItemDetail.getYaLi();
-        if(yaLi == 0){
-            yaliGroup.check(R.id.rb_normal2);
-        }else {
-            yaliGroup.check(R.id.rb_unNormal2);
-        }
-        int qianFen = mInvItemDetail.getQianFen();
-        if(qianFen == 0){
-            qianfenGroup.check(R.id.rb_normal3);
-        }else {
-            qianfenGroup.check(R.id.rb_unNormal3);
-        }
-        int qingJie = mInvItemDetail.getQingJie();
-        if(qingJie == 0){
-            qinjieGroup.check(R.id.rb_normal4);
-        }else {
-            qinjieGroup.check(R.id.rb_unNormal4);
-        }
-        int youXiaoQi = mInvItemDetail.getYouXiaoQi();
-        if(youXiaoQi == 0){
-            timeGroup.check(R.id.rb_normal5);
-        }else {
-            timeGroup.check(R.id.rb_unNormal5);
-        }
-        astCode1.setText(mInvItemDetail.getAst_barcode());
-        deviceName1.setText(mInvItemDetail.getAst_name());
-        locName1.setText(mInvItemDetail.getLoc_name());
-        companyName1.setText(mInvItemDetail.getOrg_belongcorp_name());
+        if(invItemDetail != null){
+            mInvItemDetail = invItemDetail;
+            astName.setText(mInvItemDetail.getAst_name());
+            locName.setText(mInvItemDetail.getLoc_name());
+            companyName.setText(mInvItemDetail.getOrg_belongcorp_name());
+            int zhiJia = mInvItemDetail.getZhiJia();
+            if(zhiJia == 0){
+                zhijiaGroup.check(R.id.rb_normal1);
+            }else {
+                zhijiaGroup.check(R.id.rb_unNormal1);
+            }
+            int yaLi = mInvItemDetail.getYaLi();
+            if(yaLi == 0){
+                yaliGroup.check(R.id.rb_normal2);
+            }else {
+                yaliGroup.check(R.id.rb_unNormal2);
+            }
+            int qianFen = mInvItemDetail.getQianFen();
+            if(qianFen == 0){
+                qianfenGroup.check(R.id.rb_normal3);
+            }else {
+                qianfenGroup.check(R.id.rb_unNormal3);
+            }
+            int qingJie = mInvItemDetail.getQingJie();
+            if(qingJie == 0){
+                qinjieGroup.check(R.id.rb_normal4);
+            }else {
+                qinjieGroup.check(R.id.rb_unNormal4);
+            }
+            int youXiaoQi = mInvItemDetail.getYouXiaoQi();
+            if(youXiaoQi == 0){
+                timeGroup.check(R.id.rb_normal5);
+            }else {
+                timeGroup.check(R.id.rb_unNormal5);
+            }
+            astCode1.setText(mInvItemDetail.getAst_barcode());
+            deviceName1.setText(mInvItemDetail.getAst_name());
+            locName1.setText(mInvItemDetail.getLoc_name());
+            companyName1.setText(mInvItemDetail.getOrg_belongcorp_name());
 
-        perContent.setText(mInvItemDetail.getXjPerson());
-        dateContent.setText(mInvItemDetail.getXjDate());
-        resultContent.setText(mInvItemDetail.getXjResult());
+            perContent.setText(mInvItemDetail.getXjPerson());
+            dateContent.setText(mInvItemDetail.getXjDate());
+            resultContent.setText(mInvItemDetail.getXjResult());
 
-        assetNum2.setText(mInvItemDetail.getWeixiuCode());
-        deviceName2.setText(mInvItemDetail.getWeixiuPerson());
-        locName2.setText(mInvItemDetail.getWeixiuDate());
-        departName2.setText(mInvItemDetail.getWeixiuContent());
+            assetNum2.setText(mInvItemDetail.getWeixiuCode());
+            deviceName2.setText(mInvItemDetail.getWeixiuPerson());
+            locName2.setText(mInvItemDetail.getWeixiuDate());
+            departName2.setText(mInvItemDetail.getWeixiuContent());
 
-        remarkText.setText(mInvItemDetail.getRemark());
-
-
+            remarkText.setText(mInvItemDetail.getRemark());
+        }else {
+            ToastUtils.showShort("未查询到对应资产");
+        }
     }
 }

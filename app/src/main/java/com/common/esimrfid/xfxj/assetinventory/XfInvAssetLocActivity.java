@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
 import com.common.esimrfid.core.bean.inventorytask.EpcBean;
@@ -65,6 +66,7 @@ public class XfInvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> i
 
     @Override
     protected void initEventAndData() {
+        EsimAndroidApp.activityFrom = "XfInvAssetLocActivity";
         if (getIntent() != null) {
             mInvId = getIntent().getStringExtra(INV_ID);
             mLocId = getIntent().getStringExtra(LOC_IC);

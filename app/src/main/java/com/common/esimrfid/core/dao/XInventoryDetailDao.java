@@ -21,6 +21,9 @@ public interface XInventoryDetailDao extends BaseDao<XfInventoryDetail> {
     @Query("SELECT * FROM XfInventoryDetail WHERE inv_id = :invId AND ast_barcode = :invItemId ")
     public List<XfInventoryDetail> findXInventoryItemDetail(String invId,String invItemId);
 
+    @Query("SELECT * FROM XfInventoryDetail WHERE  ast_barcode = :invItemId ")
+    public List<XfInventoryDetail> findXInventoryItemDetail(String invItemId);
+
     @Query("SELECT * FROM XfInventoryDetail where ast_name LIKE '%' || :para || '%' OR ast_barcode LIKE '%' || :para || '%'")
     public List<XfInventoryDetail> findXLocalAssetsByPara(String para);
 
