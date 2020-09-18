@@ -47,7 +47,7 @@ public class XfIdentityActivity extends BaseActivity {
     private Boolean canRfid = true;
     private String scanTagEpc = null;//扫描到的Epc
     private List<XfInventoryDetail> xInventoryDetail = new ArrayList<>();
-    private List<String> epcs = new ArrayList<>();
+    private List<String> astCodes = new ArrayList<>();
     private String data;
     private  XfInventoryDetail scannedDetail;
 
@@ -78,7 +78,15 @@ public class XfIdentityActivity extends BaseActivity {
         registerReceiver(receiver, mFilter);
         //地区盘点页面使用
         xInventoryDetail = DbBank.getInstance().getXfInventoryDetailDao().findXInventoryDetail(mInvId,mLocId);
-
+        astCodes.add("detail001");
+        astCodes.add("detail002");
+        astCodes.add("detail003");
+        astCodes.add("detail004");
+        astCodes.add("detail005");
+        astCodes.add("detail006");
+        astCodes.add("detail007");
+        astCodes.add("detail008");
+        astCodes.add("detail009");
 
     }
 
@@ -145,6 +153,10 @@ public class XfIdentityActivity extends BaseActivity {
                 data = intent.getStringExtra("se4500");
                 byte[] bytes = intent.getByteArrayExtra("se4500_byte");
                 if (data != null) {
+                    if(!astCodes.contains(data)){
+                        ToastUtils.showShort("非系统内的标签数据");
+                        return;
+                    }
                     Log.e("BindTagActivity", "stringdata====" + data);
                     if("XfInvAssetLocActivity".equals(EsimAndroidApp.activityFrom)){
                         List<XfInventoryDetail> xInventoryItemDetail = DbBank.getInstance().getXfInventoryDetailDao().findXInventoryItemDetail(data);

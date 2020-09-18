@@ -25,10 +25,10 @@ import com.common.xfxj.uhf.UhfMsgEvent;
 import com.common.xfxj.uhf.UhfMsgType;
 import com.common.xfxj.ui.home.AssetLocationNum;
 import com.common.xfxj.ui.home.SettingActivity;
-import com.common.xfxj.ui.identity.IdentityActivity;
 import com.common.xfxj.utils.SettingBeepUtil;
 import com.common.xfxj.utils.ToastUtils;
 import com.common.xfxj.xfxj.assetinventory.XfAssetInventoryActivity;
+import com.common.xfxj.xfxj.identity.XfIdentityActivity;
 import com.common.xfxj.xfxj.repair.XfAssetRepairActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -198,7 +198,7 @@ public class XfHomeActivity extends BaseActivity<HomePresenter> implements HomeC
                 break;
             case R.id.ast_repair:
                 if (isNormalClick()) {
-                    startActivity(new Intent(this, IdentityActivity.class));
+                    startActivity(new Intent(this, XfIdentityActivity.class));
                 }
                 break;
             case R.id.ast_list:
