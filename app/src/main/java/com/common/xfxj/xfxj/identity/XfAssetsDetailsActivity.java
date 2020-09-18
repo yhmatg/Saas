@@ -2,8 +2,10 @@ package com.common.xfxj.xfxj.identity;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -91,6 +93,12 @@ public class XfAssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter
     RelativeLayout li_repair;
     @BindView(R.id.li_asset_resume)
     RelativeLayout li_resume;
+    @BindView(R.id.bt_submit)
+    Button submitBt;
+    @BindView(R.id.bt_repair)
+    Button repairBt;
+    @BindView(R.id.asset_detail)
+    RadioButton detailRadio;
     private String mInvId;
     private String assetsCode;
     XfInventoryDetail mInvItemDetail;
@@ -160,6 +168,21 @@ public class XfAssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter
         List<XfResultInventoryOrder> xfInvOrdersById = DbBank.getInstance().getXfResultInventoryOrderDao().findXfInvOrdersById(mInvId);
         if(xfInvOrdersById .size() > 0){
             xfResultInventoryOrder = xfInvOrdersById.get(0);
+        }
+        if("XfAssetRepairActivity".equals(EsimAndroidApp.activityFrom)){
+            submitBt.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.addRule( RelativeLayout.ALIGN_PARENT_BOTTOM);
+            repairBt.setLayoutParams(lp);
+        }
+        if("XfHomeActivity".equals(EsimAndroidApp.activityFrom)){
+            li_assetDetail.setVisibility(View.GONE);
+            detailRadio.setVisibility(View.GONE);
+            title_tab.check(R.id.mainten_info);
+            empty_page.setVisibility(View.GONE);
+            li_maintenance.setVisibility(View.VISIBLE);
+            li_repair.setVisibility(View.GONE);
+            li_resume.setVisibility(View.GONE);
         }
     }
 

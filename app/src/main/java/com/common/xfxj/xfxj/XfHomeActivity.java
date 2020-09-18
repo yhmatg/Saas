@@ -90,8 +90,8 @@ public class XfHomeActivity extends BaseActivity<HomePresenter> implements HomeC
     private void initDatabaseData() {
         //初始化盘点单数据
         ArrayList<XfResultInventoryOrder> xfResultInventoryOrders = new ArrayList<>();
-        XfResultInventoryOrder xfResultInventoryOrderOne = new XfResultInventoryOrder("invId001", "invCode001", "巡检任务1", "巡检人1", "9月10日", "15:00", 0, 3, 0);
-        XfResultInventoryOrder xfResultInventoryOrderTwo = new XfResultInventoryOrder("invId002", "invCode002", "巡检任务2", "巡检人2", "9月11日", "15:00", 0, 3, 1);
+        XfResultInventoryOrder xfResultInventoryOrderOne = new XfResultInventoryOrder("invId001", "invCode001", "巡检任务1", "巡检人1", "9月10日", "15:00", 0, 5, 0);
+        XfResultInventoryOrder xfResultInventoryOrderTwo = new XfResultInventoryOrder("invId002", "invCode002", "巡检任务2", "巡检人2", "9月11日", "15:00", 0, 1, 1);
         XfResultInventoryOrder xfResultInventoryOrderThree = new XfResultInventoryOrder("invId003", "invCode003", "巡检任务3", "巡检人3", "9月11日", "15:00", 0, 3, 2);
         xfResultInventoryOrders.add(xfResultInventoryOrderOne);
         xfResultInventoryOrders.add(xfResultInventoryOrderTwo);
@@ -103,8 +103,8 @@ public class XfHomeActivity extends BaseActivity<HomePresenter> implements HomeC
         XfInventoryDetail xfInventoryDetailOne = new XfInventoryDetail("detail001", "invId001", "ast001","detail001","detail001", "品牌1", "100000000000000000000001", "一楼", "公司1", "张三","9月12日","正常","w0001","张三","9月10日","说明1",0,0, 0, 0, 0, 0, 0,"");
         XfInventoryDetail xfInventoryDetailTwo = new XfInventoryDetail("detail002", "invId001", "ast002","detail002","detail002", "品牌1", "100000000000000000000002", "二楼", "公司1", "张三","9月12日","正常","w0001","张三","9月10日","说明1",0, 0, 0, 0, 0, 0,0,"");
         XfInventoryDetail xfInventoryDetailThree = new XfInventoryDetail("detail003", "invId001", "ast003","detail003","detail003", "品牌1", "100000000000000000000003", "三楼", "公司1", "张三","9月12日","正常","w0001","张三","9月10日","说明1",0, 0, 0, 0, 0, 0,0,"");
-        XfInventoryDetail xfInventoryDetailFour = new XfInventoryDetail("detail004", "invId002", "ast004","detail004","detail004", "品牌1", "100000000000000000000004", "三楼", "公司1", "张三","9月12日","正常","w0001","张三","9月10日","说明1",0, 0, 0, 0, 0, 0,0,"");
-        XfInventoryDetail xfInventoryDetailFive = new XfInventoryDetail("detail005", "invId002", "ast005","detail005","detail005", "品牌1", "100000000000000000000005", "三楼", "公司1", "张三","9月12日","正常","w0001","张三","9月10日","说明1",0, 0, 0, 0, 0, 0,0,"");
+        XfInventoryDetail xfInventoryDetailFour = new XfInventoryDetail("detail004", "invId001", "ast004","detail004","detail004", "品牌1", "100000000000000000000004", "四楼", "公司1", "张三","9月12日","正常","w0001","张三","9月10日","说明1",0, 0, 0, 0, 0, 0,0,"");
+        XfInventoryDetail xfInventoryDetailFive = new XfInventoryDetail("detail005", "invId001", "ast005","detail005","detail005", "品牌1", "100000000000000000000005", "五楼", "公司1", "张三","9月12日","正常","w0001","张三","9月10日","说明1",0, 0, 0, 0, 0, 0,0,"");
         XfInventoryDetail xfInventoryDetailSix = new XfInventoryDetail("detail006", "invId002", "ast006","detail006","detail006", "品牌1", "100000000000000000000006", "三楼", "公司1", "张三","9月12日","正常","w0001","张三","9月10日","说明1",0, 0, 0, 0, 0, 0,0,"");
         XfInventoryDetail xfInventoryDetailSeven = new XfInventoryDetail("detail007", "invId003", "ast007","detail007","detail007", "品牌1", "100000000000000000000007", "三楼", "公司1", "张三","9月12日","正常","w0001","张三","9月10日","说明1",0, 0, 0, 0, 0, 0,0,"");
         XfInventoryDetail xfInventoryDetailEight = new XfInventoryDetail("detail008", "invId003", "ast008","detail008","detail008", "品牌1", "100000000000000000000008", "三楼", "公司1", "张三","9月12日","正常","w0001","张三","9月10日","说明1",0, 0, 0, 0, 0, 0,0,"");
@@ -125,6 +125,7 @@ public class XfHomeActivity extends BaseActivity<HomePresenter> implements HomeC
     @Override
     protected void onResume() {
         super.onResume();
+        EsimAndroidApp.activityFrom = "XfHomeActivity";
     }
 
 

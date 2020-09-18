@@ -57,8 +57,8 @@ public class XfInvAssetAdapter extends RecyclerView.Adapter<XfInvAssetAdapter.Vi
         Integer inv_total_count = invTaskItem.getInv_total_count();
         Integer inv_finish_count = invTaskItem.getInv_finish_count();
         viewHolder.mAllNum.setText(String.valueOf(inv_total_count));
-        viewHolder.mUnfinishedNum.setText(String.valueOf(inv_total_count - inv_finish_count));
-        viewHolder.mFinishedNum.setText(String.valueOf(inv_finish_count));
+        viewHolder.mFinishedNum.setText(String.valueOf(inv_total_count - inv_finish_count));
+        viewHolder.mUnfinishedNum.setText(String.valueOf(inv_finish_count));
         if(invTaskItem.getInv_status() == 1){
             viewHolder.mStartInv.setVisibility(View.GONE);
             viewHolder.mSyncInv.setVisibility(View.GONE);
