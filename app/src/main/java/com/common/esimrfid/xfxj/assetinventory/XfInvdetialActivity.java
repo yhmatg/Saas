@@ -85,7 +85,7 @@ public class XfInvdetialActivity extends BaseActivity<InvDetailPresenter> implem
         }
         inStatusList();
         initView();
-        mPresenter.fetchXfAllInvDetails(mInvId);
+
     }
 
     private void inStatusList() {
@@ -97,7 +97,7 @@ public class XfInvdetialActivity extends BaseActivity<InvDetailPresenter> implem
     @Override
     protected void onResume() {
         super.onResume();
-
+        mPresenter.fetchXfAllInvDetails(mInvId);
     }
 
     @Override

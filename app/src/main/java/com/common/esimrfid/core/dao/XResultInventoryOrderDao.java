@@ -12,6 +12,9 @@ public interface XResultInventoryOrderDao extends BaseDao<XfResultInventoryOrder
     @Query("SELECT * FROM XfResultInventoryOrder ")
     public List<XfResultInventoryOrder> findXfInvOrders();
 
+    @Query("SELECT * FROM XfResultInventoryOrder WHERE id = :invId")
+    public List<XfResultInventoryOrder> findXfInvOrdersById(String invId);
+
     @Query("DELETE FROM XfResultInventoryOrder")
     public void deleteAllData();
 

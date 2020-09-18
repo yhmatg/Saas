@@ -16,6 +16,7 @@ import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.xfxj.XfInventoryDetail;
+import com.common.esimrfid.core.bean.nanhua.xfxj.XfResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
 import com.common.esimrfid.utils.ToastUtils;
@@ -93,6 +94,7 @@ public class XfAssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter
     private String mInvId;
     private String assetsCode;
     XfInventoryDetail mInvItemDetail;
+    private XfResultInventoryOrder xfResultInventoryOrder;
 
     @Override
     public AssetsDetailsPresenter initPresenter() {
@@ -155,6 +157,10 @@ public class XfAssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter
                 }
             }
         });
+        List<XfResultInventoryOrder> xfInvOrdersById = DbBank.getInstance().getXfResultInventoryOrderDao().findXfInvOrdersById(mInvId);
+        if(xfInvOrdersById .size() > 0){
+            xfResultInventoryOrder = xfInvOrdersById.get(0);
+        }
     }
 
     @Override
@@ -220,6 +226,10 @@ public class XfAssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter
                 mInvItemDetail.setRemark(remarkText.getText().toString());
                 mInvItemDetail.setInv_status(1);
                 DbBank.getInstance().getXfInventoryDetailDao().updateItem(mInvItemDetail);
+                if(xfResultInventoryOrder != null){
+                    xfResultInventoryOrder.setInv_finish_count(xfResultInventoryOrder.getInv_finish_count() + 1);
+                    DbBank.getInstance().getXfResultInventoryOrderDao().updateItem(xfResultInventoryOrder);
+                }
                 ToastUtils.showShort("提交成功");
                 break;
             case R.id.bt_repair:

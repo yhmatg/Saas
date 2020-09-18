@@ -87,12 +87,12 @@ public class XfAssetInventoryActivity extends BaseActivity<InvOrderPressnter> im
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
         mRefreshLayout.setEnableLoadMore(false);
         mRefreshLayout.setEnableRefresh(false);
-        mPresenter.fetchXfAllIvnOrders();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mPresenter.fetchXfAllIvnOrders();
     }
 
     @Override
