@@ -56,11 +56,11 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
     public void fetchLatestAssets() {
         if(CommonUtils.isNetworkConnected()){
             addSubscribe(DataManager.getInstance().fetchLatestAssets(DataManager.getInstance().getLatestSyncTime())
-                    .compose(RxUtils.rxSchedulerHelper())
                     .compose(RxUtils.handleResult())
-                    .subscribeWith(new BaseObserver<LatestModifyAssets>(mView, false) {
+                    .subscribeOn(Schedulers.io())
+                    .doOnNext(new Consumer<LatestModifyAssets>() {
                         @Override
-                        public void onNext(LatestModifyAssets latestModifyAssets) {
+                        public void accept(LatestModifyAssets latestModifyAssets) throws Exception {
                             AssetsAllInfoDao assetsAllInfoDao = DbBank.getInstance().getAssetsAllInfoDao();
                             if(latestModifyAssets.getModified() != null && latestModifyAssets.getModified().size() > 0){
                                 assetsAllInfoDao.insertItems(latestModifyAssets.getModified());
@@ -69,6 +69,13 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
                                 assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
                             }
                             DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 600000));
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new BaseObserver<LatestModifyAssets>(mView, false) {
+                        @Override
+                        public void onNext(LatestModifyAssets latestModifyAssets) {
+
                         }
                     }));
         }
