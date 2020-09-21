@@ -4,10 +4,8 @@ import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
-import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 
-import java.util.HashMap;
 import java.util.List;
 
 public interface HomeConstract {
@@ -31,5 +29,7 @@ public interface HomeConstract {
         void fetchLatestAssets();
 
         void getDataAuthority(String id);
+
+        void fetchLatestPageAssets(Integer size, Integer page);
     }
 }

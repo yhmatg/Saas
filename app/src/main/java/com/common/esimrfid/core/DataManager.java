@@ -1,6 +1,7 @@
 package com.common.esimrfid.core;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
+import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
@@ -11,7 +12,6 @@ import com.common.esimrfid.core.bean.inventorytask.CreateInvResult;
 import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
@@ -19,9 +19,11 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
@@ -31,10 +33,11 @@ import com.common.esimrfid.core.http.HttpHelper;
 import com.common.esimrfid.core.http.HttpHelperImpl;
 import com.common.esimrfid.core.prefs.PreferenceHelper;
 import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
-import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
 import io.reactivex.Observable;
 
 /**
@@ -396,5 +399,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<InventoryOrderPage>> fetchAllIvnOrdersPage(Integer size, Integer page, String userId) {
         return mHttpHelper.fetchAllIvnOrdersPage(size, page, userId);
+    }
+
+    @Override
+    public Observable<BaseResponse<LatestModifyPageAssets>> fetchLatestAssetsPage(String lastTime, Integer size, Integer page) {
+        return mHttpHelper.fetchLatestAssetsPage(lastTime, size, page);
     }
 }

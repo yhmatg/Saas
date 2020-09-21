@@ -137,7 +137,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         } else {
             mPresenter.getDataAuthority(uerLogin.getUserinfo().getId());
         }
-        mPresenter.fetchLatestAssets();
+        mPresenter.fetchLatestPageAssets(500,1);
     }
 
     //检查登录状态，未登录跳转登录界面

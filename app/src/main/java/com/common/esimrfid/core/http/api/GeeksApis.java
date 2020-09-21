@@ -12,7 +12,6 @@ import com.common.esimrfid.core.bean.inventorytask.CreateInvResult;
 import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
@@ -20,17 +19,21 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -64,7 +67,7 @@ public interface GeeksApis {
     //@return 用户分配的盘点任务列表
 
     @GET("inventory-server/inventoryorders")
-    Observable<BaseResponse<InventoryOrderPage>> fetchAllIvnOrdersPage(@Query("size") Integer size, @Query("page") Integer page,@Query("user_id") String userId);
+    Observable<BaseResponse<InventoryOrderPage>> fetchAllIvnOrdersPage(@Query("size") Integer size, @Query("page") Integer page, @Query("user_id") String userId);
 
     //获取盘点条目详情
     //@param orderId 盘点单id
@@ -243,6 +246,10 @@ public interface GeeksApis {
     //根据时间戳获取变动更新资产
     @GET("assets-server/assets/lastupdate")
     Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(@Query("lasttime") String lastTime);
+
+    //根据时间戳获取变动更新资产(分页)
+    @GET("assets-server/assets/lastupdate")
+    Observable<BaseResponse<LatestModifyPageAssets>> fetchLatestAssetsPage(@Query("lasttime") String lastTime, @Query("size") Integer size, @Query("page") Integer page);
 
     //新建报修单和审批流程相关
     @POST("assets-server/bussiness/apply/REPAIR")

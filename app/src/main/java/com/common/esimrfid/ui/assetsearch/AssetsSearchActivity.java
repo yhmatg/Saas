@@ -2,9 +2,7 @@ package com.common.esimrfid.ui.assetsearch;
 
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,8 +21,6 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetsearch.AssetsSearchContract;
-import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 import com.common.esimrfid.presenter.assetsearch.AssetsSearchPresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
@@ -43,12 +39,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -120,7 +111,8 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
         mRefreshLayout.setEnableAutoLoadMore(false);
-        mPresenter.fetchLatestAssets();
+        //mPresenter.fetchLatestAssets();
+        mPresenter.fetchLatestPageAssets(500,1);
         mPresenter.getAllAssetsForSearch();
     }
 

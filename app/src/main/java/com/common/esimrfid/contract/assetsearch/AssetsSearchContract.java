@@ -2,11 +2,9 @@ package com.common.esimrfid.contract.assetsearch;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 
 import java.util.List;
-import java.util.Set;
 
 public interface AssetsSearchContract {
     interface View extends AbstractView {
@@ -21,5 +19,7 @@ public interface AssetsSearchContract {
         void getAllAssetsForSearch();
         void fetchLatestAssets();
         void fetchPageAssetsInfos(Integer size, String patternName,int currentSize);
+
+        void fetchLatestPageAssets(Integer size, Integer page);
     }
 }
