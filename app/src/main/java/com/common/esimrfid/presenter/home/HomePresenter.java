@@ -255,7 +255,9 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
     @Override
     public void fetchLatestPageAssets(Integer size, Integer page) {
         if (page == 1) {
-            mView.showDialog("loading...");
+            if(mView != null){
+                mView.showDialog("loading...");
+            }
         }
         if (CommonUtils.isNetworkConnected()) {
             addSubscribe(DataManager.getInstance().fetchLatestAssetsPage(DataManager.getInstance().getLatestSyncTime(),size,page)
@@ -287,14 +289,18 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                             int pageNum = latestModifyPageAssets.getPageNum();
                             int pages = latestModifyPageAssets.getPages();
                             if (pageNum + 1 > pages) {
-                                mView.dismissDialog();
+                                if(mView != null){
+                                    mView.dismissDialog();
+                                }
                             }
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
-                            mView.dismissDialog();
+                            if(mView != null){
+                                mView.dismissDialog();
+                            }
                         }
                     }));
         }
