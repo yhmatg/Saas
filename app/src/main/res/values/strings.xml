@@ -313,4 +313,6 @@
     <string name="type_str">分类</string>
     <string name="bramd_str">品牌</string>
     <string name="mode_str">型号</string>
+    <string name="finish_str">完成</string>
+    <string name="choose_com_first">请先选择公司</string>
 </resources>

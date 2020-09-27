@@ -240,7 +240,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         });
         mTitle = filterView.findViewById(R.id.title_content);
         mConfirm = filterView.findViewById(R.id.tv_inv_sure);
-        mConfirm.setText("完成");
+        mConfirm.setText(R.string.finish_str);
         mConfirm.setVisibility(View.VISIBLE);
         mConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -422,7 +422,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 break;
             case R.id.rl_asset_status:
                 currentFilterId = R.id.rl_asset_status;
-                mTitle.setText("请选择资产状态");
+                mTitle.setText(R.string.asset_status_hint);
                 multiFilterAdapter.removeData(currentMultiDatas);
                 currentMultiDatas.clear();
                 currentMultiDatas.addAll(mAllStatusBeans);
@@ -433,7 +433,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 break;
             case R.id.rl_use_company:
                 currentFilterId = R.id.rl_use_company;
-                mTitle.setText("请选择使用公司");
+                mTitle.setText(R.string.inv_usecom_hint);
                 singleFilterAdapter.notifyDataSetChanged();
                 multiRecycle.setVisibility(View.GONE);
                 singleRecycle.setVisibility(View.VISIBLE);
@@ -441,16 +441,16 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 break;
             case R.id.rl_use_depart:
                 currentFilterId = R.id.rl_use_depart;
-                mTitle.setText("请选择使用部门");
+                mTitle.setText(R.string.inv_usedepart_hint);
                 if (mSelectUseCompany != null && !TextUtils.isEmpty(mSelectUseCompany.getId()) && !"-1".equals(mSelectUseCompany.getId())) {
                     mPresenter.getAllDeparts(mSelectUseCompany.getId());
                 } else {
-                    ToastUtils.showShort("请先选择公司");
+                    ToastUtils.showShort(R.string.choose_com_first);
                 }
                 break;
             case R.id.rl_ast_type:
                 currentFilterId = R.id.rl_ast_type;
-                mTitle.setText("请选择资产分类");
+                mTitle.setText(R.string.inv_asstype_hint);
                 multiFilterAdapter.removeData(currentMultiDatas);
                 currentMultiDatas.clear();
                 currentMultiDatas.addAll(mAssetsTypes);
@@ -461,7 +461,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 break;
             case R.id.rl_store_location:
                 currentFilterId = R.id.rl_store_location;
-                mTitle.setText("请选择存放位置");
+                mTitle.setText(R.string.inv_loc_hint);
                 multiFilterAdapter.removeData(currentMultiDatas);
                 currentMultiDatas.clear();
                 currentMultiDatas.addAll(mAssetsLocations);
@@ -472,7 +472,7 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 break;
             case R.id.rl_manager:
                 currentFilterId = R.id.rl_manager;
-                mTitle.setText("请选择管理员");
+                mTitle.setText(R.string.manager_hing);
                 multiFilterAdapter.removeData(currentMultiDatas);
                 currentMultiDatas.clear();
                 currentMultiDatas.addAll(mMangerUsers);

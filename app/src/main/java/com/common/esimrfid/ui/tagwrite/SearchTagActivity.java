@@ -66,7 +66,7 @@ public class SearchTagActivity extends BaseActivity {
     private long lastClickTime;
     @Override
     protected void initEventAndData() {
-        title.setText("确认写入");
+        title.setText(R.string.confirm_write);
         Intent intent = getIntent();
         getTagEpc = intent.getStringExtra(TAG_EPC);
         rotateAnim1();

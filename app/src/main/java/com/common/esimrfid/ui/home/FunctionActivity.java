@@ -59,7 +59,7 @@ public class FunctionActivity extends BaseActivity {
     @Override
     protected void initEventAndData() {
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
-        mTitle.setText("功能设置");
+        mTitle.setText(R.string.function_setting);
         initData();
     }
 
