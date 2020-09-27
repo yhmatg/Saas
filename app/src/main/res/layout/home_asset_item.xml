@@ -13,7 +13,7 @@
         android:layout_width="@dimen/dp_80"
         android:textSize="@dimen/sp_13"
         android:layout_height="wrap_content"
-        android:text="资产存放位置" />
+        android:text="@string/asset_loc_str" />
 
     <ProgressBar
         android:id="@+id/pb_assets"
@@ -31,5 +31,5 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp_11"
         android:layout_marginEnd="@dimen/dp_12"
-        android:text="10" />
+        android:text="0" />
 </LinearLayout>

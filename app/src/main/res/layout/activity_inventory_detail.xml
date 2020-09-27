@@ -29,7 +29,7 @@
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_10"
                 android:textColor="@color/home_text_one"
-                android:text="全部区域"
+                android:text="@string/all_area_str"
                 android:textSize="@dimen/sp_15" />
 
             <ImageView
@@ -64,7 +64,7 @@
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_10"
                 android:textColor="@color/home_text_one"
-                android:text="状态"
+                android:text="@string/status_str"
                 android:textSize="@dimen/sp_15" />
 
             <ImageView

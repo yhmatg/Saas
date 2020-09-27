@@ -9,7 +9,6 @@
         android:id="@+id/setting"
         android:layout_width="@dimen/dp_270"
         android:layout_height="@dimen/dp_165"
-        android:layout_centerInParent="true"
         android:layout_gravity="center"
         app:cardCornerRadius="@dimen/dp_6"
         app:cardElevation="@dimen/dp_3"

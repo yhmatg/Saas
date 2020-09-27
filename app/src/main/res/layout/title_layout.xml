@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_8"
-        android:text="标题"
+        android:text="@string/original_title"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_18" />
 
@@ -33,7 +33,7 @@
         android:layout_alignBottom="@+id/title_content"
         android:layout_alignParentEnd="true"
         android:gravity="center"
-        android:text="确认盘点"
+        android:text="@string/confirm_inv_str"
         android:textColor="@color/white"
         android:layout_marginEnd="@dimen/dp_10"
         android:textSize="@dimen/sp_13"

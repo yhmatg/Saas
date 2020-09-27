@@ -23,7 +23,7 @@
         android:maxEms="10"
         android:paddingStart="@dimen/dp_18"
         android:singleLine="true"
-        android:text="区域名称"
+        android:text="@string/area_name_str"
         android:textColor="@color/home_text_one"
         android:textSize="@dimen/sp_14"
         android:textStyle="bold" />
@@ -37,7 +37,7 @@
         android:layout_alignTop="@+id/loc_name"
         android:layout_alignBottom="@+id/loc_name"
         android:gravity="center"
-        android:text="已完成"
+        android:text="@string/finish_start_str"
         android:textSize="@dimen/sp_12" />
 
     <TextView
@@ -47,7 +47,7 @@
         android:layout_alignStart="@+id/loc_name"
         android:layout_below="@+id/loc_name"
         android:layout_marginStart="@dimen/dp_18"
-        android:text="盘点总数"
+        android:text="@string/inv_all_num"
         android:gravity="center"
         android:layout_marginBottom="@dimen/dp_10"
         android:textColor="@color/home_text_one"
@@ -76,7 +76,7 @@
         android:gravity="center"
         android:paddingStart="@dimen/dp_18"
         android:paddingEnd="@dimen/dp_18"
-        android:text="未盘点"
+        android:text="@string/asset_not_inventoried"
         android:layout_marginBottom="@dimen/dp_10"
         android:textColor="@color/home_text_one"
         android:textSize="@dimen/sp_12" />
@@ -90,7 +90,7 @@
         android:gravity="center"
         android:paddingStart="@dimen/dp_18"
         android:paddingEnd="@dimen/dp_18"
-        android:text="已盘"
+        android:text="@string/ast_inved"
         android:textColor="@color/home_text_one"
         android:textSize="@dimen/sp_12" />
 
@@ -103,7 +103,7 @@
         android:gravity="center"
         android:paddingStart="@dimen/dp_18"
         android:paddingEnd="@dimen/dp_18"
-        android:text="盘盈"
+        android:text="@string/inv_more_str"
         android:textColor="@color/home_text_one"
         android:textSize="@dimen/sp_12" />
 
@@ -116,7 +116,7 @@
         android:gravity="center"
         android:paddingStart="@dimen/dp_18"
         android:paddingEnd="@dimen/dp_18"
-        android:text="盘亏"
+        android:text="@string/inv_less_str"
         android:textColor="@color/home_text_one"
         android:textSize="@dimen/sp_12" />
 

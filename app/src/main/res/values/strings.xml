@@ -94,7 +94,7 @@
     <string name="filter_failed">过滤失败</string>
     <string name="clear_sucess">清除成功</string>
     <string name="clear_failed">清除失败</string>
-    <string name="ast_name">资产名称：</string>
+    <string name="ast_name">资产名称</string>
     <string name="no_info">无信息</string>
     <string name="ast_code">资产编号：</string>
     <string name="expiration_reminder">您的系统已过期，请购买后再使用！</string>
@@ -299,4 +299,18 @@
     <string name="ast_user_str">使用人</string>
     <string name="ast_user_hint">请选择使用人</string>
     <string name="reset_str">重置</string>
+    <string name="original_title">标题</string>
+    <string name="confirm_inv_str">确认盘点</string>
+    <string name="all_area_str">全部区域</string>
+    <string name="status_str">状态</string>
+    <string name="not_finish_start">未完成(</string>
+    <string name="not_finish_end">个)</string>
+    <string name="finish_start_str">已完成(</string>
+    <string name="finish_end_str">个)</string>
+    <string name="all_str">全部</string>
+    <string name="asset_loc_str">资产存放位置</string>
+    <string name="area_name_str">区域名称</string>
+    <string name="type_str">分类</string>
+    <string name="bramd_str">品牌</string>
+    <string name="mode_str">型号</string>
 </resources>

@@ -165,7 +165,7 @@
         android:background="@drawable/repair_status_bg"
         android:gravity="center"
         android:layout_alignParentEnd="true"
-        android:text="已完成"
+        android:text="@string/finish_start_str"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_12" />
 

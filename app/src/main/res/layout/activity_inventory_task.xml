@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="未完成("
+                android:text="@string/not_finish_start"
                 android:textColor="@color/titele_color"
                 android:textSize="@dimen/sp_15" />
 
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="个)"
+                android:text="@string/not_finish_end"
                 android:textColor="@color/titele_color"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="已完成("
+                android:text="@string/finish_start_str"
                 android:textColor="@color/home_text_one"
                 android:textSize="@dimen/sp_15" />
 
@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="个)"
+                android:text="@string/finish_end_str"
                 android:textColor="@color/home_text_one"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>

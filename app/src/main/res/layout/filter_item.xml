@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:textSize="@dimen/sp_12"
-        android:text="全部"/>
+        android:text="@string/all_str"/>
 
     <ImageView
         android:id="@+id/select_img"
