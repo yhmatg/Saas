@@ -34,6 +34,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.presenter.assetrepair.AssetRepairPresenter;
 import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.ui.identity.IdentityActivity;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.DateUtils;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
@@ -160,7 +161,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
                 finish();
                 break;
             case R.id.tv_scan_add:
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     mScanAdd.setTextColor(getColor(R.color.repair_way));
                     mChooseAdd.setTextColor(getColor(R.color.repair_text));
                     Intent intent = new Intent();
@@ -170,14 +171,14 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
                 }
                 break;
             case R.id.tv_choose_add:
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     mScanAdd.setTextColor(getColor(R.color.repair_text));
                     mChooseAdd.setTextColor(getColor(R.color.repair_way));
                     startActivity(new Intent(this, ChooseRepairAstActivity.class));
                 }
                 break;
             case R.id.btn_submit:
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     createRepairOrder();
                 }
                 break;
@@ -467,15 +468,5 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
                 "{\"name\":\"所在部门\",\"value\":\"" + departName + "\"}," +
                 "{\"name\":\"报修原因\",\"value\":\"" + repairRemark + "\"}]"
                 ;
-    }
-
-    public boolean isNormalClick() {
-        boolean flag = false;
-        long curClickTime = System.currentTimeMillis();
-        if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
-            flag = true;
-        }
-        lastClickTime = curClickTime;
-        return flag;
     }
 }

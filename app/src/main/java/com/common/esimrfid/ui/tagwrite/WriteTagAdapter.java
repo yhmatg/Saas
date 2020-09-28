@@ -59,10 +59,12 @@ public class WriteTagAdapter extends RecyclerView.Adapter<WriteTagAdapter.ViewHo
             public void onClick(View v) {
                 String epc = assetsInfo.getAst_epc_code();
                 if (!TextUtils.isEmpty(epc)) {
-                    Intent intent = new Intent();
-                    intent.putExtra(TAG_EPC, epc);
-                    intent.setClass(context, SearchTagActivity.class);
-                    context.startActivity(intent);
+                    if(CommonUtils.isNormalClick()){
+                        Intent intent = new Intent();
+                        intent.putExtra(TAG_EPC, epc);
+                        intent.setClass(context, SearchTagActivity.class);
+                        context.startActivity(intent);
+                    }
                 } else {
                     ToastUtils.showShort("资产Epc为空！");
                 }
@@ -72,7 +74,7 @@ public class WriteTagAdapter extends RecyclerView.Adapter<WriteTagAdapter.ViewHo
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(CommonUtils.isNetworkConnected()){
+                if(CommonUtils.isNetworkConnected() && CommonUtils.isNormalClick()){
                     Intent intent=new Intent();
                     intent.putExtra(ASSETS_ID,assetsInfo.getId());
                     intent.setClass(context, AssetsDetailsActivity.class);

@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
 import com.common.esimrfid.utils.CommonUtils;
@@ -63,18 +62,20 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         viewHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra(ASSETS_ID, invDetail.getAst_id());
-                if (invDetail.getInvdt_status().getCode() == 0) {
-                    intent.putExtra(WHERE_FROM, "InvAssetLocActivity");
-                    intent.putExtra(INV_ID, invDetail.getInv_id());
-                    intent.putExtra(LOC_IC, invDetail.getLoc_id());
-                    EsimAndroidApp.invStatus = "notInvEdAsset";
-                }else {
-                    EsimAndroidApp.invStatus = "InvEdAsset";
+                if(CommonUtils.isNormalClick()){
+                    Intent intent = new Intent();
+                    intent.putExtra(ASSETS_ID, invDetail.getAst_id());
+                    if (invDetail.getInvdt_status().getCode() == 0) {
+                        intent.putExtra(WHERE_FROM, "InvAssetLocActivity");
+                        intent.putExtra(INV_ID, invDetail.getInv_id());
+                        intent.putExtra(LOC_IC, invDetail.getLoc_id());
+                        EsimAndroidApp.invStatus = "notInvEdAsset";
+                    }else {
+                        EsimAndroidApp.invStatus = "InvEdAsset";
+                    }
+                    intent.setClass(mContext, AssetsDetailsActivity.class);
+                    mContext.startActivity(intent);
                 }
-                intent.setClass(mContext, AssetsDetailsActivity.class);
-                mContext.startActivity(intent);
             }
         });
         Integer status = invDetail.getInvdt_status().getCode();

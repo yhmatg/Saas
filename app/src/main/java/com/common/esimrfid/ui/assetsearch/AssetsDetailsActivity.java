@@ -3,7 +3,6 @@ package com.common.esimrfid.ui.assetsearch;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
@@ -29,19 +27,16 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
-import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.emun.AssetsMaterial;
 import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
-import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
 import com.common.esimrfid.ui.assetrepair.RepairAssetEvent;
 import com.common.esimrfid.ui.newinventory.AssetTag;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.DateUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
@@ -296,10 +291,12 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 pvCustomOptions.show();
                 break;
             case R.id.search_ast:
-                Intent intent = new Intent();
-                intent.putExtra(ASSETS_EPC, epcCode);
-                intent.setClass(this, LocationSearchActivity.class);
-                startActivity(intent);
+                if(CommonUtils.isNormalClick()){
+                    Intent intent = new Intent();
+                    intent.putExtra(ASSETS_EPC, epcCode);
+                    intent.setClass(this, LocationSearchActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
     }

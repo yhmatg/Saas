@@ -7,13 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.customview.CircleNumberProgress;
 import com.common.esimrfid.ui.newinventory.InvAssetLocActivity;
+import com.common.esimrfid.utils.CommonUtils;
 
 import java.util.List;
 
@@ -63,12 +63,14 @@ public class InvLocationAdapter extends RecyclerView.Adapter<InvLocationAdapter.
         viewHolder.mFilterLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra(INV_ID, invLocationBean.getInvId());
-                intent.putExtra(LOC_IC, invLocationBean.getLocId());
-                intent.putExtra(LOC_Name, invLocationBean.getLocNmme());
-                intent.setClass(mContext, InvAssetLocActivity.class);
-                mContext.startActivity(intent);
+                if(CommonUtils.isNormalClick()){
+                    Intent intent = new Intent();
+                    intent.putExtra(INV_ID, invLocationBean.getInvId());
+                    intent.putExtra(LOC_IC, invLocationBean.getLocId());
+                    intent.putExtra(LOC_Name, invLocationBean.getLocNmme());
+                    intent.setClass(mContext, InvAssetLocActivity.class);
+                    mContext.startActivity(intent);
+                }
             }
         });
     }
