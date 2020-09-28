@@ -1,7 +1,6 @@
 package com.common.esimrfid.ui.newinventory;
 
 import android.content.Intent;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,15 +16,12 @@ import android.widget.TextView;
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
-import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
-import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.inventorytask.EpcBean;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
-import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.home.InvAssetsLocPresenter;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -282,12 +278,14 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 finish();
                 break;
             case R.id.start_inv:
-                Intent intent = new Intent();
-                intent.putExtra(INV_ID, mInvId);
-                intent.putExtra(LOC_IC, mLocId);
-                intent.putExtra(LOC_Name, mLocName);
-                intent.setClass(this, InvAssetScanActivity.class);
-                startActivity(intent);
+                if(CommonUtils.isNormalClick()){
+                    Intent intent = new Intent();
+                    intent.putExtra(INV_ID, mInvId);
+                    intent.putExtra(LOC_IC, mLocId);
+                    intent.putExtra(LOC_Name, mLocName);
+                    intent.setClass(this, InvAssetScanActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.asset_not_inved:
                 currentShowStatus = 0;

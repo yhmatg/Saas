@@ -46,7 +46,7 @@ public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapte
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (CommonUtils.isNetworkConnected()) {
+                if (CommonUtils.isNetworkConnected() && CommonUtils.isNormalClick()) {
                     Intent intent = new Intent();
                     intent.putExtra(ASSETS_ID, assetsInfo.getId());
                     intent.setClass(context, AssetsDetailsActivity.class);
@@ -69,10 +69,12 @@ public class AssetsSearchAdapter extends RecyclerView.Adapter<AssetsSearchAdapte
             public void onClick(View v) {
                 String epc = assetsInfo.getAst_epc_code();
                 if (!TextUtils.isEmpty(epc)) {
-                    Intent intent1 = new Intent();
-                    intent1.putExtra(ASSETS_EPC, epc);
-                    intent1.setClass(context, LocationSearchActivity.class);
-                    context.startActivity(intent1);
+                    if(CommonUtils.isNormalClick()){
+                        Intent intent1 = new Intent();
+                        intent1.putExtra(ASSETS_EPC, epc);
+                        intent1.setClass(context, LocationSearchActivity.class);
+                        context.startActivity(intent1);
+                    }
                 } else {
                     ToastUtils.showShort("资产Epc为空！");
                 }

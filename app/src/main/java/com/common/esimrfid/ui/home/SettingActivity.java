@@ -15,6 +15,7 @@ import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.StringUtils;
 
 import butterknife.BindView;
@@ -67,7 +68,9 @@ public class SettingActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.function_setting:
-                startActivity(new Intent(this,FunctionActivity.class));
+                if(CommonUtils.isNormalClick()){
+                    startActivity(new Intent(this,FunctionActivity.class));
+                }
                 break;
         }
     }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.DateUtils;
 
 import java.util.List;
@@ -71,7 +72,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         viewHolder.mStartInv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     showInvDetailActivity(invTaskItem);
                     mOnItemClickListener.onDetailInv(invTaskItem, i);
                 }
@@ -81,7 +82,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         viewHolder.mSyncInv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     mOnItemClickListener.onSyncData(invTaskItem, i);
                 }
             }
@@ -90,7 +91,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         viewHolder.mFinishInv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     mOnItemClickListener.onFinishInv(invTaskItem, i);
                 }
             }
@@ -158,16 +159,6 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         intent.putExtra(INTENT_FROM, "InvAssetAdapter");
         intent.setClass(mContext, InvdetialActivity.class);
         mContext.startActivity(intent);
-    }
-
-    public boolean isNormalClick() {
-        boolean flag = false;
-        long curClickTime = System.currentTimeMillis();
-        if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
-            flag = true;
-        }
-        lastClickTime = curClickTime;
-        return flag;
     }
 
 }

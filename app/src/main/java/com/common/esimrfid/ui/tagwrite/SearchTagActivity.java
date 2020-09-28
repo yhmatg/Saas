@@ -24,6 +24,7 @@ import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.uhf.XinLianUhfServiceImp;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.ScreenSizeUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.utils.Utils;
@@ -251,7 +252,7 @@ public class SearchTagActivity extends BaseActivity {
             confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(isNormalClick()){
+                    if(CommonUtils.isNormalClick()){
                         if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
                             String selectEpc = scanEpcs.size() > 0 ? scanEpcs.get(0) : scanTagEpc;
                             esimUhfService.writeEpcTag(selectEpc, getTagEpc);
@@ -312,15 +313,5 @@ public class SearchTagActivity extends BaseActivity {
         if(esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null ){
             esimUhfService.setEnable(false);
         }
-    }
-
-    public boolean isNormalClick() {
-        boolean flag = false;
-        long curClickTime = System.currentTimeMillis();
-        if ((curClickTime - lastClickTime) >= minClickDelayTime) {
-            flag = true;
-        }
-        lastClickTime = curClickTime;
-        return flag;
     }
 }

@@ -15,6 +15,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
+import com.common.esimrfid.utils.CommonUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -169,7 +170,9 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 finish();
                 break;
             case R.id.create_invtask:
-                startActivity(new Intent(this, NewInventoryActivity.class));
+                if(CommonUtils.isNormalClick()){
+                    startActivity(new Intent(this, NewInventoryActivity.class));
+                }
                 break;
         }
     }

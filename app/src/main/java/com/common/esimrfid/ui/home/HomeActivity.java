@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.allenliu.versionchecklib.core.http.AllenHttp;
 import com.allenliu.versionchecklib.v2.AllenVersionChecker;
@@ -49,16 +50,20 @@ import com.common.esimrfid.ui.identity.IdentityActivity;
 import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.SettingBeepUtil;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -213,43 +218,43 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.inv_task:
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     startActivity(new Intent(this, InventoryTaskActivity.class));
                 }
                 break;
             case R.id.ast_inv:
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     startActivity(new Intent(this, AssetInventoryActivity.class));
                 }
                 break;
             case R.id.ast_search:
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     startActivity(new Intent(this, AssetsSearchActivity.class));
                 }
                 break;
             case R.id.write_tag:
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     startActivity(new Intent(this, WriteTagActivity.class));
                 }
 
                 break;
             case R.id.home_setting:
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     startActivity(new Intent(this, SettingActivity.class));
                 }
                 break;
             case R.id.ast_identity:
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     startActivity(new Intent(this, IdentityActivity.class));
                 }
                 break;
             case R.id.ast_repair:
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     startActivity(new Intent(this, AssetRepairActivity.class));
                 }
                 break;
             case R.id.ast_list:
-                if (isNormalClick()) {
+                if (CommonUtils.isNormalClick()) {
                     startActivity(new Intent(this, AssetListActivity.class));
                 }
                 break;
@@ -475,15 +480,5 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             Window window = updateDialog.getWindow();
             window.setBackgroundDrawableResource(android.R.color.transparent);
         }
-    }
-
-    public boolean isNormalClick() {
-        boolean flag = false;
-        long curClickTime = System.currentTimeMillis();
-        if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
-            flag = true;
-        }
-        lastClickTime = curClickTime;
-        return flag;
     }
 }

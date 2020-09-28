@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,9 +15,7 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
 import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
-import com.common.esimrfid.ui.tagwrite.SearchTagActivity;
 import com.common.esimrfid.utils.CommonUtils;
-import com.common.esimrfid.utils.ToastUtils;
 
 import java.util.List;
 
@@ -60,7 +57,7 @@ public class AssetListAdapter extends RecyclerView.Adapter<AssetListAdapter.View
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(CommonUtils.isNetworkConnected()){
+                if(CommonUtils.isNetworkConnected() && CommonUtils.isNormalClick()){
                     Intent intent=new Intent();
                     intent.putExtra(ASSETS_ID,astItemInfo.getId());
                     intent.setClass(context, AssetsDetailsActivity.class);
