@@ -5,14 +5,11 @@ import android.content.Context;
 import com.common.esimrfid.BuildConfig;
 import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.app.EsimAndroidApp;
-import com.common.esimrfid.core.http.HttpHelperImpl;
-import com.common.esimrfid.core.http.api.GeeksApis;
 import com.common.esimrfid.core.http.interceptor.AppendUrlIntercepter;
 import com.common.esimrfid.core.http.interceptor.CacheInterceptor;
 import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.DaterylaiGson;
-import com.common.esimrfid.utils.RylaiGson;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.Utils;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
@@ -76,7 +73,7 @@ public class RetrofitClient {
     private RetrofitClient() {
         url = PreferenceHelperImpl.getInstance().getHostUrl();
         if(StringUtils.isEmpty(url)){
-            url ="https://iwms.cloud.cmbchina.com/asset/";
+            url ="https://cloud.assettag.vip/";
         }
         retrofit = createRetrofit(provideClient(), url);
 
