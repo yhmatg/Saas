@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvDetailContract;
@@ -16,10 +17,12 @@ import com.common.esimrfid.core.bean.emun.InventoryStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
+import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.home.InvDetailPresenter;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -70,6 +74,8 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     private String mInvId;
     private Boolean isFirstOnResume = true;
     private FilterBean currentFilterBean = new FilterBean("10000","全部",false);
+    private List<InventoryDetail> mergeResults = new ArrayList<>();
+    private HashMap<String,InventoryDetail> mergeAssets = new HashMap<>();
 
     @Override
     public InvDetailPresenter initPresenter() {
@@ -121,6 +127,8 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     @Override
     public void handleInvDetails(ResultInventoryDetail mInventoryDetail) {
         List<InventoryDetail> detailResults = mInventoryDetail.getDetailResults();
+        mergeResults.clear();
+        mergeAssets.clear();
         mInventoryDetails.clear();
         mLoctionBeans.clear();
         mCurrentLoctionBeans.clear();
@@ -129,12 +137,18 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         mAreaBeans.add(new FilterBean("10000","全部",false));
         mInventoryDetails.addAll(detailResults);
         for (InventoryDetail inventoryDetail : mInventoryDetails) {
-            //资产未知
-            String locName = inventoryDetail.getLoc_name() == null ? "未分配" : inventoryDetail.getLoc_name();
             //资产盘盈位置
             String pluLocName = inventoryDetail.getInvdt_plus_loc_name() == null ? "未分配" : inventoryDetail.getInvdt_plus_loc_name();
             //资产盘点状态
-            Integer code = inventoryDetail.getInvdt_status().getCode();
+            int code = inventoryDetail.getInvdt_status().getCode();
+            if(code == 10 && !StringUtils.isEmpty(inventoryDetail.getInvdt_plus_loc_name())){
+                inventoryDetail.setLoc_id(inventoryDetail.getInvdt_plus_loc_id());
+                inventoryDetail.setLoc_name(inventoryDetail.getInvdt_plus_loc_name());
+                mergeResults.add(inventoryDetail);
+                mergeAssets.put(inventoryDetail.getAst_id(),inventoryDetail);
+            }
+            //资产位置
+            String locName = inventoryDetail.getLoc_name() == null ? "未分配" : inventoryDetail.getLoc_name();
             //资产按地点分类  未完成还要考虑盘盈的资产
             if(code != 2){
                 if ( !locationMap.containsKey(locName)) {
@@ -180,6 +194,14 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
                     }
                 }else if (invdetail.getInvdt_status().getCode() == InventoryStatus.MORE.getIndex()) {
                     moreInvNum++;
+                    if( mergeAssets.containsKey(invdetail.getAst_id())){
+                        InventoryDetail tempInventoryDetail = mergeAssets.get(invdetail.getAst_id());
+                        if(tempInventoryDetail != null){
+                            invdetail.setLoc_id(tempInventoryDetail.getInvdt_plus_loc_id());
+                            invdetail.setLoc_name(tempInventoryDetail.getInvdt_plus_loc_name());
+                            mergeResults.add(invdetail);
+                        }
+                    }
                 }else if (invdetail.getInvdt_status().getCode() == InventoryStatus.LESS.getIndex()) {
                     lessInvNum++;
                     if(StringUtils.isEmpty(invLocationBean.getLocId())){
@@ -199,6 +221,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
             filterBean.setName(invLocationBean.getLocNmme());
             mAreaBeans.add(filterBean);
         }
+        DbBank.getInstance().getInventoryDetailDao().updateItems(mergeResults);
         showFilterData(currentFilterBean);
         if(mInventoryDetails.size()>0){
             mInvDetailRecyclerView.setVisibility(View.VISIBLE);
