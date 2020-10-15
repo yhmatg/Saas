@@ -417,9 +417,11 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                     linearLayout.setOrientation(LinearLayout.HORIZONTAL);
                     textView1.setTextSize(14);
                     textView1.setText(type_id);
+                    textView1.setTextColor(getColor(R.color.home_text_two));
                     textView1.setGravity(Gravity.CENTER_VERTICAL);
-                    textView2.setTextSize(14);
+                    textView2.setTextSize(13);
                     textView2.setText(content);
+                    textView2.setTextColor(getColor(R.color.setting_text_one));
                     textView2.setGravity(Gravity.CENTER_VERTICAL);
                     view.setBackgroundColor(getColor(R.color.line));
 

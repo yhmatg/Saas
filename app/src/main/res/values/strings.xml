@@ -54,7 +54,7 @@
     <string name="request_assets">领用备注：</string>
     <string name="start_scan">扫描</string>
     <string name="inprogress">处理中</string>
-    <string name="asset_id">资产编号</string>
+    <string name="asset_id">资产编码</string>
     <string name="query_asset">查询</string>
     <string name="asset_detail">详情</string>
     <string name="input_write_asset_id">请输入正确的资产编码</string>
@@ -96,32 +96,32 @@
     <string name="clear_failed">清除失败</string>
     <string name="ast_name">资产名称</string>
     <string name="no_info">无信息</string>
-    <string name="ast_code">资产编号：</string>
+    <string name="ast_code">资产编码</string>
     <string name="expiration_reminder">您的系统已过期，请购买后再使用！</string>
     <string name="wrong_account_or_pass">账户或密码不正确！</string>
     <string name="no_asset_in_new_inv">新建盘点单中无符合条件资产！</string>
 
     <!--    NEW       -->
 
-    <string name="assets_title">请输入资产名称、资产编号</string>
+    <string name="assets_title">请输入资产名称、资产编码</string>
 
-    <string name="assets_id">资产编号</string>
+    <string name="assets_id">资产编码</string>
     <string name="assets_name">资产名称</string>
-    <string name="assets_type">资产类型</string>
+    <string name="assets_type">资产分类</string>
     <string name="brand">品\u3000\u3000牌</string>
     <string name="assets_status">资产状态</string>
     <string name="rule_model">规格型号</string>
     <string name="measuring_unit">计量单位</string>
     <string name="SN">SN号</string>
     <string name="ast_material">资产材质</string>
-    <string name="belong_company">所属公司</string>
+    <string name="belong_company">所属单位</string>
     <string name="model">型\u3000\u3000号</string>
-    <string name="store_location">存放地点</string>
+    <string name="store_location">存\u0020\u0020放\u0020\u0020地</string>
     <string name="manager">管理员</string>
     <string name="source">来源</string>
     <string name="buy_date">购入日期</string>
     <string name="count">金额</string>
-    <string name="expiration_use_months">预计使用月数</string>
+    <string name="expiration_use_months">预使用月数</string>
     <string name="use_company">使用公司</string>
     <string name="use_department">使用部门</string>
     <string name="user">使\u0020\u0020用\u0020\u0020人</string>
@@ -164,7 +164,7 @@
     <string name="inv_own_comp_hint">请选择所属公司</string>
     <string name="inv_owncom">所属公司</string>
     <string name="inv_loc_hint">请选择存放位置</string>
-    <string name="inv_location">存放位置</string>
+    <string name="inv_location">存\u0020\u0020放\u0020\u0020地</string>
     <string name="inv_asstype_hint">请选择资产分类</string>
     <string name="inv_asstype">资产分类</string>
     <string name="inv_usedepart_hint">请选择使用部门</string>
@@ -266,7 +266,7 @@
     <string name="repair_record">维修记录</string>
     <string name="assets_resume">资产履历</string>
     <string name="inv_area">盘点区域</string>
-    <string name="store_loc">存放位置</string>
+    <string name="store_loc">存\u0020\u0020放\u0020\u0020地</string>
     <string name="add_tag">添加标记</string>
     <string name="inv_more_str">盘盈</string>
     <string name="inv_less_str">盘亏</string>
