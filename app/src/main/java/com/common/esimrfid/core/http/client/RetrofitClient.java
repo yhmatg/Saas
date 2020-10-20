@@ -3,6 +3,7 @@ package com.common.esimrfid.core.http.client;
 import android.content.Context;
 
 import com.common.esimrfid.BuildConfig;
+import com.common.esimrfid.R;
 import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.core.http.interceptor.AppendUrlIntercepter;
@@ -73,7 +74,12 @@ public class RetrofitClient {
     private RetrofitClient() {
         url = PreferenceHelperImpl.getInstance().getHostUrl();
         if(StringUtils.isEmpty(url)){
-            url ="https://cloud.assettag.vip/";
+            String projectName = EsimAndroidApp.getInstance().getString(R.string.projectName);
+            if ("zsbank".equals(projectName)) {
+                url = "https://iwms.cloud.cmbchina.com/asset/";
+            } else {
+                url = "https://cloud.assettag.vip/";
+            }
         }
         retrofit = createRetrofit(provideClient(), url);
 

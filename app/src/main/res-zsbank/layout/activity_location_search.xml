@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_layout" />
+
+    <com.common.esimrfid.ui.assetsearch.EnergyView
+        android:id="@+id/energy"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_330"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp_85"
+        android:background="@color/white"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp_32"
+        android:text="@string/asset_search_str"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_18" />
+
+</LinearLayout>

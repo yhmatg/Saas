@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/title_tab"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_48"
+    android:orientation="horizontal">
+
+    <RadioGroup
+        android:id="@+id/asset_status_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/asset_not_inved"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@drawable/btn_title_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/asset_not_inventoried"
+            android:textColor="@color/home_text_one"
+            android:textSize="@dimen/sp_15" />
+
+        <RadioButton
+            android:id="@+id/asset_inved"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@drawable/btn_title_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/ast_inved"
+            android:textColor="@color/home_text_one"
+            android:textSize="@dimen/sp_15" />
+
+        <RadioButton
+            android:id="@+id/asset_inv_more"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@drawable/btn_title_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/inv_more_str"
+            android:textColor="@color/home_text_one"
+            android:textSize="@dimen/sp_15" />
+
+        <RadioButton
+            android:id="@+id/asset_inv_less"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@drawable/btn_title_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/inv_less_str"
+            android:textColor="@color/home_text_one"
+            android:textSize="@dimen/sp_15" />
+    </RadioGroup>
+</LinearLayout>

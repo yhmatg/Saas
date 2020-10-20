@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1076D8</color>
+    <color name="colorPrimaryDark">#1076D8</color>
+    <color name="colorAccent">#1076D8</color>
+    <color name="colorBg">#5b98b3</color>
+    <color name="theme">#30b4f8</color>
+    <color name="blue">#1583d0</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="line">#ededed</color>
+    <color name="search_background">#036BD1</color>
+    <color name="gray_text">#D8666666</color>
+    <color name="home_number">#036AC5</color>
+    <color name="green_color">#28A701</color>
+    <color name="repair_way">#1F85E0</color>
+    <color name="repair_text">#1A1A1A</color>
+    <color name="titele_color">#1076D8</color>
+    <color name="loc_finished_color">#187CDA</color>
+    <color name="loc_no_finish">#F38131</color>
+    <color name="login_title_color">#010101</color>
+    <color name="login_line_color">#30B2B2B2</color>
+    <color name="login_remind_back">#6A6A6A</color>
+    <color name="home_text_one">#333333</color>
+    <color name="home_text_two">#3D3D3D</color>
+    <color name="home_progress_color">#2788DD</color>
+    <color name="setting_text_one">#666666</color>
+    <color name="new_inv_head">#005BAC</color>
+    <color name="search_back_color">#529CE2</color>
+    <color name="repair_not_finish">#F1771E</color>
+    <color name="bgcolor">#F7F7F7</color>
+    <color name="transparent">#00000000</color>
+    <color name="search_hint">#80FFFFFF</color>
+    <color name="ast_free">#27AD8E</color>
+</resources>

@@ -35,6 +35,23 @@ android {
         }
     }*/
 
+    sourceSets {
+        main {
+            String respath = 'src/main/res'
+            switch (rootProject.ext.projectName) {
+                case "zsbank":
+                    respath = 'src/main/res-zsbank'
+                    break
+                case "saas":
+                    respath = 'src/main/res'
+                    break
+            }
+            res.srcDirs = [
+                    respath,
+            ]
+        }
+    }
+
 }
 
 configurations.all {
@@ -47,6 +64,7 @@ configurations.all {
         }
     }
 }
+
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -101,6 +119,6 @@ dependencies {
     implementation 'com.allenliu.versionchecklib:library:2.2.0'
     implementation 'com.github.zhangke3016:MultilevelTreeList:1.0.2'
     implementation 'com.alibaba:fastjson:1.2.68'
-    implementation (name:'device', ext:'aar')
-    implementation (name:'libuhf', ext:'aar')
+    implementation(name: 'device', ext: 'aar')
+    implementation(name: 'libuhf', ext: 'aar')
 }

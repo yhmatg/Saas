@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_layout"></include>
+    <RelativeLayout
+        android:layout_width="@dimen/dp_160"
+        android:layout_height="@dimen/dp_160"
+        android:layout_marginTop="@dimen/dp_42"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/discern_success"
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_90"
+            android:visibility="gone"
+            android:src="@drawable/discern_success"
+            />
+        <ImageView
+            android:id="@+id/scan_outer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_outer_ring" />
+
+        <ImageView
+            android:id="@+id/sacn_inner"
+            android:layout_width="@dimen/dp_110"
+            android:layout_height="@dimen/dp_110"
+            android:layout_centerInParent="true"
+            android:src="@drawable/icon_inner_ring" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/identify_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/home_text_one"
+            android:text="@string/identify_tips"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_13"
+            android:textSize="@dimen/sp_15"
+            android:textColor="@color/home_text_two"
+            android:text="@string/write_tips"/>
+
+        <Button
+            android:id="@+id/btn_confirm_write"
+            android:layout_width="@dimen/dp_345"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_40"
+            android:background="@drawable/btn_unconfirm_write"
+            android:text="@string/confirm_write"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15"/>
+
+        <TextView
+            android:layout_width="@dimen/dp_275"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_24"
+            android:textSize="@dimen/sp_14"
+            android:gravity="center"
+            android:textColor="@color/titele_color"
+            android:text="@string/write_attention"/>
+    </LinearLayout>
+
+</LinearLayout>

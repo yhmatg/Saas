@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_ast_lost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_10"
+        android:text="@string/ast_lost_str"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_11" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/login_line_color" />
+
+    <TextView
+        android:id="@+id/tv_transfer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_10"
+        android:text="@string/ast_transfer_str"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_11" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/login_line_color" />
+
+    <TextView
+        android:id="@+id/tv_user_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_10"
+        android:text="@string/user_out_str"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_11" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/login_line_color" />
+
+    <TextView
+        android:id="@+id/tv_ast_borrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_10"
+        android:text="@string/ast_borrow_str"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_11" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/login_line_color" />
+
+    <TextView
+        android:id="@+id/tv_ast_repair"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_30"
+        android:paddingBottom="@dimen/dp_10"
+        android:text="@string/ast_repair_str"
+        android:textColor="@color/setting_text_one"
+        android:textSize="@dimen/sp_11" />
+
+</LinearLayout>

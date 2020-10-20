@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_275"
+    android:layout_height="@dimen/dp_300"
+    android:layout_gravity="center"
+    android:background="@drawable/choose_update_bg">
+
+
+    <TextView
+        android:id="@+id/new_ver_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_13"
+        android:layout_marginTop="@dimen/dp_19"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:text="@string/find_new_version"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_20" />
+
+    <TextView
+        android:id="@+id/version_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/new_ver_title"
+        android:layout_marginStart="@dimen/dp_13"
+        android:gravity="center"
+        android:text="v1.0.2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_13" />
+
+    <TextView
+        android:id="@+id/update_content_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/version_num"
+        android:layout_marginStart="@dimen/dp_17"
+        android:layout_marginTop="@dimen/dp_60"
+        android:gravity="center"
+        android:text="@string/update_content_title"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_15" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_divider"
+        android:layout_below="@+id/update_content_title">
+
+        <TextView
+            android:id="@+id/update_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_18"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:lineSpacingExtra="@dimen/dp_7"
+            android:singleLine="false"
+            android:text="@string/def_update_content"
+            android:textColor="@color/home_text_two"
+            android:textSize="@dimen/sp_13" />
+    </ScrollView>
+    <!-- <ScrollView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_above="@+id/button_divider"
+         android:layout_below="@+id/update_content_title"
+         android:layout_marginBottom="@dimen/dp_10">
+
+         <LinearLayout
+             android:id="@+id/update_content"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginStart="@dimen/dp_18"
+             android:layout_marginTop="@dimen/dp_10"
+             android:orientation="vertical">
+
+         </LinearLayout>
+     </ScrollView>-->
+
+    <View
+        android:id="@+id/button_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/buttom_layout"
+        android:background="@color/login_line_color" />
+
+    <LinearLayout
+        android:id="@+id/buttom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_43"
+        android:layout_marginBottom="@dimen/dp_2"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/versionchecklib_version_dialog_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_2"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/bg_login_success"
+            android:text="@string/update_latter"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/home_text_one"
+            android:textSize="@dimen/sp_16" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/login_line_color" />
+
+        <Button
+            android:id="@+id/versionchecklib_version_dialog_commit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/dp_2"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bg_login_success"
+            android:gravity="center"
+            android:text="@string/update_now"
+            android:textColor="@color/home_number"
+            android:textSize="@dimen/sp_16" />
+    </LinearLayout>
+
+</RelativeLayout>

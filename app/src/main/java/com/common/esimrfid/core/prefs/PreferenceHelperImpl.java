@@ -3,6 +3,7 @@ package com.common.esimrfid.core.prefs;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.common.esimrfid.R;
 import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
@@ -99,7 +100,14 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public String getHostUrl() {
-        return mPreferences.getString(Constants.HOSTURL, "https://cloud.assettag.vip/");
+        String hostUrl;
+        String projectName = EsimAndroidApp.getInstance().getString(R.string.projectName);
+        if ("zsbank".equals(projectName)) {
+            hostUrl = "https://iwms.cloud.cmbchina.com/asset/";
+        } else {
+            hostUrl = "https://cloud.assettag.vip/";
+        }
+        return mPreferences.getString(Constants.HOSTURL, hostUrl);
     }
 
     @Override
@@ -174,7 +182,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
 
     @Override
     public void setLatestSyncTime(String time) {
-        mPreferences.edit().putString(Constants.LATEST_SYNC_ASSETS_TIME,time).apply();
+        mPreferences.edit().putString(Constants.LATEST_SYNC_ASSETS_TIME, time).apply();
     }
 
     @Override

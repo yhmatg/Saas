@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/title_tab"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RadioGroup
+        android:id="@+id/asset_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/asset_detail"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@drawable/btn_title_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/tab_assets_details"
+            android:textColor="@color/home_text_one"
+            android:textSize="@dimen/sp_15" />
+
+        <RadioButton
+            android:id="@+id/mainten_info"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@drawable/btn_title_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/warranty_info"
+            android:textColor="@color/home_text_one"
+            android:textSize="@dimen/sp_15" />
+
+        <RadioButton
+            android:id="@+id/repair_record"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@drawable/btn_title_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/repair_record"
+            android:textColor="@color/home_text_one"
+            android:textSize="@dimen/sp_15" />
+
+        <RadioButton
+            android:id="@+id/asset_resume"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@drawable/btn_title_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/assets_resume"
+            android:textColor="@color/home_text_one"
+            android:textSize="@dimen/sp_15" />
+    </RadioGroup>
+</LinearLayout>

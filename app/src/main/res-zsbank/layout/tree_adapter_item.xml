@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_40"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/dp_16"
+        android:layout_height="@dimen/dp_16"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:scaleType="centerCrop" />
+
+    <CheckBox
+        android:id="@+id/cb_select_tree"
+        style="@style/CustomCheckboxTheme"
+        android:layout_width="@dimen/dp_25"
+        android:layout_height="@dimen/dp_25"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:focusable="false" />
+
+    <TextView
+        android:id="@+id/id_treenode_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/cb_select_tree"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_16" />
+    <View
+        android:id="@+id/divide_one"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/login_line_color"/>
+
+</RelativeLayout>
