@@ -194,13 +194,6 @@ public class BatchEditActivity extends BaseActivity<BatchEditPresenter> implemen
     @Override
     public void handleAllAssetsLocation(List<AssetsLocation> assetsLocations) {
         mAssetsLocations.clear();
-        //20200103 start
-        AssetsLocation unKnowAssetsLocation = new AssetsLocation();
-        unKnowAssetsLocation.setId("-1");
-        unKnowAssetsLocation.setLoc_superid("-2");
-        unKnowAssetsLocation.setLoc_name("全部");
-        mAssetsLocations.add(unKnowAssetsLocation);
-        //20200103 end
         mAssetsLocations.addAll(assetsLocations);
     }
 
