@@ -117,4 +117,5 @@ public interface HttpHelper {
 
     Observable<BaseResponse<LatestModifyPageAssets>> fetchLatestAssetsPage(String lastTime, Integer size, Integer page);
 
+    Observable<BaseResponse> updateAssetLoc(List<String> astIds, String loc);
 }

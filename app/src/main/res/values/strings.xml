@@ -316,4 +316,7 @@
     <string name="mode_str">型号</string>
     <string name="finish_str">完成</string>
     <string name="choose_com_first">请先选择公司</string>
+    <string name="batch_edit">批量修改</string>
+    <string name="edit_loc">修改</string>
+    <string name="change_tip">查找附近的资产，可以批量修改资产存放位置</string>
 </resources>

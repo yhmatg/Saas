@@ -250,6 +250,11 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
+    public Observable<BaseResponse> updateAssetLoc(List<String> astIds, String loc) {
+        return mGeeksApis.updateAssetLoc(astIds, loc);
+    }
+
+    @Override
     public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {
         return mGeeksApis.createNewRepairOrder(repairParameter);
     }

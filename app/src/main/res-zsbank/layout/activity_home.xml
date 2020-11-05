@@ -259,13 +259,14 @@
                 />
 
             <TextView
+                android:id="@+id/batch_edit"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/asset_inventory"
                 android:drawablePadding="@dimen/dp_5"
                 android:gravity="center"
-                android:text="@string/ast_inv"
+                android:text="@string/batch_edit"
                 android:textColor="@color/home_text_two"
                 android:textSize="@dimen/sp_15"
                 android:visibility="invisible" />

@@ -38,6 +38,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -275,4 +276,7 @@ public interface GeeksApis {
     @GET("user-server/orgs/authOrgs")
     Observable<BaseResponse<List<CompanyBean>>> getAllAuthCompany(@Query("org_type") Integer type);
 
+    //批量更新资产位置
+    @PUT("assets-server/assets/updatebatch")
+    Observable<BaseResponse> updateAssetLoc(@Body List<String> astIds, @Query("loc_id") String loc);
 }

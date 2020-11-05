@@ -46,6 +46,7 @@ import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
 import com.common.esimrfid.ui.assetrepair.AssetRepairActivity;
 import com.common.esimrfid.ui.assetsearch.AssetsSearchActivity;
 import com.common.esimrfid.ui.astlist.AssetListActivity;
+import com.common.esimrfid.ui.batchedit.BatchEditActivity;
 import com.common.esimrfid.ui.identity.IdentityActivity;
 import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
 import com.common.esimrfid.ui.login.LoginActivity;
@@ -79,6 +80,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     TextView mFreeAssets;
     @BindView(R.id.company_name)
     TextView mCompanyName;
+    @BindView(R.id.batch_edit)
+    TextView batchEdit;
     @BindView(R.id.rv_assets_location)
     RecyclerView mLocationRecycle;
     @BindString(R.string.welcom)
@@ -105,6 +108,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     @Override
     protected void initEventAndData() {
+        String projectName = getString(R.string.projectName);
+        if ("zsbank".equals(projectName)) {
+            batchEdit.setVisibility(View.VISIBLE);
+        }
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             isFirstInstall = true;
             finish();
@@ -214,7 +221,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     }
 
-    @OnClick({R.id.inv_task, R.id.ast_inv, R.id.ast_search, R.id.write_tag, R.id.home_setting, R.id.ast_identity, R.id.ast_repair, R.id.ast_list})
+    @OnClick({R.id.inv_task, R.id.ast_inv, R.id.ast_search, R.id.write_tag, R.id.home_setting, R.id.ast_identity,
+            R.id.ast_repair, R.id.ast_list ,R.id.batch_edit})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.inv_task:
@@ -256,6 +264,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             case R.id.ast_list:
                 if (CommonUtils.isNormalClick()) {
                     startActivity(new Intent(this, AssetListActivity.class));
+                }
+                break;
+            case R.id.batch_edit:
+                if (CommonUtils.isNormalClick()) {
+                    startActivity(new Intent(this, BatchEditActivity.class));
                 }
                 break;
         }

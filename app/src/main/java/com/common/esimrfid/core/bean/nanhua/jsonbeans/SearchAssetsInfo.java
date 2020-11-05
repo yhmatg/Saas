@@ -1,11 +1,6 @@
 package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 
-import android.arch.persistence.room.Embedded;
-import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.RoomWarnings;
-import android.support.annotation.NonNull;
 
 import java.util.Objects;
 
@@ -18,6 +13,9 @@ public class SearchAssetsInfo {
     private String ast_name;
     private String id;
     private String loc_name;
+    //批量修改位置使用
+    @Ignore
+    private boolean isSelected;
 
     public String getAst_brand() {
         return ast_brand;
@@ -73,6 +71,14 @@ public class SearchAssetsInfo {
 
     public void setLoc_name(String loc_name) {
         this.loc_name = loc_name;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 
     @Override
