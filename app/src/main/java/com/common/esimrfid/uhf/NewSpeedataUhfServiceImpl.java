@@ -321,4 +321,8 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
         }
         locatebeep = null;
     }
+
+    public boolean setWorkAndWaitTime(int workTime,int waitTime,boolean isSave){
+        return driver.ScanWaitTime_Set(workTime,waitTime,isSave);
+    }
 }

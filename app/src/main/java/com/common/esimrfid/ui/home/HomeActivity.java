@@ -40,6 +40,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.presenter.home.HomePresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
+import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
@@ -125,6 +126,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         SettingBeepUtil.setHostOpen(DataManager.getInstance().getHostBeeper());
         checkUserSatus();
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
+        if(esimUhfService instanceof NewSpeedataUhfServiceImpl){
+            ((NewSpeedataUhfServiceImpl) esimUhfService).setWorkAndWaitTime(0,0,true);
+        }
         locationAssetAdapter = new LocationAssetAdapter(mAstLocaionNum, this, maxAssetNum);
         mLocationRecycle.setLayoutManager(new LinearLayoutManager(this));
         mLocationRecycle.setAdapter(locationAssetAdapter);
