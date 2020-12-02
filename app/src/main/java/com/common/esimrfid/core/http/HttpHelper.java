@@ -4,6 +4,7 @@ import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
+import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
@@ -118,4 +119,6 @@ public interface HttpHelper {
     Observable<BaseResponse<LatestModifyPageAssets>> fetchLatestAssetsPage(String lastTime, Integer size, Integer page);
 
     Observable<BaseResponse> updateAssetLoc(List<String> astIds, String loc);
+
+    Observable<BaseResponse> updateAssetProp(UpdateAssetsPara updateAssetsPara);
 }

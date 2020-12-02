@@ -2,6 +2,7 @@ package com.common.esimrfid.contract.batchedit;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
+import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
@@ -25,5 +26,7 @@ public interface BatchEditContract {
         void getAllAssetsLocation();
 
         void updateAssetLoc(List<String> astIds, String loc);
+
+        void updateAssetProp(UpdateAssetsPara updateAssetsPara);
     }
 }

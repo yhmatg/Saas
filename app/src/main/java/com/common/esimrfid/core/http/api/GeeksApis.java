@@ -4,6 +4,7 @@ import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
+import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
@@ -279,4 +280,8 @@ public interface GeeksApis {
     //批量更新资产位置
     @PUT("assets-server/assets/updatebatch")
     Observable<BaseResponse> updateAssetLoc(@Body List<String> astIds, @Query("loc_id") String loc);
+
+    //批量更新资产位置新
+    @PUT("assets-server/general/assets/updatebatch")
+    Observable<BaseResponse> updateAssetProp(@Body UpdateAssetsPara updateAssetsPara);
 }

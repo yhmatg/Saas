@@ -21,6 +21,7 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.batchedit.BatchEditContract;
+import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
@@ -386,11 +387,15 @@ public class BatchEditActivity extends BaseActivity<BatchEditPresenter> implemen
                     ToastUtils.showShort("请选择修改存放位置");
                     return;
                 }
+                UpdateAssetsPara updateAssetsPara = new UpdateAssetsPara();
                 ArrayList<String> astIds = new ArrayList<>();
                 for (SearchAssetsInfo searchAssetsInfo : searchAssetsInfos) {
                     astIds.add(searchAssetsInfo.getId());
                 }
-                mPresenter.updateAssetLoc(astIds, (String) checkedLocations.get(0).getId());
+                updateAssetsPara.setAstIds(astIds);
+                updateAssetsPara.setLoc_id((String) checkedLocations.get(0).getId());
+                //mPresenter.updateAssetLoc(astIds, (String) checkedLocations.get(0).getId());
+                mPresenter.updateAssetProp(updateAssetsPara);
                 if (multipleDialog != null) {
                     multipleDialog.dismiss();
                 }

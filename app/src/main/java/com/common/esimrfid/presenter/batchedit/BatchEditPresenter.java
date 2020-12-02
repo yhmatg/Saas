@@ -4,6 +4,7 @@ import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.batchedit.BatchEditContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
@@ -137,6 +138,18 @@ public class BatchEditPresenter extends BasePresenter<BatchEditContract.View> im
     @Override
     public void updateAssetLoc(List<String> astIds, String loc) {
         addSubscribe(DataManager.getInstance().updateAssetLoc(astIds, loc)
+        .compose(RxUtils.rxSchedulerHelper())
+        .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
+            @Override
+            public void onNext(BaseResponse baseResponse) {
+                mView.handelUpdateAssetLoc(baseResponse);
+            }
+        }));
+    }
+
+    @Override
+    public void updateAssetProp(UpdateAssetsPara updateAssetsPara) {
+        addSubscribe(DataManager.getInstance().updateAssetProp(updateAssetsPara)
         .compose(RxUtils.rxSchedulerHelper())
         .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
             @Override
