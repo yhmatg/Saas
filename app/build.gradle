@@ -7,7 +7,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 10
-        versionName "2.3.2"
+        versionName "2.4.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //指定room.schemaLocation生成的文件路径
         javaCompileOptions {
@@ -16,11 +16,20 @@ android {
             }
         }
     }
+    signingConfigs {
+        release {
+            storeFile file('D:\\project work\\second\\Esimrfid\\esimkey.jks') //签名文件路径
+            storePassword 'e123456'
+            keyAlias 'key0'
+            keyPassword 'e123456' //签名密码
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
