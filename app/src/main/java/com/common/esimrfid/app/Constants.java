@@ -82,6 +82,8 @@ public class Constants {
     public static final String LATEST_SYNC_ASSETS_TIME = "latest_update_time";
 
     public static final String DATAAUTHORITY = "dataAuthority";
+
+    public static final String FIRMWARE_VERSION = "firmware_version";
     //add yhm 20190707 end
 
 

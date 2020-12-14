@@ -35,12 +35,13 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
     private boolean beepON = false;
     private Timer tbeep;
     //定位
-    private  final int BEEP_DELAY_TIME_MIN = 0;
-    private  final int BEEP_DELAY_TIME_MAX = 300;
+    private final int BEEP_DELAY_TIME_MIN = 0;
+    private final int BEEP_DELAY_TIME_MAX = 300;
     private boolean beepONLocate;
     private Timer locatebeep;
     private boolean locaitonStart = false;
     private short maxValue = -30, minValue = -80; //RSSI的最大值和最小值
+
     public NewSpeedataUhfServiceImpl() {
         driver = new RfidDriver();
         int[] gpios = {9, 14};
@@ -62,7 +63,7 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
             beeperSettings();
             return true;
         } else {
-            UhfMsgEvent<UhfTag> uhfMsgEvent1=new UhfMsgEvent<>(UhfMsgType.UHF_CONNECT_FAIL);
+            UhfMsgEvent<UhfTag> uhfMsgEvent1 = new UhfMsgEvent<>(UhfMsgType.UHF_CONNECT_FAIL);
             EventBus.getDefault().post(uhfMsgEvent1);
             return false;
         }
@@ -234,10 +235,10 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
                     UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.INV_TAG, utag);
                     EventBus.getDefault().post(uhfMsgEvent);
                     if (SettingBeepUtil.isOpen()) {
-                        if(locaitonStart){
-                            Log.e("rssi" ,"rssi======" + (short)rssi);
+                        if (locaitonStart) {
+                            Log.e("rssi", "rssi======" + (short) rssi);
                             startLocationBeeping((short) rssi);
-                        }else {
+                        } else {
                             startbeepingTimer();
                         }
 
@@ -268,22 +269,22 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
     }
 
     private void startbeepingTimer() {
-            if (!beepON) {
-                beepON = true;
-                beep();
-                if (tbeep == null) {
-                    TimerTask task = new TimerTask() {
-                        @Override
-                        public void run() {
-                            stopbeepingTimer();
-                            beepON = false;
-                        }
-                    };
-                    tbeep = new Timer();
-                    tbeep.schedule(task, 80);
-                }
+        if (!beepON) {
+            beepON = true;
+            beep();
+            if (tbeep == null) {
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        stopbeepingTimer();
+                        beepON = false;
+                    }
+                };
+                tbeep = new Timer();
+                tbeep.schedule(task, 80);
             }
         }
+    }
 
     private synchronized void stopbeepingTimer() {
         if (tbeep != null) {
@@ -322,7 +323,32 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
         locatebeep = null;
     }
 
-    public boolean setWorkAndWaitTime(int workTime,int waitTime,boolean isSave){
-        return driver.ScanWaitTime_Set(workTime,waitTime,isSave);
+    public boolean setWorkAndWaitTime(int workTime, int waitTime, boolean isSave) {
+        return driver.ScanWaitTime_Set(workTime, waitTime, isSave);
+    }
+
+    //获取固件版本
+    public String getFirmwareVersion() {
+        String Fw_buffer;
+        Fw_buffer = driver.readUM7fwOnce();
+        if (Fw_buffer.equals("-1000")) {
+            return "";
+        }
+        if (Fw_buffer.equals("-1020")) {
+            return "";
+        }
+        return getDesignatedDecimalData(Fw_buffer);
+    }
+
+    private String getDesignatedDecimalData(String hexString) {
+        StringBuilder version = new StringBuilder();
+        int n = 0;
+        for (int i = 0; i < 3; i++) {
+            int vals = Integer.parseInt(hexString.substring(n, n + 2), 16);
+            String val = i < 2 ? vals + "." : vals + "";
+            version.append(val);
+            n += 2;
+        }
+        return version.toString();
     }
 }

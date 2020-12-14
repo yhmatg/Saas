@@ -122,4 +122,10 @@ public interface PreferenceHelper {
 
     DataAuthority getDataAuthority();
 
+    //设置rfid固件版本号
+    void setFirmwareVersion(String firmwareVersion);
+
+    String getFirmwareVersion();
+
+
 }

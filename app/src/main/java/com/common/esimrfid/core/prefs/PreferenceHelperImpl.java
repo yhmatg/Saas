@@ -205,5 +205,15 @@ public class PreferenceHelperImpl implements PreferenceHelper {
         }
     }
 
+    @Override
+    public void setFirmwareVersion(String firmwareVersion) {
+        mPreferences.edit().putString(Constants.FIRMWARE_VERSION, firmwareVersion).apply();
+    }
+
+    @Override
+    public String getFirmwareVersion() {
+        return mPreferences.getString(Constants.FIRMWARE_VERSION,"");
+    }
+
 
 }

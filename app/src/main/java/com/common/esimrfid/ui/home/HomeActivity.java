@@ -126,8 +126,23 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         SettingBeepUtil.setHostOpen(DataManager.getInstance().getHostBeeper());
         checkUserSatus();
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
-        if(esimUhfService instanceof NewSpeedataUhfServiceImpl){
-            ((NewSpeedataUhfServiceImpl) esimUhfService).setWorkAndWaitTime(0,0,true);
+        //兼容不同固件模块的设备
+        String locFirmVersion = DataManager.getInstance().getFirmwareVersion();
+        if (esimUhfService instanceof NewSpeedataUhfServiceImpl && StringUtils.isEmpty(locFirmVersion)) {
+            String firmwareVersion = ((NewSpeedataUhfServiceImpl) esimUhfService).getFirmwareVersion();
+            if(!StringUtils.isEmpty(firmwareVersion)){
+                if ("1.4.24".equals(firmwareVersion)) {
+                    boolean setResult = ((NewSpeedataUhfServiceImpl) esimUhfService).setWorkAndWaitTime(0, 0, true);
+                    if(setResult){
+                        DataManager.getInstance().setFirmwareVersion("1.4.24");
+                    }
+                } else {
+                    boolean setResult = ((NewSpeedataUhfServiceImpl) esimUhfService).setWorkAndWaitTime(200, 200, true);
+                    if(setResult){
+                        DataManager.getInstance().setFirmwareVersion("1.3.5");
+                    }
+                }
+            }
         }
         locationAssetAdapter = new LocationAssetAdapter(mAstLocaionNum, this, maxAssetNum);
         mLocationRecycle.setLayoutManager(new LinearLayoutManager(this));
@@ -153,7 +168,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         } else {
             mPresenter.getDataAuthority(uerLogin.getUserinfo().getId());
         }
-        mPresenter.fetchLatestPageAssets(500,1);
+        mPresenter.fetchLatestPageAssets(500, 1);
     }
 
     //检查登录状态，未登录跳转登录界面
@@ -226,7 +241,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     }
 
     @OnClick({R.id.inv_task, R.id.ast_inv, R.id.ast_search, R.id.write_tag, R.id.home_setting, R.id.ast_identity,
-            R.id.ast_repair, R.id.ast_list ,R.id.batch_edit})
+            R.id.ast_repair, R.id.ast_list, R.id.batch_edit})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.inv_task:

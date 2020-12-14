@@ -219,6 +219,16 @@ public class DataManager implements HttpHelper, PreferenceHelper {
         return mPreferenceHelper.getDataAuthority();
     }
 
+    @Override
+    public void setFirmwareVersion(String firmwareVersion) {
+        mPreferenceHelper.setFirmwareVersion(firmwareVersion);
+    }
+
+    @Override
+    public String getFirmwareVersion() {
+        return mPreferenceHelper.getFirmwareVersion();
+    }
+
 
     @Override
     public Observable<BaseResponse<UserLoginResponse>> login(UserInfo userInfo) {
