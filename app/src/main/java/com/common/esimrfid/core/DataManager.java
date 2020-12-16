@@ -5,6 +5,9 @@ import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
+import com.common.esimrfid.core.bean.huigang.HGBaseResponse;
+import com.common.esimrfid.core.bean.huigang.HGLocInfo;
+import com.common.esimrfid.core.bean.huigang.HGUploadBean;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
@@ -426,4 +429,15 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     public Observable<BaseResponse> updateAssetProp(UpdateAssetsPara updateAssetsPara) {
         return mHttpHelper.updateAssetProp(updateAssetsPara);
     }
+
+    @Override
+    public Observable<HGBaseResponse> uploadingSignal(String url, HGUploadBean hGUploadBean) {
+        return mHttpHelper.uploadingSignal(url, hGUploadBean);
+    }
+
+    @Override
+    public Observable<HGBaseResponse<HGLocInfo>> queryLocation(String url, String uid) {
+        return mHttpHelper.queryLocation(url, uid);
+    }
+
 }

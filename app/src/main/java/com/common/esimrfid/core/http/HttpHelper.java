@@ -5,6 +5,9 @@ import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
+import com.common.esimrfid.core.bean.huigang.HGBaseResponse;
+import com.common.esimrfid.core.bean.huigang.HGLocInfo;
+import com.common.esimrfid.core.bean.huigang.HGUploadBean;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
@@ -121,4 +124,8 @@ public interface HttpHelper {
     Observable<BaseResponse> updateAssetLoc(List<String> astIds, String loc);
 
     Observable<BaseResponse> updateAssetProp(UpdateAssetsPara updateAssetsPara);
+
+    Observable<HGBaseResponse> uploadingSignal(String url, HGUploadBean hGUploadBean);
+
+    Observable<HGBaseResponse<HGLocInfo>> queryLocation(String url, String uid);
 }
