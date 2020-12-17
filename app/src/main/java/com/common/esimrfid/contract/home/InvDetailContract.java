@@ -3,9 +3,11 @@ package com.common.esimrfid.contract.home;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
+import com.common.esimrfid.core.bean.beacon.BeaconLocInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
+
 import java.util.List;
 
 public interface InvDetailContract {
@@ -17,6 +19,8 @@ public interface InvDetailContract {
         void handelFinishInvorder(BaseResponse baseResponse);
 
         void uploadInvDetails(List<InventoryDetail> inventoryDetails);
+
+        void handleQueryBeaconLocation(List<BeaconLocInfo> locInfos);
     }
 
     interface Presenter extends AbstractPresenter<View> {
@@ -30,5 +34,7 @@ public interface InvDetailContract {
         void updateLocalInvDetailsState(String orderId,List<InventoryDetail> inventoryDetails);
 
         void uploadLocalInvDetailState(String orderId,String uid);
+
+        void queryBeaconLocation(String invId);
     }
 }

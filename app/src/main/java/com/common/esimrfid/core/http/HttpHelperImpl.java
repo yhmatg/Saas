@@ -6,6 +6,7 @@ import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
+import com.common.esimrfid.core.bean.beacon.BeaconLocInfo;
 import com.common.esimrfid.core.bean.huigang.HGBaseResponse;
 import com.common.esimrfid.core.bean.huigang.HGLocInfo;
 import com.common.esimrfid.core.bean.huigang.HGUploadBean;
@@ -271,6 +272,11 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<HGBaseResponse<HGLocInfo>> queryLocation(String url, String uid) {
         return mGeeksApis.queryLocation(url, uid);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<BeaconLocInfo>>> queryBeaconLocation(String invId) {
+        return mGeeksApis.queryBeaconLocation(invId);
     }
 
 

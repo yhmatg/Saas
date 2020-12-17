@@ -85,6 +85,6 @@ public class Constants {
 
     public static final String FIRMWARE_VERSION = "firmware_version";
     //add yhm 20190707 end
-
+    public static final String POIL_D = "poild";
 
 }

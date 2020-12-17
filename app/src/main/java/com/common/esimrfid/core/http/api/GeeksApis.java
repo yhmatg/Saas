@@ -5,6 +5,7 @@ import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
+import com.common.esimrfid.core.bean.beacon.BeaconLocInfo;
 import com.common.esimrfid.core.bean.huigang.HGBaseResponse;
 import com.common.esimrfid.core.bean.huigang.HGLocInfo;
 import com.common.esimrfid.core.bean.huigang.HGUploadBean;
@@ -291,9 +292,13 @@ public interface GeeksApis {
 
     //汇港上传蓝牙信标信息
     @POST
-    Observable<HGBaseResponse> uploadingSignal(@Url String url,@Body HGUploadBean hGUploadBean);
+    Observable<HGBaseResponse> uploadingSignal(@Url String url, @Body HGUploadBean hGUploadBean);
 
     //汇港查询位置信息
     @GET
     Observable<HGBaseResponse<HGLocInfo>> queryLocation(@Url String url, @Query("uid") String uid);
+
+    //汇港获取盘点单位置信息
+    @GET("inventory-server/inventoryorders/locinfos")
+    Observable<BaseResponse<List<BeaconLocInfo>>> queryBeaconLocation(@Query("inv_id") String invId);
 }

@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
@@ -36,6 +37,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
     public static final String INV_ID = "inv_id";
     public static final String LOC_IC = "loc_id";
     public static final String LOC_Name = "loc_name";
+
     @BindView(R.id.title_content)
     TextView mTitle;
     @BindView(R.id.tv_inv_sure)
@@ -72,6 +74,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
     private String mInvId;
     private String mLocId;
     private String mLocName;
+    private String mPoild;
     int currentShowStatus = 0;
     RadioButton preRadioButton;
     CustomPopWindow mCustomPopWindow;
@@ -89,6 +92,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
             mInvId = getIntent().getStringExtra(INV_ID);
             mLocId = getIntent().getStringExtra(LOC_IC);
             mLocName = getIntent().getStringExtra(LOC_Name);
+            mPoild = getIntent().getStringExtra(Constants.POIL_D);
         }
         mTitle.setText(mLocName);
         mNavigation.setText("导航");
@@ -333,7 +337,10 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 mAssetAdapter.notifyDataSetChanged();
                 break;
             case R.id.tv_inv_sure:
-               startActivity(new Intent(this, BeaconMapActivity.class));
+                Intent intent = new Intent();
+                intent.putExtra(Constants.POIL_D,mPoild);
+                intent.setClass(this, BeaconMapActivity.class);
+                startActivity(intent);
                 break;
         }
         if(mCurrentDetails.size() > 0){

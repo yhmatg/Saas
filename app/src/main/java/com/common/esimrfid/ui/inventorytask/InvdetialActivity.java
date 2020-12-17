@@ -1,5 +1,6 @@
 package com.common.esimrfid.ui.inventorytask;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,8 +12,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvDetailContract;
+import com.common.esimrfid.core.bean.beacon.BeaconLocInfo;
 import com.common.esimrfid.core.bean.emun.InventoryStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
@@ -20,6 +23,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.home.InvDetailPresenter;
+import com.common.esimrfid.ui.newinventory.InvAssetLocActivity;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.StringUtils;
 
@@ -34,13 +38,11 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implements InvDetailContract.View, FiltterAdapter.OnItemClickListener {
+public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implements InvDetailContract.View, FiltterAdapter.OnItemClickListener, InvLocationAdapter.OnItemClickListener {
     public static final String TAG = "InvdetialActivity";
     public static final String INV_ID = "inv_id";
-    public static final String INV_NAME = "inv_name";
-    private static final String INV_STATUS = "inv_status";
-    private static final String INTENT_FROM = "intent_from";
-    public static final int REQUEST_ENABLE_BT = 1234;
+    public static final String LOC_IC = "loc_id";
+    public static final String LOC_Name = "loc_name";
     @BindView(R.id.title_content)
     TextView mTitle;
     @BindView(R.id.tv_area)
@@ -78,6 +80,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     private FilterBean currentFilterBean = new FilterBean("10000", "全部", false);
     private List<InventoryDetail> mergeResults = new ArrayList<>();
     private HashMap<String, InventoryDetail> mergeAssets = new HashMap<>();
+    private HashMap<String, String> beaconLocations = new HashMap<>();
 
     @Override
     public InvDetailPresenter initPresenter() {
@@ -96,7 +99,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         if (CommonUtils.isNetworkConnected()) {
             mPresenter.uploadLocalInvDetailState(mInvId, userId);
         }
-
+        mPresenter.queryBeaconLocation(mInvId);
     }
 
     private void inStatusList() {
@@ -261,6 +264,13 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
 
     }
 
+    @Override
+    public void handleQueryBeaconLocation(List<BeaconLocInfo> locInfos) {
+        for (BeaconLocInfo locInfo : locInfos) {
+            beaconLocations.put(locInfo.getId(), locInfo.getLoc_latlng());
+        }
+    }
+
     @OnClick({R.id.title_back, R.id.area_layout, R.id.status_layout})
     void performClick(View view) {
         switch (view.getId()) {
@@ -290,6 +300,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
 
     public void initView() {
         mLoctionAdapter = new InvLocationAdapter(mCurrentLoctionBeans, this);
+        mLoctionAdapter.setOnItemClickListener(this);
         mInvDetailRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mInvDetailRecyclerView.setAdapter(mLoctionAdapter);
         //初始化popupwindow
@@ -360,5 +371,17 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onItemSelected(InvLocationBean invLocationBean) {
+        String poild = beaconLocations.get(invLocationBean.getLocId());
+        Intent intent = new Intent();
+        intent.putExtra(INV_ID, invLocationBean.getInvId());
+        intent.putExtra(LOC_IC, invLocationBean.getLocId());
+        intent.putExtra(LOC_Name, invLocationBean.getLocNmme());
+        intent.putExtra(Constants.POIL_D, poild);
+        intent.setClass(this, InvAssetLocActivity.class);
+        startActivity(intent);
     }
 }

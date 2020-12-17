@@ -19,6 +19,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.common.esimrfid.R;
+import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.ty.ibeacon.Beacon;
@@ -46,6 +47,7 @@ public class BeaconMapActivity extends BaseActivity implements SensorEventListen
 
     private final float[] rotationMatrix = new float[9];
     private final float[] orientationAngles = new float[3];
+    private String mPoild;
     @Override
     public AbstractPresenter initPresenter() {
         return null;
@@ -53,6 +55,9 @@ public class BeaconMapActivity extends BaseActivity implements SensorEventListen
 
     @Override
     protected void initEventAndData() {
+        if (getIntent() != null) {
+            mPoild = getIntent().getStringExtra(Constants.POIL_D);
+        }
         initRealWebView();
         initBeacon();
     }
@@ -209,7 +214,7 @@ public class BeaconMapActivity extends BaseActivity implements SensorEventListen
     }
 
     private void initRealWebView() {
-        final String url = "https://www.platalk.cn/HG/home/07552001?poiId=07552001F2210029";
+        final String url = "https://www.platalk.cn/HG/home/07552001?poiId=" + mPoild;
         WebSettings websettings = webView.getSettings();
         websettings.setJavaScriptEnabled(true);
         websettings.setDomStorageEnabled(true);  // 开启 DOM storage 功能

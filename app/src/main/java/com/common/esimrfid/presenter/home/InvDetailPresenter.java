@@ -3,6 +3,7 @@ package com.common.esimrfid.presenter.home;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvDetailContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.beacon.BeaconLocInfo;
 import com.common.esimrfid.core.bean.emun.InvOperateStatus;
 import com.common.esimrfid.core.bean.emun.InventoryStatus;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
@@ -15,9 +16,11 @@ import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -231,6 +234,19 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                         mView.handelUploadResult(baseResponse);
                     }
                 }));
+    }
+
+    @Override
+    public void queryBeaconLocation(String invId) {
+        addSubscribe(DataManager.getInstance().queryBeaconLocation(invId)
+        .compose(RxUtils.handleResult())
+        .compose(RxUtils.rxSchedulerHelper())
+        .subscribeWith(new BaseObserver<List<BeaconLocInfo>>(mView,false) {
+            @Override
+            public void onNext(List<BeaconLocInfo> locInfos) {
+                mView.handleQueryBeaconLocation(locInfos);
+            }
+        }));
     }
 
     //本地获取盘点数据
