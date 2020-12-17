@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.Constants;
 import com.common.esimrfid.app.EsimAndroidApp;
@@ -187,6 +188,11 @@ public class CommonUtils {
         }
         lastClickTime = curClickTime;
         return flag;
+    }
+
+    //获取设备序列号
+    public static String getSerialNumber () {
+        return android.os.Build.SERIAL;
     }
 
 }
