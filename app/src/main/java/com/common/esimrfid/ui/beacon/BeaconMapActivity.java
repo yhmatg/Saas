@@ -2,6 +2,7 @@ package com.common.esimrfid.ui.beacon;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
@@ -60,6 +61,8 @@ public class BeaconMapActivity extends BaseActivity implements SensorEventListen
         }
         initRealWebView();
         initBeacon();
+        //传感器，获取设备方向
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     }
 
     @Override
@@ -86,6 +89,16 @@ public class BeaconMapActivity extends BaseActivity implements SensorEventListen
                 }
             }
         });
+        Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if (accelerometer != null) {
+            sensorManager.registerListener(this, accelerometer,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+        }
+        Sensor magneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        if (magneticField != null) {
+            sensorManager.registerListener(this, magneticField,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+        }
     }
 
     @Override

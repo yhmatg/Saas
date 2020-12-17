@@ -29,6 +29,8 @@
         android:id="@+id/tv_inv_sure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/dp_5"
+        android:paddingEnd="@dimen/dp_5"
         android:layout_alignTop="@+id/title_content"
         android:layout_alignBottom="@+id/title_content"
         android:layout_alignParentEnd="true"
