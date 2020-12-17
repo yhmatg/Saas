@@ -1,27 +1,14 @@
 package com.common.esimrfid.ui.inventorytask;
 
-import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.RemoteException;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
@@ -35,9 +22,6 @@ import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.home.InvDetailPresenter;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.StringUtils;
-import com.ty.ibeacon.Beacon;
-import com.ty.ibeacon.BeaconManager;
-import com.ty.ibeacon.BeaconRegion;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,8 +59,6 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     LinearLayout filterLayout;
     @BindView(R.id.view_mask)
     View maskView;
-    @BindView(R.id.wv_loc)
-    WebView webView;
     private String userId;
     //所有条目数据
     List<InventoryDetail> mInventoryDetails = new ArrayList<>();
@@ -96,8 +78,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     private FilterBean currentFilterBean = new FilterBean("10000", "全部", false);
     private List<InventoryDetail> mergeResults = new ArrayList<>();
     private HashMap<String, InventoryDetail> mergeAssets = new HashMap<>();
-    private BeaconManager beaconManager;
-    private BeaconRegion beaconRegion = new BeaconRegion("markID", "40D6F323-6732-4C7C-A438-C9A740D0BF15", null, null);
+
     @Override
     public InvDetailPresenter initPresenter() {
         return new InvDetailPresenter();
@@ -115,91 +96,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         if (CommonUtils.isNetworkConnected()) {
             mPresenter.uploadLocalInvDetailState(mInvId, userId);
         }
-        initWebView();
-        initBeacon();
 
-    }
-
-    private void initBeacon() {
-        // 创建蓝牙管理实例
-        beaconManager = new BeaconManager(this);
-
-//        监听蓝牙扫描回调，在此回调中收集数据后调用上传信号接口
-        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
-            @Override
-            public void onBeaconsDiscovered(BeaconRegion beaconRegion, List<Beacon> list) {
-                Log.e(TAG,"========" + list.size());
-            }
-        });
-
-        checkBluetooth();
-    }
-
-    private void checkBluetooth() {
-        if (!beaconManager.hasBluetooth()) {
-            Toast.makeText(this, "Device does not have Bluetooth Low Energy",
-                    Toast.LENGTH_LONG).show();
-            Log.e(TAG,"手机不支持蓝牙");
-            return;
-        }
-
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//请求权限
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-//判断是否需要 向用户解释，为什么要申请该权限
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_CONTACTS)) {
-                Toast.makeText(this, "shouldShowRequestPermissionRationale", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        if (!beaconManager.isBluetoothEnabled()) {
-            Log.e(TAG,"蓝牙未开启");
-            Intent enableBtIntent = new Intent(
-                    BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            enableBtIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        } else {
-            Log.e(TAG,"蓝牙已开启");
-        }
-    }
-
-    private void initWebView() {
-        //声明WebSettings子类
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setDomStorageEnabled(true);
-        //如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript
-        webSettings.setJavaScriptEnabled(true);
-        // 若加载的 html 里有JS 在执行动画等操作，会造成资源浪费（CPU、电量）
-        // 在 onStop 和 onResume 里分别把 setJavaScriptEnabled() 给设置成 false 和 true 即可
-        //设置自适应屏幕，两者合用
-        webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
-        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
-
-        //缩放操作
-        webSettings.setSupportZoom(true); //支持缩放，默认为true。是下面那个的前提。
-        webSettings.setBuiltInZoomControls(true); //设置内置的缩放控件。若为false，则该WebView不可缩放
-        webSettings.setDisplayZoomControls(false); //隐藏原生的缩放控件
-
-        //其他细节操作
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); //关闭webview中缓存
-        webSettings.setAllowFileAccess(true); //设置可以访问文件
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
-        webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
-        webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
-
-        webView.loadUrl("http://www.baidu.com");
-        //系统默认会通过手机浏览器打开网页，为了能够直接通过WebView显示网页，则必须设置
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //使用WebView加载显示url
-                view.loadUrl(url);
-                //返回true
-                return true;
-            }
-        });
     }
 
     private void inStatusList() {
@@ -211,23 +108,12 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     @Override
     protected void onResume() {
         super.onResume();
-        webView.onResume();
         if (isFirstOnResume) {
             mPresenter.fetchAllInvDetails(mInvId, true);
             isFirstOnResume = false;
         } else {
             mPresenter.fetchAllInvDetails(mInvId, false);
         }
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                try {
-                    beaconManager.startRanging(beaconRegion);
-                } catch (RemoteException e) {
-                    Log.e(TAG, "Cannot start ranging", e);
-                }
-            }
-        });
     }
 
     @Override
@@ -434,13 +320,6 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     @Override
     protected void onPause() {
         super.onPause();
-        webView.onPause();
-        try {
-            beaconManager.stopRanging(beaconRegion);
-            beaconManager.disconnect();
-        } catch (RemoteException e) {
-            Log.d(TAG, "Error while stopping ranging", e);
-        }
     }
 
     @Override
@@ -477,28 +356,9 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
         mLoctionAdapter.notifyDataSetChanged();
     }
 
-    //点击返回上一页面而不是退出浏览器
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
-            webView.goBack();
-            return true;
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
-
     //销毁Webview
     @Override
     protected void onDestroy() {
-        if (webView != null) {
-            webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
-            webView.clearHistory();
-
-            ((ViewGroup) webView.getParent()).removeView(webView);
-            webView.destroy();
-            webView = null;
-        }
         super.onDestroy();
     }
 }

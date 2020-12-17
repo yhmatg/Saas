@@ -21,6 +21,7 @@ import com.common.esimrfid.core.bean.inventorytask.EpcBean;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.home.InvAssetsLocPresenter;
+import com.common.esimrfid.ui.beacon.BeaconMapActivity;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
@@ -37,6 +38,8 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
     public static final String LOC_Name = "loc_name";
     @BindView(R.id.title_content)
     TextView mTitle;
+    @BindView(R.id.tv_inv_sure)
+    TextView mNavigation;
     @BindView(R.id.asset_inv_recycler)
     RecyclerView assetInvRecycler;
     @BindView(R.id.empty_page)
@@ -88,6 +91,8 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
             mLocName = getIntent().getStringExtra(LOC_Name);
         }
         mTitle.setText(mLocName);
+        mNavigation.setText("导航");
+        mNavigation.setVisibility(View.VISIBLE);
         preRadioButton = notInvedRadio;
         notInvedRadio.setChecked(true);
         notInvedRadio.setTextColor(getColor(R.color.home_number));
@@ -271,7 +276,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         super.onPause();
     }
 
-    @OnClick({R.id.title_back, R.id.start_inv, R.id.asset_not_inved, R.id.asset_inved, R.id.asset_inv_more, R.id.asset_inv_less})
+    @OnClick({R.id.title_back, R.id.start_inv, R.id.asset_not_inved, R.id.asset_inved, R.id.asset_inv_more, R.id.asset_inv_less,R.id.tv_inv_sure})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.title_back:
@@ -326,6 +331,9 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 mCurrentDetails.clear();
                 mCurrentDetails.addAll(mLessDetails);
                 mAssetAdapter.notifyDataSetChanged();
+                break;
+            case R.id.tv_inv_sure:
+               startActivity(new Intent(this, BeaconMapActivity.class));
                 break;
         }
         if(mCurrentDetails.size() > 0){

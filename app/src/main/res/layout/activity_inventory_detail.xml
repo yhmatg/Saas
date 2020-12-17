@@ -89,14 +89,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_inventory_detail"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_300" />
+            android:layout_height="match_parent" />
     </RelativeLayout>
-
-    <WebView
-        android:id="@+id/wv_loc"
-        android:layout_below="@+id/rl_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <View
         android:id="@+id/view_mask"

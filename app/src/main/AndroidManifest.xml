@@ -98,5 +98,7 @@
             android:name=".ui.batchedit.BatchEditActivity"
             android:screenOrientation="portrait"></activity>
         <service android:name="com.ty.ibeacon.BeaconService"></service>
+        <activity android:name=".ui.beacon.BeaconMapActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 </manifest>
