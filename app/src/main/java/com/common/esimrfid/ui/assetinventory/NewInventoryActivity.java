@@ -2,7 +2,6 @@ package com.common.esimrfid.ui.assetinventory;
 
 import android.app.Dialog;
 import android.os.Handler;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -31,7 +30,6 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetinventory.NewInventoryContract;
-import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.inventorytask.AssetsLocation;
 import com.common.esimrfid.core.bean.inventorytask.AssetsType;
 import com.common.esimrfid.core.bean.inventorytask.CompanyBean;
@@ -73,6 +71,10 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     TextView mInvPersion;
     @BindView(R.id.rl_assign_name)
     RelativeLayout rInvPersion;
+    @BindView(R.id.tv_start_date)
+    TextView mStartData;
+    @BindView(R.id.rl_start_date)
+    RelativeLayout rStartData;
     @BindView(R.id.tv_expfin_date)
     TextView mExpFinData;
     @BindView(R.id.rl_expect_date)
@@ -114,7 +116,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     AssetsType mSelectAssetsType;
     AssetsLocation mSelectAssetsLocation;
     CompanyBean mSelectOwnCompany;
-    Date mSelectDate;
+    Date mSelectFinishDate;
     boolean usersClickShow;
     boolean companysClickShow;
     boolean typesClickShow;
@@ -135,6 +137,8 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     private List<Node> checkedTypes = new ArrayList<>();
     private List<Node> checkedLocations = new ArrayList<>();
     private int preOption = -1;
+    private boolean isStartDate;
+    private Date mSelectStartDate;
 
     @Override
     public NewInventoryPressnter initPresenter() {
@@ -178,7 +182,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
 
     }
 
-    @OnClick({R.id.title_back, R.id.ev_inv_name, R.id.rl_assign_name, R.id.rl_expect_date, R.id.rl_use_company,
+    @OnClick({R.id.title_back, R.id.ev_inv_name, R.id.rl_assign_name,R.id.rl_start_date, R.id.rl_expect_date, R.id.rl_use_company,
             R.id.rl_use_depart, R.id.rl_ast_type, R.id.rl_store_location, R.id.rl_own_company, R.id.btn_submit})
     void performClick(View view) {
         switch (view.getId()) {
@@ -199,8 +203,14 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 }
 
                 break;
+            case R.id.rl_start_date:
+                tvTitle.setText(R.string.exp_start_date);
+                isStartDate = true;
+                pvCustomTime.show();
+                break;
             case R.id.rl_expect_date:
                 tvTitle.setText(R.string.exp_finish_date);
+                isStartDate = false;
                 pvCustomTime.show();
                 break;
             case R.id.rl_use_company:
@@ -277,15 +287,23 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             ToastUtils.showShort("请选择盘点人");
             return;
         }
-
-        if (mSelectDate == null) {
-            ToastUtils.showShort("请选择预计完成时间");
+        if (mSelectStartDate == null) {
+            ToastUtils.showShort("请选择开始时间");
+            return;
+        }
+        if (mSelectFinishDate == null) {
+            ToastUtils.showShort("请选择结束时间");
+            return;
+        }
+        if (mSelectStartDate.getTime() > mSelectFinishDate.getTime()) {
+            ToastUtils.showShort("开始时间不能大于结束时间");
             return;
         }
         inventoryParameter.setInv_name(mInvName.getText().toString());
         inventoryParameter.setInv_assigner_id(mSelectMangerUser.getId());
         inventoryParameter.setInv_assigner_name(mSelectMangerUser.getUser_name());
-        inventoryParameter.setInv_exptfinish_date(mSelectDate);
+        inventoryParameter.setInv_exptbegin_date(mSelectStartDate);
+        inventoryParameter.setInv_exptfinish_date(mSelectFinishDate);
         if (mSelectUseCompany != null && !"-1".equals(mSelectUseCompany.getId())) {
             ArrayList<String> userCompany = new ArrayList<>();
             userCompany.add(mSelectUseCompany.getId());
@@ -436,8 +454,14 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         if(date.getTime() < currentDate.getTime() ){
             ToastUtils.showShort(R.string.finish_time_alert);
         }else {
-            mSelectDate = date;
-            mExpFinData.setText(DateUtils.date2String(mSelectDate));
+            if(isStartDate){
+                mSelectStartDate = date;
+                mStartData.setText(DateUtils.date2String(mSelectStartDate));
+            }else {
+                mSelectFinishDate = date;
+                mExpFinData.setText(DateUtils.date2String(mSelectFinishDate));
+            }
+
         }
 
 

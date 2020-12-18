@@ -7,6 +7,7 @@ public class InventoryParameter {
     private String inv_name;
     private String inv_assigner_id;
     private String inv_assigner_name;
+    private Date inv_exptbegin_date ;
     private Date inv_exptfinish_date;
     private List<String> inv_used_corp_filter;
     private List<String> inv_belong_corp_filter;
@@ -14,6 +15,7 @@ public class InventoryParameter {
     private List<String> inv_type_filter;
     private List<String> inv_loc_filter;
     private boolean createByApp = true;
+    private int inv_emp_switch;
 
     public String getInv_name() {
         return inv_name;
@@ -37,6 +39,14 @@ public class InventoryParameter {
 
     public void setInv_assigner_name(String inv_assigner_name) {
         this.inv_assigner_name = inv_assigner_name;
+    }
+
+    public Date getInv_exptbegin_date() {
+        return inv_exptbegin_date;
+    }
+
+    public void setInv_exptbegin_date(Date inv_exptbegin_date) {
+        this.inv_exptbegin_date = inv_exptbegin_date;
     }
 
     public Date getInv_exptfinish_date() {
@@ -93,5 +103,13 @@ public class InventoryParameter {
 
     public void setCreateByApp(boolean createByApp) {
         this.createByApp = createByApp;
+    }
+
+    public int getInv_emp_switch() {
+        return inv_emp_switch;
+    }
+
+    public void setInv_emp_switch(int inv_emp_switch) {
+        this.inv_emp_switch = inv_emp_switch;
     }
 }
