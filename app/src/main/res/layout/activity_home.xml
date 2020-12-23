@@ -269,7 +269,7 @@
                 android:text="@string/batch_edit"
                 android:textColor="@color/home_text_two"
                 android:textSize="@dimen/sp_15"
-                android:visibility="invisible" />
+                android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
 
