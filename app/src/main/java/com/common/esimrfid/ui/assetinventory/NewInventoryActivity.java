@@ -301,7 +301,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         }
         inventoryParameter.setInv_name(mInvName.getText().toString());
         inventoryParameter.setInv_assigner_id(mSelectMangerUser.getId());
-        inventoryParameter.setInv_assigner_name(mSelectMangerUser.getUser_name());
+        inventoryParameter.setInv_assigner_name(mSelectMangerUser.getUser_real_name());
         inventoryParameter.setInv_exptbegin_date(mSelectStartDate);
         inventoryParameter.setInv_exptfinish_date(mSelectFinishDate);
         if (mSelectUseCompany != null && !"-1".equals(mSelectUseCompany.getId())) {
