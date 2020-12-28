@@ -137,7 +137,7 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
                 } else {
                     List<AssetsAllInfo> localAssetsByAstIdOrEpc = new ArrayList<>();
                     if("AssetRepairActivity".equals(whereFrom)){
-                        localAssetsByAstIdOrEpc = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByAstIdOrEpc(astId, astCode, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
+                        localAssetsByAstIdOrEpc = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByAstIdOrEpc(astId, astCode, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope().getGeneral(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope().getGeneral());
                     }else {
                         localAssetsByAstIdOrEpc = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByAstIdOrEpc(astId, astCode);
                     }

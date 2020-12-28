@@ -20,8 +20,8 @@ public class DataAuthority {
     private String tenant_id;
     private List<String> auth_corp_scope = new ArrayList<>();
     private List<String> auth_dept_scope = new ArrayList<>();
-    private List<String> auth_type_scope = new ArrayList<>();
-    private List<String> auth_loc_scope = new ArrayList<>();
+    private AuthTypeScope auth_type_scope;
+    private AuthLocScope auth_loc_scope;
 
     public String getId() {
         return id;
@@ -63,19 +63,43 @@ public class DataAuthority {
         this.auth_dept_scope = auth_dept_scope;
     }
 
-    public List<String> getAuth_type_scope() {
+    public AuthTypeScope getAuth_type_scope() {
         return auth_type_scope;
     }
 
-    public void setAuth_type_scope(List<String> auth_type_scope) {
+    public void setAuth_type_scope(AuthTypeScope auth_type_scope) {
         this.auth_type_scope = auth_type_scope;
     }
 
-    public List<String> getAuth_loc_scope() {
+    public AuthLocScope getAuth_loc_scope() {
         return auth_loc_scope;
     }
 
-    public void setAuth_loc_scope(List<String> auth_loc_scope) {
+    public void setAuth_loc_scope(AuthLocScope auth_loc_scope) {
         this.auth_loc_scope = auth_loc_scope;
+    }
+
+    public static class AuthTypeScope {
+        private List<String> general = new ArrayList<>();
+
+        public List<String> getGeneral() {
+            return general;
+        }
+
+        public void setGeneral(List<String> general) {
+            this.general = general;
+        }
+    }
+
+    public static class AuthLocScope {
+        private List<String> general = new ArrayList<>();
+
+        public List<String> getGeneral() {
+            return general;
+        }
+
+        public void setGeneral(List<String> general) {
+            this.general = general;
+        }
     }
 }

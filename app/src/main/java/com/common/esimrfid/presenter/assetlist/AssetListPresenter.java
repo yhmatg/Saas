@@ -77,9 +77,9 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
                 }else {
                     astStatus.add(-1);
                 }
-                List<AssetsListItemInfo> assetList = DbBank.getInstance().getAssetsAllInfoDao().searchPageLocalAssetListByPara(size, patternName, currentSize, astStatus, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(), EsimAndroidApp.getDataAuthority().getAuth_dept_scope(), EsimAndroidApp.getDataAuthority().getAuth_type_scope(), EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
-                double money = DbBank.getInstance().getAssetsAllInfoDao().searchLocalAssetMoneyByPara(patternName, astStatus, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(), EsimAndroidApp.getDataAuthority().getAuth_dept_scope(), EsimAndroidApp.getDataAuthority().getAuth_type_scope(), EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
-                int count = DbBank.getInstance().getAssetsAllInfoDao().searchLocalAssetCountByPara(patternName, astStatus, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(), EsimAndroidApp.getDataAuthority().getAuth_dept_scope(), EsimAndroidApp.getDataAuthority().getAuth_type_scope(), EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
+                List<AssetsListItemInfo> assetList = DbBank.getInstance().getAssetsAllInfoDao().searchPageLocalAssetListByPara(size, patternName, currentSize, astStatus, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(), EsimAndroidApp.getDataAuthority().getAuth_dept_scope(), EsimAndroidApp.getDataAuthority().getAuth_type_scope().getGeneral(), EsimAndroidApp.getDataAuthority().getAuth_loc_scope().getGeneral());
+                double money = DbBank.getInstance().getAssetsAllInfoDao().searchLocalAssetMoneyByPara(patternName, astStatus, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(), EsimAndroidApp.getDataAuthority().getAuth_dept_scope(), EsimAndroidApp.getDataAuthority().getAuth_type_scope().getGeneral(), EsimAndroidApp.getDataAuthority().getAuth_loc_scope().getGeneral());
+                int count = DbBank.getInstance().getAssetsAllInfoDao().searchLocalAssetCountByPara(patternName, astStatus, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(), EsimAndroidApp.getDataAuthority().getAuth_dept_scope(), EsimAndroidApp.getDataAuthority().getAuth_type_scope().getGeneral(), EsimAndroidApp.getDataAuthority().getAuth_loc_scope().getGeneral());
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                 } else {

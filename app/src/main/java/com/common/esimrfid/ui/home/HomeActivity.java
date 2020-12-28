@@ -161,8 +161,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             DataAuthority dataAuthority = new DataAuthority();
             dataAuthority.getAuth_corp_scope().add("allData");
             dataAuthority.getAuth_dept_scope().add("allData");
-            dataAuthority.getAuth_type_scope().add("allData");
-            dataAuthority.getAuth_loc_scope().add("allData");
+            dataAuthority.getAuth_type_scope().getGeneral().add("allData");
+            dataAuthority.getAuth_loc_scope().getGeneral().add("allData");
             DataManager.getInstance().setDataAuthority(dataAuthority);
             EsimAndroidApp.setDataAuthority(dataAuthority);
         } else {

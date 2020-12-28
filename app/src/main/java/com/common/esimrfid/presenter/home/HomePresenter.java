@@ -236,11 +236,11 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                             if (dataAuthority.getAuth_dept_scope().size() == 0) {
                                 dataAuthority.getAuth_dept_scope().add("allData");
                             }
-                            if (dataAuthority.getAuth_type_scope().size() == 0) {
-                                dataAuthority.getAuth_type_scope().add("allData");
+                            if (dataAuthority.getAuth_type_scope().getGeneral().size() == 0) {
+                                dataAuthority.getAuth_type_scope().getGeneral().add("allData");
                             }
-                            if (dataAuthority.getAuth_loc_scope().size() == 0) {
-                                dataAuthority.getAuth_loc_scope().add("allData");
+                            if (dataAuthority.getAuth_loc_scope().getGeneral().size() == 0) {
+                                dataAuthority.getAuth_loc_scope().getGeneral().add("allData");
                             }
                             DataManager.getInstance().setDataAuthority(dataAuthority);
                             EsimAndroidApp.setDataAuthority(dataAuthority);

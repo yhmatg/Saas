@@ -54,7 +54,7 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
         Observable<BaseResponse<List<AssetsInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsInfo>>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<List<AssetsInfo>>> emitter) throws Exception {
-                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByPara(para,EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
+                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findLocalAssetsByPara(para,EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope().getGeneral(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope().getGeneral());
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                     Log.e(TAG, "network get data");
@@ -108,7 +108,7 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
         Observable<BaseResponse<AssetsInfoPage>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsInfoPage>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<AssetsInfoPage>> emitter) throws Exception {
-                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findPageLocalAssetsByPara(size, patternName, currentSize, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope());
+                List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findPageLocalAssetsByPara(size, patternName, currentSize, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope().getGeneral(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope().getGeneral());
                 if (CommonUtils.isNetworkConnected()) {
                     emitter.onComplete();
                     Log.e(TAG, "network get data");
