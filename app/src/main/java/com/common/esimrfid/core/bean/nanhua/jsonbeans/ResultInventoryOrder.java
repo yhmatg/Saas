@@ -1,9 +1,7 @@
 package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 
-import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.RoomWarnings;
 import android.support.annotation.NonNull;
 
 import java.util.Date;
@@ -37,13 +35,7 @@ public class ResultInventoryOrder {
      * updater : {"id":"admin_id","user_name":"admin","user_real_name":"张三"}
      * updater_id : admin_id
      */
-    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
-    @Embedded(prefix = "assigner_")
-    private Assigner assigner;
     private Date create_date;
-    @SuppressWarnings(RoomWarnings.PRIMARY_KEY_FROM_EMBEDDED_IS_DROPPED)
-    @Embedded(prefix = "mcreator_")
-    private Creator creator;
     @PrimaryKey
     @NonNull
     private String id;
@@ -57,14 +49,10 @@ public class ResultInventoryOrder {
     private Integer inv_total_count;
     //本地添加的盘点单状态，非服务器返回
     private Integer opt_status;
-
-    public Assigner getAssigner() {
-        return assigner;
-    }
-
-    public void setAssigner(Assigner assigner) {
-        this.assigner = assigner;
-    }
+    private String inv_assigner_id;
+    private String inv_assigner_name;
+    private String inv_creator_id;
+    private String inv_creator_name;
 
     public Date getCreate_date() {
         return create_date;
@@ -72,14 +60,6 @@ public class ResultInventoryOrder {
 
     public void setCreate_date(Date create_date) {
         this.create_date = create_date;
-    }
-
-    public Creator getCreator() {
-        return creator;
-    }
-
-    public void setCreator(Creator creator) {
-        this.creator = creator;
     }
 
 
@@ -165,78 +145,36 @@ public class ResultInventoryOrder {
         this.opt_status = opt_status;
     }
 
-    public static class Assigner {
-        /**
-         * id : ast_mgr_id
-         * user_name : astMgr
-         * user_real_name : 资管员
-         */
-        @PrimaryKey
-        @NonNull
-        private String id;
-        private String user_name;
-        private String user_real_name;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getUser_name() {
-            return user_name;
-        }
-
-        public void setUser_name(String user_name) {
-            this.user_name = user_name;
-        }
-
-        public String getUser_real_name() {
-            return user_real_name;
-        }
-
-        public void setUser_real_name(String user_real_name) {
-            this.user_real_name = user_real_name;
-        }
+    public String getInv_assigner_id() {
+        return inv_assigner_id;
     }
 
-    public static class Creator {
-        /**
-         * id : admin_id
-         * user_name : admin
-         * user_real_name : 张三
-         */
-        @PrimaryKey
-        @NonNull
-        private String id;
-        private String user_name;
-        private String user_real_name;
+    public void setInv_assigner_id(String inv_assigner_id) {
+        this.inv_assigner_id = inv_assigner_id;
+    }
 
-        public String getId() {
-            return id;
-        }
+    public String getInv_assigner_name() {
+        return inv_assigner_name;
+    }
 
-        public void setId(String id) {
-            this.id = id;
-        }
+    public void setInv_assigner_name(String inv_assigner_name) {
+        this.inv_assigner_name = inv_assigner_name;
+    }
 
-        public String getUser_name() {
-            return user_name;
-        }
+    public String getInv_creator_id() {
+        return inv_creator_id;
+    }
 
-        public void setUser_name(String user_name) {
-            this.user_name = user_name;
-        }
+    public void setInv_creator_id(String inv_creator_id) {
+        this.inv_creator_id = inv_creator_id;
+    }
 
-        public String getUser_real_name() {
-            return user_real_name;
-        }
+    public String getInv_creator_name() {
+        return inv_creator_name;
+    }
 
-        public void setUser_real_name(String user_real_name) {
-            this.user_real_name = user_real_name;
-        }
+    public void setInv_creator_name(String inv_creator_name) {
+        this.inv_creator_name = inv_creator_name;
     }
 
     @Override

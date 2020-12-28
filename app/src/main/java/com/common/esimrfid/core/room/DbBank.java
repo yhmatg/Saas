@@ -6,12 +6,9 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
-import android.arch.persistence.room.migration.Migration;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.common.esimrfid.app.EsimAndroidApp;
-import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
@@ -24,7 +21,7 @@ import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
         ResultInventoryOrder.class,
         AssetsAllInfo.class,
         }
-        , version = 2)
+        , version = 3)
 @TypeConverters(DateConverter.class)
 public abstract class DbBank extends RoomDatabase {
     public static final String DB_NAME = "inventory.db";
@@ -63,5 +60,6 @@ public abstract class DbBank extends RoomDatabase {
     public abstract ResultInventoryOrderDao getResultInventoryOrderDao();
 
     public abstract AssetsAllInfoDao getAssetsAllInfoDao();
+
 
 }

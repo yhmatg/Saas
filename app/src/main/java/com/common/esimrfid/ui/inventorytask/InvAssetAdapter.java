@@ -54,7 +54,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         String invCode = TextUtils.isEmpty(invTaskItem.getInv_code()) ? "" : invTaskItem.getInv_code();
         viewHolder.mInvCode.setText(invCode);
 
-        String userRealName = invTaskItem.getCreator() == null ? "" : invTaskItem.getCreator().getUser_real_name();
+        String userRealName = invTaskItem.getInv_creator_name();
         userRealName = TextUtils.isEmpty(userRealName) ? "" : userRealName;
         viewHolder.mInvCreatorName.setText(userRealName);
 

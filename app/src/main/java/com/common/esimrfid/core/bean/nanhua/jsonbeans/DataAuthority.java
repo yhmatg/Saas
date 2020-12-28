@@ -20,8 +20,8 @@ public class DataAuthority {
     private String tenant_id;
     private List<String> auth_corp_scope = new ArrayList<>();
     private List<String> auth_dept_scope = new ArrayList<>();
-    private AuthTypeScope auth_type_scope;
-    private AuthLocScope auth_loc_scope;
+    private AuthTypeScope auth_type_scope = new AuthTypeScope();
+    private AuthLocScope auth_loc_scope = new AuthLocScope();
 
     public String getId() {
         return id;
