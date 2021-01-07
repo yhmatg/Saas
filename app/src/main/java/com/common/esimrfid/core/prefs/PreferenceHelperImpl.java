@@ -105,7 +105,7 @@ public class PreferenceHelperImpl implements PreferenceHelper {
         if ("zsbank".equals(projectName)) {
             hostUrl = "https://iwms.cloud.cmbchina.com/asset/";
         } else {
-            hostUrl = "https://cloud.assettag.vip/";
+            hostUrl = "http://116.7.243.70:17880/";
         }
         return mPreferences.getString(Constants.HOSTURL, hostUrl);
     }
