@@ -37,7 +37,7 @@
         android:layout_height="@dimen/dp_55"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/circle_shape"
-        android:src="@drawable/home_logo" />
+        android:src="@mipmap/ic_hg_icon" />
 
     <TextView
         android:id="@+id/company_name"
