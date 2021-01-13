@@ -1,39 +1,26 @@
 package com.common.esimrfid.ui.newinventory;
 
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
-import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.emun.InventoryStatus;
 import com.common.esimrfid.core.bean.inventorytask.EpcBean;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
-import com.common.esimrfid.core.room.DbBank;
-import com.common.esimrfid.customview.CustomPopWindow;
 import com.common.esimrfid.presenter.home.InvAssetsLocPresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
 import com.common.esimrfid.uhf.UhfTag;
-import com.common.esimrfid.ui.home.AssetLocationNum;
 import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.utils.Utils;
@@ -99,6 +86,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
 
     @Override
     protected void initEventAndData() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         initRfidAndEventbus();
         if (getIntent() != null) {
             mInvId = getIntent().getStringExtra(INV_ID);
