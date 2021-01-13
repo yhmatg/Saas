@@ -58,6 +58,7 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.assetsearch.AssetsDetailsActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.assetsearch.LocationSearchActivity"
@@ -70,6 +71,7 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.identity.IdentityActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.assetrepair.AssetRepairActivity"

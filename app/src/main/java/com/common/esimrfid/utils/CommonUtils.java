@@ -176,7 +176,7 @@ public class CommonUtils {
         return (T) object;
     }
 
-    private static final int MIN_CLICK_DELAY_TIME = 1000;
+    private static final int MIN_CLICK_DELAY_TIME = 500;
     private static long lastClickTime;
 
     public static boolean isNormalClick() {

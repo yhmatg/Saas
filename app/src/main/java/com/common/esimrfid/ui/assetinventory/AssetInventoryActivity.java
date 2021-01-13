@@ -5,9 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.common.esimrfid.R;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvOrderContract;
@@ -15,15 +17,18 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
+import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.utils.CommonUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -83,21 +88,21 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 isNeedClearData = true;
                 currentPage = 1;
                 //mPresenter.fetchAllIvnOrders(userId, true);
-                mPresenter.fetchAllIvnOrdersPage(pageSize,1,0,userId,true);
+                mPresenter.fetchAllIvnOrdersPage(pageSize, 1, 0, userId, true);
             }
         });
         mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 isNeedClearData = false;
-                currentPage ++;
-                mPresenter.fetchAllIvnOrdersPage(pageSize,currentPage,invordersSize,userId,true);
+                currentPage++;
+                mPresenter.fetchAllIvnOrdersPage(pageSize, currentPage, invordersSize, userId, true);
             }
         });
         mRefreshLayout.setEnableAutoLoadMore(false);//使上拉加载具有弹性效果
         mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
-        mPresenter.fetchAllIvnOrdersPage(pageSize,1,0,userId,true);
+        mPresenter.fetchAllIvnOrdersPage(pageSize, 1, 0, userId, true);
     }
 
     @Override
@@ -170,8 +175,12 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 finish();
                 break;
             case R.id.create_invtask:
-                if(CommonUtils.isNormalClick()){
-                    startActivity(new Intent(this, NewInventoryActivity.class));
+                if (CommonUtils.isNormalClick()) {
+                    if(CommonUtils.isNetworkConnected()){
+                        startActivity(new Intent(this, NewInventoryActivity.class));
+                    }else {
+                        showNoInternetDialog();
+                    }
                 }
                 break;
         }
@@ -185,12 +194,12 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 return o2.getCreate_date().compareTo(o1.getCreate_date());
             }
         });
-        if(isNeedClearData){
+        if (isNeedClearData) {
             mRefreshLayout.finishRefresh();
             mFinishedTaskorders.clear();
             mUnFinishedTaskorders.clear();
             invordersSize = 0;
-        }else {
+        } else {
             mRefreshLayout.finishLoadMore();
         }
         mShowTaskorders.clear();
@@ -239,6 +248,21 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
     @Override
     public void handleNotInvAssetLeftStatus(Boolean isAllInved) {
 
+    }
+
+    public void showNoInternetDialog() {
+        BaseDialog baseDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.finish_confirm_dialog);
+        TextView context = baseDialog.findViewById(R.id.alert_context);
+        Button btSure = baseDialog.findViewById(R.id.bt_confirm);
+        context.setText("无法访问网络,请稍后再试!");
+        btSure.setText("我知道了");
+        btSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                baseDialog.dismiss();
+            }
+        });
+        baseDialog.show();
     }
 
 }
