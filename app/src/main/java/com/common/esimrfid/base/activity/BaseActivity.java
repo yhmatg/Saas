@@ -1,14 +1,19 @@
 package com.common.esimrfid.base.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
@@ -17,8 +22,6 @@ import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
-import com.common.esimrfid.uhf.IEsimUhfService;
-import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.utils.CommonUtils;
 
@@ -62,7 +65,7 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
             mPresenter.detachView();
             mPresenter = null;
         }
-        if(dialog != null && dialog.isShowing()){
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
             dialog = null;
         }
@@ -177,15 +180,15 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
     protected abstract void initEventAndData();
 
     @Override
-    public void startLoginActivity(){
+    public void startLoginActivity() {
         DataManager.getInstance().setLoginStatus(false);
         EsimAndroidApp.getInstance().exitActivitys();
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    public UserLoginResponse getUserLoginResponse(){
+    public UserLoginResponse getUserLoginResponse() {
         UserLoginResponse loginResponse = EsimAndroidApp.getInstance().getUserLoginResponse();
-        if(loginResponse == null){
+        if (loginResponse == null) {
             loginResponse = DataManager.getInstance().getUserLoginResponse();
         }
         return loginResponse;
@@ -209,5 +212,47 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
             Window window = expiredDialog.getWindow();
             window.setBackgroundDrawableResource(android.R.color.transparent);
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (isShouldHideKeyboard(v, ev)) {
+                boolean hideResult = hideKeyboard(v.getWindowToken());
+                if(hideResult){
+                    return true;
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private boolean isShouldHideKeyboard(View v, MotionEvent event) {
+        if ((v instanceof EditText)) {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0],
+                    top = l[1],
+                    bottom = top + v.getHeight(),
+                    right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 点击EditText的事件，忽略它。
+                return false;
+            } else {
+                return true;
+            }
+        }
+        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
+        return false;
+    }
+
+    private boolean hideKeyboard(IBinder token) {
+        if (token != null) {
+            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            return im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+        return false;
     }
 }
