@@ -32,7 +32,7 @@ import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.emun.AssetsMaterial;
 import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
 import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
 import com.common.esimrfid.ui.assetrepair.RepairAssetEvent;
 import com.common.esimrfid.ui.newinventory.AssetTag;
@@ -156,7 +156,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private List<AssetRepair> mRepairData = new ArrayList<>();//维保信息
     private AssetsResumeAdapter assetsResumeAdapter;
     private AssetsRepairAdapter assetsRepairAdapter;
-    private AssetsInfo repairAsset = new AssetsInfo();
+    private AssetsListItemInfo repairAsset = new AssetsListItemInfo();
     private String activityFrom;
     private int status;
     private String epcCode;
@@ -279,7 +279,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 if (!(status == 0 || status == 1)) {
                     ToastUtils.showShort(R.string.repair_toast_str);
                 } else {
-                    List<AssetsInfo> assetsInfos = new ArrayList<>();
+                    List<AssetsListItemInfo> assetsInfos = new ArrayList<>();
                     assetsInfos.add(repairAsset);
                     RepairAssetEvent repairAssetEvent = new RepairAssetEvent(assetsInfos);
                     EventBus.getDefault().post(repairAssetEvent);

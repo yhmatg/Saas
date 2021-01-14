@@ -343,16 +343,6 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<AssetsInfoPage>> getAllAssetsByOptPage(String optType, Integer size, Integer page, String patternName) {
-        return mHttpHelper.getAllAssetsByOptPage(optType, size, page, patternName);
-    }
-
-    @Override
-    public Observable<BaseResponse<List<AssetsInfo>>> getAllAssetsByOpt(String optType, String patternName) {
-        return mHttpHelper.getAllAssetsByOpt(optType, patternName);
-    }
-
-    @Override
     public Observable<BaseResponse> uploadInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails) {
         return mHttpHelper.uploadInvAssets(orderId, uid, invDetails);
     }

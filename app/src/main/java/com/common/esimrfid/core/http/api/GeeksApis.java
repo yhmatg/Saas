@@ -225,14 +225,6 @@ public interface GeeksApis {
     @GET("user-server/emps/unpage")
     Observable<BaseResponse<List<MangerUser>>> getAllEmpUsers();
 
-    //根据操作查询资产列表 分页
-    @GET("assets-server/assets/choiceAssetsByOpt")
-    Observable<BaseResponse<AssetsInfoPage>> getAllAssetsByOptPage(@Query("opt_type") String optType, @Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName);
-
-    //根据操作查询资产列表 不分页
-    @GET("assets-server/assets/choiceAssetsByOpt/unpage")
-    Observable<BaseResponse<List<AssetsInfo>>> getAllAssetsByOpt(@Query("opt_type") String optType, @Query("pattern_name") String patternName);
-
     //新盘点数据上传
     @POST("inventory-server/inventoryorders/{inv_id}/commit/new")
     Observable<BaseResponse> uploadInvAssets(@Path("inv_id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invReq);

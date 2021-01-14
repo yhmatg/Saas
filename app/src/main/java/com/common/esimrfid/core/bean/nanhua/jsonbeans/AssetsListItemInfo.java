@@ -1,6 +1,6 @@
 package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 
-import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Ignore;
 
 import java.util.Objects;
 
@@ -14,6 +14,15 @@ public class AssetsListItemInfo {
     private double ast_price;
     private int ast_used_status;
     private long ast_buy_date;
+    @Ignore
+    private String type_name;
+    //资产报修使用
+    @Ignore
+    private boolean isSelected;
+    @Ignore
+    private String ast_model;
+    @Ignore
+    private String ast_brand;
 
     public String getAst_barcode() {
         return ast_barcode;
@@ -78,6 +87,38 @@ public class AssetsListItemInfo {
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
+    }
+
+    public String getType_name() {
+        return type_name;
+    }
+
+    public void setType_name(String type_name) {
+        this.type_name = type_name;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public String getAst_model() {
+        return ast_model;
+    }
+
+    public void setAst_model(String ast_model) {
+        this.ast_model = ast_model;
+    }
+
+    public String getAst_brand() {
+        return ast_brand;
+    }
+
+    public void setAst_brand(String ast_brand) {
+        this.ast_brand = ast_brand;
     }
 
     @Override

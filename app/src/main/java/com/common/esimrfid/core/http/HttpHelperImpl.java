@@ -176,16 +176,6 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse<AssetsInfoPage>> getAllAssetsByOptPage(String optType, Integer size, Integer page, String patternName) {
-        return mGeeksApis.getAllAssetsByOptPage(optType, size, page, patternName);
-    }
-
-    @Override
-    public Observable<BaseResponse<List<AssetsInfo>>> getAllAssetsByOpt(String optType, String patternName) {
-        return mGeeksApis.getAllAssetsByOpt(optType,patternName);
-    }
-
-    @Override
     public Observable<BaseResponse> uploadInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails) {
         return mGeeksApis.uploadInvAssets(orderId, uid, invDetails);
     }
