@@ -45,7 +45,7 @@
             <EditText
                 android:id="@+id/edit_account"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_34"
                 android:background="@null"
                 android:drawableStart="@drawable/icon_user"
                 android:drawablePadding="9.5dp"
@@ -54,10 +54,11 @@
                 android:textSize="@dimen/sp_14" />
 
             <View
-                android:layout_marginTop="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_4"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="@color/login_line_color" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -80,7 +81,7 @@
                 <EditText
                     android:id="@+id/edit_password"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
                     android:drawableStart="@drawable/icon_psd"
