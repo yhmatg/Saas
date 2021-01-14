@@ -281,7 +281,7 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
                     }
                 };
                 tbeep = new Timer();
-                tbeep.schedule(task, 80);
+                tbeep.schedule(task, 90);
             }
         }
     }
