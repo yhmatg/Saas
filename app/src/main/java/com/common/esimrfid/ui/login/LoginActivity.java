@@ -242,7 +242,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             sureTv.setTextSize(14);
             cancleTv.setText("否，去打开网络");
             cancleTv.setTextSize(14);
-            tvContent.setText("无法访问网络，是否开启无线模式?");
+            tvContent.setText("无法访问网络，是否要开启离线模式?");
             sureTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

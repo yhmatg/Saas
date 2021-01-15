@@ -13,7 +13,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
@@ -22,6 +24,7 @@ import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
+import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.ui.login.LoginActivity;
 import com.common.esimrfid.utils.CommonUtils;
 
@@ -254,5 +257,20 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
             return im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
         return false;
+    }
+
+    public void showNoInternetDialog() {
+        BaseDialog baseDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.finish_confirm_dialog);
+        TextView context = baseDialog.findViewById(R.id.alert_context);
+        Button btSure = baseDialog.findViewById(R.id.bt_confirm);
+        context.setText("无法访问网络,请稍后再试!");
+        btSure.setText("我知道了");
+        btSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                baseDialog.dismiss();
+            }
+        });
+        baseDialog.show();
     }
 }

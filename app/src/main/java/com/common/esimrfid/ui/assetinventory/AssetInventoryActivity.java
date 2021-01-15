@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.presenter.home.InvOrderPressnter;
-import com.common.esimrfid.ui.home.BaseDialog;
 import com.common.esimrfid.utils.CommonUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -248,21 +246,6 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
     @Override
     public void handleNotInvAssetLeftStatus(Boolean isAllInved) {
 
-    }
-
-    public void showNoInternetDialog() {
-        BaseDialog baseDialog = new BaseDialog(this, R.style.BaseDialog, R.layout.finish_confirm_dialog);
-        TextView context = baseDialog.findViewById(R.id.alert_context);
-        Button btSure = baseDialog.findViewById(R.id.bt_confirm);
-        context.setText("无法访问网络,请稍后再试!");
-        btSure.setText("我知道了");
-        btSure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                baseDialog.dismiss();
-            }
-        });
-        baseDialog.show();
     }
 
 }

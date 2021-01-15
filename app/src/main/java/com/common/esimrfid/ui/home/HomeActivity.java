@@ -130,15 +130,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         String locFirmVersion = DataManager.getInstance().getFirmwareVersion();
         if (esimUhfService instanceof NewSpeedataUhfServiceImpl && StringUtils.isEmpty(locFirmVersion)) {
             String firmwareVersion = ((NewSpeedataUhfServiceImpl) esimUhfService).getFirmwareVersion();
-            if(!StringUtils.isEmpty(firmwareVersion)){
+            if (!StringUtils.isEmpty(firmwareVersion)) {
                 if ("1.4.24".equals(firmwareVersion)) {
                     boolean setResult = ((NewSpeedataUhfServiceImpl) esimUhfService).setWorkAndWaitTime(0, 0, true);
-                    if(setResult){
+                    if (setResult) {
                         DataManager.getInstance().setFirmwareVersion("1.4.24");
                     }
                 } else {
                     boolean setResult = ((NewSpeedataUhfServiceImpl) esimUhfService).setWorkAndWaitTime(200, 200, true);
-                    if(setResult){
+                    if (setResult) {
                         DataManager.getInstance().setFirmwareVersion("1.3.5");
                     }
                 }
@@ -277,7 +277,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 break;
             case R.id.ast_repair:
                 if (CommonUtils.isNormalClick()) {
-                    startActivity(new Intent(this, AssetRepairActivity.class));
+                    if (CommonUtils.isNetworkConnected()) {
+                        startActivity(new Intent(this, AssetRepairActivity.class));
+                    } else {
+                        showNoInternetDialog();
+                    }
                 }
                 break;
             case R.id.ast_list:
