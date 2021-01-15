@@ -161,7 +161,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND,0);
+        calendar.set(Calendar.MILLISECOND, 0);
         currentDate = calendar.getTime();
     }
 
@@ -182,7 +182,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
 
     }
 
-    @OnClick({R.id.title_back, R.id.ev_inv_name, R.id.rl_assign_name,R.id.rl_start_date, R.id.rl_expect_date, R.id.rl_use_company,
+    @OnClick({R.id.title_back, R.id.ev_inv_name, R.id.rl_assign_name, R.id.rl_start_date, R.id.rl_expect_date, R.id.rl_use_company,
             R.id.rl_use_depart, R.id.rl_ast_type, R.id.rl_store_location, R.id.rl_own_company, R.id.btn_submit})
     void performClick(View view) {
         switch (view.getId()) {
@@ -244,7 +244,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                 } else {
                    /* pvCustomOptions.setPicker(mAssetsTypes);
                     pvCustomOptions.show();*/
-                   showMultipleDialog();
+                    showMultipleDialog();
                 }
                 break;
             case R.id.rl_store_location:
@@ -280,23 +280,23 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     private void creataInvtory() {
         InventoryParameter inventoryParameter = new InventoryParameter();
         if (TextUtils.isEmpty(mInvName.getText().toString())) {
-            ToastUtils.showShort("请输入盘点单名称");
+            ToastUtils.showShort(R.string.inv_name_hint);
             return;
         }
         if (mSelectMangerUser == null) {
-            ToastUtils.showShort("请选择盘点人");
+            ToastUtils.showShort(R.string.inv_persion_hint);
             return;
         }
         if (mSelectStartDate == null) {
-            ToastUtils.showShort("请选择开始时间");
+            ToastUtils.showShort(R.string.inv_start_hint);
             return;
         }
         if (mSelectFinishDate == null) {
-            ToastUtils.showShort("请选择结束时间");
+            ToastUtils.showShort(R.string.inv_finish_hint);
             return;
         }
         if (mSelectStartDate.getTime() > mSelectFinishDate.getTime()) {
-            ToastUtils.showShort("开始时间不能大于结束时间");
+            ToastUtils.showShort(R.string.start_end_time_error);
             return;
         }
         inventoryParameter.setInv_name(mInvName.getText().toString());
@@ -350,7 +350,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         if (checkedLocations.size() > 0) {
             ArrayList<String> assetsLocation = new ArrayList<>();
             for (Node checkedLocation : checkedLocations) {
-                assetsLocation.add((String)checkedLocation.getId());
+                assetsLocation.add((String) checkedLocation.getId());
             }
             inventoryParameter.setInv_loc_filter(assetsLocation);
         }
@@ -451,13 +451,21 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     }
 
     private void expDateSelect(Date date) {
-        if(date.getTime() < currentDate.getTime() ){
-            ToastUtils.showShort(R.string.finish_time_alert);
-        }else {
-            if(isStartDate){
+        if (date.getTime() < currentDate.getTime()) {
+            ToastUtils.showShort(R.string.time_too_earl);
+        } else {
+            if (isStartDate) {
+                if(mSelectFinishDate != null && date.getTime() > mSelectFinishDate.getTime()){
+                    ToastUtils.showShort(R.string.start_end_time_error);
+                    return;
+                }
                 mSelectStartDate = date;
                 mStartData.setText(DateUtils.date2String(mSelectStartDate));
-            }else {
+            } else {
+                if(mSelectStartDate != null && date.getTime() < mSelectStartDate.getTime()){
+                    ToastUtils.showShort(R.string.start_end_time_error);
+                    return;
+                }
                 mSelectFinishDate = date;
                 mExpFinData.setText(DateUtils.date2String(mSelectFinishDate));
             }
@@ -588,7 +596,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                     mSelectDepartment = mDepartmentBeans.get(options1);
                     //modify 0103 start
                     selectDeparts.clear();
-                    selectDeparts = getSelectDeparts(mDepartmentBeans,mSelectDepartment.getId(),selectDeparts);
+                    selectDeparts = getSelectDeparts(mDepartmentBeans, mSelectDepartment.getId(), selectDeparts);
                     //modify 0103 start
                     mUseDepart.setText(mSelectDepartment.getOrg_name());
                 }
@@ -598,7 +606,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
                     mSelectAssetsType = mAssetsTypes.get(options1);
                     //modify 0103 start
                     selectTypes.clear();
-                    selectTypes = getSelectTypes(mAssetsTypes,mSelectAssetsType.getId(),selectTypes);
+                    selectTypes = getSelectTypes(mAssetsTypes, mSelectAssetsType.getId(), selectTypes);
                     //modify 0103 end
                     mAssType.setText(mSelectAssetsType.getType_name());
                 }
@@ -659,10 +667,10 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         //公司所有部门，不包含子公司的部门
         List<DepartmentBean> tempList = new ArrayList<>();
         for (DepartmentBean departmentBean : departmentBeans) {
-            if (departmentBean.getOrg_type() == 0  && departmentBean.getOrg_superid().equals(mSelectUseCompany.getId())) {
+            if (departmentBean.getOrg_type() == 0 && departmentBean.getOrg_superid().equals(mSelectUseCompany.getId())) {
                 //公司一个部门下的所有部门
-                List<DepartmentBean>  oneDeparts= new ArrayList<>();
-                oneDeparts = getSelectDeparts(departmentBeans,departmentBean.getId(),oneDeparts);
+                List<DepartmentBean> oneDeparts = new ArrayList<>();
+                oneDeparts = getSelectDeparts(departmentBeans, departmentBean.getId(), oneDeparts);
                 tempList.addAll(oneDeparts);
             }
         }
@@ -695,8 +703,8 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         if (typesClickShow) {
            /* pvCustomOptions.setPicker(mAssetsTypes);
             pvCustomOptions.show();*/
-           showMultipleDialog();
-           typesClickShow = false;
+            showMultipleDialog();
+            typesClickShow = false;
         }
     }
 
@@ -726,7 +734,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             showCreateSuccessDialog(R.string.save_fail);
         } else {
             showCreateSuccessDialog(R.string.save_success);
-            new Handler().postDelayed(new Runnable(){
+            new Handler().postDelayed(new Runnable() {
                 public void run() {
                     finish();
                 }
@@ -800,8 +808,8 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         return resultDeparts;
     }
 
-    public void showMultipleDialog(){
-        if(preOption != currentOption){
+    public void showMultipleDialog() {
+        if (preOption != currentOption) {
             updateMultiAdapterData();
             preOption = currentOption;
         }
@@ -828,105 +836,105 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         }
     }
 
-    public void initMultiDialogView(){
+    public void initMultiDialogView() {
         multiContentView = LayoutInflater.from(this).inflate(R.layout.multiple_choice_dialog, null);
         TextView tvSubmit = (TextView) multiContentView.findViewById(R.id.tv_finish);
         TextView tvCancel = (TextView) multiContentView.findViewById(R.id.tv_cancle);
         multiRecycle = (RecyclerView) multiContentView.findViewById(R.id.multi_recycle);
         multiRecycle.setLayoutManager(new LinearLayoutManager(this));
         multiAdapter = new SimpleTreeRecyclerAdapter(multiRecycle, NewInventoryActivity.this,
-                multiDatas, 2,R.drawable.tree_ex,R.drawable.tree_ec);
+                multiDatas, 2, R.drawable.tree_ex, R.drawable.tree_ec);
         multiRecycle.setAdapter(multiAdapter);
         mulTipleTvTitle = (TextView) multiContentView.findViewById(R.id.tv_title);
         tvSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<Node> allNodes = multiAdapter.getAllNodes();
-                switch (currentOption){
+                switch (currentOption) {
                     case 2:
                         checkedDeparts.clear();
                         for (Node node : allNodes) {
-                            if(node.isChecked()){
+                            if (node.isChecked()) {
                                 checkedDeparts.add(node);
                             }
                         }
                         String currentDep = "不限";
-                        if(checkedDeparts.size() == 1){
+                        if (checkedDeparts.size() == 1) {
                             currentDep = checkedDeparts.get(0).getName();
-                        }else if(checkedDeparts.size() > 1){
-                            currentDep = checkedDeparts.get(0).getName() + "+" + (checkedDeparts.size() -1);
+                        } else if (checkedDeparts.size() > 1) {
+                            currentDep = checkedDeparts.get(0).getName() + "+" + (checkedDeparts.size() - 1);
                         }
-                        if(!StringUtils.isEmpty(currentDep)){
+                        if (!StringUtils.isEmpty(currentDep)) {
                             mUseDepart.setText(currentDep);
                         }
                         break;
                     case 3:
                         checkedTypes.clear();
                         for (Node node : allNodes) {
-                            if(node.isChecked()){
+                            if (node.isChecked()) {
                                 checkedTypes.add(node);
                             }
                         }
                         String currentType = "不限";
-                        if(checkedTypes.size() == 1){
+                        if (checkedTypes.size() == 1) {
                             currentType = checkedTypes.get(0).getName();
-                        }else if(checkedTypes.size() > 1){
-                            currentType = checkedTypes.get(0).getName() + "+" + (checkedTypes.size() -1);
+                        } else if (checkedTypes.size() > 1) {
+                            currentType = checkedTypes.get(0).getName() + "+" + (checkedTypes.size() - 1);
                         }
-                       if(!StringUtils.isEmpty(currentType)){
-                           mAssType.setText(currentType);
-                       }
+                        if (!StringUtils.isEmpty(currentType)) {
+                            mAssType.setText(currentType);
+                        }
                         break;
                     case 4:
                         checkedLocations.clear();
                         for (Node node : allNodes) {
-                            if(node.isChecked()){
+                            if (node.isChecked()) {
                                 checkedLocations.add(node);
                             }
                         }
                         String currentLoc = "不限";
-                        if(checkedLocations.size() == 1){
+                        if (checkedLocations.size() == 1) {
                             currentLoc = checkedLocations.get(0).getName();
-                        }else if(checkedLocations.size() > 1){
-                            currentLoc = checkedLocations.get(0).getName() + "+" + (checkedLocations.size() -1);
+                        } else if (checkedLocations.size() > 1) {
+                            currentLoc = checkedLocations.get(0).getName() + "+" + (checkedLocations.size() - 1);
                         }
-                        if(!StringUtils.isEmpty(currentLoc)){
+                        if (!StringUtils.isEmpty(currentLoc)) {
                             mAssLocation.setText(currentLoc);
                         }
                         break;
                 }
-                if(multipleDialog != null){
+                if (multipleDialog != null) {
                     multipleDialog.dismiss();
                 }
-                Log.e("部门",checkedDeparts.toString() + checkedDeparts.size());
-                Log.e("类型",checkedTypes.toString() + checkedTypes.size());
-                Log.e("位置",checkedLocations.toString() + checkedLocations.size());
+                Log.e("部门", checkedDeparts.toString() + checkedDeparts.size());
+                Log.e("类型", checkedTypes.toString() + checkedTypes.size());
+                Log.e("位置", checkedLocations.toString() + checkedLocations.size());
             }
         });
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(multipleDialog != null){
+                if (multipleDialog != null) {
                     multipleDialog.dismiss();
                 }
             }
         });
     }
 
-    public void updateMultiAdapterData(){
+    public void updateMultiAdapterData() {
         multiAdapter.removeData(multiDatas);
         multiDatas.clear();
-        switch (currentOption){
+        switch (currentOption) {
             case 2:
                 for (DepartmentBean mDepartmentBean : mDepartmentBeans) {
-                    String pId = StringUtils.isEmpty(mDepartmentBean.getOrg_superid())? "-1" : mDepartmentBean.getOrg_superid();
-                    multiDatas.add(new Node(mDepartmentBean.getId(),pId,mDepartmentBean.getOrg_name()));
+                    String pId = StringUtils.isEmpty(mDepartmentBean.getOrg_superid()) ? "-1" : mDepartmentBean.getOrg_superid();
+                    multiDatas.add(new Node(mDepartmentBean.getId(), pId, mDepartmentBean.getOrg_name()));
                 }
                 break;
             case 3:
                 for (AssetsType mAssetsType : mAssetsTypes) {
                     String pId = StringUtils.isEmpty(mAssetsType.getType_superid()) ? "-1" : mAssetsType.getType_superid();
-                    multiDatas.add(new Node(mAssetsType.getId(),pId,mAssetsType.getType_name()));
+                    multiDatas.add(new Node(mAssetsType.getId(), pId, mAssetsType.getType_name()));
                 }
                 break;
             case 4:
@@ -940,16 +948,16 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         multiAdapter.addData(multiDatas);
     }
 
-    boolean isAllChildenChecked(Node node){
-        if(!node.isLeaf()){
+    boolean isAllChildenChecked(Node node) {
+        if (!node.isLeaf()) {
             List<Node> children = node.getChildren();
             for (Node child : children) {
-                if(!isAllChildenChecked(child)){
+                if (!isAllChildenChecked(child)) {
                     return false;
                 }
             }
             return true;
-        }else {
+        } else {
             return node.isChecked();
         }
     }

@@ -162,6 +162,7 @@
     <string name="inv_persion_hint">请选择盘点人</string>
     <string name="inv_finish_hint">请选择结束时间</string>
     <string name="inv_start_hint">请选择开始时间</string>
+    <string name="start_end_time_error">开始时间不能大于结束时间</string>
     <string name="inv_range">盘点范围</string>
     <string name="inv_remind_hint">注意：不选范围默认为有权限的全部资产</string>
     <string name="new_inv_submit">保存</string>
@@ -236,6 +237,7 @@
     <string name="about_handheld_machine">关于手持机</string>
     <string name="corporation_name">上海一芯智能科技</string>
     <string name="finish_time_alert">结束时间不能早于创建时间</string>
+    <string name="time_too_earl">时间不能早于当天</string>
     <string name="sled">手持机声音</string>
     <string name="host">手机声音</string>
     <string name="ast_idntity">资产识别</string>
