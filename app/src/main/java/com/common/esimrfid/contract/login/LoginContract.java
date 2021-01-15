@@ -23,8 +23,6 @@ public interface LoginContract {
         void startMainActivity();
 
         void showUrlSettingDialog();
-
-        void offlineLogin();
     }
 
     interface Presenter extends AbstractPresenter<View> {

@@ -1,5 +1,7 @@
 package com.common.esimrfid.presenter.login;
 
+import com.common.esimrfid.R;
+import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
@@ -10,6 +12,7 @@ import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
+import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
 import java.net.SocketTimeoutException;
@@ -71,6 +74,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                             setLoginPassword(passWord);
                             setToken(userLoginResponse.getToken());
                             DataManager.getInstance().setLoginStatus(true);
+                            EsimAndroidApp.getInstance().setOnline(true);
                             mView.startMainActivity();
                         }
 
@@ -96,7 +100,13 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                         }
                     }));
         } else {
-            mView.offlineLogin();
+            if (passWord.equals(DataManager.getInstance().getLoginPassword()) && userName.equals(DataManager.getInstance().getLoginAccount())) {
+                DataManager.getInstance().setLoginStatus(true);
+                EsimAndroidApp.getInstance().setOnline(false);
+                mView.startMainActivity();
+            } else {
+                ToastUtils.showShort(R.string.http_error);
+            }
         }
 
     }

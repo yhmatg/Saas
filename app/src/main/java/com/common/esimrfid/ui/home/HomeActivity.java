@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +37,7 @@ import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.presenter.home.HomePresenter;
@@ -101,6 +103,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private final int MIN_CLICK_DELAY_TIME = 1000;
     private long lastClickTime;
     private UserLoginResponse uerLogin;
+    private MaterialDialog offLineDialog;
+    private UserInfo userInfo;
 
     @Override
     public HomePresenter initPresenter() {
@@ -124,7 +128,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         SettingBeepUtil.setOpen(DataManager.getInstance().getOpenBeeper());
         SettingBeepUtil.setSledOpen(DataManager.getInstance().getSledBeeper());
         SettingBeepUtil.setHostOpen(DataManager.getInstance().getHostBeeper());
-        checkUserSatus();
+        uerLogin = DataManager.getInstance().getUserLoginResponse();
+        if(uerLogin != null &&CommonUtils.isNetworkConnected()){
+            checkUserSatus();
+        }
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
         //兼容不同固件模块的设备
         String locFirmVersion = DataManager.getInstance().getFirmwareVersion();
@@ -150,11 +157,26 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         if (Build.MODEL.contains("TC20") || Build.MODEL.contains("MC33")) {
             loctionLayout.setVisibility(View.GONE);
         }
+        if (!CommonUtils.isNetworkConnected()) {
+            showOfflineLoginDialog();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (!EsimAndroidApp.getInstance().isOnline() && CommonUtils.isNetworkConnected()) {
+            userInfo = new UserInfo();
+            userInfo.setUser_name(DataManager.getInstance().getLoginAccount());
+            userInfo.setUser_password(DataManager.getInstance().getLoginPassword());
+            mPresenter.login(userInfo);
+        } else if (EsimAndroidApp.getInstance().isOnline() && CommonUtils.isNetworkConnected()) {
+            initOnlineData();
+        }
+
+    }
+
+    public void initOnlineData() {
         mPresenter.getAssetsNmbDiffLocation();
         mPresenter.getAssetsNmbDiffStatus();
         if (uerLogin.getUserinfo().isSuperManagerUser()) {
@@ -173,7 +195,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     //检查登录状态，未登录跳转登录界面
     private void checkUserSatus() {
-        uerLogin = DataManager.getInstance().getUserLoginResponse();
         boolean loginStatus = DataManager.getInstance().getLoginStatus();
         if (loginStatus) {
             initRfid();
@@ -353,6 +374,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         }
     }
 
+    @Override
+    public void handleLogin() {
+        uerLogin = DataManager.getInstance().getUserLoginResponse();
+        initOnlineData();
+    }
+
     public String getAppVersionName(Context context) {
         String appVersionName = "";
         try {
@@ -514,6 +541,41 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                     .cancelable(false)
                     .show();
             Window window = updateDialog.getWindow();
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+        }
+    }
+
+    public void showOfflineLoginDialog() {
+        if (offLineDialog != null) {
+            offLineDialog.show();
+        } else {
+            View contentView = LayoutInflater.from(this).inflate(R.layout.finish_inv_dialog, null);
+            TextView cancleTv = contentView.findViewById(R.id.tv_cancel);
+            TextView sureTv = contentView.findViewById(R.id.tv_sure);
+            TextView tvContent = contentView.findViewById(R.id.tv_content);
+            sureTv.setText("我知道了");
+            sureTv.setTextSize(14);
+            cancleTv.setText("开启网络");
+            cancleTv.setTextSize(14);
+            tvContent.setText("当前网络无法访问，已自启动离线模式!");
+            sureTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    offLineDialog.dismiss();
+                }
+            });
+            cancleTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                    startActivity(intent);
+                    offLineDialog.dismiss();
+                }
+            });
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                    .customView(contentView, false);
+            offLineDialog = builder.show();
+            Window window = offLineDialog.getWindow();
             window.setBackgroundDrawableResource(android.R.color.transparent);
         }
     }

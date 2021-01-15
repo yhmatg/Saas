@@ -11,10 +11,13 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.core.dao.AssetsAllInfoDao;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
+import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
@@ -260,7 +263,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
             }
         }*/
         if (CommonUtils.isNetworkConnected()) {
-            addSubscribe(DataManager.getInstance().fetchLatestAssetsPage(DataManager.getInstance().getLatestSyncTime(),size,page)
+            addSubscribe(DataManager.getInstance().fetchLatestAssetsPage(DataManager.getInstance().getLatestSyncTime(), size, page)
                     .compose(RxUtils.handleResult())
                     .subscribeOn(Schedulers.io())
                     .doOnNext(new Consumer<LatestModifyPageAssets>() {
@@ -304,5 +307,60 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                         }
                     }));
         }
+    }
+
+    @Override
+    public void login(UserInfo userInfo) {
+        final String passWord = userInfo.getUser_password();
+        final String userName = userInfo.getUser_name();
+        userInfo.setUser_password(Md5Util.getMD5(passWord));
+        addSubscribe(DataManager.getInstance().login(userInfo)
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .observeOn(Schedulers.io())
+                .doOnNext(new Consumer<UserLoginResponse>() {
+                    @Override
+                    public void accept(UserLoginResponse userLoginResponse) throws Exception {
+                        //保存UserLoginResponse到sp
+                        //不同管理员分配的盘点任务不一样，盘点相关的数据需要清除
+                        UserLoginResponse localUserLogin = DataManager.getInstance().getUserLoginResponse();
+                        if (localUserLogin != null && !userLoginResponse.getUserinfo().getId().equals(localUserLogin.getUserinfo().getId())) {
+                            DbBank.getInstance().getAssetsAllInfoDao().deleteAllData();
+                            DbBank.getInstance().getInventoryDetailDao().deleteAllData();
+                            DbBank.getInstance().getResultInventoryOrderDao().deleteAllData();
+                            DataManager.getInstance().setLatestSyncTime("0");
+                        }
+                        DataManager.getInstance().setUserLoginResponse(userLoginResponse);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseObserver<UserLoginResponse>(mView,
+                        false) {
+                    @Override
+                    public void onNext(UserLoginResponse userLoginResponse) {
+                        //取消提示框
+                        mView.dismissDialog();
+                        setLoginAccount(userInfo.getUser_name());
+                        setLoginPassword(passWord);
+                        setToken(userLoginResponse.getToken());
+                        DataManager.getInstance().setLoginStatus(true);
+                        EsimAndroidApp.getInstance().setOnline(true);
+                        mView.handleLogin();
+                    }
+
+                    @Override
+                    protected void onStart() {
+                        super.onStart();
+                        //显示提示框
+                        mView.showDialog("请稍等...");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        //取消提示框
+                        mView.dismissDialog();
+                    }
+                }));
     }
 }

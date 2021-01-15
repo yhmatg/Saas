@@ -2,14 +2,12 @@ package com.common.esimrfid.ui.login;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -209,11 +207,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         showSettingDialog();
     }
 
-    @Override
-    public void offlineLogin() {
-        showOfflineLoginDialog();
-    }
-
 
     @Override
     public LoginPresenter initPresenter() {
@@ -228,46 +221,5 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void startLoginActivity() {
 
-    }
-
-    public void showOfflineLoginDialog() {
-        if (offLineDialog != null) {
-            offLineDialog.show();
-        } else {
-            View contentView = LayoutInflater.from(this).inflate(R.layout.finish_inv_dialog, null);
-            TextView cancleTv = contentView.findViewById(R.id.tv_cancel);
-            TextView sureTv = contentView.findViewById(R.id.tv_sure);
-            TextView tvContent = contentView.findViewById(R.id.tv_content);
-            sureTv.setText("是");
-            sureTv.setTextSize(14);
-            cancleTv.setText("否，去打开网络");
-            cancleTv.setTextSize(14);
-            tvContent.setText("无法访问网络，是否要开启离线模式?");
-            sureTv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(userInfo.getUser_password().equals(DataManager.getInstance().getLoginPassword()) && userInfo.getUser_name().equals(DataManager.getInstance().getLoginAccount())){
-                        DataManager.getInstance().setLoginStatus(true);
-                        startMainActivity();
-                        offLineDialog.dismiss();
-                    }else {
-                        ToastUtils.showShort(R.string.offline_login_error);
-                    }
-                }
-            });
-            cancleTv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                    startActivity(intent);
-                    offLineDialog.dismiss();
-                }
-            });
-            MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
-                    .customView(contentView, false);
-            offLineDialog = builder.show();
-            Window window = offLineDialog.getWindow();
-            window.setBackgroundDrawableResource(android.R.color.transparent);
-        }
     }
 }
