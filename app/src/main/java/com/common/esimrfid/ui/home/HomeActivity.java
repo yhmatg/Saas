@@ -8,6 +8,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -165,14 +166,20 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onResume() {
         super.onResume();
-        if (!EsimAndroidApp.getInstance().isOnline() && CommonUtils.isNetworkConnected()) {
-            userInfo = new UserInfo();
-            userInfo.setUser_name(DataManager.getInstance().getLoginAccount());
-            userInfo.setUser_password(DataManager.getInstance().getLoginPassword());
-            mPresenter.login(userInfo);
-        } else {
-            initOnlineData();
+        if (!EsimAndroidApp.getInstance().isOnline()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(CommonUtils.isNetworkConnected()){
+                        userInfo = new UserInfo();
+                        userInfo.setUser_name(DataManager.getInstance().getLoginAccount());
+                        userInfo.setUser_password(DataManager.getInstance().getLoginPassword());
+                        mPresenter.login(userInfo);
+                    }
+                }
+            },5000);
         }
+        initOnlineData();
 
     }
 
@@ -377,6 +384,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     public void handleLogin() {
         uerLogin = DataManager.getInstance().getUserLoginResponse();
+        checkUserSatus();
         initOnlineData();
     }
 
