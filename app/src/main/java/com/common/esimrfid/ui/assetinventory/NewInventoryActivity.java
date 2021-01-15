@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -101,6 +102,8 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
     RelativeLayout rOwnCom;
     @BindView(R.id.btn_submit)
     Button mSubmit;
+    @BindView(R.id.cb_staff_inv)
+    CheckBox mCheckbox;
     int currentOption;
     private TimePickerView pvCustomTime;
     private OptionsPickerView pvCustomOptions;
@@ -304,6 +307,7 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
         inventoryParameter.setInv_assigner_name(mSelectMangerUser.getUser_real_name());
         inventoryParameter.setInv_exptbegin_date(mSelectStartDate);
         inventoryParameter.setInv_exptfinish_date(mSelectFinishDate);
+        inventoryParameter.setInv_emp_switch(mCheckbox.isChecked() ? 1 : 0);
         if (mSelectUseCompany != null && !"-1".equals(mSelectUseCompany.getId())) {
             ArrayList<String> userCompany = new ArrayList<>();
             userCompany.add(mSelectUseCompany.getId());
@@ -455,14 +459,14 @@ public class NewInventoryActivity extends BaseActivity<NewInventoryPressnter> im
             ToastUtils.showShort(R.string.time_too_earl);
         } else {
             if (isStartDate) {
-                if(mSelectFinishDate != null && date.getTime() > mSelectFinishDate.getTime()){
+                if (mSelectFinishDate != null && date.getTime() > mSelectFinishDate.getTime()) {
                     ToastUtils.showShort(R.string.start_end_time_error);
                     return;
                 }
                 mSelectStartDate = date;
                 mStartData.setText(DateUtils.date2String(mSelectStartDate));
             } else {
-                if(mSelectStartDate != null && date.getTime() < mSelectStartDate.getTime()){
+                if (mSelectStartDate != null && date.getTime() < mSelectStartDate.getTime()) {
                     ToastUtils.showShort(R.string.start_end_time_error);
                     return;
                 }

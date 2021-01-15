@@ -190,12 +190,48 @@
         android:layout_below="@+id/rl_expect_date"
         android:background="@color/bgcolor" />
 
+    <RelativeLayout
+        android:id="@+id/rl_staff_inv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_47"
+        android:layout_below="@+id/divider_three"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/staff_inv_str"
+            android:layout_centerVertical="true"
+            android:textColor="@color/home_text_two"
+            android:textSize="@dimen/sp_14" />
+
+        <CheckBox
+            android:id="@+id/cb_staff_inv"
+            android:button="@drawable/staff_inv_checkbox"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_25"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:focusable="false" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider_ten"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_8"
+        android:layout_below="@+id/rl_staff_inv"
+        android:background="@color/bgcolor" />
+
     <LinearLayout
         android:id="@+id/ll_inv_range"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_47"
         android:gravity="center"
-        android:layout_below="@+id/divider_three"
+        android:layout_below="@+id/divider_ten"
         android:orientation="horizontal"
         android:paddingStart="@dimen/dp_15"
         android:paddingEnd="@dimen/dp_15"
