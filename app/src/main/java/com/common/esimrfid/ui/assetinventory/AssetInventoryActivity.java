@@ -100,7 +100,7 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
         mRefreshLayout.setEnableAutoLoadMore(false);//使上拉加载具有弹性效果
         mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
-        mPresenter.fetchAllIvnOrdersPage(pageSize, 1, 0, userId, true);
+        //mPresenter.fetchAllIvnOrdersPage(pageSize, 1, 0, userId, true);
     }
 
     @Override
@@ -116,6 +116,7 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
        /* isNeedClearData = true;
         currentPage = 1;
         mPresenter.fetchAllIvnOrdersPage(pageSize,1,0,userId,true);*/
+        mPresenter.fetchAllIvnOrdersPage(pageSize, 1, 0, userId, true);
     }
 
     @Override

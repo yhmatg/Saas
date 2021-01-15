@@ -130,9 +130,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         SettingBeepUtil.setSledOpen(DataManager.getInstance().getSledBeeper());
         SettingBeepUtil.setHostOpen(DataManager.getInstance().getHostBeeper());
         uerLogin = DataManager.getInstance().getUserLoginResponse();
-        if(uerLogin != null &&CommonUtils.isNetworkConnected()){
-            checkUserSatus();
-        }
+        checkUserSatus();
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
         //兼容不同固件模块的设备
         String locFirmVersion = DataManager.getInstance().getFirmwareVersion();
@@ -170,14 +168,16 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(CommonUtils.isNetworkConnected()){
+                    if (CommonUtils.isNetworkConnected()) {
                         userInfo = new UserInfo();
                         userInfo.setUser_name(DataManager.getInstance().getLoginAccount());
                         userInfo.setUser_password(DataManager.getInstance().getLoginPassword());
-                        mPresenter.login(userInfo);
+                        if(mPresenter != null){
+                            mPresenter.login(userInfo);
+                        }
                     }
                 }
-            },5000);
+            }, 5000);
         }
         initOnlineData();
 
@@ -186,16 +186,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     public void initOnlineData() {
         mPresenter.getAssetsNmbDiffLocation();
         mPresenter.getAssetsNmbDiffStatus();
-        if (uerLogin.getUserinfo().isSuperManagerUser()) {
-            DataAuthority dataAuthority = new DataAuthority();
-            dataAuthority.getAuth_corp_scope().add("allData");
-            dataAuthority.getAuth_dept_scope().add("allData");
-            dataAuthority.getAuth_type_scope().getGeneral().add("allData");
-            dataAuthority.getAuth_loc_scope().getGeneral().add("allData");
-            DataManager.getInstance().setDataAuthority(dataAuthority);
-            EsimAndroidApp.setDataAuthority(dataAuthority);
-        } else {
-            mPresenter.getDataAuthority(uerLogin.getUserinfo().getId());
+        if (uerLogin != null && uerLogin.getUserinfo() != null) {
+            if (uerLogin.getUserinfo().isSuperManagerUser()) {
+                DataAuthority dataAuthority = new DataAuthority();
+                dataAuthority.getAuth_corp_scope().add("allData");
+                dataAuthority.getAuth_dept_scope().add("allData");
+                dataAuthority.getAuth_type_scope().getGeneral().add("allData");
+                dataAuthority.getAuth_loc_scope().getGeneral().add("allData");
+                DataManager.getInstance().setDataAuthority(dataAuthority);
+                EsimAndroidApp.setDataAuthority(dataAuthority);
+            } else {
+                mPresenter.getDataAuthority(uerLogin.getUserinfo().getId());
+            }
         }
         mPresenter.fetchLatestPageAssets(500, 1);
     }
@@ -203,17 +205,20 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     //检查登录状态，未登录跳转登录界面
     private void checkUserSatus() {
         boolean loginStatus = DataManager.getInstance().getLoginStatus();
-        if (loginStatus) {
-            initRfid();
-            mPresenter.checkUpdateVersion();
-            EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
-            if (uerLogin.getUserinfo().getUser_real_name() != null) {
-                mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
+        boolean isOnline = EsimAndroidApp.getInstance().isOnline();
+        if (loginStatus ) {
+            if(isOnline){
+                initRfid();
+                mPresenter.checkUpdateVersion();
+                EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
+                if (uerLogin.getUserinfo().getUser_real_name() != null) {
+                    mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
+                }
+                if (uerLogin.getUserinfo().getCorpInfo() != null && uerLogin.getUserinfo().getCorpInfo().getOrg_name() != null) {
+                    mCompanyName.setText(uerLogin.getUserinfo().getCorpInfo().getOrg_name());
+                }
+                mPresenter.fetchAllIvnOrders(uerLogin.getUserinfo().getId(), true);
             }
-            if (uerLogin.getUserinfo().getCorpInfo() != null && uerLogin.getUserinfo().getCorpInfo().getOrg_name() != null) {
-                mCompanyName.setText(uerLogin.getUserinfo().getCorpInfo().getOrg_name());
-            }
-            mPresenter.fetchAllIvnOrders(uerLogin.getUserinfo().getId(), true);
         } else {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
