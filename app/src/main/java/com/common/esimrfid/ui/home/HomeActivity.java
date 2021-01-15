@@ -170,7 +170,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             userInfo.setUser_name(DataManager.getInstance().getLoginAccount());
             userInfo.setUser_password(DataManager.getInstance().getLoginPassword());
             mPresenter.login(userInfo);
-        } else if (EsimAndroidApp.getInstance().isOnline() && CommonUtils.isNetworkConnected()) {
+        } else {
             initOnlineData();
         }
 

@@ -29,9 +29,9 @@
         <EditText
             android:id="@+id/ev_inv_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dp_32"
             android:background="@null"
-            android:gravity="end"
+            android:gravity="end|center_vertical"
             android:hint="@string/inv_name_hint"
             android:layout_marginEnd="@dimen/dp_16"
             android:textColorHint="@color/setting_text_one"
