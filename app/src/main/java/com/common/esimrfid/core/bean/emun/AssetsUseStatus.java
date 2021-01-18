@@ -20,7 +20,8 @@ public enum AssetsUseStatus {
     IN_TRANSFER_APPROVE("调拨审批中",11),
     IN_SCRAP_APPROVE("报废审批中",12),
     IN_RECIVE_APPROVE("领用审批中",13),
-    IN_WITHDRAWAL_APPROVE("退库审批中",14);
+    IN_WITHDRAWAL_APPROVE("退库审批中",14),
+    IN_ZHUANYI_APPROVE("转移审批中",15);
 
 
     // 成员变量

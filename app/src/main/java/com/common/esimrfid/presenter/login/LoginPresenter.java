@@ -105,7 +105,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                 EsimAndroidApp.getInstance().setOnline(false);
                 mView.startMainActivity();
             } else {
-                ToastUtils.showShort(R.string.http_error);
+                ToastUtils.showShort(R.string.offline_login_error);
             }
         }
 
