@@ -207,8 +207,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         boolean loginStatus = DataManager.getInstance().getLoginStatus();
         boolean isOnline = EsimAndroidApp.getInstance().isOnline();
         if (loginStatus ) {
+            initRfid();
             if(isOnline){
-                initRfid();
                 mPresenter.checkUpdateVersion();
                 EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
                 if (uerLogin.getUserinfo().getUser_real_name() != null) {
