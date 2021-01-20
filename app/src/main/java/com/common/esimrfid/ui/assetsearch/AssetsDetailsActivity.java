@@ -585,4 +585,34 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         ToastUtils.showShort(R.string.inved_toast);
         finish();
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String assetsId = intent.getStringExtra(ASSETS_ID);
+        String assetsCode = intent.getStringExtra(ASSETS_CODE);
+        activityFrom = intent.getStringExtra(WHERE_FROM);
+        mInvId = intent.getStringExtra(INV_ID);
+        mLocId = intent.getStringExtra(LOC_IC);
+        mPresenter.getAssetsDetailsById(assetsId, assetsCode, activityFrom);
+        mPresenter.getAssetsResumeById(assetsId, assetsCode);
+        mPresenter.getAssetsRepairById(assetsId, assetsCode);
+        empty_page.setVisibility(View.VISIBLE);
+        li_assetDetail.setVisibility(View.GONE);
+        li_maintenance.setVisibility(View.GONE);
+        li_repair.setVisibility(View.GONE);
+        li_resume.setVisibility(View.GONE);
+        assetsResumeAdapter = new AssetsResumeAdapter(this, mResumeData);
+        resume_recycler.setLayoutManager(new LinearLayoutManager(this));
+        assetsRepairAdapter = new AssetsRepairAdapter(this, mRepairData);
+        repair_recycler.setLayoutManager(new LinearLayoutManager(this));
+        if (("AssetRepairActivity".equals(activityFrom))) {
+            addButton.setVisibility(View.VISIBLE);
+        }
+        if ("InventoryTaskActivity".equals(EsimAndroidApp.activityFrom) && "notInvEdAsset".equals(EsimAndroidApp.invStatus)) {
+            assetInved.setVisibility(View.VISIBLE);
+            searchAsset.setVisibility(View.VISIBLE);
+            initCustomOptionPicker();
+        }
+    }
 }
