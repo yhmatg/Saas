@@ -92,10 +92,6 @@ public interface HttpHelper {
 
     Observable<BaseResponse<List<MangerUser>>> getAllEmpUsers();
 
-    Observable<BaseResponse<AssetsInfoPage>> getAllAssetsByOptPage(String optType, Integer size, Integer page, String patternName);
-
-    Observable<BaseResponse<List<AssetsInfo>>> getAllAssetsByOpt(String optType, String patternName);
-
     Observable<BaseResponse> uploadInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails);
 
     Observable<BaseResponse> finishInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails);

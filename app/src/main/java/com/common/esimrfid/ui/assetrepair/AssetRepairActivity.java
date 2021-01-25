@@ -29,7 +29,7 @@ import com.common.esimrfid.contract.assetrepair.AssetRepairContract;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.presenter.assetrepair.AssetRepairPresenter;
 import com.common.esimrfid.ui.home.BaseDialog;
@@ -88,7 +88,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     MangerUser mSelectMangerUser;
     boolean usersClickShow;
     Date mSelectDate = new Date();
-    ArrayList<AssetsInfo> selectedAssets = new ArrayList<>();
+    ArrayList<AssetsListItemInfo> selectedAssets = new ArrayList<>();
     private AssetsRepairAdapter repairAdapter;
     private String userName = "";
     private String userId = "";
@@ -214,7 +214,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
         assetRepairParameter.setOdr_date(mSelectDate);
         assetRepairParameter.setOdr_remark(mRepairDirection.getText().toString());
         ArrayList<String> selectedAstIds = new ArrayList<>();
-        for (AssetsInfo selectedAsset : selectedAssets) {
+        for (AssetsListItemInfo selectedAsset : selectedAssets) {
             selectedAstIds.add(selectedAsset.getId());
         }
         assetRepairParameter.setAst_ids(selectedAstIds);
@@ -403,9 +403,9 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleSelectedAst(RepairAssetEvent repairAssetEvent) {
-        ArrayList<AssetsInfo> tempAssets = new ArrayList<>();
+        ArrayList<AssetsListItemInfo> tempAssets = new ArrayList<>();
         tempAssets.addAll(selectedAssets);
-        List<AssetsInfo> assetsInfos = repairAssetEvent.getmSelectedData();
+        List<AssetsListItemInfo> assetsInfos = repairAssetEvent.getmSelectedData();
         tempAssets.retainAll(assetsInfos);
         assetsInfos.removeAll(tempAssets);
         selectedAssets.addAll(assetsInfos);
@@ -424,7 +424,7 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
     }
 
     @Override
-    public void onDeleteClick(AssetsInfo assetsInfo) {
+    public void onDeleteClick(AssetsListItemInfo assetsInfo) {
         selectedAssets.remove(assetsInfo);
         if (selectedAssets.size() > 0) {
             divideView.setVisibility(View.VISIBLE);

@@ -1,27 +1,19 @@
 package com.common.esimrfid.ui.assetrepair;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
-import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
-import com.common.esimrfid.ui.assetsearch.LocationSearchActivity;
-import com.common.esimrfid.utils.CommonUtils;
-import com.common.esimrfid.utils.ToastUtils;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +24,12 @@ import butterknife.ButterKnife;
 
 public class AssetsRepairAdapter extends RecyclerView.Adapter<AssetsRepairAdapter.ViewHolder> {
     private Context context;
-    private List<AssetsInfo> mData;
+    private List<AssetsListItemInfo> mData;
     private String area;
-    private List<AssetsInfo> mSelectedData = new ArrayList<>();
+    private List<AssetsListItemInfo> mSelectedData = new ArrayList<>();
     private OnDeleteClickListener mDeleteListener;
 
-    public AssetsRepairAdapter(Context context, List<AssetsInfo> mData, String area) {
+    public AssetsRepairAdapter(Context context, List<AssetsListItemInfo> mData, String area) {
         this.context = context;
         this.mData = mData;
         this.area = area;
@@ -52,7 +44,7 @@ public class AssetsRepairAdapter extends RecyclerView.Adapter<AssetsRepairAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        AssetsInfo assetsInfo = mData.get(i);
+        AssetsListItemInfo assetsInfo = mData.get(i);
         int astStatus = assetsInfo.getAst_used_status();
         String statusName = TextUtils.isEmpty(AssetsUseStatus.getName(astStatus)) ? "" : AssetsUseStatus.getName(astStatus);
         viewHolder.astStatus.setText(statusName);
@@ -140,18 +132,18 @@ public class AssetsRepairAdapter extends RecyclerView.Adapter<AssetsRepairAdapte
     }
 
     public interface OnDeleteClickListener {
-        void onDeleteClick(AssetsInfo assetsInfo);
+        void onDeleteClick(AssetsListItemInfo assetsInfo);
     }
 
     public void setOnDeleteClickListener(OnDeleteClickListener onItemClickListener) {
         this.mDeleteListener = onItemClickListener;
     }
 
-    public List<AssetsInfo> getmData() {
+    public List<AssetsListItemInfo> getmData() {
         return mData;
     }
 
-    public List<AssetsInfo> getmSelectedData() {
+    public List<AssetsListItemInfo> getmSelectedData() {
         return mSelectedData;
     }
 }
