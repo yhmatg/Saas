@@ -1,7 +1,6 @@
 package com.common.esimrfid.ui.assetsearch;
 
 import android.content.Intent;
-import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
@@ -63,24 +61,8 @@ public class LocationSearchActivity extends BaseActivity {
 //        progressBar.setEmptyVisibility(View.GONE);
         Intent intent = getIntent();
         AssetsEpc = intent.getStringExtra(ASSETS_EPC);
-        //setSound();
         filterSet();
     }
-
-
-    private void setSound() {
-        AudioAttributes abs = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .build();
-        soundPool = new SoundPool.Builder()
-                .setMaxStreams(10)   //设置允许同时播放的流的最大值
-                .setAudioAttributes(abs)   //完全可以设置为null
-                .build();
-
-        soundId = soundPool.load(this, R.raw.beep, 1);
-    }
-
 
     private void initRfidAndEvent() {
         esimUhfService = EsimAndroidApp.getIEsimUhfService();

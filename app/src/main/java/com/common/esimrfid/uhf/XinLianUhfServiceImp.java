@@ -1,26 +1,7 @@
 package com.common.esimrfid.uhf;
 
-import android.media.AudioManager;
-import android.media.ToneGenerator;
-import android.util.Log;
-
-import com.common.esimrfid.app.EsimAndroidApp;
-import com.common.esimrfid.utils.SettingBeepUtil;
-import com.common.esimrfid.utils.StringUtils;
-import com.speedata.libuhf.IUHFService;
-import com.speedata.libuhf.UHFManager;
-import com.speedata.libuhf.XinLianQilian;
-import com.speedata.libuhf.bean.SpdInventoryData;
-import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
-import com.speedata.libuhf.utils.DataConversionUtils;
-
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
-public class XinLianUhfServiceImp extends EsimUhfAbstractService implements OnSpdInventoryListener {
-    private IUHFService xinLianService;
+public class XinLianUhfServiceImp extends EsimUhfAbstractService  {
+   /* private IUHFService xinLianService;
     //普通声音
     private static ToneGenerator toneGenerator;
     private boolean beepON = false;
@@ -231,5 +212,5 @@ public class XinLianUhfServiceImp extends EsimUhfAbstractService implements OnSp
         }
         locatebeep = null;
     }
-
+*/
 }
