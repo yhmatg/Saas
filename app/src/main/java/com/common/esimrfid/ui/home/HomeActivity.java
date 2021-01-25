@@ -184,7 +184,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
             }
             if (uerLogin.getUserinfo().getCorpInfo() != null && uerLogin.getUserinfo().getCorpInfo().getOrg_name() != null) {
-                mCompanyName.setText(uerLogin.getUserinfo().getCorpInfo().getOrg_name());
+                //mCompanyName.setText(uerLogin.getUserinfo().getCorpInfo().getOrg_name());
             }
             mPresenter.fetchAllIvnOrders(uerLogin.getUserinfo().getId(), true);
         } else {
