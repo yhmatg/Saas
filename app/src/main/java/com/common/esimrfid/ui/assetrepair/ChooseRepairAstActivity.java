@@ -13,12 +13,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetrepair.ChooseRepairContract;
-import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
 import com.common.esimrfid.presenter.assetrepair.ChooseRepairPresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -29,6 +29,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -49,7 +50,7 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
     SmartRefreshLayout mRefreshLayout;
     IEsimUhfService esimUhfService = null;
     public static final String TAG = "ChooseRepairAstActivity";
-    private List<AssetsInfo> mData = new ArrayList<>();
+    private List<AssetsListItemInfo> mData = new ArrayList<>();
     private AssetsRepairAdapter adapter;
     private boolean isNeedClearData;
     private String preFilter = "";
@@ -81,15 +82,15 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
                     currentPage++;
                 }
                 preFilter = param;
-                mPresenter.getAllAssetsByOpt(pageSize, currentPage, "REPAIR", param);
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, param, "","[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[0,1]}]");
             }
         });
         mRefreshLayout.setEnableRefresh(false);//使上拉加载具有弹性效果
         mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
         mRefreshLayout.setEnableAutoLoadMore(false);
-        //mPresenter.getAllAssetsByOpt("REPAIR","");
-        mPresenter.getAllAssetsByOpt(pageSize, 1, "REPAIR", "");
+        mPresenter.fetchPageAssetsInfos(pageSize, 1, "", "","[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[0,1]}]");
+
 
     }
 
@@ -102,7 +103,7 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
         return R.layout.activity_choose_repair;
     }
 
-    @OnClick({R.id.titleLeft, R.id.edit_search ,R.id.btn_sure})
+    @OnClick({R.id.titleLeft, R.id.edit_search , R.id.btn_sure})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.titleLeft:
@@ -112,7 +113,7 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
                 searchAssets();
                 break;
             case R.id.btn_sure:
-                List<AssetsInfo> assetsInfos = adapter.getmSelectedData();
+                List<AssetsListItemInfo> assetsInfos = adapter.getmSelectedData();
                 RepairAssetEvent repairAssetEvent = new RepairAssetEvent(assetsInfos);
                 EventBus.getDefault().post(repairAssetEvent);
                 finish();
@@ -132,8 +133,7 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
                     isNeedClearData = true;
                     currentPage = 1;
                     preFilter = assetsId;
-                    //mPresenter.getAllAssetsByOpt("REPAIR",assetsId);
-                    mPresenter.getAllAssetsByOpt(pageSize, currentPage, "REPAIR", assetsId);
+                    mPresenter.fetchPageAssetsInfos(pageSize, currentPage, assetsId, "","[{\"name\":\"ast_used_status\",\"condition\":\"In\",\"values\":[0,1]}]");
                     return true;
                 }
                 return false;
@@ -153,7 +153,7 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
     }
 
     @Override
-    public void handlePageAssetsByOpt(List<AssetsInfo> assetsInfos) {
+    public void handlePageAssetsByOpt(List<AssetsListItemInfo> assetsInfos) {
         mRefreshLayout.finishLoadMore();
         if (isNeedClearData) {
             mData.clear();
@@ -163,15 +163,7 @@ public class ChooseRepairAstActivity extends BaseActivity<ChooseRepairPresenter>
         handleResultList(mData);
     }
 
-    @Override
-    public void handleAllAssetsByOpt(List<AssetsInfo> assetsInfos) {
-        mData.clear();
-        mData.addAll(assetsInfos);
-        adapter.notifyDataSetChanged();
-        handleResultList(mData);
-    }
-
-    private void handleResultList(List<AssetsInfo> mData) {
+    private void handleResultList(List<AssetsListItemInfo> mData) {
         if (mData.size() == 0) {
             empty_page.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);

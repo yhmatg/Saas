@@ -4,14 +4,12 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetrepair.ChooseRepairContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ChooseRepairPresenter extends BasePresenter<ChooseRepairContract.View> implements ChooseRepairContract.Presenter {
     private String TAG = "WriteTagPresenter";
@@ -20,40 +18,19 @@ public class ChooseRepairPresenter extends BasePresenter<ChooseRepairContract.Vi
         super();
     }
 
-    //未分页
-    @Override
-    public void getAllAssetsByOpt(String optType,String patternName) {
-        mView.showDialog("loading...");
-        addSubscribe(DataManager.getInstance().getAllAssetsByOpt(optType,patternName)
-                .compose(RxUtils.rxSchedulerHelper())
-                .compose(RxUtils.handleResult())
-                .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
-                    @Override
-                    public void onNext(List<AssetsInfo> assetsInfos) {
-                        mView.dismissDialog();
-                        mView.handleAllAssetsByOpt(assetsInfos);
-                    }
-                    @Override
-                    public void onError(Throwable e){
-                        mView.dismissDialog();
-                        ToastUtils.showShort(R.string.not_find_asset);
-                    }
-                }));
-    }
-
     //分页
     @Override
-    public void getAllAssetsByOpt(Integer size, Integer page, String optType, String patternName) {
+    public void fetchPageAssetsInfos(Integer size, Integer page, String patternName, String userRealName, String conditions) {
         mView.showDialog("loading...");
-        addSubscribe(DataManager.getInstance().getAllAssetsByOptPage(optType,size,page,patternName)
+        addSubscribe(DataManager.getInstance().fetchPageAssetsList(size,page,patternName,userRealName,conditions)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
-                .subscribeWith(new BaseObserver<AssetsInfoPage>(mView, false) {
+                .subscribeWith(new BaseObserver<AssetsListPage>(mView, false) {
                     @Override
-                    public void onNext(AssetsInfoPage assetsInfoPage) {
+                    public void onNext(AssetsListPage assetsListPage) {
                         mView.dismissDialog();
-                        if(page <= assetsInfoPage.getPages()){
-                            mView.handlePageAssetsByOpt(assetsInfoPage.getList());
+                        if(page <= assetsListPage.getPages()){
+                            mView.handlePageAssetsByOpt(assetsListPage.getList());
                         }else {
                             mView.handlePageAssetsByOpt(new ArrayList<>());
                         }
@@ -65,5 +42,6 @@ public class ChooseRepairPresenter extends BasePresenter<ChooseRepairContract.Vi
                     }
                 }));
     }
+
 
 }
