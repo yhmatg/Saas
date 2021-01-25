@@ -51,6 +51,7 @@
         android:gravity="center"
         android:maxEms="32"
         android:maxLines="2"
+        android:text="@string/asset_mange_sys"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_16" />
 
