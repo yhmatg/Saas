@@ -114,4 +114,25 @@ public class HuiGangUhfServiceImpl extends EsimUhfAbstractService {
             EventBus.getDefault().post(uhfMsgEvent);
         }
     }
+
+    @Override
+    public void setPower(int data) {
+        int setResult = UHfData.UHfGetData.SetRfPower((byte) data);
+        if (setResult == 0) {
+            UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SETTING_POWER_SUCCESS);
+            EventBus.getDefault().post(uhfMsgEvent);
+        } else {
+            UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SETTING_POWER_FAIL);
+            EventBus.getDefault().post(uhfMsgEvent);
+        }
+    }
+
+    @Override
+    public int getPower() {
+        int getResult = UHfData.UHfGetData.GetUhfInfo();
+        if (getResult == 0) {
+            return UHfData.UHfGetData.getUhfdBm()[0];
+        }
+        return super.getPower();
+    }
 }

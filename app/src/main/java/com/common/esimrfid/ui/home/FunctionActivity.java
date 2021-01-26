@@ -64,7 +64,7 @@ public class FunctionActivity extends BaseActivity {
     }
 
     private void initData() {
-        if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
+        if ("ESUR-H600".equals(model) || "ax6737_65_n".equals(model)) {
             setting1.setVisibility(View.VISIBLE);
             setting2.setVisibility(View.GONE);
             seekBar.setVisibility(View.VISIBLE);
@@ -88,7 +88,7 @@ public class FunctionActivity extends BaseActivity {
             sound.setClickable(true);
             sled.setClickable(true);
             host.setClickable(true);
-            if ("ESUR-H600".equals(model) || "SD60".equals(model)) {
+            if ("ESUR-H600".equals(model) || "ax6737_65_n".equals(model)) {
                 total = esimUhfService.getPower();
                 if (total >= 30) {
                     total = 30;
@@ -196,7 +196,7 @@ public class FunctionActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.title_back:
                 if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
-                    if("ESUR-H600".equals(model) || "SD60".equals(model)){
+                    if("ESUR-H600".equals(model) || "ax6737_65_n".equals(model)){
                         if(total>30)
                             total=30;
                         else if(total<5)
@@ -295,7 +295,7 @@ public class FunctionActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
-                if("ESUR-H600".equals(model) || "SD60".equals(model)){
+                if("ESUR-H600".equals(model) || "ax6737_65_n".equals(model)){
                     if(total>30)
                         total=30;
                     else if(total<5)
