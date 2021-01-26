@@ -3,6 +3,7 @@ package com.common.esimrfid.uhf;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.common.esimrfid.utils.StringUtils;
 import com.uhf.scanlable.UHfData;
 
 import org.greenrobot.eventbus.EventBus;
@@ -16,6 +17,8 @@ public class HuiGangUhfServiceImpl extends EsimUhfAbstractService {
     private String devport = "/dev/ttyMT1";
     boolean isStart;
     private Timer timer;
+    private boolean locaitonStart = false;
+    private String filterData;
 
     public HuiGangUhfServiceImpl() {
         initRFID();
@@ -54,7 +57,11 @@ public class HuiGangUhfServiceImpl extends EsimUhfAbstractService {
             public void run() {
                 UHfData.lsTagList.clear();
                 UHfData.dtIndexMap.clear();
-                UHfData.Inventory_6c(0, 0);
+                if(locaitonStart){
+                    UHfData.Inventory_6c_Mask((byte)0,96,0, UHfData.UHfGetData.hexStringToBytes(filterData));
+                }else {
+                    UHfData.Inventory_6c(0, 0);
+                }
                 for (UHfData.InventoryTagMap inventoryTagMap : UHfData.lsTagList) {
                     UhfTag utag = new UhfTag(inventoryTagMap.strEPC, inventoryTagMap.strTID, inventoryTagMap.strRSSI, null);
                     UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.INV_TAG, utag);
@@ -134,5 +141,17 @@ public class HuiGangUhfServiceImpl extends EsimUhfAbstractService {
             return UHfData.UHfGetData.getUhfdBm()[0];
         }
         return super.getPower();
+    }
+
+    @Override
+    public int setFilterData(int area, int start, int length, String data, boolean isSave) {
+        if (StringUtils.isEmpty(data)) {
+            locaitonStart = false;
+            filterData = "";
+        } else {
+            locaitonStart = true;
+            filterData = data;
+        }
+        return 0;
     }
 }
