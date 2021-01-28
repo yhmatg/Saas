@@ -13,7 +13,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".app.EsimAndroidApp"
@@ -97,8 +98,15 @@
         <activity
             android:name=".ui.batchedit.BatchEditActivity"
             android:screenOrientation="portrait"></activity>
+
         <service android:name="com.ty.ibeacon.BeaconService"></service>
-        <activity android:name=".ui.beacon.BeaconMapActivity"
+
+        <activity
+            android:name=".ui.beacon.BeaconMapActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.king.zxing.CaptureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CaptureTheme" />
     </application>
 </manifest>

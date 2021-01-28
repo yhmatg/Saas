@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.SystemProperties;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +22,9 @@ import com.common.esimrfid.uhf.UhfTag;
 import com.common.esimrfid.uhf.XinLianUhfServiceImp;
 import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.ui.assetsearch.AssetsDetailsActivity;
+import com.common.esimrfid.utils.StringUtils;
+import com.king.zxing.CaptureActivity;
+import com.king.zxing.Intents;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,6 +40,8 @@ public class IdentityActivity extends BaseActivity {
     @BindView(R.id.title_content)
     TextView mTitle;
     private String from;
+    private Boolean canRfid = true;
+    private static final int LITE_REQUEST_CODE = 3;
 
     @Override
     public AbstractPresenter initPresenter() {
@@ -49,17 +55,17 @@ public class IdentityActivity extends BaseActivity {
         Intent intent = getIntent();
         from = intent.getStringExtra(WHERE_FROM);
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
-        if( esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl){
+        if (esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl) {
             SystemProperties.set("persist.sys.PistolKey", "scan");
-        }else if(esimUhfService instanceof ZebraUhfServiceImpl){
-            if(!((ZebraUhfServiceImpl) esimUhfService).isTc20OrMc33()){
+        } else if (esimUhfService instanceof ZebraUhfServiceImpl) {
+            if (!((ZebraUhfServiceImpl) esimUhfService).isTc20OrMc33()) {
                 ((ZebraUhfServiceImpl) esimUhfService).setPressScan(true);
             }
         }
         IntentFilter mFilter = new IntentFilter();
         mFilter.addAction("com.se4500.onDecodeComplete");
         mFilter.addAction("com.esimScanner.ACTION");
-        registerReceiver(receiver,mFilter);
+        registerReceiver(receiver, mFilter);
     }
 
     @Override
@@ -96,12 +102,12 @@ public class IdentityActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
-        if( esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl){
+        if (esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl) {
             SystemProperties.set("persist.sys.PistolKey", "uhf");
-        }else if(esimUhfService instanceof ZebraUhfServiceImpl){
-            if(((ZebraUhfServiceImpl) esimUhfService).isTc20OrMc33()){
-                ((ZebraUhfServiceImpl)esimUhfService).setScanEnable(false);
-            }else {
+        } else if (esimUhfService instanceof ZebraUhfServiceImpl) {
+            if (((ZebraUhfServiceImpl) esimUhfService).isTc20OrMc33()) {
+                ((ZebraUhfServiceImpl) esimUhfService).setScanEnable(false);
+            } else {
                 ((ZebraUhfServiceImpl) esimUhfService).setPressScan(false);
             }
         }
@@ -115,25 +121,55 @@ public class IdentityActivity extends BaseActivity {
                 String data = intent.getStringExtra("se4500");
                 byte[] bytes = intent.getByteArrayExtra("se4500_byte");
                 if (data != null) {
-                    Log.e("BindTagActivity","stringdata====" + data);
+                    Log.e("BindTagActivity", "stringdata====" + data);
                     startDetailActivity(data);
                 }
-            }else if("com.esimScanner.ACTION".equals(action)){
+            } else if ("com.esimScanner.ACTION".equals(action)) {
                 String data = intent.getStringExtra("com.symbol.datawedge.data_string");
                 startDetailActivity(data);
             }
         }
     };
 
-    public void startDetailActivity(String assetsCode){
-        Intent intent=new Intent();
-        intent.putExtra(ASSETS_CODE,assetsCode);
-        intent.putExtra(WHERE_FROM,from);
+    public void startDetailActivity(String assetsCode) {
+        Intent intent = new Intent();
+        intent.putExtra(ASSETS_CODE, assetsCode);
+        intent.putExtra(WHERE_FROM, from);
         intent.setClass(this, AssetsDetailsActivity.class);
         startActivity(intent);
-        if("AssetRepairActivity".equals(from)){
+        if ("AssetRepairActivity".equals(from)) {
             finish();
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (canRfid) {
+            if ("ax6737_65_n".equals(android.os.Build.MODEL) && keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                startActivityForResult(new Intent(this, CaptureActivity.class), LITE_REQUEST_CODE);
+            }
+            canRfid = false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        canRfid = true;
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //处理二维码扫描结果
+       if(requestCode == LITE_REQUEST_CODE && resultCode == RESULT_OK){
+           if(data != null){
+               String result = data.getStringExtra(Intents.Scan.RESULT);
+               if(!StringUtils.isEmpty(result)){
+                   startDetailActivity(result);
+               }
+           }
+        }
+    }
 }
