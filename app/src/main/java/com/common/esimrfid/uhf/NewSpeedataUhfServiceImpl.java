@@ -1,11 +1,32 @@
 package com.common.esimrfid.uhf;
 
+import android.media.AudioManager;
+import android.media.ToneGenerator;
+import android.serialport.DeviceControlSpd;
+import android.util.Log;
+import android.view.KeyEvent;
+
+import com.common.esimrfid.utils.SettingBeepUtil;
+import com.common.esimrfid.utils.StringUtils;
+import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import cn.com.example.rfid.driver.Driver;
+import cn.com.example.rfid.driver.RfidDriver;
+
+import static android.serialport.DeviceControlSpd.PowerType.EXPAND;
+
 /**
  * @author rylai
  * created at 2019/5/31 10:54
  */
 public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
-    /*private static final String TAG = "SpeedataUhfServiceImpl";
+    private static final String TAG = "SpeedataUhfServiceImpl";
     private Driver driver;
     private DeviceControlSpd newUHFDeviceControl;
     //普通声音
@@ -328,5 +349,5 @@ public class NewSpeedataUhfServiceImpl extends EsimUhfAbstractService {
             n += 2;
         }
         return version.toString();
-    }*/
+    }
 }

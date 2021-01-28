@@ -1,7 +1,25 @@
 package com.common.esimrfid.uhf;
 
-public class XinLianUhfServiceImp extends EsimUhfAbstractService  {
-   /* private IUHFService xinLianService;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
+import android.util.Log;
+
+import com.common.esimrfid.app.EsimAndroidApp;
+import com.common.esimrfid.utils.SettingBeepUtil;
+import com.common.esimrfid.utils.StringUtils;
+import com.speedata.libuhf.IUHFService;
+import com.speedata.libuhf.UHFManager;
+import com.speedata.libuhf.bean.SpdInventoryData;
+import com.speedata.libuhf.interfaces.OnSpdInventoryListener;
+import com.speedata.libuhf.utils.DataConversionUtils;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class XinLianUhfServiceImp extends EsimUhfAbstractService implements OnSpdInventoryListener {
+    private IUHFService xinLianService;
     //普通声音
     private static ToneGenerator toneGenerator;
     private boolean beepON = false;
@@ -80,7 +98,7 @@ public class XinLianUhfServiceImp extends EsimUhfAbstractService  {
         if (status == -1) {
             UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SETTING_POWER_FAIL);
             EventBus.getDefault().post(uhfMsgEvent);
-        } else if(status == 0){
+        } else if (status == 0) {
             UhfMsgEvent<UhfTag> uhfMsgEvent = new UhfMsgEvent<>(UhfMsgType.SETTING_POWER_SUCCESS);
             EventBus.getDefault().post(uhfMsgEvent);
         }
@@ -212,5 +230,4 @@ public class XinLianUhfServiceImp extends EsimUhfAbstractService  {
         }
         locatebeep = null;
     }
-*/
 }

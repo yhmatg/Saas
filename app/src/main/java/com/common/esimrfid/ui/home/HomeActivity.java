@@ -40,8 +40,10 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.presenter.home.HomePresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
+import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
+import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
 import com.common.esimrfid.ui.assetrepair.AssetRepairActivity;
 import com.common.esimrfid.ui.assetsearch.AssetsSearchActivity;
@@ -127,7 +129,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
         //兼容不同固件模块的设备
         String locFirmVersion = DataManager.getInstance().getFirmwareVersion();
-      /*  if (esimUhfService instanceof NewSpeedataUhfServiceImpl && StringUtils.isEmpty(locFirmVersion)) {
+        if (esimUhfService instanceof NewSpeedataUhfServiceImpl && StringUtils.isEmpty(locFirmVersion)) {
             String firmwareVersion = ((NewSpeedataUhfServiceImpl) esimUhfService).getFirmwareVersion();
             if(!StringUtils.isEmpty(firmwareVersion)){
                 if ("1.4.24".equals(firmwareVersion)) {
@@ -142,7 +144,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                     }
                 }
             }
-        }*/
+        }
         locationAssetAdapter = new LocationAssetAdapter(mAstLocaionNum, this, maxAssetNum);
         mLocationRecycle.setLayoutManager(new LinearLayoutManager(this));
         mLocationRecycle.setAdapter(locationAssetAdapter);
@@ -203,8 +205,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     //初始化连接rfid
     private void initRfid() {
-        if (!"ESUR-H600".equals(Build.MODEL)) {
-            //showConnectDialog();
+        if (esimUhfService instanceof ZebraUhfServiceImpl) {
+            showConnectDialog();
         }
         EsimAndroidApp.getInstance().initRfid();
     }

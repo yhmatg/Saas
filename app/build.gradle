@@ -15,6 +15,9 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+        ndk {
+            abiFilters  "armeabi"
+        }
     }
     signingConfigs {
         release {
@@ -113,7 +116,7 @@ dependencies {
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
     implementation 'android.arch.persistence.room:runtime:1.0.0'
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
-    //implementation project(path: ':RFIDAPI3Library')
+    implementation project(path: ':RFIDAPI3Library')
     implementation 'org.greenrobot:eventbus:3.1.1'
     //implementation files('libs/ksoap2-android-assembly-2.5.2-jar-with-dependencies.jar')
     implementation 'com.github.ganfra:material-spinner:1.1.1'
@@ -128,10 +131,11 @@ dependencies {
     implementation 'com.allenliu.versionchecklib:library:2.2.0'
     implementation 'com.github.zhangke3016:MultilevelTreeList:1.0.2'
     implementation 'com.alibaba:fastjson:1.2.68'
-    //implementation(name: 'device', ext: 'aar')
-    //implementation(name: 'libuhf', ext: 'aar')
+    implementation(name: 'device', ext: 'aar')
+    implementation(name: 'libuhf', ext: 'aar')
     implementation files('libs/TYAndroidBeacon-1.0.3.jar')
     implementation files('libs/rfid.jar')
-    implementation files('libs/serialport.jar')
+    //implementation files('libs/serialport.jar')
     implementation files('libs/uhf-9_v1.6.jar')
+    implementation files('libs/scannBarcode.jar')
 }
