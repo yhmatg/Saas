@@ -40,6 +40,7 @@ public class ResultInventoryOrder {
     @NonNull
     private String id;
     private String inv_code;
+    private Date inv_exptbegin_date;
     private Date inv_exptfinish_date;
     private Date inv_finish_date;
     private Integer inv_finish_count;
@@ -53,6 +54,8 @@ public class ResultInventoryOrder {
     private String inv_assigner_name;
     private String inv_creator_id;
     private String inv_creator_name;
+    private Integer inv_emp_count;
+    private Integer inv_emp_switch;
 
     public Date getCreate_date() {
         return create_date;
@@ -78,6 +81,14 @@ public class ResultInventoryOrder {
 
     public void setInv_code(String inv_code) {
         this.inv_code = inv_code;
+    }
+
+    public Date getInv_exptbegin_date() {
+        return inv_exptbegin_date;
+    }
+
+    public void setInv_exptbegin_date(Date inv_exptbegin_date) {
+        this.inv_exptbegin_date = inv_exptbegin_date;
     }
 
     public Date getInv_exptfinish_date() {
@@ -175,6 +186,22 @@ public class ResultInventoryOrder {
 
     public void setInv_creator_name(String inv_creator_name) {
         this.inv_creator_name = inv_creator_name;
+    }
+
+    public Integer getInv_emp_count() {
+        return inv_emp_count;
+    }
+
+    public void setInv_emp_count(Integer inv_emp_count) {
+        this.inv_emp_count = inv_emp_count;
+    }
+
+    public Integer getInv_emp_switch() {
+        return inv_emp_switch;
+    }
+
+    public void setInv_emp_switch(Integer inv_emp_switch) {
+        this.inv_emp_switch = inv_emp_switch;
     }
 
     @Override

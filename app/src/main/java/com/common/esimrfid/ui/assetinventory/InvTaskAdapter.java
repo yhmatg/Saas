@@ -54,22 +54,14 @@ public class InvTaskAdapter extends RecyclerView.Adapter<InvTaskAdapter.ViewHold
         String userRealName = invTaskItem.getInv_creator_name();
         userRealName = TextUtils.isEmpty(userRealName) ? "" : userRealName;
         viewHolder.mInvCreatorName.setText(userRealName);
-
-        viewHolder.mCreateDate.setText(DateUtils.date2String(invTaskItem.getCreate_date()));
-        String date=DateUtils.date2String(invTaskItem.getInv_finish_date());
-        if(date.equals("")){
-            viewHolder.text.setText(R.string.inv_expect_finish_date);
-            viewHolder.mExpFinishDate.setText(DateUtils.date2String(invTaskItem.getInv_exptfinish_date()));
-        }else {
-            viewHolder.text.setText(R.string.inv_finish_date);
-            viewHolder.mExpFinishDate.setText(date);
-        }
-        Integer inv_total_count = invTaskItem.getInv_total_count();
-        Integer inv_finish_count = invTaskItem.getInv_finish_count();
-        viewHolder.mAllNum.setText(String.valueOf(inv_total_count));
-        viewHolder.mFinishedNum.setText(String.valueOf(inv_finish_count));
-        viewHolder.mUnfinishedNum.setText(String.valueOf(inv_total_count - inv_finish_count));
-
+        viewHolder.mCreateDate.setText(DateUtils.date2String(invTaskItem.getInv_exptbegin_date()));
+        String toDate=DateUtils.date2String(invTaskItem.getInv_exptfinish_date());
+        viewHolder.mExpFinishDate.setText(toDate);
+        Integer inv_manage_count = invTaskItem.getInv_total_count();
+        Integer inv_staff_count = invTaskItem.getInv_emp_count();
+        viewHolder.mAllNum.setText(String.valueOf(inv_staff_count + inv_manage_count));
+        viewHolder.mFinishedNum.setText(String.valueOf(inv_staff_count));
+        viewHolder.mUnfinishedNum.setText(String.valueOf(inv_manage_count));
         viewHolder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

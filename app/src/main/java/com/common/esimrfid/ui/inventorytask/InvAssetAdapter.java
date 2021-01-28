@@ -58,16 +58,18 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         userRealName = TextUtils.isEmpty(userRealName) ? "" : userRealName;
         viewHolder.mInvCreatorName.setText(userRealName);
 
-        viewHolder.mCreateDate.setText(DateUtils.date2String(invTaskItem.getCreate_date()));
+        viewHolder.mCreateDate.setText(DateUtils.date2String(invTaskItem.getInv_exptbegin_date()));
         viewHolder.mExpFinishDate.setText(DateUtils.date2String(invTaskItem.getInv_exptfinish_date()));
-        Integer inv_total_count = invTaskItem.getInv_total_count();
+      /*  Integer inv_total_count = invTaskItem.getInv_total_count();
         Integer inv_finish_count = invTaskItem.getInv_finish_count();
-        Integer not_submit_count = invTaskItem.getInv_notsubmit_count() == null ? 0 : invTaskItem.getInv_notsubmit_count();
-        viewHolder.mAllNum.setText(String.valueOf(inv_total_count));
-        viewHolder.mUnfinishedNum.setText(String.valueOf(inv_total_count - inv_finish_count));
-        viewHolder.mFinishedNum.setText(String.valueOf(not_submit_count));
+        Integer not_submit_count = invTaskItem.getInv_notsubmit_count() == null ? 0 : invTaskItem.getInv_notsubmit_count();*/
+        Integer managerNum = invTaskItem.getInv_total_count();
+        Integer staffNum = invTaskItem.getInv_emp_count() == null ? 0 : invTaskItem.getInv_emp_count();
+        viewHolder.mAllNum.setText(String.valueOf(managerNum + staffNum));
+        viewHolder.mUnfinishedNum.setText(String.valueOf(managerNum));
+        viewHolder.mFinishedNum.setText(String.valueOf(staffNum));
 
-        viewHolder.mTvName.setText(R.string.not_submit);
+        //viewHolder.mTvName.setText(R.string.not_submit);
         viewHolder.mStartInv.setVisibility(View.VISIBLE);
         viewHolder.mStartInv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +134,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         TextView mTvName;
         @BindView(R.id.divider_three)
         View divideLine;
+
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

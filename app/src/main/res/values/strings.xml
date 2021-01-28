@@ -325,4 +325,8 @@
     <string name="edit_loc">修改</string>
     <string name="change_tip">查找附近的资产，可以批量修改资产存放位置</string>
     <string name="staff_inv_str">员工自助盘点</string>
+    <string name="inv_time">盘点时间</string>
+    <string name="until_str">至</string>
+    <string name="manger_inv_num">管理员盘点</string>
+    <string name="staff_inv_num">员工自助盘点</string>
 </resources>

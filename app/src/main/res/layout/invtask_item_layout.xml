@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/inv_creator"
-        android:text="@string/inv_create_date"
+        android:text="@string/inv_time"
         android:textColor="@color/home_text_two"
         android:textSize="@dimen/sp_14" />
 
@@ -75,7 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/inv_creator"
         android:layout_toStartOf="@+id/expect_finish_date"
-        android:text="@string/inv_expect_finish_date"
+        android:layout_marginEnd="@dimen/dp_36"
+        android:text="@string/until_str"
         android:textColor="@color/home_text_two"
         android:textSize="@dimen/sp_14" />
 
@@ -129,7 +130,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/asset_not_inventoried"
+            android:text="@string/manger_inv_num"
             android:textColor="@color/home_text_two"
             android:textSize="@dimen/sp_14" />
 
@@ -148,7 +149,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/divider_two"
         android:layout_toStartOf="@+id/inv_finished_num"
-        android:text="@string/asset_inventoried"
+        android:text="@string/staff_inv_num"
         android:textColor="@color/home_text_two"
         android:textSize="@dimen/sp_14" />
 
@@ -159,7 +160,7 @@
         android:layout_below="@+id/divider_two"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="@dimen/dp_10"
-        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_2"
         android:textColor="@color/home_text_two"
         android:textSize="@dimen/sp_14" />
 
