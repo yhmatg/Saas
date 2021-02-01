@@ -116,6 +116,8 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
        /* isNeedClearData = true;
         currentPage = 1;
         mPresenter.fetchAllIvnOrdersPage(pageSize,1,0,userId,true);*/
+        isNeedClearData = true;
+        currentPage = 1;
         mPresenter.fetchAllIvnOrdersPage(pageSize, 1, 0, userId, true);
     }
 
@@ -175,9 +177,9 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
                 break;
             case R.id.create_invtask:
                 if (CommonUtils.isNormalClick()) {
-                    if(CommonUtils.isNetworkConnected()){
+                    if (CommonUtils.isNetworkConnected()) {
                         startActivity(new Intent(this, NewInventoryActivity.class));
-                    }else {
+                    } else {
                         showNoInternetDialog();
                     }
                 }
