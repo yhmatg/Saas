@@ -103,7 +103,7 @@ public class BatchEditPresenter extends BasePresenter<BatchEditContract.View> im
                             if (pageNum + 1 <= pages) {
                                 fetchLatestPageAssets(size, pageNum + 1);
                             } else {
-                                DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 600000));
+                                DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 60000));
                             }
                         }
                     })

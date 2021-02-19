@@ -68,7 +68,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
                             if(latestModifyAssets.getRemoved()!= null && latestModifyAssets.getRemoved().size() > 0){
                                 assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
                             }
-                            DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 600000));
+                            DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 60000));
                         }
                     })
                     .observeOn(AndroidSchedulers.mainThread())
@@ -152,7 +152,7 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
                             if (pageNum + 1 <= pages) {
                                 fetchLatestPageAssets(size, pageNum + 1);
                             } else {
-                                DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 600000));
+                                DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 60000));
                             }
                         }
                     })
