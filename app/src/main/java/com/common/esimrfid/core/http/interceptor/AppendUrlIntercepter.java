@@ -3,7 +3,7 @@ package com.common.esimrfid.core.http.interceptor;
 import android.util.Log;
 
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.utils.StringUtils;
+
 import java.io.IOException;
 
 import okhttp3.HttpUrl;
@@ -19,35 +19,11 @@ public class AppendUrlIntercepter implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         String token = DataManager.getInstance().getToken();
-        String cacheHost= DataManager.getInstance().getHostUrl();
-        int defalutPort = -1;
         Request oldRequest = chain.request();
         HttpUrl.Builder builder = oldRequest
                 .url()
                 .newBuilder();
-        //add 20190729 start
         builder.addQueryParameter("token",token);
-        //add 20190729 start
-        /*HttpUrl httpUrl = oldRequest.url();
-        if (!StringUtils.isEmpty(cacheHost) && !baseUrl.equals(cacheHost)) {
-            if(cacheHost.startsWith("https")){
-                builder.scheme("https");
-                defalutPort = 443;
-            }else {
-                builder.scheme("http");
-                defalutPort = 80;
-            }
-            cacheHost=cacheHost.replaceAll("http(s)?://","");
-            String[] split = cacheHost.split(":");
-            if(split.length == 1){
-                String cacheH = split[0];
-                builder.host(cacheH).port(defalutPort);
-            }else if(split.length == 2){
-                String cacheH = split[0];
-                String cacheP = split[1];
-                builder.host(cacheH).port(Integer.valueOf(cacheP));
-            }
-        }*/
         Log.e("AppendUrlIntercepter","builder.build()===" + builder.build());
         Request newRequest = oldRequest
                 .newBuilder()
