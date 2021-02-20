@@ -481,9 +481,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
             @Override
             public void updateUI(Dialog dialog, int progress, UIData versionBundle) {
-                ProgressBar pb = (ProgressBar) dialog.findViewById(com.allenliu.versionchecklib.R.id.pb);
-                TextView tvProgress = (TextView) dialog.findViewById(com.allenliu.versionchecklib.R.id.tv_progress);
-                tvProgress.setText(String.format(getString(com.allenliu.versionchecklib.R.string.versionchecklib_progress), progress));
+                ProgressBar pb = (ProgressBar) dialog.findViewById(R.id.pb);
+                TextView tvProgress = (TextView) dialog.findViewById(R.id.tv_progress);
+                tvProgress.setText(String.format(getString(R.string.versionchecklib_progress), progress));
                 pb.setProgress(progress);
             }
         });
