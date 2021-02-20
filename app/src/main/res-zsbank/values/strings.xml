@@ -319,4 +319,5 @@
     <string name="batch_edit">批量修改</string>
     <string name="edit_loc">修改</string>
     <string name="change_tip">查找附近的资产，可以批量修改资产存放位置</string>
+    <string name="versionchecklib_progress">%d/100</string>
 </resources>
