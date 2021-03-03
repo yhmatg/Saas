@@ -2,6 +2,7 @@ package com.common.esimrfid.contract.home;
 
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
+import com.common.esimrfid.core.bean.inventorytask.TitleAndLogoResult;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
@@ -18,6 +19,8 @@ public interface HomeConstract {
         void handelCheckoutVersion(UpdateVersion updateInfo);
 
         void handleLogin();
+
+        void handleTitleAndLogo(TitleAndLogoResult titleAndLogoResult);
     }
 
     interface Presenter extends AbstractPresenter<View> {
@@ -27,14 +30,14 @@ public interface HomeConstract {
 
         void checkUpdateVersion();
 
-        void fetchAllIvnOrders( String userId,boolean online);
-
-        void fetchLatestAssets();
+        void fetchAllIvnOrders(String userId, boolean online);
 
         void getDataAuthority(String id);
 
         void fetchLatestPageAssets(Integer size, Integer page);
 
         void login(UserInfo userInfo);
+
+        void getTitleAndLogo(String tenantid, String configKey);
     }
 }

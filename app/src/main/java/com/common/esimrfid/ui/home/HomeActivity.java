@@ -17,11 +17,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.alibaba.fastjson.JSON;
 import com.allenliu.versionchecklib.core.http.AllenHttp;
 import com.allenliu.versionchecklib.v2.AllenVersionChecker;
 import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
@@ -30,11 +32,15 @@ import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.allenliu.versionchecklib.v2.callback.CustomDownloadingDialogListener;
 import com.allenliu.versionchecklib.v2.callback.CustomVersionDialogListener;
 import com.allenliu.versionchecklib.v2.callback.ForceUpdateListener;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.HomeConstract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.inventorytask.TitleAndLogoResult;
+import com.common.esimrfid.core.bean.inventorytask.TitleLogoBean;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
@@ -92,6 +98,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     String welcom;
     @BindView(R.id.loction_layout)
     LinearLayout loctionLayout;
+    @BindView(R.id.iv_logo)
+    ImageView ivLogo;
     private MaterialDialog updateDialog;
     ArrayList<AssetLocationNum> mAstLocaionNum = new ArrayList<>();
     int maxAssetNum = 0;
@@ -172,7 +180,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                         userInfo = new UserInfo();
                         userInfo.setUser_name(DataManager.getInstance().getLoginAccount());
                         userInfo.setUser_password(DataManager.getInstance().getLoginPassword());
-                        if(mPresenter != null){
+                        if (mPresenter != null) {
                             mPresenter.login(userInfo);
                         }
                     }
@@ -180,14 +188,20 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             }, 5000);
         }
         initOnlineData();
-
     }
 
     public void initOnlineData() {
         mPresenter.getAssetsNmbDiffLocation();
         mPresenter.getAssetsNmbDiffStatus();
-        if (uerLogin != null && uerLogin.getUserinfo() != null) {
-            if (uerLogin.getUserinfo().isSuperManagerUser()) {
+        UserLoginResponse.Userinfo userinfo = uerLogin.getUserinfo();
+        if (uerLogin != null && userinfo != null) {
+            if (CommonUtils.isNetworkConnected()) {
+                mPresenter.getTitleAndLogo(userinfo.getCorpid(), "system.global.set.logoAndTitle");
+            } else if (userinfo.getCorpInfo() != null && userinfo.getCorpInfo().getOrg_name() != null) {
+                mCompanyName.setText(userinfo.getCorpInfo().getOrg_name());
+                ivLogo.setImageResource(R.drawable.home_logo);
+            }
+            if (userinfo.isSuperManagerUser()) {
                 DataAuthority dataAuthority = new DataAuthority();
                 dataAuthority.getAuth_corp_scope().add("allData");
                 dataAuthority.getAuth_dept_scope().add("allData");
@@ -196,7 +210,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                 DataManager.getInstance().setDataAuthority(dataAuthority);
                 EsimAndroidApp.setDataAuthority(dataAuthority);
             } else {
-                mPresenter.getDataAuthority(uerLogin.getUserinfo().getId());
+                mPresenter.getDataAuthority(userinfo.getId());
             }
         }
         mPresenter.fetchLatestPageAssets(500, 1);
@@ -206,18 +220,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private void checkUserSatus() {
         boolean loginStatus = DataManager.getInstance().getLoginStatus();
         boolean isOnline = EsimAndroidApp.getInstance().isOnline();
-        if (loginStatus ) {
+        if (loginStatus) {
             initRfid();
-            if(isOnline){
+            if (isOnline) {
                 mPresenter.checkUpdateVersion();
                 EsimAndroidApp.getInstance().setUserLoginResponse(uerLogin);
-                if (uerLogin.getUserinfo().getUser_real_name() != null) {
-                    mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
-                }
-                if (uerLogin.getUserinfo().getCorpInfo() != null && uerLogin.getUserinfo().getCorpInfo().getOrg_name() != null) {
-                    mCompanyName.setText(uerLogin.getUserinfo().getCorpInfo().getOrg_name());
-                }
                 mPresenter.fetchAllIvnOrders(uerLogin.getUserinfo().getId(), true);
+            }
+            if (uerLogin.getUserinfo().getUser_real_name() != null) {
+                mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
             }
         } else {
             startActivity(new Intent(this, LoginActivity.class));
@@ -391,6 +402,33 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         uerLogin = DataManager.getInstance().getUserLoginResponse();
         checkUserSatus();
         initOnlineData();
+    }
+
+    @Override
+    public void handleTitleAndLogo(TitleAndLogoResult titleAndLogoResult) {
+        if (titleAndLogoResult != null) {
+            if (!StringUtils.isEmpty(titleAndLogoResult.getConfig_value())) {
+                TitleLogoBean titleLogoBean = JSON.parseObject(titleAndLogoResult.getConfig_value(), TitleLogoBean.class);
+                mCompanyName.setText(titleLogoBean.getAppTitle());
+                RequestOptions options = new RequestOptions()
+                        .fallback(R.drawable.home_logo) //url为空的时候,显示的图片
+                        .error(R.drawable.home_logo);//图片加载失败后，显示的图片
+                Glide.with(this).load(titleLogoBean.getAppLogo()).apply(options).into(ivLogo);
+            } else {
+                ivLogo.setImageResource(R.drawable.home_logo);
+                UserLoginResponse.Userinfo userinfo = uerLogin.getUserinfo();
+                if (userinfo.getCorpInfo() != null && userinfo.getCorpInfo().getOrg_name() != null) {
+                    mCompanyName.setText(userinfo.getCorpInfo().getOrg_name());
+                }
+            }
+        } else {
+            ivLogo.setImageResource(R.drawable.home_logo);
+            UserLoginResponse.Userinfo userinfo = uerLogin.getUserinfo();
+            if (userinfo.getCorpInfo() != null && userinfo.getCorpInfo().getOrg_name() != null) {
+                mCompanyName.setText(userinfo.getCorpInfo().getOrg_name());
+            }
+        }
+
     }
 
     public String getAppVersionName(Context context) {

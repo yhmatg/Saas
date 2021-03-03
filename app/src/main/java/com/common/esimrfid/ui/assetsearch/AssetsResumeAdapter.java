@@ -54,7 +54,7 @@ public class AssetsResumeAdapter extends RecyclerView.Adapter<AssetsResumeAdapte
         StringBuilder stringBuilder=new StringBuilder();
         int state=0;
         if (!tv_content.isEmpty()){
-            JSONArray jsonArray=JSONArray.parseArray(tv_content);
+            JSONArray jsonArray= JSONArray.parseArray(tv_content);
             if(tv_method.equals("发起调拨")) {
                 stringBuilder.append("管理员")
                         .append("\"").append(tv_name).append("\"")

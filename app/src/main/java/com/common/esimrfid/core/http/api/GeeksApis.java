@@ -13,6 +13,7 @@ import com.common.esimrfid.core.bean.inventorytask.CreateInvResult;
 import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
+import com.common.esimrfid.core.bean.inventorytask.TitleAndLogoResult;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
@@ -276,4 +277,8 @@ public interface GeeksApis {
     //批量更新资产位置新
     @PUT("assets-server/general/assets/updatebatch")
     Observable<BaseResponse> updateAssetProp(@Body UpdateAssetsPara updateAssetsPara);
+
+    //动态获取标题和logo
+    @GET("user-server/globalconfigs")
+    Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(@Query("tenantid") String tenantid, @Query("config_key") String configKey);
 }

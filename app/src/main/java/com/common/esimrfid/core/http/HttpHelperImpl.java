@@ -14,6 +14,7 @@ import com.common.esimrfid.core.bean.inventorytask.CreateInvResult;
 import com.common.esimrfid.core.bean.inventorytask.DepartmentBean;
 import com.common.esimrfid.core.bean.inventorytask.InventoryParameter;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
+import com.common.esimrfid.core.bean.inventorytask.TitleAndLogoResult;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
@@ -248,6 +249,11 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse> updateAssetProp(UpdateAssetsPara updateAssetsPara) {
         return mGeeksApis.updateAssetProp(updateAssetsPara);
+    }
+
+    @Override
+    public Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(String tenantid, String configKey) {
+        return mGeeksApis.getTitleAndLogo(tenantid,configKey);
     }
 
     @Override

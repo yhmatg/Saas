@@ -4,11 +4,11 @@ import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.HomeConstract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.inventorytask.TitleAndLogoResult;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
@@ -86,41 +86,6 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
         addSubscribe(Observable.concat(getLocalInOrderObservable(online), DataManager.getInstance().fetchAllIvnOrders(userId))
                 .compose(RxUtils.handleResult())
                 .subscribeOn(Schedulers.io())
-                /*.flatMap(new Function<List<ResultInventoryOrder>, ObservableSource<List<ResultInventoryOrder>>>() {
-                    @Override
-                    public ObservableSource<List<ResultInventoryOrder>> apply(List<ResultInventoryOrder> resultInventoryOrders) throws Exception {
-                        ArrayList<String> unInvedRemoteOrders = new ArrayList<>();
-                        for (ResultInventoryOrder resultInventoryOrder : resultInventoryOrders) {
-                            if (resultInventoryOrder.getInv_status() == 10) {
-                                unInvedRemoteOrders.add(resultInventoryOrder.getId());
-                            }
-                        }
-                        //根据服务端没有盘点完场的盘点单，获取本地没有盘点完场的盘点单，替换服务端中未完成的盘点单（本地可能做过盘点任务，但是数据没有上传）
-                        List<ResultInventoryOrder> localOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrders();
-                        List<ResultInventoryOrder> notInvedLocalOrders = DbBank.getInstance().getResultInventoryOrderDao().findNotInvedInvOrders(unInvedRemoteOrders);
-                        //本地同步服务端已经删除的数据
-                        List<ResultInventoryOrder> tempLocal = new ArrayList<>();
-                        tempLocal.addAll(localOrders);
-                        tempLocal.removeAll(resultInventoryOrders);
-                        //数据库同步删除盘点单
-                        DbBank.getInstance().getResultInventoryOrderDao().deleteItems(tempLocal);
-                        //数据库同步删除盘点单下的资产
-                        List<String> deleteIds = new ArrayList<>();
-                        for (int i = 0; i < tempLocal.size(); i++) {
-                            deleteIds.add(tempLocal.get(i).getId());
-                        }
-                        DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvids(deleteIds);
-                        //本地数据和服务器数据的交集，服务端删除盘点单，本地同步跟新显示
-                        notInvedLocalOrders.retainAll(resultInventoryOrders);
-                        //服务端新增的数据
-                        resultInventoryOrders.removeAll(notInvedLocalOrders);
-                        List<ResultInventoryOrder> tempRemount = new ArrayList<>();
-                        tempRemount.addAll(resultInventoryOrders);
-                        tempRemount.addAll(notInvedLocalOrders);
-                        DbBank.getInstance().getResultInventoryOrderDao().insertItems(resultInventoryOrders);
-                        return Observable.just(tempRemount);
-                    }
-                })*/
                 .doOnNext(new Consumer<List<ResultInventoryOrder>>() {
                     @Override
                     public void accept(List<ResultInventoryOrder> resultInventoryOrders) throws Exception {
@@ -192,35 +157,6 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
             }
         });
         return invOrderObservable;
-    }
-
-    @Override
-    public void fetchLatestAssets() {
-        if (CommonUtils.isNetworkConnected()) {
-            addSubscribe(DataManager.getInstance().fetchLatestAssets(DataManager.getInstance().getLatestSyncTime())
-                    .compose(RxUtils.handleResult())
-                    .subscribeOn(Schedulers.io())
-                    .doOnNext(new Consumer<LatestModifyAssets>() {
-                        @Override
-                        public void accept(LatestModifyAssets latestModifyAssets) throws Exception {
-                            AssetsAllInfoDao assetsAllInfoDao = DbBank.getInstance().getAssetsAllInfoDao();
-                            if (latestModifyAssets.getModified() != null && latestModifyAssets.getModified().size() > 0) {
-                                assetsAllInfoDao.insertItems(latestModifyAssets.getModified());
-                            }
-                            if (latestModifyAssets.getRemoved() != null && latestModifyAssets.getRemoved().size() > 0) {
-                                assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
-                            }
-                            DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 60000));
-                        }
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new BaseObserver<LatestModifyAssets>(mView, false) {
-                        @Override
-                        public void onNext(LatestModifyAssets latestModifyAssets) {
-
-                        }
-                    }));
-        }
     }
 
     //获取管理员权限范围
@@ -362,5 +298,20 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                         mView.dismissDialog();
                     }
                 }));
+    }
+
+    @Override
+    public void getTitleAndLogo(String tenantid, String configKey) {
+        addSubscribe(DataManager.getInstance().getTitleAndLogo(tenantid, configKey)
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<BaseResponse<TitleAndLogoResult>>(mView, false) {
+
+                    @Override
+                    public void onNext(BaseResponse<TitleAndLogoResult> titleAndLogoResponse) {
+                        TitleAndLogoResult result = titleAndLogoResponse.getResult();
+                        mView.handleTitleAndLogo(result);
+                    }
+                }));
+
     }
 }
