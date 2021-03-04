@@ -84,6 +84,8 @@ public class Constants {
     public static final String DATAAUTHORITY = "dataAuthority";
 
     public static final String FIRMWARE_VERSION = "firmware_version";
+
+    public static final String ONLINE_STATUS= "online_status";
     //add yhm 20190707 end
 
 

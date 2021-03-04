@@ -127,5 +127,8 @@ public interface PreferenceHelper {
 
     String getFirmwareVersion();
 
+    void setOnline(boolean isOnline);
+
+    boolean getOnline();
 
 }

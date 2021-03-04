@@ -1,7 +1,6 @@
 package com.common.esimrfid.presenter.login;
 
 import com.common.esimrfid.R;
-import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.login.LoginContract;
 import com.common.esimrfid.core.DataManager;
@@ -74,7 +73,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                             setLoginPassword(passWord);
                             setToken(userLoginResponse.getToken());
                             DataManager.getInstance().setLoginStatus(true);
-                            EsimAndroidApp.getInstance().setOnline(true);
+                            DataManager.getInstance().setOnline(true);
                             mView.startMainActivity();
                         }
 
@@ -102,7 +101,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         } else {
             if (passWord.equals(DataManager.getInstance().getLoginPassword()) && userName.equals(DataManager.getInstance().getLoginAccount())) {
                 DataManager.getInstance().setLoginStatus(true);
-                EsimAndroidApp.getInstance().setOnline(false);
+                DataManager.getInstance().setOnline(false);
                 mView.startMainActivity();
             } else {
                 ToastUtils.showShort(R.string.offline_login_error);

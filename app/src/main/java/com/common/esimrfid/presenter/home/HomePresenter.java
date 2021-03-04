@@ -280,7 +280,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                         setLoginPassword(passWord);
                         setToken(userLoginResponse.getToken());
                         DataManager.getInstance().setLoginStatus(true);
-                        EsimAndroidApp.getInstance().setOnline(true);
+                        DataManager.getInstance().setOnline(true);
                         mView.handleLogin();
                     }
 

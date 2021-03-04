@@ -215,5 +215,15 @@ public class PreferenceHelperImpl implements PreferenceHelper {
         return mPreferences.getString(Constants.FIRMWARE_VERSION,"");
     }
 
+    @Override
+    public void setOnline(boolean isOnline) {
+        mPreferences.edit().putBoolean(Constants.ONLINE_STATUS,isOnline).apply();
+    }
+
+    @Override
+    public boolean getOnline() {
+        return mPreferences.getBoolean(Constants.ONLINE_STATUS,true);
+    }
+
 
 }

@@ -230,6 +230,16 @@ public class DataManager implements HttpHelper, PreferenceHelper {
         return mPreferenceHelper.getFirmwareVersion();
     }
 
+    @Override
+    public void setOnline(boolean isOnline) {
+        mPreferenceHelper.setOnline(isOnline);
+    }
+
+    @Override
+    public boolean getOnline() {
+        return mPreferenceHelper.getOnline();
+    }
+
 
     @Override
     public Observable<BaseResponse<UserLoginResponse>> login(UserInfo userInfo) {

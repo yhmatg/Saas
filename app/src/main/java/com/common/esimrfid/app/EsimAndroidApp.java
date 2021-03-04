@@ -47,8 +47,6 @@ public class EsimAndroidApp extends Application {
     public static String activityFrom;
     public static String invStatus;
     public static DataAuthority dataAuthority = new DataAuthority();
-    private boolean isOnline ;
-
     public static synchronized EsimAndroidApp getInstance() {
         return instance;
     }
@@ -174,13 +172,5 @@ public class EsimAndroidApp extends Application {
 
     public static void setDataAuthority(DataAuthority dataAuthority) {
         EsimAndroidApp.dataAuthority = dataAuthority;
-    }
-
-    public boolean isOnline() {
-        return isOnline;
-    }
-
-    public void setOnline(boolean online) {
-        isOnline = online;
     }
 }

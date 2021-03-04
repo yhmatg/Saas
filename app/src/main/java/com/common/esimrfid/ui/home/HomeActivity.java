@@ -172,7 +172,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void onResume() {
         super.onResume();
-        if (!EsimAndroidApp.getInstance().isOnline()) {
+        if (!DataManager.getInstance().getOnline()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -219,7 +219,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     //检查登录状态，未登录跳转登录界面
     private void checkUserSatus() {
         boolean loginStatus = DataManager.getInstance().getLoginStatus();
-        boolean isOnline = EsimAndroidApp.getInstance().isOnline();
+        boolean isOnline = DataManager.getInstance().getOnline();
         if (loginStatus) {
             initRfid();
             if (isOnline) {
