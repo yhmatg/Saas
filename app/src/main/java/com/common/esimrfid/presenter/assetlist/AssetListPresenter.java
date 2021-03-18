@@ -45,10 +45,10 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
                     public void onNext(AssetsListPage assetsInfoPage) {
                         mView.dismissDialog();
                         if (assetsInfoPage.isLocal()) {
-                            mView.handlefetchPageAssetsInfos(assetsInfoPage.getList(),assetsInfoPage.getAstCount(),assetsInfoPage.getTotalMoney());
+                            mView.handlefetchPageAssetsInfos(assetsInfoPage.getList(),assetsInfoPage.getTotal(),assetsInfoPage.getTotalMoney());
                         } else {
                             if (page <= assetsInfoPage.getPages()) {
-                                mView.handlefetchPageAssetsInfos(assetsInfoPage.getList(),assetsInfoPage.getAstCount(),assetsInfoPage.getTotalMoney());
+                                mView.handlefetchPageAssetsInfos(assetsInfoPage.getList(),assetsInfoPage.getTotal(),assetsInfoPage.getTotalMoney());
                             } else {
                                 mView.handlefetchPageAssetsInfos(new ArrayList<>(),0,0);
                             }
