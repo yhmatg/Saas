@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -44,6 +45,7 @@ import com.common.esimrfid.core.bean.inventorytask.TitleLogoBean;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.Menu;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
@@ -52,15 +54,7 @@ import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
-import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
-import com.common.esimrfid.ui.assetrepair.AssetRepairActivity;
-import com.common.esimrfid.ui.assetsearch.AssetsSearchActivity;
-import com.common.esimrfid.ui.astlist.AssetListActivity;
-import com.common.esimrfid.ui.batchedit.BatchEditActivity;
-import com.common.esimrfid.ui.identity.IdentityActivity;
-import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
 import com.common.esimrfid.ui.login.LoginActivity;
-import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.SettingBeepUtil;
 import com.common.esimrfid.utils.StringUtils;
@@ -90,8 +84,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     TextView mFreeAssets;
     @BindView(R.id.company_name)
     TextView mCompanyName;
-    @BindView(R.id.batch_edit)
-    TextView batchEdit;
+   /* @BindView(R.id.batch_edit)
+    TextView batchEdit;*/
     @BindView(R.id.rv_assets_location)
     RecyclerView mLocationRecycle;
     @BindString(R.string.welcom)
@@ -100,6 +94,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     LinearLayout loctionLayout;
     @BindView(R.id.iv_logo)
     ImageView ivLogo;
+    @BindView(R.id.gv_menus)
+    GridView menusView;
+    @BindView(R.id.ll_asset_number)
+    LinearLayout assetNumLayout;
     private MaterialDialog updateDialog;
     ArrayList<AssetLocationNum> mAstLocaionNum = new ArrayList<>();
     int maxAssetNum = 0;
@@ -114,6 +112,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     private UserLoginResponse uerLogin;
     private MaterialDialog offLineDialog;
     private UserInfo userInfo;
+    private ArrayList<Menu> menus = new ArrayList<>();
+    private ModeItemAdapter menuAdapter;
 
     @Override
     public HomePresenter initPresenter() {
@@ -123,9 +123,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
     @Override
     protected void initEventAndData() {
         String projectName = getString(R.string.projectName);
-        if ("zsbank".equals(projectName)) {
+      /*  if ("zsbank".equals(projectName)) {
             batchEdit.setVisibility(View.VISIBLE);
-        }
+        }*/
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             isFirstInstall = true;
             finish();
@@ -138,6 +138,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         SettingBeepUtil.setSledOpen(DataManager.getInstance().getSledBeeper());
         SettingBeepUtil.setHostOpen(DataManager.getInstance().getHostBeeper());
         uerLogin = DataManager.getInstance().getUserLoginResponse();
+        menuAdapter = new ModeItemAdapter(this.menus,this);
+        menusView.setAdapter(menuAdapter);
         checkUserSatus();
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
         //兼容不同固件模块的设备
@@ -230,6 +232,32 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             if (uerLogin.getUserinfo().getUser_real_name() != null) {
                 mUserName.setText(welcom + uerLogin.getUserinfo().getUser_real_name());
             }
+            List<Menu> allMenus = uerLogin.getUserinfo().getMenus();
+            if(allMenus != null){
+                for (Menu menu : allMenus) {
+                    switch (menu.getId()){
+                        case 20001:
+                            assetNumLayout.setVisibility(View.VISIBLE);
+                            break;
+                        case 20002:
+                            if(!Build.MODEL.contains("TC20") && !Build.MODEL.contains("MC33")){
+                                loctionLayout.setVisibility(View.VISIBLE);
+                            }
+                            break;
+                        case 20003:
+                        case 20004:
+                        case 20005:
+                        case 20006:
+                        case 20007:
+                        case 20008:
+                        case 20009:
+                        case 20010:
+                            menus.add(menu);
+                            break;
+                    }
+                }
+                menuAdapter.notifyDataSetChanged();
+            }
         } else {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -284,58 +312,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
 
     }
 
-    @OnClick({R.id.inv_task, R.id.ast_inv, R.id.ast_search, R.id.write_tag, R.id.home_setting, R.id.ast_identity,
-            R.id.ast_repair, R.id.ast_list, R.id.batch_edit})
+    @OnClick({R.id.home_setting})
     void performClick(View view) {
         switch (view.getId()) {
-            case R.id.inv_task:
-                if (CommonUtils.isNormalClick()) {
-                    startActivity(new Intent(this, InventoryTaskActivity.class));
-                }
-                break;
-            case R.id.ast_inv:
-                if (CommonUtils.isNormalClick()) {
-                    startActivity(new Intent(this, AssetInventoryActivity.class));
-                }
-                break;
-            case R.id.ast_search:
-                if (CommonUtils.isNormalClick()) {
-                    startActivity(new Intent(this, AssetsSearchActivity.class));
-                }
-                break;
-            case R.id.write_tag:
-                if (CommonUtils.isNormalClick()) {
-                    startActivity(new Intent(this, WriteTagActivity.class));
-                }
-
-                break;
             case R.id.home_setting:
                 if (CommonUtils.isNormalClick()) {
                     startActivity(new Intent(this, SettingActivity.class));
-                }
-                break;
-            case R.id.ast_identity:
-                if (CommonUtils.isNormalClick()) {
-                    startActivity(new Intent(this, IdentityActivity.class));
-                }
-                break;
-            case R.id.ast_repair:
-                if (CommonUtils.isNormalClick()) {
-                    if (CommonUtils.isNetworkConnected()) {
-                        startActivity(new Intent(this, AssetRepairActivity.class));
-                    } else {
-                        showNoInternetDialog();
-                    }
-                }
-                break;
-            case R.id.ast_list:
-                if (CommonUtils.isNormalClick()) {
-                    startActivity(new Intent(this, AssetListActivity.class));
-                }
-                break;
-            case R.id.batch_edit:
-                if (CommonUtils.isNormalClick()) {
-                    startActivity(new Intent(this, BatchEditActivity.class));
                 }
                 break;
         }

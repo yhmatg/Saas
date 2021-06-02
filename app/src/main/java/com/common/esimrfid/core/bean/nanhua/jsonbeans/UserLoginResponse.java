@@ -1,5 +1,7 @@
 package com.common.esimrfid.core.bean.nanhua.jsonbeans;
 
+import java.util.List;
+
 //登录
 public class UserLoginResponse {
     /**
@@ -52,6 +54,7 @@ public class UserLoginResponse {
         private String corpid;
         private CorpInfo corpInfo;
         private boolean superManagerUser;
+        private List<Menu> menus;
 
         public String getCorpName() {
             return corpName;
@@ -109,6 +112,14 @@ public class UserLoginResponse {
             this.superManagerUser = superManagerUser;
         }
 
+        public List<Menu> getMenus() {
+            return menus;
+        }
+
+        public void setMenus(List<Menu> menus) {
+            this.menus = menus;
+        }
+
         public static class CorpInfo {
             /**
              * create_date : 1596765785000
@@ -132,4 +143,5 @@ public class UserLoginResponse {
             }
         }
     }
+
 }
