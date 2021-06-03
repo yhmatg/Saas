@@ -23,6 +23,8 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
@@ -431,5 +433,15 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(String tenantid, String configKey) {
         return mHttpHelper.getTitleAndLogo(tenantid, configKey);
+    }
+
+    @Override
+    public Observable<BaseResponse<DistributeOrderPage>> getDistributeOrderPage(String patternName, String conditions, Integer page, Integer size) {
+        return mHttpHelper.getDistributeOrderPage(patternName, conditions, page, size);
+    }
+
+    @Override
+    public Observable<BaseResponse<DistributeOrderDetail>> getDistributeOrderDetail(String id) {
+        return mHttpHelper.getDistributeOrderDetail(id);
     }
 }

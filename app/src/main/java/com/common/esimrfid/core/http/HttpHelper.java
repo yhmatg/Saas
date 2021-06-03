@@ -23,6 +23,8 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
@@ -120,4 +122,8 @@ public interface HttpHelper {
     Observable<BaseResponse> updateAssetProp(UpdateAssetsPara updateAssetsPara);
 
     Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(String tenantid, String configKey);
+
+    Observable<BaseResponse<DistributeOrderPage>> getDistributeOrderPage(String patternName, String conditions, Integer page, Integer size);
+
+    Observable<BaseResponse<DistributeOrderDetail>> getDistributeOrderDetail(String id);
 }

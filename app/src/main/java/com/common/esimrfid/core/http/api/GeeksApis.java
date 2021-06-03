@@ -23,6 +23,8 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderDetail;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
@@ -281,4 +283,13 @@ public interface GeeksApis {
     //动态获取标题和logo
     @GET("user-server/globalconfigs")
     Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(@Query("tenantid") String tenantid, @Query("config_key") String configKey);
+
+    //获取派发列表
+    @POST("sany-api-server/OrderReq/list")
+    Observable<BaseResponse<DistributeOrderPage>> getDistributeOrderPage(@Query("pattern_name") String patternName, @Query("conditions") String conditions, @Query("page") Integer page, @Query("size") Integer size);
+
+    //获取派发单详情
+    @GET("sany-api-server/OrderReq/getById")
+    Observable<BaseResponse<DistributeOrderDetail>> getDistributeOrderDetail(@Query("id") String id);
+
 }
