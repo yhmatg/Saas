@@ -22,10 +22,12 @@ public class DistributeTypeAdapter extends RecyclerView.Adapter<DistributeTypeAd
     private Context mContext;
     private List<DistTypeDetail> detail;
     private OnItemClickListener mOnItemClickListener;
+    private boolean isFinish;
 
-    public DistributeTypeAdapter(Context mContext, List<DistTypeDetail> detail) {
+    public DistributeTypeAdapter(Context mContext, List<DistTypeDetail> detail, boolean isFinish) {
         this.mContext = mContext;
         this.detail = detail;
+        this.isFinish = isFinish;
     }
 
     @Override
@@ -37,6 +39,9 @@ public class DistributeTypeAdapter extends RecyclerView.Adapter<DistributeTypeAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         DistTypeDetail distTypeDetail = detail.get(i);
+        if(isFinish){
+            distTypeDetail.setAlreadyAdd(distTypeDetail.getAmount());
+        }
         viewHolder.mCircleProgress.setProgress(distTypeDetail.getProgress());
         viewHolder.mBigType.setText(distTypeDetail.getClass_name());
         viewHolder.mSmallType.setText(distTypeDetail.getType_name());

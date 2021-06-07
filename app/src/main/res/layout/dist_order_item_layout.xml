@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_task_item"
+    android:id="@+id/rl_dist_order_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/dp_3"
@@ -70,11 +70,33 @@
         android:textSize="@dimen/sp_14" />
 
     <TextView
-        android:layout_marginTop="@dimen/dp_10"
-        android:id="@+id/distribute_num_title"
+        android:id="@+id/order_status_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/create_date"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="@string/order_status_str"
+        android:textColor="@color/home_text_two"
+        android:textSize="@dimen/sp_14" />
+
+    <TextView
+        android:id="@+id/order_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/order_status_title"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_toEndOf="@+id/inv_create_date"
+        android:text="待派发"
+        android:textColor="@color/home_text_two"
+        android:textSize="@dimen/sp_14" />
+
+    <TextView
+        android:id="@+id/distribute_num_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/order_status_title"
+        android:layout_alignBottom="@+id/order_status_title"
+        android:layout_toStartOf="@+id/distribute_num"
         android:text="@string/distribute_num_str"
         android:textColor="@color/home_text_two"
         android:textSize="@dimen/sp_14" />
@@ -84,8 +106,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/distribute_num_title"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="@dimen/dp_10"
-        android:layout_toEndOf="@+id/inv_create_date"
         android:text="100"
         android:textColor="@color/home_text_two"
         android:textSize="@dimen/sp_14" />

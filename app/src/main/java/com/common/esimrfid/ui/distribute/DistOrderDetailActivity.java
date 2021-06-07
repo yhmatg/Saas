@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -39,6 +41,7 @@ import com.common.esimrfid.uhf.XinLianUhfServiceImp;
 import com.common.esimrfid.uhf.ZebraUhfServiceImpl;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
+import com.common.esimrfid.utils.Utils;
 import com.multilevel.treelist.Node;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,11 +51,14 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresenter> implements DistOrdDetailContract.View, DistributeTypeAdapter.OnItemClickListener, AssetsDistributeAdapter.OnDeleteClickListener {
+    private static String RECE_DATA_ACTION = "com.se4500.onDecodeComplete";
+    private static String START_SCAN_ACTION = "com.geomobile.se4500barcode";
     @BindView(R.id.title_content)
     TextView mTitle;
     @BindView(R.id.rv_dist_type)
@@ -70,19 +76,23 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
     private ArrayList<DistTypeDetail> typeList = new ArrayList<>();
     private DistributeTypeAdapter typeAdapter;
     private String distributeOrderId;
+    private boolean distOrderIsFinish;
     private HashMap<String, AssetsListItemInfo> barcodeAndAsset = new HashMap<>();
     private HashMap<String, AssetsListItemInfo> epcAndAsset = new HashMap<>();
     private HashMap<String, DistTypeDetail> typeIdAndTypeDetail = new HashMap<>();
     private AssetFilterParameter conditions = new AssetFilterParameter();
     private View dialogView;
     private Dialog selectAssetDialog;
-    private ArrayList<AssetsListItemInfo> selectedAssets = new ArrayList<>();
+    private List<AssetsListItemInfo> selectedAssets = new ArrayList<>();
     private RecyclerView distAssetRecycle;
     private AssetsDistributeAdapter distAssetAdapter;
     private ImageView mBackImg;
     private TextView dialogTitle;
     private IEsimUhfService esimUhfService = null;
     DistributeOrderDetail mDistributeOrderDetail;
+    private boolean isScanMode = true;
+    private Boolean canRfid = true;
+    private DistTypeDetail mDistTypeDetail;
 
     @Override
     public DistOrderDetailPresenter initPresenter() {
@@ -92,9 +102,11 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
     @Override
     protected void initEventAndData() {
         mTitle.setText("派发任务详单");
+        enableScan();
         Intent intent = getIntent();
         distributeOrderId = intent.getStringExtra(Constants.DIST_ORDER_ID);
-        typeAdapter = new DistributeTypeAdapter(this, typeList);
+        distOrderIsFinish = intent.getBooleanExtra(Constants.DIST_ORDER_IS_FINISH,true);
+        typeAdapter = new DistributeTypeAdapter(this, typeList,distOrderIsFinish);
         typeAdapter.setmOnItemClickListener(this);
         mDistTypeRecycle.setLayoutManager(new LinearLayoutManager(this));
         mDistTypeRecycle.setAdapter(typeAdapter);
@@ -102,7 +114,7 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
             mPresenter.getDistOrdDetail(distributeOrderId);
         }
         //初始化dialog布局
-        distAssetAdapter = new AssetsDistributeAdapter(this, selectedAssets);
+        distAssetAdapter = new AssetsDistributeAdapter(this, selectedAssets,distOrderIsFinish);
         distAssetAdapter.setOnDeleteClickListener(this);
         dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_dist_asset_layout, null);
         distAssetRecycle = (RecyclerView) dialogView.findViewById(R.id.dist_asset_recycle);
@@ -117,18 +129,22 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
                 selectAssetDialog.dismiss();
             }
         });
+        if(distOrderIsFinish){
+            mLlOption.setVisibility(View.GONE);
+        }
         //初始化rfid
         EventBus.getDefault().register(this);
         esimUhfService = EsimAndroidApp.getIEsimUhfService();
         if (esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl) {
             SystemProperties.set("persist.sys.PistolKey", "scan");
+            SystemProperties.set("persisy.sys.scankeydisable", "true");
         } else if (esimUhfService instanceof ZebraUhfServiceImpl) {
             if (!((ZebraUhfServiceImpl) esimUhfService).isTc20OrMc33()) {
                 ((ZebraUhfServiceImpl) esimUhfService).setPressScan(true);
             }
         }
         IntentFilter mFilter = new IntentFilter();
-        mFilter.addAction("com.se4500.onDecodeComplete");
+        mFilter.addAction(RECE_DATA_ACTION);
         mFilter.addAction("com.esimScanner.ACTION");
         registerReceiver(receiver, mFilter);
     }
@@ -160,13 +176,12 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
             case UhfMsgType.UHF_CONNECT:
                 break;
             case UhfMsgType.UHF_DISCONNECT:
-
                 break;
             case UhfMsgType.UHF_START:
-
+                mRfidAdd.setText("射频扫描中");
                 break;
             case UhfMsgType.UHF_STOP:
-
+                mRfidAdd.setText("射频扫描添加");
                 break;
         }
     }
@@ -178,13 +193,31 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
                 finish();
                 break;
             case R.id.bt_dist_confirm:
-                mPresenter.confirmDistributeAsset(mDistributeOrderDetail);
+                if(isAllAssetAdded()){
+                    mPresenter.confirmDistributeAsset(mDistributeOrderDetail);
+                }else {
+                    ToastUtils.showShort("用户申领的资产数量与派发的资产数量不匹配，请您核查!");
+                }
                 break;
             case R.id.bt_scan_add:
-
+                if (!isScanMode) {
+                    enableScan();
+                }
+                sendBroadcasts("com.geomobile.se4500barcodestop");
+                SystemProperties.set("persist.sys.scanstopimme", "true");
+                SystemClock.sleep(20L);
+                SystemProperties.set("persist.sys.scanstopimme", "false");
+                sendBroadcasts("com.geomobile.se4500barcode");
                 break;
             case R.id.bt_rfid_add:
-
+                if (isScanMode) {
+                    disableScan();
+                }
+                if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
+                    esimUhfService.startStopScanning();
+                } else {
+                    ToastUtils.showShort(R.string.not_connect_prompt);
+                }
                 break;
         }
     }
@@ -219,9 +252,10 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
 
     @Override
     public void handleConfirmDistributeAsset(BaseResponse baseResponse) {
-        if("200000".equals(baseResponse.getCode())){
+        if ("200000".equals(baseResponse.getCode())) {
             ToastUtils.showShort("派发资产成功");
-        }else {
+            finish();
+        } else {
             ToastUtils.showShort("派发资产失败");
         }
     }
@@ -230,6 +264,8 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
     public void onItemClicked(DistTypeDetail distTypeDetail) {
         selectedAssets.clear();
         selectedAssets.addAll(distTypeDetail.getSubList());
+        mDistTypeDetail = distTypeDetail;
+        //selectedAssets = distTypeDetail.getSubList();
         distAssetAdapter.notifyDataSetChanged();
         showFilterDialog();
     }
@@ -313,6 +349,73 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
 
     @Override
     public void onDeleteClick(AssetsListItemInfo assetsInfo) {
+        mDistTypeDetail.getSubList().remove(assetsInfo);
+        Integer alreadyAdd = mDistTypeDetail.getAlreadyAdd() - 1;
+        mDistTypeDetail.setAlreadyAdd(alreadyAdd);
+        typeAdapter.notifyDataSetChanged();
+    }
 
+    public void enableScan() {
+        if (esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl) {
+            SystemProperties.set("persist.sys.PistolKey", "scan");
+        } else if (esimUhfService instanceof ZebraUhfServiceImpl) {
+            if (!((ZebraUhfServiceImpl) esimUhfService).isTc20OrMc33()) {
+                ((ZebraUhfServiceImpl) esimUhfService).setPressScan(true);
+            }
+        }
+        isScanMode = true;
+    }
+
+    public void disableScan() {
+        if (esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl) {
+            SystemProperties.set("persist.sys.PistolKey", "uhf");
+        } else if (esimUhfService instanceof ZebraUhfServiceImpl) {
+            if (((ZebraUhfServiceImpl) esimUhfService).isTc20OrMc33()) {
+                ((ZebraUhfServiceImpl) esimUhfService).setScanEnable(false);
+            } else {
+                ((ZebraUhfServiceImpl) esimUhfService).setPressScan(false);
+            }
+        }
+        isScanMode = false;
+    }
+
+    private void sendBroadcasts(String s) {
+        Intent intent = new Intent();
+        intent.setAction(s);
+        sendBroadcast(intent);
+    }
+
+    private boolean isAllAssetAdded() {
+        boolean isAllAdded = true;
+        for (Map.Entry<String, DistTypeDetail> next : typeIdAndTypeDetail.entrySet()) {
+            DistTypeDetail value = next.getValue();
+            if (!value.getAmount().equals(value.getAlreadyAdd())) {
+                isAllAdded = false;
+            }
+        }
+        return isAllAdded;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (canRfid && !isScanMode) {
+            if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null) {
+                if (keyCode == esimUhfService.getDownKey()) { //扳机建扫描
+                    esimUhfService.startStopScanning();
+                }
+            } else if (keyCode == Utils.getDiffDownKey()) {
+                ToastUtils.showShort(R.string.not_connect_prompt);
+            }
+            canRfid = false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if(!isScanMode){
+            canRfid = true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }

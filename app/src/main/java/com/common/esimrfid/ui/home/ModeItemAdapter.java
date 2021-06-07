@@ -16,6 +16,7 @@ import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
 import com.common.esimrfid.ui.assetrepair.AssetRepairActivity;
 import com.common.esimrfid.ui.assetsearch.AssetsSearchActivity;
 import com.common.esimrfid.ui.astlist.AssetListActivity;
+import com.common.esimrfid.ui.batchedit.BatchEditActivity;
 import com.common.esimrfid.ui.distribute.DistribureOrderActivity;
 import com.common.esimrfid.ui.identity.IdentityActivity;
 import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
@@ -88,6 +89,9 @@ public class ModeItemAdapter extends BaseAdapter {
                 case 20010:
                     holder.menuIcon.setImageResource(R.drawable.asset_batch);
                     break;
+                case 20011:
+                    holder.menuIcon.setImageResource(R.drawable.asset_batch);
+                    break;
             }
             holder.menuName.setText(menuBean.getMenu_name());
             holder.menuLayout.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +134,10 @@ public class ModeItemAdapter extends BaseAdapter {
                             }
                             break;
                         case 20010:
+                            if (CommonUtils.isNormalClick()) {
+                                mContext.startActivity(new Intent(mContext, BatchEditActivity.class));
+                            }
+                        case 20011:
                             if (CommonUtils.isNormalClick()) {
                                 mContext.startActivity(new Intent(mContext, DistribureOrderActivity.class));
                             }

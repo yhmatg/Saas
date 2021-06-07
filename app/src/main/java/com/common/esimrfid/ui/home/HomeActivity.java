@@ -252,6 +252,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
                         case 20008:
                         case 20009:
                         case 20010:
+                        case 20011:
                             menus.add(menu);
                             break;
                     }

@@ -23,10 +23,12 @@ public class AssetsDistributeAdapter extends RecyclerView.Adapter<AssetsDistribu
     private Context context;
     private List<AssetsListItemInfo> mData;
     private OnDeleteClickListener mDeleteListener;
+    private boolean isFinish;
 
-    public AssetsDistributeAdapter(Context context, List<AssetsListItemInfo> mData) {
+    public AssetsDistributeAdapter(Context context, List<AssetsListItemInfo> mData, boolean isFinish) {
         this.context = context;
         this.mData = mData;
+        this.isFinish = isFinish;
     }
 
     @NonNull
@@ -57,6 +59,9 @@ public class AssetsDistributeAdapter extends RecyclerView.Adapter<AssetsDistribu
                 mDeleteListener.onDeleteClick(assetsInfo);
             }
         });
+        if (isFinish){
+            viewHolder.astDelete.setVisibility(View.GONE);
+        }
     }
 
     @Override

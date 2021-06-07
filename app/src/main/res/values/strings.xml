@@ -339,4 +339,5 @@
     <string name="scan_add_str">二维码扫码添加</string>
     <string name="rfid_add_str">射频扫描添加</string>
     <string name="remove_str">移除</string>
+    <string name="order_status_str">任务状态</string>
 </resources>

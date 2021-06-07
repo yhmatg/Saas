@@ -90,4 +90,6 @@ public class Constants {
 
     public static final String DIST_ORDER_ID = "dist_order_id";
 
+    public static final String DIST_ORDER_IS_FINISH = "dist_order_is_finish";
+
 }

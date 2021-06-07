@@ -105,9 +105,9 @@ public class DistribureOrderActivity extends BaseActivity<DistributeOrderPresent
 
     @Override
     public void handelRejectDistributeAsset(BaseResponse baseResponse) {
-        if("200000".equals(baseResponse.getCode())){
+        if ("200000".equals(baseResponse.getCode())) {
             ToastUtils.showShort("驳回成功");
-        }else {
+        } else {
             ToastUtils.showShort("驳回失败");
         }
     }
@@ -120,8 +120,22 @@ public class DistribureOrderActivity extends BaseActivity<DistributeOrderPresent
     @Override
     public void onStartDist(DistributeOrder distributeOrder) {
         Intent intent = new Intent();
-        intent.setClass(this,DistOrderDetailActivity.class);
-        intent.putExtra(Constants.DIST_ORDER_ID,distributeOrder.getId());
+        boolean distStatus = false;
+        distStatus = "领用已完成".equals(distributeOrder.getOdr_status()) || "领用已驳回".equals(distributeOrder.getOdr_status());
+        intent.setClass(this, DistOrderDetailActivity.class);
+        intent.putExtra(Constants.DIST_ORDER_ID, distributeOrder.getId());
+        intent.putExtra(Constants.DIST_ORDER_IS_FINISH, distStatus);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onItemClick(DistributeOrder distributeOrder) {
+        Intent intent = new Intent();
+        boolean distStatus = false;
+        distStatus = "领用已完成".equals(distributeOrder.getOdr_status()) || "领用已驳回".equals(distributeOrder.getOdr_status());
+        intent.setClass(this, DistOrderDetailActivity.class);
+        intent.putExtra(Constants.DIST_ORDER_ID, distributeOrder.getId());
+        intent.putExtra(Constants.DIST_ORDER_IS_FINISH, distStatus);
         startActivity(intent);
     }
 
