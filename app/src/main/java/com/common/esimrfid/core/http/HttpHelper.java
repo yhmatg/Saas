@@ -126,4 +126,9 @@ public interface HttpHelper {
     Observable<BaseResponse<DistributeOrderPage>> getDistributeOrderPage(String patternName, String conditions, Integer page, Integer size);
 
     Observable<BaseResponse<DistributeOrderDetail>> getDistributeOrderDetail(String id);
+
+    Observable<BaseResponse> confirmDistributeAsset(DistributeOrderDetail distributeOrderDetail);
+
+    Observable<BaseResponse> rejectDistributeAsset( String id);
+
 }

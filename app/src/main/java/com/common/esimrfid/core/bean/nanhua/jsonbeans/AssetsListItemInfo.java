@@ -23,6 +23,16 @@ public class AssetsListItemInfo {
     private String ast_model;
     @Ignore
     private String ast_brand;
+    @Ignore
+    private String org_useddept_name;
+    @Ignore
+    private String ast_epc_code;
+    @Ignore
+    private String type_id;
+    @Ignore
+    private String od_id;
+    @Ignore
+    private String ast_id;
 
     public String getAst_barcode() {
         return ast_barcode;
@@ -121,17 +131,58 @@ public class AssetsListItemInfo {
         this.ast_brand = ast_brand;
     }
 
+    public String getOrg_useddept_name() {
+        return org_useddept_name;
+    }
+
+    public void setOrg_useddept_name(String org_useddept_name) {
+        this.org_useddept_name = org_useddept_name;
+    }
+
+    public String getAst_epc_code() {
+        return ast_epc_code;
+    }
+
+    public void setAst_epc_code(String ast_epc_code) {
+        this.ast_epc_code = ast_epc_code;
+    }
+
+    public String getType_id() {
+        return type_id;
+    }
+
+    public void setType_id(String type_id) {
+        this.type_id = type_id;
+    }
+
+    public String getOd_id() {
+        return od_id;
+    }
+
+    public void setOd_id(String od_id) {
+        this.od_id = od_id;
+    }
+
+    public String getAst_id() {
+        return ast_id;
+    }
+
+    public void setAst_id(String ast_id) {
+        this.ast_id = ast_id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof AssetsListItemInfo)) return false;
         AssetsListItemInfo that = (AssetsListItemInfo) o;
-        return getAst_barcode().equals(that.getAst_barcode()) &&
-                getId().equals(that.getId());
+        return Objects.equals(getAst_barcode(), that.getAst_barcode()) &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getAst_id(), that.getAst_id());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAst_barcode(), getId());
+        return Objects.hash(getAst_barcode(), getId(), getAst_id());
     }
 }

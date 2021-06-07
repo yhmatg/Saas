@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_type_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_2"
+    android:background="@color/white"
+    android:padding="@dimen/dp_10">
+
+    <com.common.esimrfid.customview.CircleNumberProgress
+        android:id="@+id/circle_progress"
+        android:layout_width="@dimen/dp_68"
+        android:layout_height="@dimen/dp_68"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/tv_big_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_18"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_toEndOf="@+id/circle_progress"
+        android:ellipsize="end"
+        android:maxEms="10"
+        android:singleLine="true"
+        android:text="资产大类"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_big_type"
+        android:layout_alignBottom="@+id/tv_big_type"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_toEndOf="@+id/tv_big_type"
+        android:text="-->" />
+
+    <TextView
+        android:id="@+id/tv_small_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_big_type"
+        android:layout_alignBottom="@+id/tv_big_type"
+        android:layout_toEndOf="@+id/tv_to"
+        android:ellipsize="end"
+        android:maxEms="10"
+        android:paddingStart="@dimen/dp_10"
+        android:singleLine="true"
+        android:text="资产小类"
+        android:textColor="@color/home_text_one"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_explain_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_big_type"
+        android:layout_alignStart="@+id/tv_big_type"
+        android:text="领用说明"
+        android:textColor="@color/home_text_one" />
+
+    <TextView
+        android:id="@+id/tv_explain_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_explain_title"
+        android:layout_alignBottom="@+id/tv_explain_title"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_toEndOf="@+id/tv_explain_title"
+        android:text="领用说明内容"
+        android:textColor="@color/home_text_one" />
+
+    <TextView
+        android:id="@+id/tv_collect_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_explain_title"
+        android:layout_alignStart="@+id/tv_big_type"
+        android:text="领用数量"
+        android:textColor="@color/home_text_one" />
+
+    <TextView
+        android:id="@+id/tv_collect_numb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_collect_title"
+        android:layout_alignBottom="@+id/tv_collect_title"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_toEndOf="@+id/tv_collect_title"
+        android:text="10"
+        android:textColor="@color/home_text_one" />
+
+    <TextView
+        android:id="@+id/tv_already_add_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_collect_title"
+        android:layout_alignStart="@+id/tv_big_type"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="已添加"
+        android:textColor="@color/home_text_one" />
+
+    <TextView
+        android:id="@+id/tv_already_add_numb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_already_add_title"
+        android:layout_alignBottom="@+id/tv_already_add_title"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_toEndOf="@+id/tv_already_add_title"
+        android:text="10"
+        android:textColor="@color/home_text_one" />
+
+    <TextView
+        android:id="@+id/tv_not_add_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_already_add_title"
+        android:layout_alignBottom="@+id/tv_already_add_title"
+        android:layout_marginStart="@dimen/dp_30"
+        android:layout_toEndOf="@+id/tv_already_add_numb"
+        android:text="待添加"
+        android:textColor="@color/home_text_one" />
+
+    <TextView
+        android:id="@+id/tv_not_add_numb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_not_add_title"
+        android:layout_alignBottom="@+id/tv_already_add_title"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_toEndOf="@+id/tv_not_add_title"
+        android:text="10"
+        android:textColor="@color/home_text_one" />
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="@dimen/dp_12"
+        android:layout_height="@dimen/dp_12"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/right_arrow" />
+</RelativeLayout>

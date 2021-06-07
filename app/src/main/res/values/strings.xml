@@ -335,4 +335,8 @@
     <string name="distribute_code">领用单号</string>
     <string name="distribute_num_str">应派发</string>
     <string name="distribute_task">派发任务</string>
+    <string name="dist_confirm_str">确认派发</string>
+    <string name="scan_add_str">二维码扫码添加</string>
+    <string name="rfid_add_str">射频扫描添加</string>
+    <string name="remove_str">移除</string>
 </resources>

@@ -444,4 +444,14 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     public Observable<BaseResponse<DistributeOrderDetail>> getDistributeOrderDetail(String id) {
         return mHttpHelper.getDistributeOrderDetail(id);
     }
+
+    @Override
+    public Observable<BaseResponse> confirmDistributeAsset(DistributeOrderDetail distributeOrderDetail) {
+        return mHttpHelper.confirmDistributeAsset(distributeOrderDetail);
+    }
+
+    @Override
+    public Observable<BaseResponse> rejectDistributeAsset(String id) {
+        return mHttpHelper.rejectDistributeAsset(id);
+    }
 }

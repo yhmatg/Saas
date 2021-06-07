@@ -11,7 +11,8 @@ public class DistributeOrder {
     private String odr_remark ;
     private String creator_name ;
     private Date create_date;
-    private Integer assetNumber;
+    //todo 字段名称待确认
+    private Integer apply_detail_count = 0;
 
     public String getId() {
         return id;
@@ -69,12 +70,12 @@ public class DistributeOrder {
         this.create_date = create_date;
     }
 
-    public Integer getAssetNumber() {
-        return assetNumber;
+    public Integer getApply_detail_count() {
+        return apply_detail_count;
     }
 
-    public void setAssetNumber(Integer assetNumber) {
-        this.assetNumber = assetNumber;
+    public void setApply_detail_count(Integer apply_detail_count) {
+        this.apply_detail_count = apply_detail_count;
     }
 
     @Override

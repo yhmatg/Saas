@@ -285,11 +285,20 @@ public interface GeeksApis {
     Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(@Query("tenantid") String tenantid, @Query("config_key") String configKey);
 
     //获取派发列表
-    @POST("sany-api-server/OrderReq/list")
+    @POST("sany-api-server/OrderReq/confirmList")
     Observable<BaseResponse<DistributeOrderPage>> getDistributeOrderPage(@Query("pattern_name") String patternName, @Query("conditions") String conditions, @Query("page") Integer page, @Query("size") Integer size);
 
     //获取派发单详情
-    @GET("sany-api-server/OrderReq/getById")
+    @GET("sany-api-server/OrderReq/getConfirmById")
     Observable<BaseResponse<DistributeOrderDetail>> getDistributeOrderDetail(@Query("id") String id);
+
+    //确认派发
+    @POST("sany-api-server/OrderReq/confirm")
+    Observable<BaseResponse> confirmDistributeAsset(@Body DistributeOrderDetail distributeOrderDetail);
+
+    //驳回派发
+    @GET("sany-api-server/OrderReq/return")
+    Observable<BaseResponse> rejectDistributeAsset(@Query("id") String id);
+
 
 }

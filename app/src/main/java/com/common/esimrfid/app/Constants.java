@@ -85,8 +85,9 @@ public class Constants {
 
     public static final String FIRMWARE_VERSION = "firmware_version";
 
-    public static final String ONLINE_STATUS= "online_status";
+    public static final String ONLINE_STATUS = "online_status";
     //add yhm 20190707 end
 
+    public static final String DIST_ORDER_ID = "dist_order_id";
 
 }

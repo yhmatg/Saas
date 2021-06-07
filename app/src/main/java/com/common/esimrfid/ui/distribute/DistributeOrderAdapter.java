@@ -43,7 +43,7 @@ public class DistributeOrderAdapter extends RecyclerView.Adapter<DistributeOrder
         viewHolder.mDistCode.setText(distributeOrder.getOdr_code());
         viewHolder.mDistCreatorName.setText(distributeOrder.getCreator_name());
         viewHolder.mDistCreatorDate.setText(DateUtils.date2String(distributeOrder.getCreate_date()));
-        viewHolder.mDistNumb.setText(distributeOrder.getAssetNumber());
+        viewHolder.mDistNumb.setText(String.valueOf(distributeOrder.getApply_detail_count()));
         viewHolder.mBtReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +72,7 @@ public class DistributeOrderAdapter extends RecyclerView.Adapter<DistributeOrder
         TextView mDistTitle;
         @BindView(R.id.distribute_code)
         TextView mDistCode;
-        @BindView(R.id.distribute_creator)
+        @BindView(R.id.dist_creator_name)
         TextView mDistCreatorName;
         @BindView(R.id.create_date)
         TextView mDistCreatorDate;

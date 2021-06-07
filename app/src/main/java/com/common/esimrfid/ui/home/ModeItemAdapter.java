@@ -16,7 +16,7 @@ import com.common.esimrfid.ui.assetinventory.AssetInventoryActivity;
 import com.common.esimrfid.ui.assetrepair.AssetRepairActivity;
 import com.common.esimrfid.ui.assetsearch.AssetsSearchActivity;
 import com.common.esimrfid.ui.astlist.AssetListActivity;
-import com.common.esimrfid.ui.batchedit.BatchEditActivity;
+import com.common.esimrfid.ui.distribute.DistribureOrderActivity;
 import com.common.esimrfid.ui.identity.IdentityActivity;
 import com.common.esimrfid.ui.inventorytask.InventoryTaskActivity;
 import com.common.esimrfid.ui.tagwrite.WriteTagActivity;
@@ -131,7 +131,7 @@ public class ModeItemAdapter extends BaseAdapter {
                             break;
                         case 20010:
                             if (CommonUtils.isNormalClick()) {
-                                mContext.startActivity(new Intent(mContext, BatchEditActivity.class));
+                                mContext.startActivity(new Intent(mContext, DistribureOrderActivity.class));
                             }
                             break;
                     }

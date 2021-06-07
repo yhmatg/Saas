@@ -269,6 +269,16 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
+    public Observable<BaseResponse> confirmDistributeAsset(DistributeOrderDetail distributeOrderDetail) {
+        return mGeeksApis.confirmDistributeAsset(distributeOrderDetail);
+    }
+
+    @Override
+    public Observable<BaseResponse> rejectDistributeAsset(String id) {
+        return mGeeksApis.rejectDistributeAsset(id);
+    }
+
+    @Override
     public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {
         return mGeeksApis.createNewRepairOrder(repairParameter);
     }
