@@ -336,9 +336,12 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
             DistTypeDetail distTypeDetail = typeIdAndTypeDetail.get(type_id);
             List<AssetsListItemInfo> assetsListItemInfos = distTypeDetail.getSubList();
             if (assetsListItemInfos != null && !assetsListItemInfos.contains(assetsListItemInfo)) {
-                assetsListItemInfo.setAst_id(assetsListItemInfo.getId());
+                String id = assetsListItemInfo.getId();
+                if(!StringUtils.isEmpty(id)){
+                    assetsListItemInfo.setAst_id(id);
+                    assetsListItemInfo.setId(null);
+                }
                 assetsListItemInfo.setOd_id(mDistributeOrderDetail.getId());
-                assetsListItemInfo.setId(null);
                 assetsListItemInfos.add(assetsListItemInfo);
                 distTypeDetail.setAlreadyAdd(assetsListItemInfos.size());
                 distTypeDetail.setNotAdd(distTypeDetail.getAmount() - assetsListItemInfos.size());

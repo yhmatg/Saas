@@ -6,6 +6,7 @@ import java.util.Objects;
 public class DistributeOrderDetail {
     private String id;
     private String odr_code;
+    private String odr_status ;
     private List<DistTypeDetail> detail;
 
     public String getId() {
@@ -22,6 +23,14 @@ public class DistributeOrderDetail {
 
     public void setOdr_code(String odr_code) {
         this.odr_code = odr_code;
+    }
+
+    public String getOdr_status() {
+        return odr_status;
+    }
+
+    public void setOdr_status(String odr_status) {
+        this.odr_status = odr_status;
     }
 
     public List<DistTypeDetail> getDetail() {

@@ -73,7 +73,6 @@ public class DistribureOrderActivity extends BaseActivity<DistributeOrderPresent
         mRefreshLayout.setEnableAutoLoadMore(false);//使上拉加载具有弹性效果
         mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
-        mPresenter.getDistributeOrderPage("", "", currentPage, pageSize);
     }
 
     @Override
@@ -84,6 +83,13 @@ public class DistribureOrderActivity extends BaseActivity<DistributeOrderPresent
     @Override
     protected void initToolbar() {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isNeedClearData = true;
+        mPresenter.getDistributeOrderPage("", "", currentPage, pageSize);
     }
 
     @Override
