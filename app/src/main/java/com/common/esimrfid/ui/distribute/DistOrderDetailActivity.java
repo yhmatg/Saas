@@ -233,11 +233,14 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
         typeIdAndTypeDetail.clear();
         ArrayList<Node> selectAssetsTypes = new ArrayList<>();
         for (DistTypeDetail typeDetail : typeList) {
-            Node node = new Node(typeDetail.getType_id(), 100, typeDetail.getType_name());
+            Node node = new Node(typeDetail.getType_id(), "-1", typeDetail.getType_name());
             selectAssetsTypes.add(node);
             typeIdAndTypeDetail.put(typeDetail.getType_id(), typeDetail);
         }
         conditions.setmSelectAssetsTypes(selectAssetsTypes);
+        ArrayList<Node> selectAssetsStatus = new ArrayList<>();
+        selectAssetsStatus.add(new Node("0", "-1", "闲置"));
+        conditions.setmSelectAssetsStatus(selectAssetsStatus);
         mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
     }
 
@@ -247,7 +250,6 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
             barcodeAndAsset.put(assetsInfo.getAst_barcode(), assetsInfo);
             epcAndAsset.put(assetsInfo.getAst_epc_code(), assetsInfo);
         }
-
     }
 
     @Override
@@ -311,6 +313,7 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         unregisterReceiver(receiver);
         if (esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl) {
             SystemProperties.set("persist.sys.PistolKey", "uhf");
@@ -321,7 +324,6 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
                 ((ZebraUhfServiceImpl) esimUhfService).setPressScan(false);
             }
         }
-        EventBus.getDefault().unregister(this);
     }
 
     private void handleScannedOrRfidStr(String ecpOrBarcode, boolean isEpc) {
@@ -420,5 +422,18 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
             canRfid = true;
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()) {
+            esimUhfService.stopScanning();
+        }
     }
 }

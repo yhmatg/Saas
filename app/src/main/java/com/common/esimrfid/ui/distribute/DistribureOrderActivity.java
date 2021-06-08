@@ -15,6 +15,7 @@ import com.common.esimrfid.contract.distribute.DistributeOrderContract;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrder;
 import com.common.esimrfid.presenter.distribute.DistributeOrderPresenter;
+import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -41,6 +42,8 @@ public class DistribureOrderActivity extends BaseActivity<DistributeOrderPresent
     private int currentPage = 1;
     private int pageSize = 10;
     private boolean isNeedClearData;
+    private int mRejectPosition;
+    private DistributeOrder mRejectDistOrder;
 
     @Override
     public DistributeOrderPresenter initPresenter() {
@@ -112,6 +115,10 @@ public class DistribureOrderActivity extends BaseActivity<DistributeOrderPresent
     @Override
     public void handelRejectDistributeAsset(BaseResponse baseResponse) {
         if ("200000".equals(baseResponse.getCode())) {
+            if (mRejectDistOrder != null) {
+                mRejectDistOrder.setOdr_status("领用已完成");
+                mAdapter.notifyItemChanged(mRejectPosition);
+            }
             ToastUtils.showShort("驳回成功");
         } else {
             ToastUtils.showShort("驳回失败");
@@ -119,30 +126,38 @@ public class DistribureOrderActivity extends BaseActivity<DistributeOrderPresent
     }
 
     @Override
-    public void onRejectDist(DistributeOrder distributeOrder) {
-        mPresenter.rejectDistributeAsset(distributeOrder.getId());
+    public void onRejectDist(DistributeOrder distributeOrder, int position) {
+        if (CommonUtils.isNormalClick()) {
+            mRejectPosition = position;
+            mRejectDistOrder = distributeOrder;
+            mPresenter.rejectDistributeAsset(distributeOrder.getId());
+        }
     }
 
     @Override
     public void onStartDist(DistributeOrder distributeOrder) {
-        Intent intent = new Intent();
-        boolean distStatus = false;
-        distStatus = "领用已完成".equals(distributeOrder.getOdr_status()) || "领用已驳回".equals(distributeOrder.getOdr_status());
-        intent.setClass(this, DistOrderDetailActivity.class);
-        intent.putExtra(Constants.DIST_ORDER_ID, distributeOrder.getId());
-        intent.putExtra(Constants.DIST_ORDER_IS_FINISH, distStatus);
-        startActivity(intent);
+        if (CommonUtils.isNormalClick()) {
+            Intent intent = new Intent();
+            boolean distStatus = false;
+            distStatus = "领用已完成".equals(distributeOrder.getOdr_status()) || "领用已驳回".equals(distributeOrder.getOdr_status());
+            intent.setClass(this, DistOrderDetailActivity.class);
+            intent.putExtra(Constants.DIST_ORDER_ID, distributeOrder.getId());
+            intent.putExtra(Constants.DIST_ORDER_IS_FINISH, distStatus);
+            startActivity(intent);
+        }
     }
 
     @Override
     public void onItemClick(DistributeOrder distributeOrder) {
-        Intent intent = new Intent();
-        boolean distStatus = false;
-        distStatus = "领用已完成".equals(distributeOrder.getOdr_status()) || "领用已驳回".equals(distributeOrder.getOdr_status());
-        intent.setClass(this, DistOrderDetailActivity.class);
-        intent.putExtra(Constants.DIST_ORDER_ID, distributeOrder.getId());
-        intent.putExtra(Constants.DIST_ORDER_IS_FINISH, distStatus);
-        startActivity(intent);
+        if (CommonUtils.isNormalClick()) {
+            Intent intent = new Intent();
+            boolean distStatus = false;
+            distStatus = "领用已完成".equals(distributeOrder.getOdr_status()) || "领用已驳回".equals(distributeOrder.getOdr_status());
+            intent.setClass(this, DistOrderDetailActivity.class);
+            intent.putExtra(Constants.DIST_ORDER_ID, distributeOrder.getId());
+            intent.putExtra(Constants.DIST_ORDER_IS_FINISH, distStatus);
+            startActivity(intent);
+        }
     }
 
     @OnClick({R.id.title_back})

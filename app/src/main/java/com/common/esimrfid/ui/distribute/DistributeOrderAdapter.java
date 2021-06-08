@@ -74,7 +74,7 @@ public class DistributeOrderAdapter extends RecyclerView.Adapter<DistributeOrder
             @Override
             public void onClick(View v) {
                 if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onRejectDist(distributeOrder);
+                    mOnItemClickListener.onRejectDist(distributeOrder,i);
                 }
             }
         });
@@ -130,7 +130,7 @@ public class DistributeOrderAdapter extends RecyclerView.Adapter<DistributeOrder
     }
 
     public interface OnItemClickListener {
-        void onRejectDist(DistributeOrder distributeOrder);
+        void onRejectDist(DistributeOrder distributeOrder,int position);
 
         void onStartDist(DistributeOrder distributeOrder);
 
