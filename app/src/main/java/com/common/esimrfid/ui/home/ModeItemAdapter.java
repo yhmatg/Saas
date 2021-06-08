@@ -90,7 +90,7 @@ public class ModeItemAdapter extends BaseAdapter {
                     holder.menuIcon.setImageResource(R.drawable.asset_batch);
                     break;
                 case 20011:
-                    holder.menuIcon.setImageResource(R.drawable.asset_batch);
+                    holder.menuIcon.setImageResource(R.drawable.distribute_task);
                     break;
             }
             holder.menuName.setText(menuBean.getMenu_name());
