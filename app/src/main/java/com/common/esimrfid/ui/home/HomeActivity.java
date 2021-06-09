@@ -49,6 +49,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.Menu;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
+import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
 import com.common.esimrfid.presenter.home.HomePresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
@@ -392,6 +393,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         if (titleAndLogoResult != null) {
             if (!StringUtils.isEmpty(titleAndLogoResult.getConfig_value())) {
                 TitleLogoBean titleLogoBean = JSON.parseObject(titleAndLogoResult.getConfig_value(), TitleLogoBean.class);
+                String appLogo = titleLogoBean.getAppLogo();
+                appLogo = PreferenceHelperImpl.getInstance().getHostUrl() + appLogo.substring(2);
+                titleLogoBean.setAppLogo(appLogo);
                 mCompanyName.setText(titleLogoBean.getAppTitle());
                 RequestOptions options = new RequestOptions()
                         .fallback(R.drawable.home_logo) //url为空的时候,显示的图片

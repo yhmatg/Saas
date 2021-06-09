@@ -236,6 +236,9 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
             Node node = new Node(typeDetail.getType_id(), "-1", typeDetail.getType_name());
             selectAssetsTypes.add(node);
             typeIdAndTypeDetail.put(typeDetail.getType_id(), typeDetail);
+            if(!distOrderIsFinish){
+                typeDetail.setNotAdd(typeDetail.getAmount());
+            }
         }
         conditions.setmSelectAssetsTypes(selectAssetsTypes);
         ArrayList<Node> selectAssetsStatus = new ArrayList<>();
@@ -346,7 +349,8 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
                 assetsListItemInfo.setOd_id(mDistributeOrderDetail.getId());
                 assetsListItemInfos.add(assetsListItemInfo);
                 distTypeDetail.setAlreadyAdd(assetsListItemInfos.size());
-                distTypeDetail.setNotAdd(distTypeDetail.getAmount() - assetsListItemInfos.size());
+                int notAdd = distTypeDetail.getAmount() - assetsListItemInfos.size();
+                distTypeDetail.setNotAdd(notAdd >= 0 ? notAdd :0);
                 typeAdapter.notifyDataSetChanged();
             }
         }
@@ -355,8 +359,18 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
     @Override
     public void onDeleteClick(AssetsListItemInfo assetsInfo) {
         mDistTypeDetail.getSubList().remove(assetsInfo);
-        Integer alreadyAdd = mDistTypeDetail.getAlreadyAdd() - 1;
-        mDistTypeDetail.setAlreadyAdd(alreadyAdd);
+        Integer alreadyAdd = mDistTypeDetail.getAlreadyAdd();
+        Integer amount = mDistTypeDetail.getAmount();
+        int notAdded;
+        Integer finalAlreadyAdd = alreadyAdd - 1;
+        if(finalAlreadyAdd >= amount){
+            notAdded = 0;
+        }else {
+            notAdded = amount - finalAlreadyAdd;
+        }
+        mDistTypeDetail.setAlreadyAdd(finalAlreadyAdd);
+
+        mDistTypeDetail.setNotAdd(notAdded);
         typeAdapter.notifyDataSetChanged();
     }
 
