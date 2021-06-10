@@ -16,101 +16,56 @@
         android:background="@drawable/samll_rectangle" />
 
     <TextView
-        android:id="@+id/tv_ast_name"
+        android:id="@+id/tv_ast_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_5"
         android:layout_marginBottom="@dimen/dp_10"
         android:layout_toEndOf="@+id/head_rec"
-        android:text="@string/assets_name"
+        android:text="@string/assets_id"
         android:textColor="@color/home_text_one"
         android:textSize="@dimen/sp_13" />
 
     <TextView
-        android:id="@+id/tv_num_name"
+        android:id="@+id/tv_name_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_ast_name"
+        android:layout_below="@+id/tv_ast_code"
         android:layout_marginBottom="@dimen/dp_10"
-        android:text="@string/assets_id"
+        android:text="@string/ast_discribe_str"
         android:textColor="@color/home_text_two"
         android:textSize="@dimen/sp_13" />
 
     <TextView
-        android:id="@+id/tv_asset_num"
+        android:id="@+id/tv_asset_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_ast_name"
-        android:layout_marginStart="@dimen/dp_15"
-        android:layout_toEndOf="@+id/tv_num_name"
+        android:layout_alignTop="@+id/tv_name_title"
+        android:layout_marginStart="@dimen/dp_60"
+        android:layout_toEndOf="@+id/tv_name_title"
         android:textColor="@color/setting_text_one"
         android:textSize="@dimen/sp_13" />
 
     <TextView
-        android:id="@+id/tv_ast_loc"
+        android:id="@+id/tv_mode_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_num_name"
+        android:layout_below="@+id/tv_name_title"
         android:layout_marginBottom="@dimen/dp_10"
-        android:text="@string/store_loc"
+        android:text="@string/extera_ast_discribe"
         android:textColor="@color/home_text_two"
         android:textSize="@dimen/sp_13" />
 
     <TextView
-        android:id="@+id/tv_ast_loc_name"
+        android:id="@+id/tv_ast_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_num_name"
+        android:layout_alignTop="@+id/tv_mode_title"
+        android:layout_alignStart="@+id/tv_asset_name"
         android:layout_marginStart="@dimen/dp_15"
-        android:layout_toEndOf="@+id/tv_num_name"
+        android:layout_toEndOf="@+id/tv_mode_title"
         android:textColor="@color/setting_text_one"
         android:textSize="@dimen/sp_13" />
-
-    <TextView
-        android:id="@+id/tv_use_depart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_ast_loc"
-        android:layout_marginBottom="@dimen/dp_10"
-        android:text="@string/inv_usedepart"
-        android:textColor="@color/home_text_two"
-        android:textSize="@dimen/sp_13" />
-
-    <TextView
-        android:id="@+id/tv_depart_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_ast_loc"
-        android:layout_marginStart="@dimen/dp_15"
-        android:layout_toEndOf="@+id/tv_num_name"
-        android:textColor="@color/setting_text_one"
-        android:textSize="@dimen/sp_13" />
-
-    <TextView
-        android:id="@+id/tv_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_use_depart"
-        android:text="@string/user"
-        android:textColor="@color/home_text_two"
-        android:textSize="@dimen/sp_13" />
-
-    <TextView
-        android:id="@+id/tv_user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_use_depart"
-        android:layout_marginStart="@dimen/dp_15"
-        android:layout_toEndOf="@+id/tv_num_name"
-        android:textColor="@color/setting_text_one"
-        android:textSize="@dimen/sp_13" />
-
-    <ImageView
-        android:id="@+id/inv_status_img"
-        android:layout_width="@dimen/dp_56"
-        android:layout_height="@dimen/dp_56"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/tv_remove"

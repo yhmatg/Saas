@@ -340,4 +340,6 @@
     <string name="rfid_add_str">射频扫描添加</string>
     <string name="remove_str">移除</string>
     <string name="order_status_str">任务状态</string>
+    <string name="ast_discribe_str">资产描述</string>
+    <string name="extera_ast_discribe">附加资产描述</string>
 </resources>

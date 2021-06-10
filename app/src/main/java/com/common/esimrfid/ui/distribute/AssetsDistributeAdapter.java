@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,13 +43,9 @@ public class AssetsDistributeAdapter extends RecyclerView.Adapter<AssetsDistribu
         String astName = TextUtils.isEmpty(assetsInfo.getAst_name()) ? "" : assetsInfo.getAst_name();
         viewHolder.tvAstName.setText(astName);
         String astBarcode = TextUtils.isEmpty(assetsInfo.getAst_barcode()) ? "" : assetsInfo.getAst_barcode();
-        viewHolder.tvAssetNum.setText(astBarcode);
-        String storeLoc = assetsInfo.getLoc_name() == null ? "" : assetsInfo.getLoc_name();
-        viewHolder.tvLocName.setText(storeLoc);
-        String useDepart = assetsInfo.getOrg_useddept_name() == null ? "" : assetsInfo.getOrg_useddept_name();
-        viewHolder.tvDepartName.setText(useDepart);
-        String userName = assetsInfo.getUser_name() == null ? "" : assetsInfo.getUser_name();
-        viewHolder.tvUserName.setText(userName);
+        viewHolder.tvAstCode.setText(astBarcode);
+        String astMode = assetsInfo.getAst_model() == null ? "" : assetsInfo.getAst_model();
+        viewHolder.tvAstMode.setText(astMode);
         viewHolder.astDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,18 +67,12 @@ public class AssetsDistributeAdapter extends RecyclerView.Adapter<AssetsDistribu
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.item_detail)
         RelativeLayout item;
-        @BindView(R.id.tv_ast_name)
+        @BindView(R.id.tv_ast_code)
+        TextView tvAstCode;
+        @BindView(R.id.tv_asset_name)
         TextView tvAstName;
-        @BindView(R.id.tv_asset_num)
-        TextView tvAssetNum;
-        @BindView(R.id.tv_ast_loc_name)
-        TextView tvLocName;
-        @BindView(R.id.tv_depart_name)
-        TextView tvDepartName;
-        @BindView(R.id.tv_user_name)
-        TextView tvUserName;
-        @BindView(R.id.inv_status_img)
-        ImageView statusImg;
+        @BindView(R.id.tv_ast_mode)
+        TextView tvAstMode;
         @BindView(R.id.tv_remove)
         TextView astDelete;
 
