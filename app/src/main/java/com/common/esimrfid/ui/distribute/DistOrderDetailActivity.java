@@ -318,15 +318,7 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         unregisterReceiver(receiver);
-        if (esimUhfService instanceof XinLianUhfServiceImp || esimUhfService instanceof NewSpeedataUhfServiceImpl) {
-            SystemProperties.set("persist.sys.PistolKey", "uhf");
-        } else if (esimUhfService instanceof ZebraUhfServiceImpl) {
-            if (((ZebraUhfServiceImpl) esimUhfService).isTc20OrMc33()) {
-                ((ZebraUhfServiceImpl) esimUhfService).setScanEnable(false);
-            } else {
-                ((ZebraUhfServiceImpl) esimUhfService).setPressScan(false);
-            }
-        }
+        disableScan();
     }
 
     private void handleScannedOrRfidStr(String ecpOrBarcode, boolean isEpc) {
@@ -353,6 +345,8 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
                 distTypeDetail.setNotAdd(notAdd >= 0 ? notAdd :0);
                 typeAdapter.notifyDataSetChanged();
             }
+        }else {
+            ToastUtils.showShort("添加的资产与用户申领的资产不一致");
         }
     }
 
@@ -446,8 +440,14 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
     @Override
     protected void onPause() {
         super.onPause();
+        //停止rfid
         if (esimUhfService != null && EsimAndroidApp.getIEsimUhfService() != null && esimUhfService.isStart()) {
             esimUhfService.stopScanning();
+        }
+        //停止条码扫描
+        if(isScanMode){
+            sendBroadcasts("com.geomobile.se4500barcodestop");
+            SystemProperties.set("persist.sys.scanstopimme", "true");
         }
     }
 }
