@@ -116,7 +116,7 @@ public class DistribureOrderActivity extends BaseActivity<DistributeOrderPresent
     public void handelRejectDistributeAsset(BaseResponse baseResponse) {
         if ("200000".equals(baseResponse.getCode())) {
             if (mRejectDistOrder != null) {
-                mRejectDistOrder.setOdr_status("领用已完成");
+                mRejectDistOrder.setOdr_status("派发已驳回");
                 mAdapter.notifyItemChanged(mRejectPosition);
             }
             ToastUtils.showShort("驳回成功");
@@ -139,7 +139,7 @@ public class DistribureOrderActivity extends BaseActivity<DistributeOrderPresent
         if (CommonUtils.isNormalClick()) {
             Intent intent = new Intent();
             boolean distStatus = false;
-            distStatus = "领用已完成".equals(distributeOrder.getOdr_status()) || "领用已驳回".equals(distributeOrder.getOdr_status());
+            distStatus = "领用已完成".equals(distributeOrder.getOdr_status()) || "派发已驳回".equals(distributeOrder.getOdr_status());
             intent.setClass(this, DistOrderDetailActivity.class);
             intent.putExtra(Constants.DIST_ORDER_ID, distributeOrder.getId());
             intent.putExtra(Constants.DIST_ORDER_IS_FINISH, distStatus);
@@ -152,7 +152,7 @@ public class DistribureOrderActivity extends BaseActivity<DistributeOrderPresent
         if (CommonUtils.isNormalClick()) {
             Intent intent = new Intent();
             boolean distStatus = false;
-            distStatus = "领用已完成".equals(distributeOrder.getOdr_status()) || "领用已驳回".equals(distributeOrder.getOdr_status());
+            distStatus = "领用已完成".equals(distributeOrder.getOdr_status()) || "派发已驳回".equals(distributeOrder.getOdr_status());
             intent.setClass(this, DistOrderDetailActivity.class);
             intent.putExtra(Constants.DIST_ORDER_ID, distributeOrder.getId());
             intent.putExtra(Constants.DIST_ORDER_IS_FINISH, distStatus);

@@ -50,7 +50,7 @@ public class DistributeOrderAdapter extends RecyclerView.Adapter<DistributeOrder
         boolean isEnable = true;
         Drawable drawable = mContext.getDrawable(R.drawable.bt_background);
         switch (odrStatus) {
-            case "领用审批中":
+            case "领用待派发":
                 changeStatus= "待派发";
                 isEnable = true;
                 drawable = mContext.getDrawable(R.drawable.bt_background);
@@ -60,7 +60,7 @@ public class DistributeOrderAdapter extends RecyclerView.Adapter<DistributeOrder
                 isEnable = false;
                 drawable = mContext.getDrawable(R.drawable.bt_disable_background);
                 break;
-            case "领用已驳回":
+            case "派发已驳回":
                 changeStatus= "已驳回";
                 isEnable = false;
                 drawable = mContext.getDrawable(R.drawable.bt_disable_background);
