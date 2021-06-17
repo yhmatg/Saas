@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_finish_inv"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_confirm_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:text="确认盘点"
+            android:textColor="@color/home_text_one"
+            android:textSize="@dimen/sp_18"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_add_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_confirm_title"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:gravity="center"
+            android:textSize="@dimen/sp_16"
+            android:text="添加标签标记"
+            android:textColor="@color/home_text_one" />
+
+        <RadioGroup
+            android:id="@+id/rg_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_add_tag"
+            android:layout_marginStart="@dimen/dp_30"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_tag_damage"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="标签损坏" />
+
+            <RadioButton
+                android:id="@+id/rb_tag_lose"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="@dimen/dp_28"
+                android:text="标签丢失" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/add_ast_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rg_tag"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:gravity="center"
+            android:textSize="@dimen/sp_16"
+            android:text="添加盘点标记"
+            android:textColor="@color/home_text_one" />
+
+        <com.common.esimrfid.customview.RadioGroupX
+            android:id="@+id/rg_ast_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_ast_tag"
+            android:layout_marginStart="@dimen/dp_30"
+            android:columnCount="2">
+
+            <RadioButton
+                android:id="@+id/rb_tag_inved"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="盘点一致  " />
+
+            <RadioButton
+                android:id="@+id/rb_tag_more"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="盘盈" />
+
+            <RadioButton
+                android:id="@+id/rb_tag_repair"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/dp_4"
+                android:text="资产外部维修" />
+
+            <RadioButton
+                android:id="@+id/rb_out_use"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/dp_4"
+                android:text="外部单位使用" />
+
+            <RadioButton
+                android:id="@+id/rb_tag_transform"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/dp_4"
+                android:text="资产交接中" />
+
+            <RadioButton
+                android:id="@+id/rb_tag_handel"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/dp_4"
+                android:text="资产处置中" />
+        </com.common.esimrfid.customview.RadioGroupX>
+
+        <View
+            android:id="@+id/divider_one"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_below="@+id/rg_ast_tag"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@color/login_line_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_below="@+id/divider_one"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/cancel_opt"
+                android:textColor="@color/titele_color"
+                android:textSize="@dimen/sp_16" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/login_line_color" />
+
+            <TextView
+                android:id="@+id/tv_sure"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/sure_opt"
+                android:textColor="@color/titele_color"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

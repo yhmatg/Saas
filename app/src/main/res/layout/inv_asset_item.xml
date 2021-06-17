@@ -127,15 +127,37 @@
         android:id="@+id/tv_tag_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/tv_ast_name"
-        android:background="@drawable/add_tag_white_shape"
         android:layout_alignTop="@+id/tv_ast_name"
         android:layout_alignBottom="@+id/tv_ast_name"
         android:layout_marginStart="@dimen/dp_15"
-        android:text="@string/add_tag"
+        android:layout_toEndOf="@+id/tv_ast_name"
+        android:background="@drawable/add_tag_white_shape"
         android:paddingStart="@dimen/dp_2"
         android:paddingEnd="@dimen/dp_2"
+        android:text="@string/add_tag"
         android:textColor="@color/titele_color"
-        android:visibility="visible"
-        android:textSize="@dimen/sp_12" />
+        android:textSize="@dimen/sp_12"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/bt_tag_lose"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_35"
+        android:layout_below="@+id/tv_user"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/bt_samll_corner_bg"
+        android:text="标为盘空"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14" />
+
+    <Button
+        android:id="@+id/bt_tag_confirm"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_35"
+        android:layout_alignTop="@+id/bt_tag_lose"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/bt_samll_corner_bg"
+        android:text="确认盘点"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_14" />
 </RelativeLayout>

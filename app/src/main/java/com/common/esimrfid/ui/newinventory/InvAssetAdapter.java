@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -81,25 +82,35 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         Integer status = invDetail.getInvdt_status().getCode();
          if (status == 0) {
             viewHolder.statusImg.setVisibility(View.GONE);
-            viewHolder.tvAddTag.setVisibility(View.VISIBLE);
+            viewHolder.tvAddTag.setVisibility(View.GONE);
+             viewHolder.btTagLose.setVisibility(View.VISIBLE);
+             viewHolder.btTagConfirm.setVisibility(View.VISIBLE);
         } else if (status == 1) {
             viewHolder.statusImg.setImageResource(R.drawable.asset_inv_less);
             viewHolder.statusImg.setVisibility(View.VISIBLE);
             viewHolder.tvAddTag.setVisibility(View.GONE);
+             viewHolder.btTagLose.setVisibility(View.GONE);
+             viewHolder.btTagConfirm.setVisibility(View.GONE);
 
         } else if (status == 2) {
             viewHolder.statusImg.setImageResource(R.drawable.asset_inv_more);
             viewHolder.statusImg.setVisibility(View.VISIBLE);
             viewHolder.tvAddTag.setVisibility(View.GONE);
+             viewHolder.btTagLose.setVisibility(View.GONE);
+             viewHolder.btTagConfirm.setVisibility(View.GONE);
 
         } else if (status == 10 || status == 101) {
             viewHolder.statusImg.setImageResource(R.drawable.asset_inved);
             viewHolder.statusImg.setVisibility(View.VISIBLE);
             viewHolder.tvAddTag.setVisibility(View.GONE);
+             viewHolder.btTagLose.setVisibility(View.GONE);
+             viewHolder.btTagConfirm.setVisibility(View.GONE);
 
         }
         if (!"InventoryTaskActivity".equals(EsimAndroidApp.activityFrom)) {
             viewHolder.tvAddTag.setVisibility(View.GONE);
+            viewHolder.btTagLose.setVisibility(View.GONE);
+            viewHolder.btTagConfirm.setVisibility(View.GONE);
         }
         viewHolder.tvAddTag.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,11 +129,28 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         }else {
             viewHolder.tvTagContent.setVisibility(View.GONE);
         }
-
+        viewHolder.btTagLose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onTagLoseClick(invDetail);
+                }
+            }
+        });
+        viewHolder.btTagConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onTagConfirmClick(invDetail);
+                }
+            }
+        });
     }
 
     public interface OnItemClickListener {
         void onItemClick(InventoryDetail invDetailBean, TextView tvAddTag);
+        void onTagLoseClick(InventoryDetail invDetailBean);
+        void onTagConfirmClick(InventoryDetail invDetailBean);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -153,6 +181,10 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
         ImageView statusImg;
         @BindView(R.id.tv_tag_content)
         TextView tvTagContent;
+        @BindView(R.id.bt_tag_lose)
+        Button btTagLose;
+        @BindView(R.id.bt_tag_confirm)
+        Button btTagConfirm;
 
         ViewHolder(View view) {
             super(view);

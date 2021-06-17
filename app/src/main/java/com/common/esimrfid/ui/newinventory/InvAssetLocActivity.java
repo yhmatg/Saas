@@ -1,11 +1,13 @@
 package com.common.esimrfid.ui.newinventory;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -13,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
@@ -20,8 +23,10 @@ import com.common.esimrfid.contract.home.InvAssetLocContract;
 import com.common.esimrfid.core.bean.inventorytask.EpcBean;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.customview.CustomPopWindow;
+import com.common.esimrfid.customview.RadioGroupX;
 import com.common.esimrfid.presenter.home.InvAssetsLocPresenter;
 import com.common.esimrfid.utils.CommonUtils;
+import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -73,8 +78,14 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
     RadioButton preRadioButton;
     CustomPopWindow mCustomPopWindow;
     InventoryDetail selectNotInvBean;
+    InventoryDetail selectConfirmInvBean;
     TextView mAddTag;
     TextView mPrePopTextview;
+    private MaterialDialog invTagLosDialog;
+    private MaterialDialog invTagConfirmDialog;
+    private String tag;
+    private String assetTag;
+
     @Override
     public InvAssetsLocPresenter initPresenter() {
         return new InvAssetsLocPresenter();
@@ -96,13 +107,13 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         assetInvRecycler.setLayoutManager(new LinearLayoutManager(this));
         assetInvRecycler.setAdapter(mAssetAdapter);
         initPopWindow();
-        if(!"InventoryTaskActivity".equals(EsimAndroidApp.activityFrom)){
+        if (!"InventoryTaskActivity".equals(EsimAndroidApp.activityFrom)) {
             mInvButton.setVisibility(View.GONE);
         }
     }
 
     private void initPopWindow() {
-        View contentView = LayoutInflater.from(this).inflate(R.layout.add_tag_layout,null);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.add_tag_layout, null);
         TextView tvLost = contentView.findViewById(R.id.tv_ast_lost);
         TextView tvTransfer = contentView.findViewById(R.id.tv_transfer);
         TextView tvUserOut = contentView.findViewById(R.id.tv_user_out);
@@ -111,7 +122,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         tvLost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectNotInvBean != null){
+                if (selectNotInvBean != null) {
                     tvLost.setTextColor(getColor(R.color.titele_color));
                     mPrePopTextview = tvLost;
                     selectNotInvBean.setInvdt_sign("资产已丢失");
@@ -122,9 +133,9 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("未盘点" + mNotInvDetails.size());
                     invLessRadio.setText("盘亏" + mLessDetails.size());
-                    if(currentShowStatus == 0){
+                    if (currentShowStatus == 0) {
                         mCurrentDetails.remove(selectNotInvBean);
-                    }else if(currentShowStatus == 1){
+                    } else if (currentShowStatus == 1) {
                         mCurrentDetails.add(selectNotInvBean);
                     }
                     mAssetAdapter.notifyDataSetChanged();
@@ -136,7 +147,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         tvTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectNotInvBean != null){
+                if (selectNotInvBean != null) {
                     tvTransfer.setTextColor(getColor(R.color.titele_color));
                     mPrePopTextview = tvTransfer;
                     selectNotInvBean.setInvdt_sign("资产转移了");
@@ -147,9 +158,9 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("未盘点" + mNotInvDetails.size());
                     invLessRadio.setText("盘亏" + mLessDetails.size());
-                    if(currentShowStatus == 0){
+                    if (currentShowStatus == 0) {
                         mCurrentDetails.remove(selectNotInvBean);
-                    }else if(currentShowStatus == 1){
+                    } else if (currentShowStatus == 1) {
                         mCurrentDetails.add(selectNotInvBean);
                     }
                     mAssetAdapter.notifyDataSetChanged();
@@ -161,7 +172,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         tvUserOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectNotInvBean != null){
+                if (selectNotInvBean != null) {
                     tvUserOut.setTextColor(getColor(R.color.titele_color));
                     mPrePopTextview = tvUserOut;
                     selectNotInvBean.setInvdt_sign("人员外出中");
@@ -172,9 +183,9 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("未盘点" + mNotInvDetails.size());
                     invLessRadio.setText("盘亏" + mLessDetails.size());
-                    if(currentShowStatus == 0){
+                    if (currentShowStatus == 0) {
                         mCurrentDetails.remove(selectNotInvBean);
-                    }else if(currentShowStatus == 1){
+                    } else if (currentShowStatus == 1) {
                         mCurrentDetails.add(selectNotInvBean);
                     }
                     mAssetAdapter.notifyDataSetChanged();
@@ -186,7 +197,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         tvAstBorrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectNotInvBean != null){
+                if (selectNotInvBean != null) {
                     tvAstBorrow.setTextColor(getColor(R.color.titele_color));
                     mPrePopTextview = tvAstBorrow;
                     selectNotInvBean.setInvdt_sign("资产外借中");
@@ -197,9 +208,9 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("未盘点" + mNotInvDetails.size());
                     invLessRadio.setText("盘亏" + mLessDetails.size());
-                    if(currentShowStatus == 0){
+                    if (currentShowStatus == 0) {
                         mCurrentDetails.remove(selectNotInvBean);
-                    }else if(currentShowStatus == 1){
+                    } else if (currentShowStatus == 1) {
                         mCurrentDetails.add(selectNotInvBean);
                     }
                     mAssetAdapter.notifyDataSetChanged();
@@ -211,7 +222,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         tvAstRepair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectNotInvBean != null){
+                if (selectNotInvBean != null) {
                     tvAstRepair.setTextColor(getColor(R.color.titele_color));
                     mPrePopTextview = tvAstRepair;
                     selectNotInvBean.setInvdt_sign("资产维修中");
@@ -222,9 +233,9 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("未盘点" + mNotInvDetails.size());
                     invLessRadio.setText("盘亏" + mLessDetails.size());
-                    if(currentShowStatus == 0){
+                    if (currentShowStatus == 0) {
                         mCurrentDetails.remove(selectNotInvBean);
-                    }else if(currentShowStatus == 1){
+                    } else if (currentShowStatus == 1) {
                         mCurrentDetails.add(selectNotInvBean);
                     }
                     mAssetAdapter.notifyDataSetChanged();
@@ -233,14 +244,14 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 }
             }
         });
-        mCustomPopWindow= new CustomPopWindow.PopupWindowBuilder(this)
+        mCustomPopWindow = new CustomPopWindow.PopupWindowBuilder(this)
                 .setView(contentView)
                 .enableBackgroundDark(false)
-                .size(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT)
+                .size(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setOnDissmissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
-                        if(mPrePopTextview != null){
+                        if (mPrePopTextview != null) {
                             mPrePopTextview.setTextColor(getColor(R.color.setting_text_one));
                         }
                         mAddTag.setTextColor(getColor(R.color.titele_color));
@@ -278,7 +289,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 finish();
                 break;
             case R.id.start_inv:
-                if(CommonUtils.isNormalClick()){
+                if (CommonUtils.isNormalClick()) {
                     Intent intent = new Intent();
                     intent.putExtra(INV_ID, mInvId);
                     intent.putExtra(LOC_IC, mLocId);
@@ -328,9 +339,9 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 mAssetAdapter.notifyDataSetChanged();
                 break;
         }
-        if(mCurrentDetails.size() > 0){
+        if (mCurrentDetails.size() > 0) {
             empty_layout.setVisibility(View.GONE);
-        }else {
+        } else {
             empty_layout.setVisibility(View.VISIBLE);
         }
     }
@@ -367,12 +378,12 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
             mCurrentDetails.addAll(mInvedDetails);
         }
         mAssetAdapter.notifyDataSetChanged();
-        if(mCurrentDetails.size() > 0){
+        if (mCurrentDetails.size() > 0) {
             empty_layout.setVisibility(View.GONE);
-        }else {
+        } else {
             empty_layout.setVisibility(View.VISIBLE);
         }
-        if(mNotInvDetails.size() == 0){
+        if (mNotInvDetails.size() == 0) {
             mInvButton.setVisibility(View.GONE);
         }
     }
@@ -384,8 +395,182 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
 
     @Override
     public void onItemClick(InventoryDetail invDetailBean, TextView tvAddTag) {
-        mCustomPopWindow.showAsDropDown(tvAddTag,-160,20);
+        mCustomPopWindow.showAsDropDown(tvAddTag, -160, 20);
         selectNotInvBean = invDetailBean;
         mAddTag = tvAddTag;
     }
+
+    @Override
+    public void onTagLoseClick(InventoryDetail invDetailBean) {
+        selectNotInvBean = invDetailBean;
+        showInvTagLoseDialog();
+    }
+
+    @Override
+    public void onTagConfirmClick(InventoryDetail invDetailBean) {
+        selectConfirmInvBean = invDetailBean;
+        showInvTagConfirmDialog();
+    }
+
+    public void showInvTagLoseDialog() {
+        if (invTagLosDialog != null) {
+            invTagLosDialog.show();
+        } else {
+            View contentView = LayoutInflater.from(this).inflate(R.layout.finish_inv_dialog, null);
+            TextView content = contentView.findViewById(R.id.tv_content);
+            content.setText("确定将改资产标记为盘亏？");
+            View cancleTv = contentView.findViewById(R.id.tv_cancel);
+            View sureTv = contentView.findViewById(R.id.tv_sure);
+            sureTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (selectNotInvBean != null) {
+                        selectNotInvBean.setInvdt_sign("盘亏");
+                        selectNotInvBean.getInvdt_status().setCode(1);
+                        selectNotInvBean.setNeedUpload(true);
+                        mPresenter.setOneLessAssetInv(selectNotInvBean);
+                        mNotInvDetails.remove(selectNotInvBean);
+                        mLessDetails.add(selectNotInvBean);
+                        notInvedRadio.setText("未盘点" + mNotInvDetails.size());
+                        invLessRadio.setText("盘亏" + mLessDetails.size());
+                        if (currentShowStatus == 0) {
+                            mCurrentDetails.remove(selectNotInvBean);
+                        } else if (currentShowStatus == 1) {
+                            mCurrentDetails.add(selectNotInvBean);
+                        }
+                        mAssetAdapter.notifyDataSetChanged();
+                        ToastUtils.showShort(R.string.inv_less_toast);
+                    }
+                    dismissTagLoseDialog();
+                }
+            });
+            cancleTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismissTagLoseDialog();
+                }
+            });
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                    .customView(contentView, false);
+            invTagLosDialog = builder.show();
+            Window window = invTagLosDialog.getWindow();
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+        }
+    }
+
+    public void dismissTagLoseDialog() {
+        if (invTagLosDialog != null && invTagLosDialog.isShowing()) {
+            invTagLosDialog.dismiss();
+        }
+    }
+
+    public void showInvTagConfirmDialog() {
+        if (invTagConfirmDialog != null) {
+            invTagConfirmDialog.show();
+        } else {
+            View contentView = LayoutInflater.from(this).inflate(R.layout.inv_tag_confirm_dialog, null);
+            View cancleTv = contentView.findViewById(R.id.tv_cancel);
+            View sureTv = contentView.findViewById(R.id.tv_sure);
+            RadioGroup tagGroup = contentView.findViewById(R.id.rg_tag);
+            RadioGroupX astTagGroup = contentView.findViewById(R.id.rg_ast_tag);
+            tagGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId) {
+                        case R.id.rb_tag_damage:
+                            tag = "标签损坏";
+                            break;
+                        case R.id.rb_tag_lose:
+                            tag = "标签丢失";
+                            break;
+                    }
+                }
+            });
+            astTagGroup.setOnCheckedChangeListener(new RadioGroupX.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroupX group, int checkedId) {
+                    switch (checkedId) {
+                        case R.id.rb_tag_inved:
+                            assetTag = "盘点一致";
+                            break;
+                        case R.id.rb_tag_more:
+                            assetTag = "盘盈";
+                            break;
+                        case R.id.rb_tag_repair:
+                            assetTag = "资产外部维修";
+                            break;
+                        case R.id.rb_out_use:
+                            assetTag = "外部单位使用";
+                            break;
+                        case R.id.rb_tag_transform:
+                            assetTag = "资产交接中";
+                            break;
+                        case R.id.rb_tag_handel:
+                            assetTag = "资产处置中";
+                            break;
+                    }
+                }
+            });
+
+            cancleTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismissTagConfirmDialog();
+                }
+            });
+            sureTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!StringUtils.isEmpty(assetTag)) {
+                        if (selectConfirmInvBean != null) {
+                            String finalTag = assetTag;
+                            if (!StringUtils.isEmpty(tag)) {
+                                finalTag = tag + "," + assetTag;
+                            }
+                            selectConfirmInvBean.setInvdt_sign(finalTag);
+                            selectConfirmInvBean.getInvdt_status().setCode(10);
+                            selectConfirmInvBean.setNeedUpload(true);
+                            mPresenter.setOneLessAssetInv(selectConfirmInvBean);
+                            mNotInvDetails.remove(selectConfirmInvBean);
+                            mInvedDetails.add(selectConfirmInvBean);
+                            notInvedRadio.setText("未盘点" + mNotInvDetails.size());
+                            invedRadio.setText("已盘" + mInvedDetails.size());
+                            if (currentShowStatus == 0) {
+                                mCurrentDetails.remove(selectConfirmInvBean);
+                            } else if (currentShowStatus == 1) {
+                                mCurrentDetails.add(selectConfirmInvBean);
+                            }
+                            mAssetAdapter.notifyDataSetChanged();
+                            ToastUtils.showShort(R.string.inved_toast);
+                        }
+                        dismissTagConfirmDialog();
+                    } else {
+                        ToastUtils.showShort("请添加盘点标记");
+                    }
+
+                }
+            });
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                    .customView(contentView, false);
+            invTagConfirmDialog = builder.show();
+            Window window = invTagConfirmDialog.getWindow();
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            invTagConfirmDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialog) {
+                    tag = null;
+                    assetTag = null;
+                    tagGroup.clearCheck();
+                    astTagGroup.clearCheck();
+                }
+            });
+        }
+    }
+
+    public void dismissTagConfirmDialog() {
+        if (invTagConfirmDialog != null && invTagConfirmDialog.isShowing()) {
+            invTagConfirmDialog.dismiss();
+        }
+    }
+
 }
