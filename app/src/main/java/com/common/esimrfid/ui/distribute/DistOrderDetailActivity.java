@@ -232,15 +232,20 @@ public class DistOrderDetailActivity extends BaseActivity<DistOrderDetailPresent
         conditions.clearData();
         typeIdAndTypeDetail.clear();
         ArrayList<Node> selectAssetsTypes = new ArrayList<>();
+        ArrayList<String> userIds = new ArrayList<>();
         for (DistTypeDetail typeDetail : typeList) {
             Node node = new Node(typeDetail.getType_id(), "-1", typeDetail.getType_name());
             selectAssetsTypes.add(node);
+            if(!userIds.contains(typeDetail.getRet_store_user_id())){
+                userIds.add(typeDetail.getRet_store_user_id());
+            }
             typeIdAndTypeDetail.put(typeDetail.getType_id(), typeDetail);
             if(!distOrderIsFinish){
                 typeDetail.setNotAdd(typeDetail.getAmount());
             }
         }
         conditions.setmSelectAssetsTypes(selectAssetsTypes);
+        conditions.setmSelectUserIds(userIds);
         ArrayList<Node> selectAssetsStatus = new ArrayList<>();
         selectAssetsStatus.add(new Node("0", "-1", "闲置"));
         conditions.setmSelectAssetsStatus(selectAssetsStatus);

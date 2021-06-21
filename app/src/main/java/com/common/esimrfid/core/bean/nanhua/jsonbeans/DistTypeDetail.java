@@ -15,6 +15,7 @@ public class DistTypeDetail {
     private List<AssetsListItemInfo> subList = new ArrayList<>();
     private Integer alreadyAdd = 0;
     private Integer notAdd = 0;
+    private String ret_store_user_id;
 
     public String getId() {
         return id;
@@ -98,6 +99,14 @@ public class DistTypeDetail {
 
     public float getProgress() {
         return (float) alreadyAdd / amount * 100;
+    }
+
+    public String getRet_store_user_id() {
+        return ret_store_user_id;
+    }
+
+    public void setRet_store_user_id(String ret_store_user_id) {
+        this.ret_store_user_id = ret_store_user_id;
     }
 
     @Override

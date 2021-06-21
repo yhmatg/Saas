@@ -3,7 +3,6 @@ package com.common.esimrfid.core.bean.assetdetail;
 import com.common.esimrfid.ui.inventorytask.FilterBean;
 import com.multilevel.treelist.Node;
 
-import java.util.Date;
 import java.util.List;
 
 public class AssetFilterParameter {
@@ -14,6 +13,7 @@ public class AssetFilterParameter {
     private List<Node> mSelectAssetsLocations;
     private List<Node> mSelectMangerUsers;
     private String userRealName;
+    private List<String> mSelectUserIds;
 
     public List<Node> getmSelectAssetsStatus() {
         return mSelectAssetsStatus;
@@ -71,6 +71,14 @@ public class AssetFilterParameter {
         this.userRealName = userRealName;
     }
 
+    public List<String> getmSelectUserIds() {
+        return mSelectUserIds;
+    }
+
+    public void setmSelectUserIds(List<String> mSelectUserIds) {
+        this.mSelectUserIds = mSelectUserIds;
+    }
+
     @Override
     public String toString() {
         return "[" +
@@ -80,6 +88,7 @@ public class AssetFilterParameter {
                 getTypeListString() + "," +
                 getLocListString() + "," +
                 getManagerListString() + "," +
+                getUserIds() + "," +
                 "]";
     }
 
@@ -99,10 +108,10 @@ public class AssetFilterParameter {
         }
         return statusString;
     }
-    
-    private String getUseCompanyString(){
+
+    private String getUseCompanyString() {
         String companyString = "";
-        if(mSelectUseCompany!= null && !"-1".equals(mSelectUseCompany.getId())){
+        if (mSelectUseCompany != null && !"-1".equals(mSelectUseCompany.getId())) {
             companyString += "{\"name\":\"org_usedcorp_id\",\"condition\":\"EqualTo\",\"values\":[\"" + mSelectUseCompany.getId() + "\"]}";
         }
         return companyString;
@@ -174,6 +183,22 @@ public class AssetFilterParameter {
             managerString += "]}";
         }
         return managerString;
+    }
+
+    private String getUserIds() {
+        String userIdString = "";
+        if (mSelectUserIds != null && mSelectUserIds.size() > 0) {
+            userIdString += "{\"name\":\"user_id\",\"condition\":\"In\",\"values\":[";
+            for (int i = 0; i < mSelectUserIds.size(); i++) {
+                String status = "\"" + mSelectUserIds.get(i) + "\"";
+                if (i < mSelectUserIds.size() - 1) {
+                    status += ',';
+                }
+                userIdString += status;
+            }
+            userIdString += "]}";
+        }
+        return userIdString;
     }
 
     public void clearData() {
