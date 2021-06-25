@@ -5,7 +5,7 @@ import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
-import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
+
 import java.util.List;
 
 public interface AssetRepairContract {
@@ -17,8 +17,6 @@ public interface AssetRepairContract {
 
     interface Presenter extends AbstractPresenter<View> {
         void getAllEmpUsers();
-
-        void createNewRepairOrder(AssetRepairParameter repairParameter);
 
         void createNewRepairOrder(NewAssetRepairPara repariPara);
     }

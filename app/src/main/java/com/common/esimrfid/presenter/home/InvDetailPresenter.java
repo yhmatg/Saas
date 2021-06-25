@@ -3,8 +3,6 @@ package com.common.esimrfid.presenter.home;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvDetailContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.emun.InvOperateStatus;
-import com.common.esimrfid.core.bean.emun.InventoryStatus;
 import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
@@ -15,9 +13,11 @@ import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -84,107 +84,6 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                     public void onNext(ResultInventoryDetail resultInventoryDetail) {
                         mView.dismissDialog();
                         mView.handleInvDetails(resultInventoryDetail);
-                    }
-                }));
-    }
-
-    //上传盘点数据到服务器
-    @Override
-    public void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid) {
-        addSubscribe(DataManager.getInstance().uploadInvDetails(orderId, invDetails, uid)
-                .compose(RxUtils.rxSchedulerHelper())
-                .compose(RxUtils.handleBaseResponse())
-                .observeOn(Schedulers.io())
-                .doOnNext(new Consumer<BaseResponse>() {
-                    @Override
-                    public void accept(BaseResponse baseResponse) throws Exception {
-                        if (baseResponse.isSuccess()) {
-                            //上传盘点条目到数据库后，更新父条目ResultInventoryOrder状态
-                            ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
-                            ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
-                            invOrderByInvId.setOpt_status(InvOperateStatus.MODIFIED_AND_SUBMIT_BUT_NOT_FINISHED.getIndex());
-                            int orderStatus = 10;
-                            invOrderByInvId.setInv_status(orderStatus);
-                            //更新盘点单完成上传和没有提交数目
-                            //1223 start 扫描到就算已经盘点
-                           /* Integer finishCount = invOrderByInvId.getInv_finish_count() + invDetails.size();
-                            invOrderByInvId.setInv_finish_count(finishCount);*/
-                            //1223 end
-                            //modify bug 253 20191230 start
-                            int notSubmitCount = invOrderByInvId.getInv_notsubmit_count() - invDetails.size();
-                            if(notSubmitCount < 0){
-                                notSubmitCount = 0;
-                            }
-                            //modify bug 253 20191230 end
-                            invOrderByInvId.setInv_notsubmit_count(notSubmitCount);
-                            resultInventoryOrderDao.updateItem(invOrderByInvId);
-                            //跟新盘点子条目ResultInventoryDetail的盘点提交状态
-                            // 暂定 本地盘点和已经上传的区分
-                            for (InventoryDetail inventoryDetail : inventoryDetails) {
-                                inventoryDetail.getInvdt_status().setCode(InventoryStatus.FINISH.getIndex());
-                            }
-                            DbBank.getInstance().getInventoryDetailDao().updateItems(inventoryDetails);
-                        }
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
-                    @Override
-                    public void onNext(BaseResponse baseResponse) {
-                        mView.handelUploadResult(baseResponse);
-                    }
-                }));
-    }
-
-    //本地获取所有本地InventoryDetail数据
-    @Override
-    public void findLocalInvDetailByInvid(String invId) {
-        addSubscribe(Observable.create((ObservableOnSubscribe<List<InventoryDetail>>) new ObservableOnSubscribe<List<InventoryDetail>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<InventoryDetail>> emitter) throws Exception {
-                List<InventoryDetail> localInvDetails = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(invId);
-                emitter.onNext(localInvDetails);
-            }
-        }).compose(RxUtils.rxSchedulerHelper())
-                .subscribeWith(new BaseObserver<List<InventoryDetail>>(mView, false) {
-                    @Override
-                    public void onNext(List<InventoryDetail> inventoryDetails) {
-                        mView.uploadInvDetails(inventoryDetails);
-                    }
-                }));
-    }
-
-    //一次完整扫描后数据库跟新盘点状态
-    @Override
-    public void updateLocalInvDetailsState(String orderId, List<InventoryDetail> inventoryDetails) {
-        if (inventoryDetails.size() == 0) {
-            return;
-        }
-        addSubscribe(Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                DbBank.getInstance().getInventoryDetailDao().updateItems(inventoryDetails);
-                ResultInventoryOrderDao resultInventoryOrderDao = DbBank.getInstance().getResultInventoryOrderDao();
-                ResultInventoryOrder invOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
-                invOrderByInvId.setOpt_status(InvOperateStatus.MODIFIED_BUT_NOT_SUBMIT.getIndex());
-                int orderStatus = 10;
-                invOrderByInvId.setInv_status(orderStatus);
-                //1223 start
-                //更新完成盘点数目
-                Integer finishCount = invOrderByInvId.getInv_finish_count() + inventoryDetails.size();
-                invOrderByInvId.setInv_finish_count(finishCount);
-                //1223 end
-                //更新盘点单未提交数量
-                int oldNotSubmit = invOrderByInvId.getInv_notsubmit_count() == null ? 0 : invOrderByInvId.getInv_notsubmit_count();
-                Integer notSubmitCount = oldNotSubmit + inventoryDetails.size();
-                invOrderByInvId.setInv_notsubmit_count(notSubmitCount);
-                resultInventoryOrderDao.updateItem(invOrderByInvId);
-            }
-        }).compose(RxUtils.rxSchedulerHelper())
-                .subscribeWith(new BaseObserver<String>(mView, false) {
-                    @Override
-                    public void onNext(String orderId) {
-
                     }
                 }));
     }

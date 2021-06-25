@@ -218,7 +218,6 @@ public class AssetRepairActivity extends BaseActivity<AssetRepairPresenter> impl
             selectedAstIds.add(selectedAsset.getId());
         }
         assetRepairParameter.setAst_ids(selectedAstIds);
-        //mPresenter.createNewRepairOrder(assetRepairParameter);
         String formData = assetRepairParameter.toString();
         String textForms = getTextFormsString(mSelectMangerUser.getUser_real_name(), mSelectMangerUser.getDept_name(), mRepairDirection.getText().toString());
         String title = userName + "提交的维修申请";

@@ -2,7 +2,6 @@ package com.common.esimrfid.core.http;
 
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
-import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
@@ -92,11 +91,6 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails, String uid) {
-        return mGeeksApis.uploadInvDetails(orderId, invDetails, uid);
-    }
-
-    @Override
     public Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation() {
         return mGeeksApis.getAssetsNmbDiffLocation();
     }
@@ -134,16 +128,6 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara) {
         return mGeeksApis.createNewInventory(invpara);
-    }
-
-    @Override
-    public Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName) {
-        return mGeeksApis.fetchWriteAssetsInfos(patternName);
-    }
-
-    @Override
-    public Observable<BaseResponse> finishInvOrderWithAsset(String orderId, String uid, List<String> invDetails) {
-        return mGeeksApis.finishInvOrderWithAsset(orderId, uid, invDetails);
     }
 
     @Override
@@ -243,10 +227,6 @@ public class HttpHelperImpl implements HttpHelper {
         return mGeeksApis.fetchLatestAssetsPage(lastTime, size, page);
     }
 
-    @Override
-    public Observable<BaseResponse> updateAssetLoc(List<String> astIds, String loc) {
-        return mGeeksApis.updateAssetLoc(astIds, loc);
-    }
 
     @Override
     public Observable<BaseResponse> updateAssetProp(UpdateAssetsPara updateAssetsPara) {
@@ -276,11 +256,6 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse> rejectDistributeAsset(String id) {
         return mGeeksApis.rejectDistributeAsset(id);
-    }
-
-    @Override
-    public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {
-        return mGeeksApis.createNewRepairOrder(repairParameter);
     }
 
     @Override

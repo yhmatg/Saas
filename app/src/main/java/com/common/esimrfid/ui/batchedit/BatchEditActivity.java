@@ -394,7 +394,6 @@ public class BatchEditActivity extends BaseActivity<BatchEditPresenter> implemen
                 }
                 updateAssetsPara.setAstIds(astIds);
                 updateAssetsPara.setLoc_id((String) checkedLocations.get(0).getId());
-                //mPresenter.updateAssetLoc(astIds, (String) checkedLocations.get(0).getId());
                 mPresenter.updateAssetProp(updateAssetsPara);
                 if (multipleDialog != null) {
                     multipleDialog.dismiss();

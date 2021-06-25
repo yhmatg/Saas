@@ -1,7 +1,6 @@
 package com.common.esimrfid.core.http;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
-import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
@@ -53,8 +52,6 @@ public interface HttpHelper {
 
     Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(String orderId);
 
-    Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails, String uid);
-
     Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation();
 
     Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus();
@@ -71,10 +68,6 @@ public interface HttpHelper {
 
     Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara);
 
-    Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName);
-
-    Observable<BaseResponse> finishInvOrderWithAsset(String orderId, String uid, List<String> invDetails);
-
     Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(Set<String> Epcs);
 
     Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfo(String astId, String astCode);
@@ -82,8 +75,6 @@ public interface HttpHelper {
     Observable<BaseResponse<UpdateVersion>> updateVersion();
 
     Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
-
-    Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter);
 
     Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astid, String astCode);
 
@@ -116,8 +107,6 @@ public interface HttpHelper {
     Observable<BaseResponse<InventoryOrderPage>> fetchAllIvnOrdersPage(Integer size, Integer page, String userId);
 
     Observable<BaseResponse<LatestModifyPageAssets>> fetchLatestAssetsPage(String lastTime, Integer size, Integer page);
-
-    Observable<BaseResponse> updateAssetLoc(List<String> astIds, String loc);
 
     Observable<BaseResponse> updateAssetProp(UpdateAssetsPara updateAssetsPara);
 

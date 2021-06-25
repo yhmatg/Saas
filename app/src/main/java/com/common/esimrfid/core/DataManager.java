@@ -1,7 +1,6 @@
 package com.common.esimrfid.core;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
-import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
@@ -259,11 +258,6 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails, String uid) {
-        return mHttpHelper.uploadInvDetails(orderId, invDetails, uid);
-    }
-
-    @Override
     public Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation() {
         return mHttpHelper.getAssetsNmbDiffLocation();
     }
@@ -304,16 +298,6 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName) {
-        return mHttpHelper.fetchWriteAssetsInfo(patternName);
-    }
-
-    @Override
-    public Observable<BaseResponse> finishInvOrderWithAsset(String orderId, String uid, List<String> invDetails) {
-        return mHttpHelper.finishInvOrderWithAsset(orderId, uid, invDetails);
-    }
-
-    @Override
     public Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(Set<String> Epcs) {
         return mHttpHelper.fetchScanAssets(Epcs);
     }
@@ -332,11 +316,6 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<CompanyInfo>> getCompanyInfo() {
         return mHttpHelper.getCompanyInfo();
-    }
-
-    @Override
-    public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {
-        return mHttpHelper.createNewRepairOrder(repairParameter);
     }
 
     @Override
@@ -418,11 +397,6 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<LatestModifyPageAssets>> fetchLatestAssetsPage(String lastTime, Integer size, Integer page) {
         return mHttpHelper.fetchLatestAssetsPage(lastTime, size, page);
-    }
-
-    @Override
-    public Observable<BaseResponse> updateAssetLoc(List<String> astIds, String loc) {
-        return mHttpHelper.updateAssetLoc(astIds, loc);
     }
 
     @Override

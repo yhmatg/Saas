@@ -1,7 +1,6 @@
 package com.common.esimrfid.core.http.api;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
-import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
@@ -81,24 +80,6 @@ public interface GeeksApis {
     @GET("inventory-server/inventoryorders/{orderId}/detail/unpage")
     Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(@Path("orderId") String orderId, @Query("my_tasks") String myTask);
 
-    //完成盘点携带资产编号id
-    //@param orderId 盘点单id
-    //@param uid 用户id
-    //@param invDetails 已盘点资产id集合finishwithinfo
-    //@return 操作结果
-
-    @POST("inventory-server/inventoryorders/{orderId}/finishwithinfo")
-    Observable<BaseResponse> finishInvOrderWithAsset(@Path("orderId") String orderId, @Query("uid") String uid, @Body List<String> invDetails);
-
-    //盘点数据上传
-    //@param orderId 盘点单id
-    //@param invDetails 已盘点资产id集合
-    //@param uid 用户id
-    //@return 操作结果
-
-    @POST("inventory-server/inventoryorders/{orderId}/commit")
-    Observable<BaseResponse> uploadInvDetails(@Path("orderId") String orderId, @Body List<String> invDetails, @Query("uid") String uid);
-
     //获取不同位置下资产数量(数据权限版本前使用)
     //@return 位置和对应资产数目
 
@@ -163,14 +144,6 @@ public interface GeeksApis {
     @POST("inventory-server/inventoryorders/createbyapp")
     Observable<BaseResponse<CreateInvResult>> createNewInventory(@Body InventoryParameter invpara);
 
-    //模糊查询资产详情（写入标签）
-    //@param patternName 资产过滤信息
-    //@return 资产列表
-
-    @GET("assets-server/assets/unpage")
-        //@GET("/assets-server/assets/findforapp")
-    Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfos(@Query("pattern_name") String patternName);
-
     //模糊查询资产详情（写入标签）分页
     //@param patternName 资产过滤信息
     //@return 资产列表
@@ -220,10 +193,6 @@ public interface GeeksApis {
     @GET("assets-server/assets/reprecords/unpage")
     Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(@Query("ast_id") String astid, @Query("ast_barcode") String astCode);
 
-    //新建报修单 未加审批流程前使用
-    @POST("assets-server/repairs/bymanager")
-    Observable<BaseResponse> createNewRepairOrder(@Body AssetRepairParameter repairParameter);
-
     //获取所有员工
     @GET("user-server/emps/unpage")
     Observable<BaseResponse<List<MangerUser>>> getAllEmpUsers();
@@ -271,10 +240,6 @@ public interface GeeksApis {
      */
     @GET("user-server/orgs/authOrgs")
     Observable<BaseResponse<List<CompanyBean>>> getAllAuthCompany(@Query("org_type") Integer type);
-
-    //批量更新资产位置
-    @PUT("assets-server/assets/updatebatch")
-    Observable<BaseResponse> updateAssetLoc(@Body List<String> astIds, @Query("loc_id") String loc);
 
     //批量更新资产位置新
     @PUT("assets-server/general/assets/updatebatch")
