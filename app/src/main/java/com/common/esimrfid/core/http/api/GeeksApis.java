@@ -51,8 +51,8 @@ public interface GeeksApis {
     //@param UserInfo 用户账号 用户密码
     //@return 用户基本信息,token
 
-    @POST("user-server/userauth/loginwithinfo")
-    //@POST("sany-api-server/userauth/loginwithinfo")
+    //@POST("user-server/userauth/loginwithinfo")
+    @POST("sany-api-server/userauth/loginwithinfo")
     Observable<BaseResponse<UserLoginResponse>> login(@Body UserInfo userInfo);
 
     //获取盘点数据
