@@ -9,6 +9,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.http.exception.WrongAccountOrPassException;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
+import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
@@ -41,7 +42,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         final String passWord = userInfo.getUser_password();
         final String userName = userInfo.getUser_name();
         if (CommonUtils.isNetworkConnected()) {
-            //userInfo.setUser_password(Md5Util.getMD5(passWord));
+            userInfo.setUser_password(Md5Util.getMD5(passWord));
             addSubscribe(DataManager.getInstance().login(userInfo)
                     .compose(RxUtils.rxSchedulerHelper())
                     .compose(RxUtils.handleResult())

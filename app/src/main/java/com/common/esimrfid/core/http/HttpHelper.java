@@ -15,9 +15,7 @@ import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.inventorytask.TitleAndLogoResult;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
-import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
@@ -25,7 +23,6 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
@@ -33,9 +30,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import io.reactivex.Observable;
 
@@ -52,8 +47,6 @@ public interface HttpHelper {
 
     Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(String orderId);
 
-    Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation();
-
     Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus();
 
     Observable<BaseResponse<List<MangerUser>>> getAllManagerUsers();
@@ -68,13 +61,9 @@ public interface HttpHelper {
 
     Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara);
 
-    Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(Set<String> Epcs);
-
     Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfo(String astId, String astCode);
 
     Observable<BaseResponse<UpdateVersion>> updateVersion();
-
-    Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
 
     Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astid, String astCode);
 
@@ -86,10 +75,6 @@ public interface HttpHelper {
 
     Observable<BaseResponse> finishInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails);
 
-    Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(String patternName);
-
-    Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(String lastTime);
-
     Observable<BaseResponse<AssetsInfoPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName);
 
     Observable<BaseResponse> createNewRepairOrder(NewAssetRepairPara repariPara);
@@ -98,7 +83,7 @@ public interface HttpHelper {
 
     Observable<BaseResponse<DataAuthority>> getDataAuthority(String id);
 
-    Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation();
+    Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbDiffLocation();
 
     Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfoWithAuth(String astId, String astCode);
 

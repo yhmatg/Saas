@@ -4,7 +4,6 @@ import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetsearch.AssetsSearchContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 import com.common.esimrfid.core.dao.AssetsAllInfoDao;
@@ -50,35 +49,6 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
                         mView.handGetAllAssetsForSearch(searchAssets);
                     }
                 }));
-    }
-
-    @Override
-    public void fetchLatestAssets() {
-        if(CommonUtils.isNetworkConnected()){
-            addSubscribe(DataManager.getInstance().fetchLatestAssets(DataManager.getInstance().getLatestSyncTime())
-                    .compose(RxUtils.handleResult())
-                    .subscribeOn(Schedulers.io())
-                    .doOnNext(new Consumer<LatestModifyAssets>() {
-                        @Override
-                        public void accept(LatestModifyAssets latestModifyAssets) throws Exception {
-                            AssetsAllInfoDao assetsAllInfoDao = DbBank.getInstance().getAssetsAllInfoDao();
-                            if(latestModifyAssets.getModified() != null && latestModifyAssets.getModified().size() > 0){
-                                assetsAllInfoDao.insertItems(latestModifyAssets.getModified());
-                            }
-                            if(latestModifyAssets.getRemoved()!= null && latestModifyAssets.getRemoved().size() > 0){
-                                assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
-                            }
-                            DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 60000));
-                        }
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new BaseObserver<LatestModifyAssets>(mView, false) {
-                        @Override
-                        public void onNext(LatestModifyAssets latestModifyAssets) {
-
-                        }
-                    }));
-        }
     }
 
     //分页查询资产

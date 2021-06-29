@@ -16,9 +16,7 @@ import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.inventorytask.TitleAndLogoResult;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
-import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
@@ -26,7 +24,6 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
@@ -36,9 +33,7 @@ import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.core.http.api.GeeksApis;
 import com.common.esimrfid.core.http.client.RetrofitClient;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import io.reactivex.Observable;
 
@@ -91,11 +86,6 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation() {
-        return mGeeksApis.getAssetsNmbDiffLocation();
-    }
-
-    @Override
     public Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus() {
         return mGeeksApis.getAssetsNmbDiffStatus();
     }
@@ -131,11 +121,6 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(Set<String> Epcs) {
-        return mGeeksApis.fetchScanAssets(Epcs);
-    }
-
-    @Override
     public Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfo(String astId, String astCode) {
         return mGeeksApis.fetchAssetsInfo(astId, astCode);
     }
@@ -145,12 +130,6 @@ public class HttpHelperImpl implements HttpHelper {
     public Observable<BaseResponse<UpdateVersion>> updateVersion() {
         return mGeeksApis.updateVersion();
     }
-
-    @Override
-    public Observable<BaseResponse<CompanyInfo>> getCompanyInfo() {
-        return mGeeksApis.getCompanyInfo();
-    }
-
 
     @Override
     public Observable<BaseResponse<List<AssetRepair>>> fetchAssetRepair(String astid, String astCode) {
@@ -170,16 +149,6 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse> finishInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails) {
         return mGeeksApis.finishInvAssets(orderId, uid, invDetails);
-    }
-
-    @Override
-    public Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(String patternName) {
-        return mGeeksApis.fetchAllAssetsInfos(patternName);
-    }
-
-    @Override
-    public Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(String lastTime) {
-        return mGeeksApis.fetchLatestAssets(lastTime);
     }
 
     @Override
@@ -203,8 +172,8 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation() {
-        return mGeeksApis.getAssetsNmbInDiffLocation();
+    public Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbDiffLocation() {
+        return mGeeksApis.getAssetsNmbDiffLocation();
     }
 
     @Override

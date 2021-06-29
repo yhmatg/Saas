@@ -15,9 +15,7 @@ import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.inventorytask.TitleAndLogoResult;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
-import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
@@ -25,7 +23,6 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
@@ -37,9 +34,7 @@ import com.common.esimrfid.core.http.HttpHelperImpl;
 import com.common.esimrfid.core.prefs.PreferenceHelper;
 import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import io.reactivex.Observable;
 
@@ -258,11 +253,6 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation() {
-        return mHttpHelper.getAssetsNmbDiffLocation();
-    }
-
-    @Override
     public Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus() {
         return mHttpHelper.getAssetsNmbDiffStatus();
     }
@@ -298,11 +288,6 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(Set<String> Epcs) {
-        return mHttpHelper.fetchScanAssets(Epcs);
-    }
-
-    @Override
     public Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfo(String astId, String astCode) {
         return mHttpHelper.fetchAssetsInfo(astId, astCode);
     }
@@ -311,11 +296,6 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<UpdateVersion>> updateVersion() {
         return mHttpHelper.updateVersion();
-    }
-
-    @Override
-    public Observable<BaseResponse<CompanyInfo>> getCompanyInfo() {
-        return mHttpHelper.getCompanyInfo();
     }
 
     @Override
@@ -345,16 +325,6 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(String patternName) {
-        return mHttpHelper.fetchAllAssetsInfos(patternName);
-    }
-
-    @Override
-    public Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(String lastTime) {
-        return mHttpHelper.fetchLatestAssets(lastTime);
-    }
-
-    @Override
     public Observable<BaseResponse<AssetsInfoPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName) {
         return mHttpHelper.fetchPageAssetsInfos(size, page, patternName);
     }
@@ -375,8 +345,8 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     }
 
     @Override
-    public Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation() {
-        return mHttpHelper.getAssetsNmbInDiffLocation();
+    public Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbDiffLocation() {
+        return mHttpHelper.getAssetsNmbDiffLocation();
     }
 
     @Override

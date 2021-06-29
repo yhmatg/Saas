@@ -15,9 +15,7 @@ import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.inventorytask.TitleAndLogoResult;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
-import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
@@ -25,7 +23,6 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DistributeOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
@@ -33,9 +30,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -56,8 +51,8 @@ public interface GeeksApis {
     //@param UserInfo 用户账号 用户密码
     //@return 用户基本信息,token
 
-    //@POST("user-server/userauth/loginwithinfo")
-    @POST("sany-api-server/userauth/loginwithinfo")
+    @POST("user-server/userauth/loginwithinfo")
+    //@POST("sany-api-server/userauth/loginwithinfo")
     Observable<BaseResponse<UserLoginResponse>> login(@Body UserInfo userInfo);
 
     //获取盘点数据
@@ -81,17 +76,11 @@ public interface GeeksApis {
     @GET("inventory-server/inventoryorders/{orderId}/detail/unpage")
     Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(@Path("orderId") String orderId, @Query("my_tasks") String myTask);
 
-    //获取不同位置下资产数量(数据权限版本前使用)
-    //@return 位置和对应资产数目
-
-    @GET("assets-server/assets/countbyloc")
-    Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation();
-
     //获取不同位置下资产数量(数据权限版本后使用)
     //@return 位置和对应资产数目
 
     @GET("assets-server/dashboard/countbyloc")
-    Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation();
+    Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbDiffLocation();
 
     //获取不同状态的资产数量
     //@return 不同状态下的资产数目
@@ -160,13 +149,6 @@ public interface GeeksApis {
     Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(@Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName, @Query("user_real_name") String userRealName, @Query("conditions") String conditions);
 
 
-    //根据Epc查询资产详情（资产查找）
-    //@param Epcs EPC集合
-    //@return 资产信息列表
-    //暂未使用
-    @POST("assets-server/assets/byrfids")
-    Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(@Body Set<String> Epcs);
-
     //根据资产id或者二维码获取资产详情
     //@param ast_id 资产id ast_code 资产二维码
     //@return 资产详情信息
@@ -179,12 +161,6 @@ public interface GeeksApis {
 
     @GET("tagorder-server/appversions/latest")
     Observable<BaseResponse<UpdateVersion>> updateVersion();
-
-    //获取公司信息详情
-    //@return 公司详情信息
-    //暂未使用
-    @GET("user-server/sysusers/selectCurrentOrg")
-    Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
 
     //根据资产id查询资产履历
     @GET("assets-server/assets/astoptrecord")
@@ -205,16 +181,6 @@ public interface GeeksApis {
     //新完成盘点数据上传
     @POST("inventory-server/inventoryorders/{id}/finishwithinfo/new")
     Observable<BaseResponse> finishInvAssets(@Path("id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invReq);
-
-    //获取资产的所有详情
-    //暂未用到
-    @GET("assets-server/assets/unpage")
-    Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(@Query("pattern_name") String patternName);
-
-    //根据时间戳获取变动更新资产
-    @GET("assets-server/assets/lastupdate")
-    //暂未使用
-    Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(@Query("lasttime") String lastTime);
 
     //根据时间戳获取变动更新资产(分页)
     @GET("assets-server/assets/lastupdate")
@@ -267,6 +233,4 @@ public interface GeeksApis {
     //驳回派发
     @GET("sany-api-server/OrderReq/return")
     Observable<BaseResponse> rejectDistributeAsset(@Query("id") String id);
-
-
 }
