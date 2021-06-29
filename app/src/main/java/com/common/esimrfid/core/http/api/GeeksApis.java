@@ -56,7 +56,8 @@ public interface GeeksApis {
     //@param UserInfo 用户账号 用户密码
     //@return 用户基本信息,token
 
-    @POST("user-server/userauth/loginwithinfo")
+    //@POST("user-server/userauth/loginwithinfo")
+    @POST("sany-api-server/userauth/loginwithinfo")
     Observable<BaseResponse<UserLoginResponse>> login(@Body UserInfo userInfo);
 
     //获取盘点数据
@@ -162,7 +163,7 @@ public interface GeeksApis {
     //根据Epc查询资产详情（资产查找）
     //@param Epcs EPC集合
     //@return 资产信息列表
-
+    //暂未使用
     @POST("assets-server/assets/byrfids")
     Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(@Body Set<String> Epcs);
 
@@ -181,7 +182,7 @@ public interface GeeksApis {
 
     //获取公司信息详情
     //@return 公司详情信息
-
+    //暂未使用
     @GET("user-server/sysusers/selectCurrentOrg")
     Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
 
@@ -206,11 +207,13 @@ public interface GeeksApis {
     Observable<BaseResponse> finishInvAssets(@Path("id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invReq);
 
     //获取资产的所有详情
+    //暂未用到
     @GET("assets-server/assets/unpage")
     Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(@Query("pattern_name") String patternName);
 
     //根据时间戳获取变动更新资产
     @GET("assets-server/assets/lastupdate")
+    //暂未使用
     Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(@Query("lasttime") String lastTime);
 
     //根据时间戳获取变动更新资产(分页)

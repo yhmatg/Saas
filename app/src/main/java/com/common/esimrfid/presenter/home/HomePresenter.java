@@ -17,7 +17,6 @@ import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.core.dao.AssetsAllInfoDao;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
-import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
@@ -249,7 +248,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
     public void login(UserInfo userInfo) {
         final String passWord = userInfo.getUser_password();
         final String userName = userInfo.getUser_name();
-        userInfo.setUser_password(Md5Util.getMD5(passWord));
+        //userInfo.setUser_password(Md5Util.getMD5(passWord));
         addSubscribe(DataManager.getInstance().login(userInfo)
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
