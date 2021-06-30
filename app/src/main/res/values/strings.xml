@@ -107,7 +107,7 @@
 
     <string name="assets_title">请输入资产名称、资产编号</string>
 
-    <string name="assets_id">资产编号</string>
+    <string name="assets_id">设备编码</string>
     <string name="assets_name">资产名称</string>
     <string name="assets_type">资产分类</string>
     <string name="brand">品\u3000\u3000牌</string>
@@ -126,7 +126,7 @@
     <string name="expiration_use_months">预使用月数</string>
     <string name="use_company">使用公司</string>
     <string name="use_department">使用部门</string>
-    <string name="user">使\u0020\u0020用\u0020\u0020人</string>
+    <string name="user">资产保管人</string>
     <string name="requisition_date">领用日期</string>
     <string name="remark">备注</string>
     <string name="warranty_info">维保信息</string>
@@ -173,7 +173,7 @@
     <string name="inv_asstype_hint">请选择资产分类</string>
     <string name="inv_asstype">资产分类</string>
     <string name="inv_usedepart_hint">请选择使用部门</string>
-    <string name="inv_usedepart">使用部门</string>
+    <string name="inv_usedepart">部门</string>
     <string name="inv_usecom_hint">请选择使用公司</string>
     <string name="inv_usecom">使用公司</string>
     <string name="new_inv_task">新建盘点任务</string>
