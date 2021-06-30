@@ -7,7 +7,7 @@ package com.common.esimrfid.core.bean.emun;
  */
 public enum AssetsUseStatus {
     IN_IDEL("闲置",0),
-    IN_USED("在用", 1),
+    IN_USED("正常运行", 1),
     IN_REPAIR("维修中", 2),
     IN_Transfer("调拨中",3),
     WAIT_DISTRIBUTE("待派发",4),
@@ -17,11 +17,16 @@ public enum AssetsUseStatus {
     IN_RETURN_APPROVE("归还审批中",8),
     IN_REPAIR_APPROVE("维修审批中",9),
     IN_SCRAP("报废",10),
-    IN_TRANSFER_APPROVE("调拨审批中",11),
+    IN_TRANSFER_APPROVE("交接审批中",11),
     IN_SCRAP_APPROVE("报废审批中",12),
     IN_RECIVE_APPROVE("领用审批中",13),
     IN_WITHDRAWAL_APPROVE("退库审批中",14),
-    IN_ZHUANYI_APPROVE("转移审批中",15);
+    IN_ZHUANYI_APPROVE("转移审批中",15),
+    IN_NOT_REPORT("未报账",-1),
+    IN_DELETE("删除",-2),
+    IN_SEEL_UP("封存",-3),
+    IN_DEBUG("调试",-4),
+    IN_TRY_RUN("试运行",-5);
 
 
     // 成员变量

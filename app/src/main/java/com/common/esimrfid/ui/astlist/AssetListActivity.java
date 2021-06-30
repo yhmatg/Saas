@@ -359,28 +359,33 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         mSortBeans.add(new FilterBean("13", "购入日期正序", false));
         mSortBeans.add(new FilterBean("14", "购入日期倒序", false));
         //部分状态
-        mStatusBeans.add(new FilterBean("20", "闲置", false));
-        mStatusBeans.add(new FilterBean("21", "在用", false));
-        mStatusBeans.add(new FilterBean("22", "借用", false));
+        mStatusBeans.add(new FilterBean("20", "正常运行", false));
+        mStatusBeans.add(new FilterBean("21", "闲置", false));
+        mStatusBeans.add(new FilterBean("22", "封存", false));
         mStatusBeans.add(new FilterBean("23", "报废", false));
-        mStatusBeans.add(new FilterBean("24", "审批中", false));
+        mStatusBeans.add(new FilterBean("24", "删除", false));
+        mStatusBeans.add(new FilterBean("25", "调试", false));
+        mStatusBeans.add(new FilterBean("26", "试运行", false));
+        mStatusBeans.add(new FilterBean("27", "交接审批中", false));
+        mStatusBeans.add(new FilterBean("28", "调拨审批中", false));
+        mStatusBeans.add(new FilterBean("29", "退库审批中", false));
         //全部状态
-        mAllStatusBeans.add(new Node("-1", "-2", "全部"));
-        mAllStatusBeans.add(new Node("0", "-1", "闲置"));
-        mAllStatusBeans.add(new Node("1", "-1", "在用"));
-        mAllStatusBeans.add(new Node("2", "-1", "维修中"));
-        mAllStatusBeans.add(new Node("3", "-1", "调拨中"));
-        mAllStatusBeans.add(new Node("4", "-1", "待派发"));
-        mAllStatusBeans.add(new Node("5", "-1", "已派发"));
-        mAllStatusBeans.add(new Node("6", "-1", "借用"));
-        mAllStatusBeans.add(new Node("7", "-1", "借用审批中"));
-        mAllStatusBeans.add(new Node("8", "-1", "归还审批中"));
-        mAllStatusBeans.add(new Node("9", "-1", "维修审批中"));
-        mAllStatusBeans.add(new Node("10", "-1", "报废"));
-        mAllStatusBeans.add(new Node("11", "-1", "调拨审批中"));
-        mAllStatusBeans.add(new Node("12", "-1", "报废审批中"));
-        mAllStatusBeans.add(new Node("13", "-1", "领用审批中"));
-        mAllStatusBeans.add(new Node("14", "-1", "退库审批中"));
+        mAllStatusBeans.add(new Node("-100", "-1000", "全部"));
+        mAllStatusBeans.add(new Node("0", "-100", "闲置"));
+        mAllStatusBeans.add(new Node("1", "-100", "正常运行"));
+        mAllStatusBeans.add(new Node("2", "-100", "维修中"));
+        mAllStatusBeans.add(new Node("3", "-100", "调拨中"));
+        mAllStatusBeans.add(new Node("4", "-100", "待派发"));
+        mAllStatusBeans.add(new Node("5", "-100", "已派发"));
+        mAllStatusBeans.add(new Node("6", "-100", "借用"));
+        mAllStatusBeans.add(new Node("7", "-100", "借用审批中"));
+        mAllStatusBeans.add(new Node("8", "-100", "归还审批中"));
+        mAllStatusBeans.add(new Node("9", "-100", "维修审批中"));
+        mAllStatusBeans.add(new Node("10", "-100", "报废"));
+        mAllStatusBeans.add(new Node("11", "-100", "交接审批中"));
+        mAllStatusBeans.add(new Node("12", "-100", "报废审批中"));
+        mAllStatusBeans.add(new Node("13", "-100", "领用审批中"));
+        mAllStatusBeans.add(new Node("14", "-100", "退库审批中"));
 
     }
 
@@ -570,10 +575,12 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
         }
         mAstNum.setText(String.valueOf(mData.size()));
         mAstPrice.setText(String.valueOf(totalPrice));*/
-        if (!(0 == astCount && 0 == totalMoney)) {
+       /* if (!(0 == astCount && 0 == totalMoney)) {
             mAstNum.setText(String.valueOf(astCount));
             mAstPrice.setText(String.valueOf(totalMoney));
-        }
+        }*/
+        mAstNum.setText(String.valueOf(astCount));
+        mAstPrice.setText(String.valueOf(totalMoney));
     }
 
     @Override
@@ -699,10 +706,10 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 currentStatusFilter = filterBean;
                 isNeedClearData = true;
                 currentPage = 1;
-                ArrayList<Node> statusOne = new ArrayList<>();
-                statusOne.add(new Node("0", "-1", "闲置"));
+                ArrayList<Node> statusZero = new ArrayList<>();
+                statusZero.add(new Node("1", "-100", "正常运行"));
                 conditions.clearData();
-                conditions.setmSelectAssetsStatus(statusOne);
+                conditions.setmSelectAssetsStatus(statusZero);
                 search.setText("");
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
@@ -710,10 +717,10 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 currentStatusFilter = filterBean;
                 isNeedClearData = true;
                 currentPage = 1;
-                ArrayList<Node> statusTwo = new ArrayList<>();
-                statusTwo.add(new Node("1", "-1", "在用"));
+                ArrayList<Node> statusOne = new ArrayList<>();
+                statusOne.add(new Node("0", "-100", "闲置"));
                 conditions.clearData();
-                conditions.setmSelectAssetsStatus(statusTwo);
+                conditions.setmSelectAssetsStatus(statusOne);
                 search.setText("");
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
@@ -721,10 +728,10 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 currentStatusFilter = filterBean;
                 isNeedClearData = true;
                 currentPage = 1;
-                ArrayList<Node> statusThree = new ArrayList<>();
-                statusThree.add(new Node("6", "-1", "借用"));
+                ArrayList<Node> statusTwo = new ArrayList<>();
+                statusTwo.add(new Node("-3", "-100", "封存"));
                 conditions.clearData();
-                conditions.setmSelectAssetsStatus(statusThree);
+                conditions.setmSelectAssetsStatus(statusTwo);
                 search.setText("");
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
@@ -732,10 +739,10 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 currentStatusFilter = filterBean;
                 isNeedClearData = true;
                 currentPage = 1;
-                ArrayList<Node> statusFour = new ArrayList<>();
-                statusFour.add(new Node("10", "-1", "报废"));
+                ArrayList<Node> statusThree = new ArrayList<>();
+                statusThree.add(new Node("10", "-100", "报废"));
                 conditions.clearData();
-                conditions.setmSelectAssetsStatus(statusFour);
+                conditions.setmSelectAssetsStatus(statusThree);
                 search.setText("");
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
@@ -743,16 +750,65 @@ public class AssetListActivity extends BaseActivity<AssetListPresenter> implemen
                 currentStatusFilter = filterBean;
                 isNeedClearData = true;
                 currentPage = 1;
+                ArrayList<Node> statusFour = new ArrayList<>();
+                statusFour.add(new Node("-2", "-100", "删除"));
+                conditions.clearData();
+                conditions.setmSelectAssetsStatus(statusFour);
+                search.setText("");
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
+                break;
+            case "25":
+                currentStatusFilter = filterBean;
+                isNeedClearData = true;
+                currentPage = 1;
                 ArrayList<Node> statusFive = new ArrayList<>();
-                statusFive.add(new Node("7", "-1", "借用审批中"));
-                statusFive.add(new Node("8", "-1", "归还审批中"));
-                statusFive.add(new Node("9", "-1", "维修审批中"));
-                statusFive.add(new Node("11", "-1", "调拨审批中"));
-                statusFive.add(new Node("12", "-1", "报废审批中"));
-                statusFive.add(new Node("13", "-1", "领用审批中"));
-                statusFive.add(new Node("14", "-1", "退库审批中"));
+                statusFive.add(new Node("-4", "-100", "调试"));
                 conditions.clearData();
                 conditions.setmSelectAssetsStatus(statusFive);
+                search.setText("");
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
+                break;
+            case "26":
+                currentStatusFilter = filterBean;
+                isNeedClearData = true;
+                currentPage = 1;
+                ArrayList<Node> statusSix = new ArrayList<>();
+                statusSix.add(new Node("-5", "-100", "试运行"));
+                conditions.clearData();
+                conditions.setmSelectAssetsStatus(statusSix);
+                search.setText("");
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
+                break;
+            case "27":
+                currentStatusFilter = filterBean;
+                isNeedClearData = true;
+                currentPage = 1;
+                ArrayList<Node> statusSeven = new ArrayList<>();
+                statusSeven.add(new Node("15", "-100", "交接审批中"));
+                conditions.clearData();
+                conditions.setmSelectAssetsStatus(statusSeven);
+                search.setText("");
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
+                break;
+            case "28":
+                currentStatusFilter = filterBean;
+                isNeedClearData = true;
+                currentPage = 1;
+                ArrayList<Node> statusEight = new ArrayList<>();
+                statusEight.add(new Node("11", "-100", "调拨审批中"));
+                conditions.clearData();
+                conditions.setmSelectAssetsStatus(statusEight);
+                search.setText("");
+                mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
+                break;
+            case "29":
+                currentStatusFilter = filterBean;
+                isNeedClearData = true;
+                currentPage = 1;
+                ArrayList<Node> statusNine = new ArrayList<>();
+                statusNine.add(new Node("14", "-100", "退库审批中"));
+                conditions.clearData();
+                conditions.setmSelectAssetsStatus(statusNine);
                 search.setText("");
                 mPresenter.fetchPageAssetsInfos(pageSize, currentPage, "", "", 0, conditions);
                 break;
