@@ -22,7 +22,7 @@
         android:id="@+id/ast_real_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_15"
+        android:layout_marginStart="@dimen/dp_24"
         android:layout_toEndOf="@+id/tv_ast_name"
         android:textColor="@color/home_number"
         android:textSize="@dimen/sp_13" />
@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_ast_name"
-        android:layout_marginStart="@dimen/dp_15"
+        android:layout_marginStart="@dimen/dp_24"
         android:layout_toEndOf="@+id/tv_num_name"
         android:textColor="@color/setting_text_one"
         android:textSize="@dimen/sp_13" />
@@ -76,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_num_name"
-        android:layout_marginStart="@dimen/dp_15"
+        android:layout_marginStart="@dimen/dp_24"
         android:layout_toEndOf="@+id/tv_num_name"
         android:textColor="@color/setting_text_one"
         android:textSize="@dimen/sp_13" />
@@ -95,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_user"
-        android:layout_marginStart="@dimen/dp_15"
+        android:layout_marginStart="@dimen/dp_24"
         android:layout_toEndOf="@+id/tv_num_name"
         android:textColor="@color/setting_text_one"
         android:textSize="@dimen/sp_13"  />

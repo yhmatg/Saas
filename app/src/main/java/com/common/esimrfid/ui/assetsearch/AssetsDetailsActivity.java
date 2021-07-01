@@ -1,18 +1,11 @@
 package com.common.esimrfid.ui.assetsearch;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -20,12 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.CustomListener;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
-import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.common.esimrfid.R;
-import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
@@ -35,8 +23,6 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
 import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
 import com.common.esimrfid.ui.assetrepair.RepairAssetEvent;
-import com.common.esimrfid.ui.newinventory.AssetTag;
-import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.DateUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
@@ -99,10 +85,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     RecyclerView repair_recycler;
     @BindView(R.id.btn_submit)
     Button addButton;
-    @BindView(R.id.tv_inv_sure)
-    TextView assetInved;
-    @BindView(R.id.search_ast)
-    ImageView searchAsset;
     @BindView(R.id.rv_asset_details)
     RecyclerView assetDetailRecycle;
     private List<AssetResume> mResumeData = new ArrayList<>();//资产履历
@@ -112,12 +94,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private AssetsListItemInfo repairAsset = new AssetsListItemInfo();
     private String activityFrom;
     private int status;
-    private String epcCode;
-    private OptionsPickerView pvCustomOptions;
-    List<AssetTag> assetTags = new ArrayList<>();
-    private String astId;
-    private String mInvId;
-    private String mLocId;
     private List<AssetDetailItem> assetDetailItemList = new ArrayList<>();
     private AssetDetailItemAdapter assetDetailItemAdapter;
 
@@ -133,8 +109,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         String assetsId = intent.getStringExtra(ASSETS_ID);
         String assetsCode = intent.getStringExtra(ASSETS_CODE);
         activityFrom = intent.getStringExtra(WHERE_FROM);
-        mInvId = intent.getStringExtra(INV_ID);
-        mLocId = intent.getStringExtra(LOC_IC);
         mPresenter.getAssetsDetailsById(assetsId, assetsCode, activityFrom);
         mPresenter.getAssetsResumeById(assetsId, assetsCode);
         mPresenter.getAssetsRepairById(assetsId, assetsCode);
@@ -154,11 +128,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         if (("AssetRepairActivity".equals(activityFrom))) {
             addButton.setVisibility(View.VISIBLE);
         }
-        if ("InventoryTaskActivity".equals(EsimAndroidApp.activityFrom) && "notInvEdAsset".equals(EsimAndroidApp.invStatus)) {
-            assetInved.setVisibility(View.VISIBLE);
-            searchAsset.setVisibility(View.VISIBLE);
-            initCustomOptionPicker();
-        }
     }
 
     @Override
@@ -172,7 +141,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     }
 
     @OnClick({R.id.title_back, R.id.asset_detail, R.id.mainten_info, R.id.repair_record, R.id.asset_resume, R.id.asset_tab,
-            R.id.btn_submit, R.id.tv_inv_sure, R.id.search_ast})
+            R.id.btn_submit})
     void perforeClick(View view) {
         switch (view.getId()) {
             case R.id.title_back:
@@ -245,18 +214,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                     finish();
                 }
                 break;
-            case R.id.tv_inv_sure:
-                pvCustomOptions.setPicker(assetTags);
-                pvCustomOptions.show();
-                break;
-            case R.id.search_ast:
-                if(CommonUtils.isNormalClick()){
-                    Intent intent = new Intent();
-                    intent.putExtra(ASSETS_EPC, epcCode);
-                    intent.setClass(this, LocationSearchActivity.class);
-                    startActivity(intent);
-                }
-                break;
         }
     }
 
@@ -268,7 +225,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             rv_assetDetail.setVisibility(View.VISIBLE);
             HashMap<String, String> ast_append_info = assetsAllInfo.getAst_append_info();
             assetDetailItemList.clear();
-            assetDetailItemList.add(new AssetDetailItem("使用状态", AssetsUseStatus.getName(assetsAllInfo.getAst_used_status())));
+            status = assetsAllInfo.getAst_used_status();
+            assetDetailItemList.add(new AssetDetailItem("使用状态", AssetsUseStatus.getName(status)));
             assetDetailItemList.add(new AssetDetailItem("付款状态",ast_append_info.get("付款状态")));
             assetDetailItemList.add(new AssetDetailItem("设备编号",assetsAllInfo.getAst_barcode()));
             assetDetailItemList.add(new AssetDetailItem("DAM资产大类",ast_append_info.get("DAM资产大类")));
@@ -341,17 +299,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             repairAsset.setType_name(type);
             repairAsset.setAst_brand(assetsAllInfo.getAst_brand());
             repairAsset.setAst_model(assetsAllInfo.getAst_model());
-            epcCode = assetsAllInfo.getAst_epc_code();
-            astId = assetsAllInfo.getId();
         }
-    }
-
-    /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     */
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
     }
 
     @Override
@@ -375,93 +323,9 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         finish();
     }
 
-    private void initCustomOptionPicker() {//条件选择器初始化，自定义布局
-        /**
-         * @description
-         *
-         * 注意事项：
-         * 自定义布局中，id为 optionspicker 或者 timepicker 的布局以及其子控件必须要有，否则会报空指针。
-         * 具体可参考demo 里面的两个自定义layout布局。
-         */
-        assetTags.clear();
-        assetTags.add(new AssetTag("标签损坏"));
-        assetTags.add(new AssetTag("标签丢失"));
-        pvCustomOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                optionSelect(options1);
-            }
-        })
-                .setLayoutRes(R.layout.pickerview_custom_options, new CustomListener() {
-                    @Override
-                    public void customLayout(View v) {
-                        TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
-                        TextView tvCancel = (TextView) v.findViewById(R.id.tv_cancle);
-                        TextView tvTitle = (TextView) v.findViewById(R.id.tv_title);
-                        tvTitle.setText("添加标记");
-                        tvSubmit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                pvCustomOptions.returnData();
-                                //submitOption();
-                                pvCustomOptions.dismiss();
-                            }
-                        });
-
-                        tvCancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                pvCustomOptions.dismiss();
-                            }
-                        });
-
-                    }
-                })
-                .setContentTextSize(14)
-                .setLineSpacingMultiplier(2.0f)
-                .isDialog(true)
-                .setOutSideCancelable(true)
-                .build();
-        Dialog mDialog = pvCustomOptions.getDialog();
-        if (mDialog != null) {
-
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    Gravity.BOTTOM);
-
-            params.leftMargin = 0;
-            params.rightMargin = 0;
-            pvCustomOptions.getDialogContainerLayout().setLayoutParams(params);
-
-            Window dialogWindow = mDialog.getWindow();
-            if (dialogWindow != null) {
-                dialogWindow.setWindowAnimations(com.bigkoo.pickerview.R.style.picker_view_slide_anim);//修改动画样式
-                dialogWindow.setGravity(Gravity.BOTTOM);//改成Bottom,底部显示
-                dialogWindow.setDimAmount(0.3f);
-            }
-            //设置dialog宽度沾满全屏
-            Window window = mDialog.getWindow();
-            // 把 DecorView 的默认 padding 取消，同时 DecorView 的默认大小也会取消
-            window.getDecorView().setPadding(0, 0, 0, 0);
-            WindowManager.LayoutParams layoutParams = window.getAttributes();
-            // 设置宽度
-            layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-            window.setAttributes(layoutParams);
-        }
-
-
-    }
-
-    private void optionSelect(int options1) {
-        AssetTag assetTag = assetTags.get(options1);
-      mPresenter.setOneAssetInved(assetTag.getTagName(),mInvId,mLocId,astId);
-    }
-
     @Override
     public void handleSetOneAssetInved(Boolean result) {
-        ToastUtils.showShort(R.string.inved_toast);
-        finish();
+
     }
 
     @Override
@@ -470,8 +334,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         String assetsId = intent.getStringExtra(ASSETS_ID);
         String assetsCode = intent.getStringExtra(ASSETS_CODE);
         activityFrom = intent.getStringExtra(WHERE_FROM);
-        mInvId = intent.getStringExtra(INV_ID);
-        mLocId = intent.getStringExtra(LOC_IC);
         mPresenter.getAssetsDetailsById(assetsId, assetsCode, activityFrom);
         mPresenter.getAssetsResumeById(assetsId, assetsCode);
         mPresenter.getAssetsRepairById(assetsId, assetsCode);
@@ -486,11 +348,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         repair_recycler.setLayoutManager(new LinearLayoutManager(this));
         if (("AssetRepairActivity".equals(activityFrom))) {
             addButton.setVisibility(View.VISIBLE);
-        }
-        if ("InventoryTaskActivity".equals(EsimAndroidApp.activityFrom) && "notInvEdAsset".equals(EsimAndroidApp.invStatus)) {
-            assetInved.setVisibility(View.VISIBLE);
-            searchAsset.setVisibility(View.VISIBLE);
-            initCustomOptionPicker();
         }
     }
 }
