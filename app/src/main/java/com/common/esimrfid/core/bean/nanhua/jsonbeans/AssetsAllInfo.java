@@ -62,6 +62,7 @@ public class AssetsAllInfo {
     private String ast_brand;
     private long ast_buy_date;
     private String ast_epc_code;
+    private String ast_code;
     private String ast_expiration_months;
     private String ast_img_url;
     private int ast_material;
@@ -77,6 +78,7 @@ public class AssetsAllInfo {
     private int ast_used_status;
     private long create_date;
     private String creator_id;
+    private String creator_name;
     @PrimaryKey
     @NonNull
     private String id;
@@ -135,6 +137,14 @@ public class AssetsAllInfo {
 
     public void setAst_epc_code(String ast_epc_code) {
         this.ast_epc_code = ast_epc_code;
+    }
+
+    public String getAst_code() {
+        return ast_code;
+    }
+
+    public void setAst_code(String ast_code) {
+        this.ast_code = ast_code;
     }
 
     public String getAst_expiration_months() {
@@ -255,6 +265,14 @@ public class AssetsAllInfo {
 
     public void setCreator_id(String creator_id) {
         this.creator_id = creator_id;
+    }
+
+    public String getCreator_name() {
+        return creator_name;
+    }
+
+    public void setCreator_name(String creator_name) {
+        this.creator_name = creator_name;
     }
 
     public String getId() {
