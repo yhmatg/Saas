@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
@@ -85,6 +86,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
     private MaterialDialog invTagConfirmDialog;
     private String tag;
     private String assetTag;
+    private EditText etLoseTag;
 
     @Override
     public InvAssetsLocPresenter initPresenter() {
@@ -416,16 +418,20 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
         if (invTagLosDialog != null) {
             invTagLosDialog.show();
         } else {
-            View contentView = LayoutInflater.from(this).inflate(R.layout.finish_inv_dialog, null);
-            TextView content = contentView.findViewById(R.id.tv_content);
-            content.setText("确定将改资产标记为盘亏？");
+            View contentView = LayoutInflater.from(this).inflate(R.layout.inv_asset_lose_dialog, null);
+            etLoseTag = contentView.findViewById(R.id.tv_content);
             View cancleTv = contentView.findViewById(R.id.tv_cancel);
             View sureTv = contentView.findViewById(R.id.tv_sure);
             sureTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String signString = etLoseTag.getText().toString();
+                    if(StringUtils.isEmpty(signString)){
+                        ToastUtils.showShort(R.string.please_add_lose_remark);
+                        return;
+                    }
                     if (selectNotInvBean != null) {
-                        selectNotInvBean.setInvdt_sign("盘亏");
+                        selectNotInvBean.setInvdt_sign(signString);
                         selectNotInvBean.getInvdt_status().setCode(1);
                         selectNotInvBean.setNeedUpload(true);
                         mPresenter.setOneLessAssetInv(selectNotInvBean);
@@ -440,8 +446,9 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                         }
                         mAssetAdapter.notifyDataSetChanged();
                         ToastUtils.showShort(R.string.inv_less_toast);
+                        dismissTagLoseDialog();
                     }
-                    dismissTagLoseDialog();
+
                 }
             });
             cancleTv.setOnClickListener(new View.OnClickListener() {
@@ -453,6 +460,12 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
             MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
                     .customView(contentView, false);
             invTagLosDialog = builder.show();
+            invTagLosDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    etLoseTag.setText("");
+                }
+            });
             Window window = invTagLosDialog.getWindow();
             window.setBackgroundDrawableResource(android.R.color.transparent);
         }
