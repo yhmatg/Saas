@@ -46,22 +46,23 @@ public class DistributeOrderAdapter extends RecyclerView.Adapter<DistributeOrder
         viewHolder.mDistCreatorName.setText(distributeOrder.getCreator_name());
         viewHolder.mDistCreatorDate.setText(DateUtils.date2String(distributeOrder.getCreate_date()));
         String odrStatus = distributeOrder.getOdr_status();
-        String changeStatus= "待派发";
+        String changeStatus = "待派发";
         boolean isEnable = true;
         Drawable drawable = mContext.getDrawable(R.drawable.bt_background);
         switch (odrStatus) {
             case "领用待派发":
-                changeStatus= "待派发";
+                changeStatus = "待派发";
                 isEnable = true;
                 drawable = mContext.getDrawable(R.drawable.bt_background);
                 break;
+            case "领用待认领":
             case "领用已完成":
-                changeStatus= "已完成";
+                changeStatus = "已完成";
                 isEnable = false;
                 drawable = mContext.getDrawable(R.drawable.bt_disable_background);
                 break;
             case "派发已驳回":
-                changeStatus= "已驳回";
+                changeStatus = "已驳回";
                 isEnable = false;
                 drawable = mContext.getDrawable(R.drawable.bt_disable_background);
                 break;
@@ -74,7 +75,7 @@ public class DistributeOrderAdapter extends RecyclerView.Adapter<DistributeOrder
             @Override
             public void onClick(View v) {
                 if (mOnItemClickListener != null) {
-                    mOnItemClickListener.onRejectDist(distributeOrder,i);
+                    mOnItemClickListener.onRejectDist(distributeOrder, i);
                 }
             }
         });
@@ -130,7 +131,7 @@ public class DistributeOrderAdapter extends RecyclerView.Adapter<DistributeOrder
     }
 
     public interface OnItemClickListener {
-        void onRejectDist(DistributeOrder distributeOrder,int position);
+        void onRejectDist(DistributeOrder distributeOrder, int position);
 
         void onStartDist(DistributeOrder distributeOrder);
 

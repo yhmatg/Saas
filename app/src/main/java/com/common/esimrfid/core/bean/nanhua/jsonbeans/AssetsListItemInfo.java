@@ -33,6 +33,8 @@ public class AssetsListItemInfo {
     private String od_id;
     @Ignore
     private String ast_id;
+    @Ignore
+    private String ast_code;
 
     public String getAst_barcode() {
         return ast_barcode;
@@ -169,6 +171,14 @@ public class AssetsListItemInfo {
 
     public void setAst_id(String ast_id) {
         this.ast_id = ast_id;
+    }
+
+    public String getAst_code() {
+        return ast_code;
+    }
+
+    public void setAst_code(String ast_code) {
+        this.ast_code = ast_code;
     }
 
     @Override

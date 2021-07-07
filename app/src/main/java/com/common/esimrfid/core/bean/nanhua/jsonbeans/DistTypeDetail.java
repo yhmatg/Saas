@@ -10,6 +10,8 @@ public class DistTypeDetail {
     private String class_name;
     private String type_id;
     private String type_name;
+    private String req_user_id;
+    private String req_user_name;
     private String remark;
     private Integer amount;
     private List<AssetsListItemInfo> subList = new ArrayList<>();
@@ -55,6 +57,22 @@ public class DistTypeDetail {
 
     public void setType_name(String type_name) {
         this.type_name = type_name;
+    }
+
+    public String getReq_user_id() {
+        return req_user_id;
+    }
+
+    public void setReq_user_id(String req_user_id) {
+        this.req_user_id = req_user_id;
+    }
+
+    public String getReq_user_name() {
+        return req_user_name;
+    }
+
+    public void setReq_user_name(String req_user_name) {
+        this.req_user_name = req_user_name;
     }
 
     public String getRemark() {
