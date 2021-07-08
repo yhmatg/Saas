@@ -53,8 +53,6 @@ public interface HttpHelper {
 
     Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails, String uid);
 
-    Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation();
-
     Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus();
 
     Observable<BaseResponse<List<MangerUser>>> getAllManagerUsers();
@@ -73,13 +71,9 @@ public interface HttpHelper {
 
     Observable<BaseResponse> finishInvOrderWithAsset(String orderId, String uid, List<String> invDetails);
 
-    Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(Set<String> Epcs);
-
     Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfo(String astId, String astCode);
 
     Observable<BaseResponse<UpdateVersion>> updateVersion();
-
-    Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
 
     Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter);
 
@@ -93,10 +87,6 @@ public interface HttpHelper {
 
     Observable<BaseResponse> finishInvAssets(String orderId, String uid, List<AssetUploadParameter> invDetails);
 
-    Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(String patternName);
-
-    Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(String lastTime);
-
     Observable<BaseResponse<AssetsInfoPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName);
 
     Observable<BaseResponse> createNewRepairOrder(NewAssetRepairPara repariPara);
@@ -105,7 +95,7 @@ public interface HttpHelper {
 
     Observable<BaseResponse<DataAuthority>> getDataAuthority(String id);
 
-    Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation();
+    Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbDiffLocation();
 
     Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfoWithAuth(String astId, String astCode);
 

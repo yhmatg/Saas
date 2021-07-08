@@ -29,18 +29,6 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
     }
 
     @Override
-    public void getSearchAssetsById(String assetsId) {
-        addSubscribe(getSearchLocalAssetsObservable(assetsId)
-                .compose(RxUtils.rxSchedulerHelper())
-                .subscribeWith(new BaseObserver<List<SearchAssetsInfo>>(mView,false) {
-                    @Override
-                    public void onNext(List<SearchAssetsInfo> searchAssets) {
-                        mView.handleSearchAssets(searchAssets);
-                    }
-                }));
-    }
-
-    @Override
     public void getAllAssetsForSearch() {
         addSubscribe(getLocalAssetsEpcsObservable()
                 .compose(RxUtils.rxSchedulerHelper())
@@ -50,35 +38,6 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
                         mView.handGetAllAssetsForSearch(searchAssets);
                     }
                 }));
-    }
-
-    @Override
-    public void fetchLatestAssets() {
-        if(CommonUtils.isNetworkConnected()){
-            addSubscribe(DataManager.getInstance().fetchLatestAssets(DataManager.getInstance().getLatestSyncTime())
-                    .compose(RxUtils.handleResult())
-                    .subscribeOn(Schedulers.io())
-                    .doOnNext(new Consumer<LatestModifyAssets>() {
-                        @Override
-                        public void accept(LatestModifyAssets latestModifyAssets) throws Exception {
-                            AssetsAllInfoDao assetsAllInfoDao = DbBank.getInstance().getAssetsAllInfoDao();
-                            if(latestModifyAssets.getModified() != null && latestModifyAssets.getModified().size() > 0){
-                                assetsAllInfoDao.insertItems(latestModifyAssets.getModified());
-                            }
-                            if(latestModifyAssets.getRemoved()!= null && latestModifyAssets.getRemoved().size() > 0){
-                                assetsAllInfoDao.deleteItems(latestModifyAssets.getRemoved());
-                            }
-                            DataManager.getInstance().setLatestSyncTime(String.valueOf(System.currentTimeMillis() - 60000));
-                        }
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new BaseObserver<LatestModifyAssets>(mView, false) {
-                        @Override
-                        public void onNext(LatestModifyAssets latestModifyAssets) {
-
-                        }
-                    }));
-        }
     }
 
     //分页查询资产
@@ -105,20 +64,6 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
         });
         return baseResponseObservable;
     }
-
-
-    //模糊搜索本地资产
-    public Observable<List<SearchAssetsInfo>> getSearchLocalAssetsObservable(String param) {
-        Observable<List<SearchAssetsInfo>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<SearchAssetsInfo>> emitter) throws Exception {
-                List<SearchAssetsInfo> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().searchLocalAssetsByPara(param,EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope().getGeneral(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope().getGeneral());
-                emitter.onNext(allAssetEpcs);
-            }
-        });
-        return baseResponseObservable;
-    }
-
 
     public Observable<List<SearchAssetsInfo>> getLocalPageAssetsObservable(Integer size, String patternName, int currentSize) {
         Observable<List<SearchAssetsInfo>> invOrderObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
