@@ -28,18 +28,6 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
     }
 
     @Override
-    public void getSearchAssetsById(String assetsId) {
-        addSubscribe(getSearchLocalAssetsObservable(assetsId)
-                .compose(RxUtils.rxSchedulerHelper())
-                .subscribeWith(new BaseObserver<List<SearchAssetsInfo>>(mView,false) {
-                    @Override
-                    public void onNext(List<SearchAssetsInfo> searchAssets) {
-                        mView.handleSearchAssets(searchAssets);
-                    }
-                }));
-    }
-
-    @Override
     public void getAllAssetsForSearch() {
         addSubscribe(getLocalAssetsEpcsObservable()
                 .compose(RxUtils.rxSchedulerHelper())

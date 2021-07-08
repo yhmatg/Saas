@@ -180,7 +180,6 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                     editText.setSelection(assetsId.length());
                     isNeedClearData = true;
                     preFilter = assetsId;
-                    //mPresenter.getSearchAssetsById(assetsId);
                     mPresenter.fetchPageAssetsInfos(pageSize, preFilter, 0);
                     isSearch = true;
                     return true;
