@@ -40,7 +40,7 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
 
     @Override
     public void getAssetsNmbDiffLocation() {
-        addSubscribe(DataManager.getInstance().getAssetsNmbInDiffLocation()
+        addSubscribe(DataManager.getInstance().getAssetsNmbDiffLocation()
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .subscribeWith(new BaseObserver<List<AssetLocNmu>>(mView, false) {

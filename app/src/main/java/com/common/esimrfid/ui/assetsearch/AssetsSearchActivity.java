@@ -113,7 +113,6 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
         mRefreshLayout.setEnableAutoLoadMore(false);
-        //mPresenter.fetchLatestAssets();
         mPresenter.fetchLatestPageAssets(500,1);
         mPresenter.getAllAssetsForSearch();
     }
@@ -181,7 +180,6 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                     editText.setSelection(assetsId.length());
                     isNeedClearData = true;
                     preFilter = assetsId;
-                    //mPresenter.getSearchAssetsById(assetsId);
                     mPresenter.fetchPageAssetsInfos(pageSize, preFilter, 0);
                     isSearch = true;
                     return true;

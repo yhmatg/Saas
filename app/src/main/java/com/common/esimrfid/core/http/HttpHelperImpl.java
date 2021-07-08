@@ -95,11 +95,6 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation() {
-        return mGeeksApis.getAssetsNmbDiffLocation();
-    }
-
-    @Override
     public Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus() {
         return mGeeksApis.getAssetsNmbDiffStatus();
     }
@@ -145,11 +140,6 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(Set<String> Epcs) {
-        return mGeeksApis.fetchScanAssets(Epcs);
-    }
-
-    @Override
     public Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfo(String astId, String astCode) {
         return mGeeksApis.fetchAssetsInfo(astId, astCode);
     }
@@ -158,11 +148,6 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse<UpdateVersion>> updateVersion() {
         return mGeeksApis.updateVersion();
-    }
-
-    @Override
-    public Observable<BaseResponse<CompanyInfo>> getCompanyInfo() {
-        return mGeeksApis.getCompanyInfo();
     }
 
 
@@ -187,16 +172,6 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(String patternName) {
-        return mGeeksApis.fetchAllAssetsInfos(patternName);
-    }
-
-    @Override
-    public Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(String lastTime) {
-        return mGeeksApis.fetchLatestAssets(lastTime);
-    }
-
-    @Override
     public Observable<BaseResponse<AssetsInfoPage>> fetchPageAssetsInfos(Integer size, Integer page, String patternName) {
         return mGeeksApis.fetchPageAssetsInfos(size, page, patternName);
     }
@@ -217,8 +192,8 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation() {
-        return mGeeksApis.getAssetsNmbInDiffLocation();
+    public Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbDiffLocation() {
+        return mGeeksApis.getAssetsNmbDiffLocation();
     }
 
     @Override

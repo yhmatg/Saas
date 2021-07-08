@@ -97,17 +97,11 @@ public interface GeeksApis {
     @POST("inventory-server/inventoryorders/{orderId}/commit")
     Observable<BaseResponse> uploadInvDetails(@Path("orderId") String orderId, @Body List<String> invDetails, @Query("uid") String uid);
 
-    //获取不同位置下资产数量(数据权限版本前使用)
-    //@return 位置和对应资产数目
-
-    @GET("assets-server/assets/countbyloc")
-    Observable<BaseResponse<HashMap<String, Integer>>> getAssetsNmbDiffLocation();
-
     //获取不同位置下资产数量(数据权限版本后使用)
     //@return 位置和对应资产数目
 
     @GET("assets-server/dashboard/countbyloc")
-    Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbInDiffLocation();
+    Observable<BaseResponse<List<AssetLocNmu>>> getAssetsNmbDiffLocation();
 
     //获取不同状态的资产数量
     //@return 不同状态下的资产数目
@@ -183,14 +177,6 @@ public interface GeeksApis {
     @GET("assets-server/assets/multiconditions")
     Observable<BaseResponse<AssetsListPage>> fetchPageAssetsList(@Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName, @Query("user_real_name") String userRealName, @Query("conditions") String conditions);
 
-
-    //根据Epc查询资产详情（资产查找）
-    //@param Epcs EPC集合
-    //@return 资产信息列表
-
-    @POST("assets-server/assets/byrfids")
-    Observable<BaseResponse<List<AssetsInfo>>> fetchScanAssets(@Body Set<String> Epcs);
-
     //根据资产id或者二维码获取资产详情
     //@param ast_id 资产id ast_code 资产二维码
     //@return 资产详情信息
@@ -203,12 +189,6 @@ public interface GeeksApis {
 
     @GET("tagorder-server/appversions/latest")
     Observable<BaseResponse<UpdateVersion>> updateVersion();
-
-    //获取公司信息详情
-    //@return 公司详情信息
-
-    @GET("user-server/sysusers/selectCurrentOrg")
-    Observable<BaseResponse<CompanyInfo>> getCompanyInfo();
 
     //根据资产id查询资产履历
     @GET("assets-server/assets/astoptrecord")
@@ -233,14 +213,6 @@ public interface GeeksApis {
     //新完成盘点数据上传
     @POST("inventory-server/inventoryorders/{id}/finishwithinfo/new")
     Observable<BaseResponse> finishInvAssets(@Path("id") String orderId, @Query("uid") String uid, @Body List<AssetUploadParameter> invReq);
-
-    //获取资产的所有详情
-    @GET("assets-server/assets/unpage")
-    Observable<BaseResponse<List<AssetsAllInfo>>> fetchAllAssetsInfos(@Query("pattern_name") String patternName);
-
-    //根据时间戳获取变动更新资产
-    @GET("assets-server/assets/lastupdate")
-    Observable<BaseResponse<LatestModifyAssets>> fetchLatestAssets(@Query("lasttime") String lastTime);
 
     //根据时间戳获取变动更新资产(分页)
     @GET("assets-server/assets/lastupdate")
