@@ -138,8 +138,8 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                 }));
     }
 
-    public Observable<BaseResponse<List<ResultInventoryOrder>>> getLocalInOrderObservable(final boolean online) {
-        Observable<BaseResponse<List<ResultInventoryOrder>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<ResultInventoryOrder>>>() {
+    private Observable<BaseResponse<List<ResultInventoryOrder>>> getLocalInOrderObservable(final boolean online) {
+        return Observable.create(new ObservableOnSubscribe<BaseResponse<List<ResultInventoryOrder>>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<List<ResultInventoryOrder>>> emitter) throws Exception {
                 List<ResultInventoryOrder> newestOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrders();
@@ -155,7 +155,6 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                 }
             }
         });
-        return invOrderObservable;
     }
 
     //获取管理员权限范围

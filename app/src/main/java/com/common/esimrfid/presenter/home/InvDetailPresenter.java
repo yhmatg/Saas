@@ -133,8 +133,8 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
     }
 
     //本地获取盘点数据
-    public Observable<BaseResponse<ResultInventoryDetail>> getLocalInvDetailsObservable(String orderId, final boolean online) {
-        Observable<BaseResponse<ResultInventoryDetail>> localInvDetailObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<ResultInventoryDetail>>() {
+    private Observable<BaseResponse<ResultInventoryDetail>> getLocalInvDetailsObservable(String orderId, final boolean online) {
+        return Observable.create(new ObservableOnSubscribe<BaseResponse<ResultInventoryDetail>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<ResultInventoryDetail>> emitter) throws Exception {
                 List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
@@ -161,7 +161,6 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                 }
             }
         });
-        return localInvDetailObservable;
     }
     //除盘点状态外，资产的其他属性使用服务器上数据（用户可能修改过）
     public List<InventoryDetail> handleLocalAndRemountData(List<InventoryDetail> local, List<InventoryDetail> remount) {
@@ -185,14 +184,13 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
         return tempData;
     }
 
-    public Observable<List<InventoryDetail>> getNeedSbumitOneAssetObservable(String orderId) {
-        Observable<List<InventoryDetail>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<InventoryDetail>>() {
+    private Observable<List<InventoryDetail>> getNeedSbumitOneAssetObservable(String orderId) {
+        return Observable.create(new ObservableOnSubscribe<List<InventoryDetail>>() {
             @Override
             public void subscribe(ObservableEmitter<List<InventoryDetail>> emitter) throws Exception {
                 List<InventoryDetail> needSubmitAssets = DbBank.getInstance().getInventoryDetailDao().findNeedSubmitAssets(orderId, true);
                 emitter.onNext(needSubmitAssets);
             }
         });
-        return baseResponseObservable;
     }
 }

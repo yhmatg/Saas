@@ -100,8 +100,8 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
     }
 
 
-    public Observable<Boolean> getUpdateOneAssetStatusObservable(String sign, String invId, String locId, String astId) {
-        Observable<Boolean> baseResponseObservable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+    private Observable<Boolean> getUpdateOneAssetStatusObservable(String sign, String invId, String locId, String astId) {
+        return Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
                 List<InventoryDetail> localInvDetailByAstId = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByAstId(invId,locId,astId);
@@ -124,7 +124,6 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
                 }
             }
         });
-        return baseResponseObservable;
     }
 
 

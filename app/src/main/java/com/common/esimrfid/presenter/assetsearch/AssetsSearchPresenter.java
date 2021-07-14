@@ -53,40 +53,37 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
     }
 
     //获取本地所有资产epc
-    public Observable<List<SearchAssetsInfo>> getLocalAssetsEpcsObservable() {
-        Observable<List<SearchAssetsInfo>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
+    private Observable<List<SearchAssetsInfo>> getLocalAssetsEpcsObservable() {
+        return Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
             @Override
             public void subscribe(ObservableEmitter<List<SearchAssetsInfo>> emitter) throws Exception {
                 List<SearchAssetsInfo> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().getAllAssetForSearch();
                 emitter.onNext(allAssetEpcs);
             }
         });
-        return baseResponseObservable;
     }
 
 
     //模糊搜索本地资产
     public Observable<List<SearchAssetsInfo>> getSearchLocalAssetsObservable(String param) {
-        Observable<List<SearchAssetsInfo>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
+        return Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
             @Override
             public void subscribe(ObservableEmitter<List<SearchAssetsInfo>> emitter) throws Exception {
                 List<SearchAssetsInfo> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().searchLocalAssetsByPara(param,EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope().getGeneral(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope().getGeneral());
                 emitter.onNext(allAssetEpcs);
             }
         });
-        return baseResponseObservable;
     }
 
 
-    public Observable<List<SearchAssetsInfo>> getLocalPageAssetsObservable(Integer size, String patternName, int currentSize) {
-        Observable<List<SearchAssetsInfo>> invOrderObservable = Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
+    private Observable<List<SearchAssetsInfo>> getLocalPageAssetsObservable(Integer size, String patternName, int currentSize) {
+        return Observable.create(new ObservableOnSubscribe<List<SearchAssetsInfo>>() {
             @Override
             public void subscribe(ObservableEmitter<List<SearchAssetsInfo>> emitter) throws Exception {
                 List<SearchAssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().searchPageLocalAssetsByPara(size, patternName, currentSize,EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope().getGeneral(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope().getGeneral());
                 emitter.onNext(newestOrders);
             }
         });
-        return invOrderObservable;
     }
 
     @Override

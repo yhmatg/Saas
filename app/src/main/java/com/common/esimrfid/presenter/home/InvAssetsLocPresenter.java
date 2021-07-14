@@ -1,20 +1,19 @@
 package com.common.esimrfid.presenter.home;
 
-import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
-import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.inventorytask.EpcBean;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -76,8 +75,8 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
     }
 
     //获取本地盘点数据
-    public Observable<Boolean> getUpdateInvStatusObservable(List<InventoryDetail> oneInvDetails, HashSet<String> oneMoreInvEpcs, String locId, String locName, String invId) {
-        Observable<Boolean> baseResponseObservable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+    private Observable<Boolean> getUpdateInvStatusObservable(List<InventoryDetail> oneInvDetails, HashSet<String> oneMoreInvEpcs, String locId, String locName, String invId) {
+        return Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
                 DbBank.getInstance().getInventoryDetailDao().updateItems(oneInvDetails);
@@ -113,7 +112,6 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
                 emitter.onNext(true);
             }
         });
-        return baseResponseObservable;
     }
 
     private boolean isLocalMoreContains(String astId, List<InventoryDetail> locMoreInvDetail) {
@@ -127,8 +125,8 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
         return isConstains;
     }
 
-    public Observable<Boolean> getUpdateOneAssetStatusObservable(InventoryDetail oneLessAsset) {
-        Observable<Boolean> baseResponseObservable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+    private Observable<Boolean> getUpdateOneAssetStatusObservable(InventoryDetail oneLessAsset) {
+        return Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
                 DbBank.getInstance().getInventoryDetailDao().updateItem(oneLessAsset);
@@ -143,7 +141,6 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
                 emitter.onNext(true);
             }
         });
-        return baseResponseObservable;
     }
 
     @Override
@@ -159,14 +156,13 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
     }
 
     //获取本地所有资产epc
-    public Observable<List<EpcBean>> getLocalAssetsEpcsObservable() {
-        Observable<List<EpcBean>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<EpcBean>>() {
+    private Observable<List<EpcBean>> getLocalAssetsEpcsObservable() {
+        return Observable.create(new ObservableOnSubscribe<List<EpcBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<EpcBean>> emitter) throws Exception {
                 List<EpcBean> allAssetEpcs = DbBank.getInstance().getAssetsAllInfoDao().getAllAssetEpcs();
                 emitter.onNext(allAssetEpcs);
             }
         });
-        return baseResponseObservable;
     }
 }

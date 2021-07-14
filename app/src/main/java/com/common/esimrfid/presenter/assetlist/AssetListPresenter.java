@@ -66,8 +66,8 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
                 }));
     }
 
-    public Observable<BaseResponse<AssetsListPage>> getLocalAssetsObservable(Integer size, String patternName, int currentSize, AssetFilterParameter conditions) {
-        Observable<BaseResponse<AssetsListPage>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsListPage>>() {
+    private Observable<BaseResponse<AssetsListPage>> getLocalAssetsObservable(Integer size, String patternName, int currentSize, AssetFilterParameter conditions) {
+        return Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsListPage>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<AssetsListPage>> emitter) throws Exception {
                 List<Node> nodes = conditions.getmSelectAssetsStatus();
@@ -99,7 +99,6 @@ public class AssetListPresenter extends BasePresenter<AssetListContract.View> im
                 }
             }
         });
-        return invOrderObservable;
     }
 
     @Override

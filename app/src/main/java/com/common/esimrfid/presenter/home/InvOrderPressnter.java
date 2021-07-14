@@ -104,8 +104,8 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     }
 
     //不分页
-    public Observable<BaseResponse<List<ResultInventoryOrder>>> getLocalInOrderObservable(final boolean online) {
-        Observable<BaseResponse<List<ResultInventoryOrder>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<ResultInventoryOrder>>>() {
+    private Observable<BaseResponse<List<ResultInventoryOrder>>> getLocalInOrderObservable(final boolean online) {
+        return Observable.create(new ObservableOnSubscribe<BaseResponse<List<ResultInventoryOrder>>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<List<ResultInventoryOrder>>> emitter) throws Exception {
                 List<ResultInventoryOrder> newestOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrders();
@@ -123,7 +123,6 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                 }
             }
         });
-        return invOrderObservable;
     }
 
     //分页获取盘点单列表
@@ -203,8 +202,8 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     }
 
     //分页
-    public Observable<BaseResponse<InventoryOrderPage>> getLocalInOrderPageObservable(Integer size, Integer currentSize, final boolean online) {
-        Observable<BaseResponse<InventoryOrderPage>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<InventoryOrderPage>>() {
+    private Observable<BaseResponse<InventoryOrderPage>> getLocalInOrderPageObservable(Integer size, Integer currentSize, final boolean online) {
+        return Observable.create(new ObservableOnSubscribe<BaseResponse<InventoryOrderPage>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<InventoryOrderPage>> emitter) throws Exception {
                 List<ResultInventoryOrder> newestOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrdersPage(size, currentSize);
@@ -225,7 +224,6 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                 }
             }
         });
-        return invOrderObservable;
     }
 
     //网络获取盘点数据
@@ -271,8 +269,8 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     }
 
     //本地获取盘点数据
-    public Observable<BaseResponse<ResultInventoryDetail>> getLocalInvDetailsObservable(String orderId, final boolean online) {
-        Observable<BaseResponse<ResultInventoryDetail>> localInvDetailObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<ResultInventoryDetail>>() {
+    private Observable<BaseResponse<ResultInventoryDetail>> getLocalInvDetailsObservable(String orderId, final boolean online) {
+        return Observable.create(new ObservableOnSubscribe<BaseResponse<ResultInventoryDetail>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<ResultInventoryDetail>> emitter) throws Exception {
                 List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
@@ -298,7 +296,6 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                 }
             }
         });
-        return localInvDetailObservable;
     }
 
     //上传盘点未提交的资产
@@ -402,21 +399,20 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     }
 
     //获取盘点单中需要提交的资产
-    public Observable<List<InventoryDetail>> getNeedSbumitOneAssetObservable(String orderId) {
-        Observable<List<InventoryDetail>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<InventoryDetail>>() {
+    private Observable<List<InventoryDetail>> getNeedSbumitOneAssetObservable(String orderId) {
+        return Observable.create(new ObservableOnSubscribe<List<InventoryDetail>>() {
             @Override
             public void subscribe(ObservableEmitter<List<InventoryDetail>> emitter) throws Exception {
                 List<InventoryDetail> needSubmitAssets = DbBank.getInstance().getInventoryDetailDao().findNeedSubmitAssets(orderId, true);
                 emitter.onNext(needSubmitAssets);
             }
         });
-        return baseResponseObservable;
     }
 
 
     //获取盘点单中待盘点的资产
-    public Observable<Boolean> getNotInvAssetObservable(String orderId) {
-        Observable<Boolean> baseResponseObservable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+    private Observable<Boolean> getNotInvAssetObservable(String orderId) {
+        return Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
             public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
                 boolean isAllInved = false;
@@ -428,6 +424,5 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                 emitter.onNext(isAllInved);
             }
         });
-        return baseResponseObservable;
     }
 }

@@ -81,8 +81,8 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
                 }));
     }
 
-    public Observable<BaseResponse<AssetsInfoPage>> getLocalAssetsObservable(Integer size, String patternName, int currentSize) {
-        Observable<BaseResponse<AssetsInfoPage>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsInfoPage>>() {
+    private Observable<BaseResponse<AssetsInfoPage>> getLocalAssetsObservable(Integer size, String patternName, int currentSize) {
+        return Observable.create(new ObservableOnSubscribe<BaseResponse<AssetsInfoPage>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<AssetsInfoPage>> emitter) throws Exception {
                 List<AssetsInfo> newestOrders = DbBank.getInstance().getAssetsAllInfoDao().findPageLocalAssetsByPara(size, patternName, currentSize, EsimAndroidApp.getDataAuthority().getAuth_corp_scope(),EsimAndroidApp.getDataAuthority().getAuth_dept_scope(),EsimAndroidApp.getDataAuthority().getAuth_type_scope().getGeneral(),EsimAndroidApp.getDataAuthority().getAuth_loc_scope().getGeneral());
@@ -103,6 +103,5 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
                 }
             }
         });
-        return invOrderObservable;
     }
 }
