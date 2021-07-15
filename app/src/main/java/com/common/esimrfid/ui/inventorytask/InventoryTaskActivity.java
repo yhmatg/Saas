@@ -78,7 +78,6 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                //mPresenter.fetchAllIvnOrders(userId, true);
                 isNeedClearData = true;
                 currentPage = 1;
                 mPresenter.fetchAllIvnOrdersPage(pageSize,1,0,userId,true);
@@ -102,12 +101,6 @@ public class InventoryTaskActivity extends BaseActivity<InvOrderPressnter> imple
     protected void onResume() {
         super.onResume();
         //初始化或者更新本地盘点的状态
-       /* if (isFirstOnResume) {
-            mPresenter.fetchAllIvnOrders(userId, true);
-            isFirstOnResume = false;
-        } else {
-            mPresenter.fetchAllIvnOrders(userId, false);
-        }*/
         //isNeedClearData = true;
         //mPresenter.fetchAllIvnOrdersPage(pageSize,1,0,userId,true);
         if(selectedInvOrder != null){
