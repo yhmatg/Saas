@@ -46,41 +46,11 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .observeOn(Schedulers.io())
-                .flatMap(new Function<InventoryOrderPage, ObservableSource<InventoryOrderPage>>() {
+                .doOnNext(new Consumer<InventoryOrderPage>() {
                     @Override
-                    public ObservableSource<InventoryOrderPage> apply(InventoryOrderPage InventoryOrderPage) throws Exception {
-                        List<ResultInventoryOrder> resultInventoryOrders = InventoryOrderPage.getList();
-                        ArrayList<String> unInvedRemoteOrders = new ArrayList<>();
-                        for (ResultInventoryOrder resultInventoryOrder : resultInventoryOrders) {
-                            if (resultInventoryOrder.getInv_status() == 10) {
-                                unInvedRemoteOrders.add(resultInventoryOrder.getId());
-                            }
-                        }
-                        //根据服务端没有盘点完场的盘点单，获取本地没有盘点完场的盘点单，替换服务端中未完成的盘点单（本地可能做过盘点任务，但是数据没有上传）
-                        //List<ResultInventoryOrder> localOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrders();
-                        List<ResultInventoryOrder> notInvedLocalOrders = DbBank.getInstance().getResultInventoryOrderDao().findNotInvedInvOrders(unInvedRemoteOrders);
-                        //本地同步服务端已经删除的数据
-                        /*List<ResultInventoryOrder> tempLocal = new ArrayList<>();
-                        tempLocal.addAll(localOrders);
-                        tempLocal.removeAll(resultInventoryOrders);
-                        //数据库同步删除盘点单
-                        DbBank.getInstance().getResultInventoryOrderDao().deleteItems(tempLocal);
-                        //数据库同步删除盘点单下的资产
-                        List<String> deleteIds = new ArrayList<>();
-                        for (int i = 0; i < tempLocal.size(); i++) {
-                            deleteIds.add(tempLocal.get(i).getId());
-                        }
-                        DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvids(deleteIds);*/
-                        //本地数据和服务器数据的交集，服务端删除盘点单，本地同步跟新显示
-                        notInvedLocalOrders.retainAll(resultInventoryOrders);
-                        //服务端新增的数据
-                        resultInventoryOrders.removeAll(notInvedLocalOrders);
-                        List<ResultInventoryOrder> tempRemount = new ArrayList<>();
-                        tempRemount.addAll(resultInventoryOrders);
-                        tempRemount.addAll(notInvedLocalOrders);
+                    public void accept(InventoryOrderPage inventoryOrderPage) throws Exception {
+                        List<ResultInventoryOrder> resultInventoryOrders = inventoryOrderPage.getList();
                         DbBank.getInstance().getResultInventoryOrderDao().insertItems(resultInventoryOrders);
-                        InventoryOrderPage.setList(tempRemount);
-                        return Observable.just(InventoryOrderPage);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
