@@ -2,7 +2,6 @@ package com.common.esimrfid.ui.tagwrite;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -18,7 +17,6 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.WriteTagContract;
-import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.presenter.home.WriteTagPresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
@@ -149,14 +147,6 @@ public class WriteTagActivity extends BaseActivity<WriteTagPresenter> implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-    @Override
-    public void handleAssetsById(List<AssetsInfo> assetsInfos) {
-        mData.clear();
-        mData.addAll(assetsInfos);
-        adapter.notifyDataSetChanged();
-        handleResultList(mData);
     }
 
     @Override

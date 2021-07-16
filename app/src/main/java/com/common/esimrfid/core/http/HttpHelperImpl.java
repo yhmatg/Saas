@@ -2,7 +2,6 @@ package com.common.esimrfid.core.http;
 
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
-import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
@@ -17,15 +16,12 @@ import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.inventorytask.TitleAndLogoResult;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
-import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
@@ -35,9 +31,7 @@ import com.common.esimrfid.core.bean.update.UpdateVersion;
 import com.common.esimrfid.core.http.api.GeeksApis;
 import com.common.esimrfid.core.http.client.RetrofitClient;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import io.reactivex.Observable;
 
@@ -90,11 +84,6 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails, String uid) {
-        return mGeeksApis.uploadInvDetails(orderId, invDetails, uid);
-    }
-
-    @Override
     public Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus() {
         return mGeeksApis.getAssetsNmbDiffStatus();
     }
@@ -127,16 +116,6 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara) {
         return mGeeksApis.createNewInventory(invpara);
-    }
-
-    @Override
-    public Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName) {
-        return mGeeksApis.fetchWriteAssetsInfos(patternName);
-    }
-
-    @Override
-    public Observable<BaseResponse> finishInvOrderWithAsset(String orderId, String uid, List<String> invDetails) {
-        return mGeeksApis.finishInvOrderWithAsset(orderId, uid, invDetails);
     }
 
     @Override
@@ -217,11 +196,6 @@ public class HttpHelperImpl implements HttpHelper {
     }
 
     @Override
-    public Observable<BaseResponse> updateAssetLoc(List<String> astIds, String loc) {
-        return mGeeksApis.updateAssetLoc(astIds, loc);
-    }
-
-    @Override
     public Observable<BaseResponse> updateAssetProp(UpdateAssetsPara updateAssetsPara) {
         return mGeeksApis.updateAssetProp(updateAssetsPara);
     }
@@ -229,11 +203,6 @@ public class HttpHelperImpl implements HttpHelper {
     @Override
     public Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(String tenantid, String configKey) {
         return mGeeksApis.getTitleAndLogo(tenantid,configKey);
-    }
-
-    @Override
-    public Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter) {
-        return mGeeksApis.createNewRepairOrder(repairParameter);
     }
 
     @Override

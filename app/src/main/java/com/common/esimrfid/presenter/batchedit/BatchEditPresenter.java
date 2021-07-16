@@ -136,18 +136,6 @@ public class BatchEditPresenter extends BasePresenter<BatchEditContract.View> im
     }
 
     @Override
-    public void updateAssetLoc(List<String> astIds, String loc) {
-        addSubscribe(DataManager.getInstance().updateAssetLoc(astIds, loc)
-        .compose(RxUtils.rxSchedulerHelper())
-        .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
-            @Override
-            public void onNext(BaseResponse baseResponse) {
-                mView.handelUpdateAssetLoc(baseResponse);
-            }
-        }));
-    }
-
-    @Override
     public void updateAssetProp(UpdateAssetsPara updateAssetsPara) {
         addSubscribe(DataManager.getInstance().updateAssetProp(updateAssetsPara)
         .compose(RxUtils.rxSchedulerHelper())

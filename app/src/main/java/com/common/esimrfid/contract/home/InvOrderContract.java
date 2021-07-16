@@ -4,9 +4,9 @@ package com.common.esimrfid.contract.home;
 import com.common.esimrfid.base.presenter.AbstractPresenter;
 import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+
 import java.util.List;
 
 public interface InvOrderContract {
@@ -23,15 +23,9 @@ public interface InvOrderContract {
     }
 
     interface Presenter extends AbstractPresenter<View> {
-        void fetchAllIvnOrders(String userId, boolean online);
-
         void fetchAllIvnOrdersPage(Integer size, Integer page, int currentSize, String userId, boolean online);
 
         void fetchAllInvDetails(String orderId, boolean online);
-
-        void upLoadInvDetails(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid);
-
-        void finishInvOrderWithAsset(String orderId, List<String> invDetails, List<InventoryDetail> inventoryDetails, String uid);
 
         void uploadLocalInvDetailState(String orderId, String uid);
 
