@@ -200,6 +200,9 @@ public class AssetInventoryActivity extends BaseActivity<InvOrderPressnter> impl
         invordersSize += resultInventoryOrders.size();
         for (int i = 0; i < resultInventoryOrders.size(); i++) {
             ResultInventoryOrder resultInventoryOrder = resultInventoryOrders.get(i);
+            if(resultInventoryOrder.getInv_total_count() == 0){
+                continue;
+            }
             if (resultInventoryOrder.getInv_status() == 10) {
                 mUnFinishedTaskorders.add(resultInventoryOrder);
             } else if (resultInventoryOrder.getInv_status() == 11) {
