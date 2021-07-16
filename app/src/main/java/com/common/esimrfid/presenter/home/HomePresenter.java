@@ -89,15 +89,8 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                 .doOnNext(new Consumer<List<ResultInventoryOrder>>() {
                     @Override
                     public void accept(List<ResultInventoryOrder> resultInventoryOrders) throws Exception {
-                        ArrayList<String> unInvedRemoteOrders = new ArrayList<>();
-                        for (ResultInventoryOrder resultInventoryOrder : resultInventoryOrders) {
-                            if (resultInventoryOrder.getInv_status() == 10) {
-                                unInvedRemoteOrders.add(resultInventoryOrder.getId());
-                            }
-                        }
-                        //根据服务端没有盘点完场的盘点单，获取本地没有盘点完场的盘点单，替换服务端中未完成的盘点单（本地可能做过盘点任务，但是数据没有上传）
+                        //2.4.5版本盘点单列表没有已盘点，未盘点数量，统一使用服务端的盘点单列表数据据
                         List<ResultInventoryOrder> localOrders = DbBank.getInstance().getResultInventoryOrderDao().findInvOrders();
-                        List<ResultInventoryOrder> notInvedLocalOrders = DbBank.getInstance().getResultInventoryOrderDao().findNotInvedInvOrders(unInvedRemoteOrders);
                         //本地同步服务端已经删除的数据
                         List<ResultInventoryOrder> tempLocal = new ArrayList<>();
                         tempLocal.addAll(localOrders);
@@ -110,14 +103,6 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                             deleteIds.add(tempLocal.get(i).getId());
                         }
                         DbBank.getInstance().getInventoryDetailDao().deleteLocalInvDetailByInvids(deleteIds);
-                        //本地数据和服务器数据的交集，服务端删除盘点单，本地同步跟新显示
-                        notInvedLocalOrders.retainAll(resultInventoryOrders);
-                        //服务端新增的数据
-                        resultInventoryOrders.removeAll(notInvedLocalOrders);
-                        List<ResultInventoryOrder> tempRemount = new ArrayList<>();
-                        tempRemount.addAll(resultInventoryOrders);
-                        tempRemount.addAll(notInvedLocalOrders);
-                        DbBank.getInstance().getResultInventoryOrderDao().insertItems(resultInventoryOrders);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
