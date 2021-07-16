@@ -27,28 +27,6 @@ public class WriteTagPresenter extends BasePresenter<WriteTagContract.View> impl
         super();
     }
 
-    //不分页
-    @Override
-    public void getAssetsInfoById(String assetsId) {
-        mView.showDialog("loading...");
-        //addSubscribe(DataManager.getInstance().fetchWriteAssetsInfo(assetsId)
-        addSubscribe(Observable.concat(getLocalAssetsObservable(assetsId), DataManager.getInstance().fetchWriteAssetsInfo(assetsId))
-                .compose(RxUtils.rxSchedulerHelper())
-                .compose(RxUtils.handleResult())
-                .subscribeWith(new BaseObserver<List<AssetsInfo>>(mView, false) {
-                    @Override
-                    public void onNext(List<AssetsInfo> assetsInfos) {
-                        mView.dismissDialog();
-                        mView.handleAssetsById(assetsInfos);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.dismissDialog();
-                        ToastUtils.showShort(R.string.not_find_asset);
-                    }
-                }));
-    }
 
     public Observable<BaseResponse<List<AssetsInfo>>> getLocalAssetsObservable(String para) {
         Observable<BaseResponse<List<AssetsInfo>>> invOrderObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<List<AssetsInfo>>>() {

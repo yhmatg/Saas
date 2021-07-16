@@ -1,7 +1,6 @@
 package com.common.esimrfid.core.http;
 
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
-import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.assetdetail.UpdateAssetsPara;
@@ -16,15 +15,12 @@ import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.inventorytask.TitleAndLogoResult;
 import com.common.esimrfid.core.bean.nanhua.home.AssetLocNmu;
 import com.common.esimrfid.core.bean.nanhua.home.AssetStatusNum;
-import com.common.esimrfid.core.bean.nanhua.home.CompanyInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.DataAuthority;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
@@ -32,9 +28,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import io.reactivex.Observable;
 
@@ -51,8 +45,6 @@ public interface HttpHelper {
 
     Observable<BaseResponse<ResultInventoryDetail>> fetchAllInvDetails(String orderId);
 
-    Observable<BaseResponse> uploadInvDetails(String orderId, List<String> invDetails, String uid);
-
     Observable<BaseResponse<AssetStatusNum>> getAssetsNmbDiffStatus();
 
     Observable<BaseResponse<List<MangerUser>>> getAllManagerUsers();
@@ -67,15 +59,9 @@ public interface HttpHelper {
 
     Observable<BaseResponse<CreateInvResult>> createNewInventory(InventoryParameter invpara);
 
-    Observable<BaseResponse<List<AssetsInfo>>> fetchWriteAssetsInfo(String patternName);
-
-    Observable<BaseResponse> finishInvOrderWithAsset(String orderId, String uid, List<String> invDetails);
-
     Observable<BaseResponse<AssetsAllInfo>> fetchAssetsInfo(String astId, String astCode);
 
     Observable<BaseResponse<UpdateVersion>> updateVersion();
-
-    Observable<BaseResponse> createNewRepairOrder(AssetRepairParameter repairParameter);
 
     Observable<BaseResponse<List<AssetResume>>> fetchAssetResume(String astid, String astCode);
 
@@ -104,8 +90,6 @@ public interface HttpHelper {
     Observable<BaseResponse<InventoryOrderPage>> fetchAllIvnOrdersPage(Integer size, Integer page, String userId);
 
     Observable<BaseResponse<LatestModifyPageAssets>> fetchLatestAssetsPage(String lastTime, Integer size, Integer page);
-
-    Observable<BaseResponse> updateAssetLoc(List<String> astIds, String loc);
 
     Observable<BaseResponse> updateAssetProp(UpdateAssetsPara updateAssetsPara);
 

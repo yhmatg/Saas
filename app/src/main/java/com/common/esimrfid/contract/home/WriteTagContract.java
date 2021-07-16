@@ -7,13 +7,10 @@ import java.util.List;
 
 public interface WriteTagContract {
     interface View extends AbstractView {
-        void handleAssetsById(List<AssetsInfo> assetsInfos);
         void handlefetchPageAssetsInfos(List<AssetsInfo> assetsInfos);
     }
 
     interface Presenter extends AbstractPresenter<View> {
-        void getAssetsInfoById(String assetsId);
-
         void fetchPageAssetsInfos(Integer size, Integer page, String patternName,int currentSize);
     }
 }

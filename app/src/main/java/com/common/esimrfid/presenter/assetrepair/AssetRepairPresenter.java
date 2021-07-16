@@ -6,9 +6,9 @@ import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.assetdetail.NewAssetRepairPara;
 import com.common.esimrfid.core.bean.inventorytask.MangerUser;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
-import com.common.esimrfid.core.bean.assetdetail.AssetRepairParameter;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
 import java.util.List;
 
 public class AssetRepairPresenter extends BasePresenter<AssetRepairContract.View> implements AssetRepairContract.Presenter {
@@ -27,22 +27,6 @@ public class AssetRepairPresenter extends BasePresenter<AssetRepairContract.View
                     @Override
                     public void onNext(List<MangerUser> mangerUsers) {
                         mView.handleAllEmpUsers(mangerUsers);
-                    }
-                }));
-    }
-
-    //未加审批流程前使用
-    @Override
-    public void createNewRepairOrder(AssetRepairParameter repairParameter) {
-        mView.showDialog("loading...");
-        addSubscribe(DataManager.getInstance().createNewRepairOrder(repairParameter)
-                .compose(RxUtils.rxSchedulerHelper())
-                .compose(RxUtils.handleBaseResponse())
-                .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
-                    @Override
-                    public void onNext(BaseResponse createInvResult) {
-                        mView.dismissDialog();
-                        mView.handleCreateNewRepairOrder(createInvResult);
                     }
                 }));
     }

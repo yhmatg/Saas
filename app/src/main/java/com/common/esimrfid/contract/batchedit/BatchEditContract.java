@@ -25,8 +25,6 @@ public interface BatchEditContract {
 
         void getAllAssetsLocation();
 
-        void updateAssetLoc(List<String> astIds, String loc);
-
         void updateAssetProp(UpdateAssetsPara updateAssetsPara);
     }
 }

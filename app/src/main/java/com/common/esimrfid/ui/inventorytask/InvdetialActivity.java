@@ -246,18 +246,8 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
     @Override
     public void handelUploadResult(BaseResponse baseResponse) {
 
-
     }
 
-    @Override
-    public void handelFinishInvorder(BaseResponse baseResponse) {
-
-    }
-
-    @Override
-    public void uploadInvDetails(List<InventoryDetail> inventoryDetails) {
-
-    }
 
     @OnClick({R.id.title_back, R.id.area_layout, R.id.status_layout})
     void performClick(View view) {
