@@ -27,6 +27,8 @@ import com.common.esimrfid.ui.home.HomeActivity;
 import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -54,7 +56,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private String hostUrl;
     private MaterialDialog offLineDialog;
     private UserInfo userInfo;
-
+    private String serviceIpRegex = "^([hH][tT]{2}[pP]://|[hH][tT]{2}[pP][sS]://)(([A-Za-z0-9-~]+).)+([A-Za-z0-9-~\\\\\\\\/])+$";
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -137,7 +139,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             ToastUtils.showShort("请输入密码！");
             return;
         }
-        if (TextUtils.isEmpty(mPresenter.getHostUrl()) || !(mPresenter.getHostUrl().startsWith("http://") || mPresenter.getHostUrl().startsWith("https://"))) {
+        if (!Pattern.matches(serviceIpRegex,mPresenter.getHostUrl())) {
             ToastUtils.showShort("请配置正确的服务器URL！");
             return;
         }
@@ -171,7 +173,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             @Override
             public void onClick(View v) {
                 String newHostUrl = editText.getText().toString();
-                if (!(newHostUrl.startsWith("https://") || newHostUrl.startsWith("http://")) || newHostUrl.contains(" ")) {
+                if (!Pattern.matches(serviceIpRegex,newHostUrl)) {
                     ToastUtils.showShort(R.string.url_error);
                     return;
                 } else if (!newHostUrl.equals(hostUrl)) {
