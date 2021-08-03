@@ -1,23 +1,30 @@
 package com.common.esimrfid.presenter.home;
 
-import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.inventorytask.EpcBean;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.View> implements InvAssetLocContract.Presenter {
     private String TAG = "HomePresenter";
@@ -40,24 +47,73 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
 
     //处理一次扫描后的结果
     @Override
-    public void handleOneScanned(List<InventoryDetail> oneInvDetails, HashSet<String> oneMoreInvEpcs, String locId, String locName, String invId) {
+    public void handleOneScanned(List<InventoryDetail> oneInvDetails, HashSet<String> oneMoreInvEpcs, String locId, String locName, String invId, String uid) {
         addSubscribe(getUpdateInvStatusObservable(oneInvDetails, oneMoreInvEpcs, locId, locName, invId)
-                .compose(RxUtils.rxSchedulerHelper())
-                .subscribeWith(new BaseObserver<Boolean>(mView, false) {
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Function<List<InventoryDetail>, ObservableSource<BaseResponse>>() {
+
                     @Override
-                    public void onNext(Boolean result) {
+                    public ObservableSource<BaseResponse> apply(List<InventoryDetail> moreInvDetails) throws Exception {
+                        ArrayList<AssetUploadParameter> assetUploadParameters = new ArrayList<>();
+                        for (InventoryDetail inventoryDetail : oneInvDetails) {
+                            AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
+                            assetUploadParameter.setInvdt_sign(inventoryDetail.getInvdt_sign());
+                            assetUploadParameter.setInvdt_status(inventoryDetail.getInvdt_status().getCode());
+                            assetUploadParameter.setInvdt_plus_loc_id(inventoryDetail.getInvdt_plus_loc_id());
+                            assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
+                            assetUploadParameters.add(assetUploadParameter);
+                        }
+                        for (InventoryDetail moreInvDetail : moreInvDetails) {
+                            AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
+                            assetUploadParameter.setInvdt_sign(moreInvDetail.getInvdt_sign());
+                            assetUploadParameter.setInvdt_status(moreInvDetail.getInvdt_status().getCode());
+                            assetUploadParameter.setInvdt_plus_loc_id(moreInvDetail.getInvdt_plus_loc_id());
+                            assetUploadParameter.setAst_id(moreInvDetail.getAst_id());
+                            assetUploadParameters.add(assetUploadParameter);
+                        }
+                        return DataManager.getInstance().uploadInvAssets(invId,uid,assetUploadParameters);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
+
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
 
                     }
                 }));
     }
 
     @Override
-    public void setOneLessAssetInv(InventoryDetail oneLessAsset) {
+    public void setOneLessAssetInv(InventoryDetail oneLessAsset, String orderId, String uid) {
         addSubscribe(getUpdateOneAssetStatusObservable(oneLessAsset)
-                .compose(RxUtils.rxSchedulerHelper())
-                .subscribeWith(new BaseObserver<Boolean>(mView, false) {
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Function<Boolean, ObservableSource<BaseResponse>>() {
                     @Override
-                    public void onNext(Boolean result) {
+                    public ObservableSource<BaseResponse> apply(Boolean aBoolean) throws Exception {
+                        ArrayList<AssetUploadParameter> assetUploadParameters = new ArrayList<>();
+                        AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
+                        assetUploadParameter.setInvdt_sign(oneLessAsset.getInvdt_sign());
+                        assetUploadParameter.setInvdt_status(oneLessAsset.getInvdt_status().getCode());
+                        assetUploadParameter.setInvdt_plus_loc_id(oneLessAsset.getInvdt_plus_loc_id());
+                        assetUploadParameter.setAst_id(oneLessAsset.getAst_id());
+                        assetUploadParameters.add(assetUploadParameter);
+                        return DataManager.getInstance().uploadInvAssets(orderId, uid, assetUploadParameters);
+                    }
+                })
+                .doOnNext(new Consumer<BaseResponse>() {
+                    @Override
+                    public void accept(BaseResponse baseResponse) throws Exception {
+                        if (baseResponse.isSuccess()) {
+                            oneLessAsset.setNeedUpload(false);
+                            DbBank.getInstance().getInventoryDetailDao().updateItem(oneLessAsset);
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
 
                     }
                 }));
@@ -76,10 +132,10 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
     }
 
     //获取本地盘点数据
-    public Observable<Boolean> getUpdateInvStatusObservable(List<InventoryDetail> oneInvDetails, HashSet<String> oneMoreInvEpcs, String locId, String locName, String invId) {
-        Observable<Boolean> baseResponseObservable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+    public Observable<List<InventoryDetail>> getUpdateInvStatusObservable(List<InventoryDetail> oneInvDetails, HashSet<String> oneMoreInvEpcs, String locId, String locName, String invId) {
+        Observable<List<InventoryDetail>> baseResponseObservable = Observable.create(new ObservableOnSubscribe<List<InventoryDetail>>() {
             @Override
-            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<List<InventoryDetail>> emitter) throws Exception {
                 DbBank.getInstance().getInventoryDetailDao().updateItems(oneInvDetails);
                 List<InventoryDetail> locMoreInvDetail = DbBank.getInstance().getInventoryDetailDao().findMoreInvDetailByInvidAndLocid(invId, locId);
                 List<InventoryDetail> localAssetsByEpcs = DbBank.getInstance().getAssetsAllInfoDao().findLocalInvdetailByEpcs(oneMoreInvEpcs);
@@ -110,7 +166,7 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
                 List<InventoryDetail> needSubmitAssets = DbBank.getInstance().getInventoryDetailDao().findNeedSubmitAssets(invId, true);
                 invOrderByInvId.setInv_notsubmit_count(needSubmitAssets.size());
                 DbBank.getInstance().getResultInventoryOrderDao().updateItem(invOrderByInvId);
-                emitter.onNext(true);
+                emitter.onNext(moreInvDetails);
             }
         });
         return baseResponseObservable;
@@ -149,13 +205,13 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
     @Override
     public void getAllAssetEpcs() {
         addSubscribe(getLocalAssetsEpcsObservable()
-        .compose(RxUtils.rxSchedulerHelper())
-        .subscribeWith(new BaseObserver<List<EpcBean>>(mView,false) {
-            @Override
-            public void onNext(List<EpcBean> epcBeans) {
-                mView.handleAllAssetEpcs(epcBeans);
-            }
-        }));
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<List<EpcBean>>(mView, false) {
+                    @Override
+                    public void onNext(List<EpcBean> epcBeans) {
+                        mView.handleAllAssetEpcs(epcBeans);
+                    }
+                }));
     }
 
     //获取本地所有资产epc

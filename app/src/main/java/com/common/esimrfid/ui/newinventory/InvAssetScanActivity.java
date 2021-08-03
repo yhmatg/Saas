@@ -78,7 +78,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     HashSet<String> oneMoreInvEpcs = new HashSet<>();
     private BaseDialog baseDialog;
     private ArrayList<EpcBean> allEpcBeans = new ArrayList<>();
-
+    private String userId;
     @Override
     public InvAssetsLocPresenter initPresenter() {
         return new InvAssetsLocPresenter();
@@ -93,6 +93,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
             mLocId = getIntent().getStringExtra(LOC_IC);
             mLocName = getIntent().getStringExtra(LOC_Name);
         }
+        userId = getUserLoginResponse().getUserinfo().getId();
         mAreaName.setText(mLocName);
         mPresenter.fetchAllInvDetails(mInvId, mLocId);
         mPresenter.getAllAssetEpcs();
@@ -206,7 +207,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
             case UhfMsgType.UHF_STOP:
                 mScanButton.setText(R.string.start_inv);
                 mInScan.setVisibility(View.GONE);
-                mPresenter.handleOneScanned(oneInvDetails, oneMoreInvEpcs, mLocId, mLocName, mInvId);
+                mPresenter.handleOneScanned(oneInvDetails, oneMoreInvEpcs, mLocId, mLocName, mInvId,userId);
                 stopAnim();
                 break;
         }

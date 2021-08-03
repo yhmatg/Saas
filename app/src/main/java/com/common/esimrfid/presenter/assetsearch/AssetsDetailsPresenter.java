@@ -6,19 +6,26 @@ import com.common.esimrfid.contract.assetsearch.AssetsDetailsContract;
 import com.common.esimrfid.core.DataManager;
 import com.common.esimrfid.core.bean.assetdetail.AssetRepair;
 import com.common.esimrfid.core.bean.assetdetail.AssetResume;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
+import com.common.esimrfid.core.bean.inventorytask.AssetUploadParameter;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.View> implements AssetsDetailsContract.Presenter {
    
@@ -88,22 +95,36 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
     }
 
     @Override
-    public void setOneAssetInved(String sign, String invId, String locId, String astId) {
+    public void setOneAssetInved(String sign, String invId, String locId, String astId, String uid) {
         addSubscribe(getUpdateOneAssetStatusObservable(sign, invId, locId, astId)
-                .compose(RxUtils.rxSchedulerHelper())
-                .subscribeWith(new BaseObserver<Boolean>(mView, false) {
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Function<InventoryDetail, ObservableSource<BaseResponse>>() {
                     @Override
-                    public void onNext(Boolean result) {
+                    public ObservableSource<BaseResponse> apply(InventoryDetail inventoryDetail) throws Exception {
+                        ArrayList<AssetUploadParameter> assetUploadParameters = new ArrayList<>();
+                        AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
+                        assetUploadParameter.setInvdt_sign(inventoryDetail.getInvdt_sign());
+                        assetUploadParameter.setInvdt_status(inventoryDetail.getInvdt_status().getCode());
+                        assetUploadParameter.setInvdt_plus_loc_id(inventoryDetail.getInvdt_plus_loc_id());
+                        assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
+                        assetUploadParameters.add(assetUploadParameter);
+                        return DataManager.getInstance().uploadInvAssets(invId, uid, assetUploadParameters);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
+                    @Override
+                    public void onNext(BaseResponse result) {
                         mView.handleSetOneAssetInved(result);
                     }
                 }));
     }
 
 
-    public Observable<Boolean> getUpdateOneAssetStatusObservable(String sign, String invId, String locId, String astId) {
-        Observable<Boolean> baseResponseObservable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+    public Observable<InventoryDetail> getUpdateOneAssetStatusObservable(String sign, String invId, String locId, String astId) {
+        Observable<InventoryDetail> baseResponseObservable = Observable.create(new ObservableOnSubscribe<InventoryDetail>() {
             @Override
-            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<InventoryDetail> emitter) throws Exception {
                 List<InventoryDetail> localInvDetailByAstId = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByAstId(invId,locId,astId);
                 if(localInvDetailByAstId.size() > 0){
                     InventoryDetail inventoryDetail = localInvDetailByAstId.get(0);
@@ -120,7 +141,7 @@ public class AssetsDetailsPresenter extends BasePresenter<AssetsDetailsContract.
                     List<InventoryDetail> needSubmitAssets = DbBank.getInstance().getInventoryDetailDao().findNeedSubmitAssets(invId, true);
                     invOrderByInvId.setInv_notsubmit_count(needSubmitAssets.size());
                     DbBank.getInstance().getResultInventoryOrderDao().updateItem(invOrderByInvId);
-                    emitter.onNext(true);
+                    emitter.onNext(inventoryDetail);
                 }
             }
         });

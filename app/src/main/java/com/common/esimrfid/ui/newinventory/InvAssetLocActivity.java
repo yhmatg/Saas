@@ -75,6 +75,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
     InventoryDetail selectNotInvBean;
     TextView mAddTag;
     TextView mPrePopTextview;
+    private String userId;
     @Override
     public InvAssetsLocPresenter initPresenter() {
         return new InvAssetsLocPresenter();
@@ -87,6 +88,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
             mLocId = getIntent().getStringExtra(LOC_IC);
             mLocName = getIntent().getStringExtra(LOC_Name);
         }
+        userId = getUserLoginResponse().getUserinfo().getId();
         mTitle.setText(mLocName);
         preRadioButton = notInvedRadio;
         notInvedRadio.setChecked(true);
@@ -117,7 +119,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     selectNotInvBean.setInvdt_sign("资产已丢失");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
-                    mPresenter.setOneLessAssetInv(selectNotInvBean);
+                    mPresenter.setOneLessAssetInv(selectNotInvBean,mInvId,userId);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("未盘点" + mNotInvDetails.size());
@@ -142,7 +144,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     selectNotInvBean.setInvdt_sign("资产转移了");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
-                    mPresenter.setOneLessAssetInv(selectNotInvBean);
+                    mPresenter.setOneLessAssetInv(selectNotInvBean,mInvId,userId);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("未盘点" + mNotInvDetails.size());
@@ -167,7 +169,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     selectNotInvBean.setInvdt_sign("人员外出中");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
-                    mPresenter.setOneLessAssetInv(selectNotInvBean);
+                    mPresenter.setOneLessAssetInv(selectNotInvBean,mInvId,userId);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("未盘点" + mNotInvDetails.size());
@@ -192,7 +194,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     selectNotInvBean.setInvdt_sign("资产外借中");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
-                    mPresenter.setOneLessAssetInv(selectNotInvBean);
+                    mPresenter.setOneLessAssetInv(selectNotInvBean,mInvId,userId);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("未盘点" + mNotInvDetails.size());
@@ -217,7 +219,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                     selectNotInvBean.setInvdt_sign("资产维修中");
                     selectNotInvBean.getInvdt_status().setCode(1);
                     selectNotInvBean.setNeedUpload(true);
-                    mPresenter.setOneLessAssetInv(selectNotInvBean);
+                    mPresenter.setOneLessAssetInv(selectNotInvBean,mInvId,userId);
                     mNotInvDetails.remove(selectNotInvBean);
                     mLessDetails.add(selectNotInvBean);
                     notInvedRadio.setText("未盘点" + mNotInvDetails.size());

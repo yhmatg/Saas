@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.common.esimrfid.core.bean.emun.AssetsMaterial;
 import com.common.esimrfid.core.bean.emun.AssetsUseStatus;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListItemInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.presenter.assetsearch.AssetsDetailsPresenter;
 import com.common.esimrfid.ui.assetrepair.RepairAssetEvent;
 import com.common.esimrfid.ui.newinventory.AssetTag;
@@ -165,6 +167,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private String astId;
     private String mInvId;
     private String mLocId;
+    private String userId;
 
     @Override
     public AssetsDetailsPresenter initPresenter() {
@@ -177,6 +180,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         Intent intent = getIntent();
         String assetsId = intent.getStringExtra(ASSETS_ID);
         String assetsCode = intent.getStringExtra(ASSETS_CODE);
+        userId = getUserLoginResponse().getUserinfo().getId();
         activityFrom = intent.getStringExtra(WHERE_FROM);
         mInvId = intent.getStringExtra(INV_ID);
         mLocId = intent.getStringExtra(LOC_IC);
@@ -577,13 +581,16 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
     private void optionSelect(int options1) {
         AssetTag assetTag = assetTags.get(options1);
-      mPresenter.setOneAssetInved(assetTag.getTagName(),mInvId,mLocId,astId);
+      mPresenter.setOneAssetInved(assetTag.getTagName(),mInvId,mLocId,astId,userId);
     }
 
     @Override
-    public void handleSetOneAssetInved(Boolean result) {
-        ToastUtils.showShort(R.string.inved_toast);
-        finish();
+    public void handleSetOneAssetInved(BaseResponse baseResponse) {
+        if(baseResponse.isSuccess()){
+            Log.e(TAG,"current thread is ===" + Thread.currentThread().getName());
+            ToastUtils.showShort(R.string.inved_toast);
+            finish();
+        }
     }
 
     @Override
