@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -587,7 +586,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     @Override
     public void handleSetOneAssetInved(BaseResponse baseResponse) {
         if(baseResponse.isSuccess()){
-            Log.e(TAG,"current thread is ===" + Thread.currentThread().getName());
             ToastUtils.showShort(R.string.inved_toast);
             finish();
         }
