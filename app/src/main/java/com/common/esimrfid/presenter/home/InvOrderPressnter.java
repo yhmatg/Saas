@@ -115,31 +115,33 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
             online = false;
         }
         addSubscribe(Observable.concat(getLocalInvDetailsObservable(orderId, online), DataManager.getInstance().fetchAllInvDetails(orderId))
-                .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
-                .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .doOnNext(new Consumer<ResultInventoryDetail>() {
                     @Override
                     public void accept(ResultInventoryDetail resultInventoryDetail) throws Exception {
                         if (resultInventoryDetail.getDetailResults() != null) {
-                            //保存盘点单资产
-                            DbBank.getInstance().getInventoryDetailDao().insertItems(resultInventoryDetail.getDetailResults());
+                            //功能修改保存服务端已盘，盘盈，盘亏的资产
+                            if(CommonUtils.isNetworkConnected()){
+                                List<InventoryDetail> detailResults = resultInventoryDetail.getDetailResults();
+                                int localInvDetailCount = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailCount(orderId);
+                                if(localInvDetailCount > 0){
+                                    ArrayList<InventoryDetail> needUpdateDetails = new ArrayList<>();
+                                    for (InventoryDetail detailResult : detailResults) {
+                                        if(detailResult.getInvdt_status().getCode() != 0){
+                                            needUpdateDetails.add(detailResult);
+                                        }
+                                    }
+                                    DbBank.getInstance().getInventoryDetailDao().insertItems(needUpdateDetails);
+                                }else {
+                                    DbBank.getInstance().getInventoryDetailDao().insertItems(detailResults);
+                                }
+                            }
                         }
                     }
                 })
                 //本地远程除盘点状态同步 1116
-                /*.flatMap(new Function<ResultInventoryDetail, ObservableSource<ResultInventoryDetail>>() {
-                    @Override
-                    public ObservableSource<ResultInventoryDetail> apply(ResultInventoryDetail resultInventoryDetail) throws Exception {
-                        //本地数据库列表
-                        List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
-                        //更新出盘点状态的其他盘点数据
-                        List<InventoryDetail> finalData = handleLocalAndRemountData(localInvDetailsByInvid, resultInventoryDetail.getDetailResults());
-                        DbBank.getInstance().getInventoryDetailDao().insertItems(finalData);
-                        resultInventoryDetail.setDetailResults(finalData);
-                        return Observable.just(resultInventoryDetail);
-                    }
-                })*/.observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new BaseObserver<ResultInventoryDetail>(mView, false) {
                     @Override
                     public void onNext(ResultInventoryDetail resultInventoryDetail) {
@@ -150,13 +152,13 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
     }
 
     //本地获取盘点数据
-    public Observable<BaseResponse<ResultInventoryDetail>> getLocalInvDetailsObservable(String orderId, final boolean online) {
-        Observable<BaseResponse<ResultInventoryDetail>> localInvDetailObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<ResultInventoryDetail>>() {
+    private Observable<BaseResponse<ResultInventoryDetail>> getLocalInvDetailsObservable(String orderId, final boolean online) {
+        return Observable.create(new ObservableOnSubscribe<BaseResponse<ResultInventoryDetail>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<ResultInventoryDetail>> emitter) throws Exception {
                 List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
                 ResultInventoryOrder invOrderByInvId = DbBank.getInstance().getResultInventoryOrderDao().findInvOrderByInvId(orderId);
-                if (online && (localInvDetailsByInvid.size() == 0 || invOrderByInvId.getInv_status() == 11)) {
+                if (online) {
                     emitter.onComplete();
                 } else {
                     BaseResponse<ResultInventoryDetail> localInvDetailResponse = new BaseResponse<>();
@@ -171,13 +173,12 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                     //20191219 end
                     localInvDetailResponse.setResult(resultInventoryDetail);
                     localInvDetailResponse.setCode("200000");
-                    localInvDetailResponse.setMessage("成功");
+                    localInvDetailResponse.setMessage("local");
                     localInvDetailResponse.setSuccess(true);
                     emitter.onNext(localInvDetailResponse);
                 }
             }
         });
-        return localInvDetailObservable;
     }
 
     //上传盘点未提交的资产

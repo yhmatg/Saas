@@ -5,7 +5,6 @@ import android.arch.persistence.room.Query;
 
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 @Dao
@@ -41,4 +40,7 @@ public interface InventoryDetailDao extends BaseDao<InventoryDetail> {
 
     @Query("DELETE FROM InventoryDetail")
     public void deleteAllData();
+
+    @Query("SELECT count(*) FROM InventoryDetail where inv_id = :invId")
+    public int findLocalInvDetailCount(String invId);
 }

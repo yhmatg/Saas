@@ -8,7 +8,6 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
-import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
@@ -49,7 +48,23 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                     @Override
                     public void accept(ResultInventoryDetail resultInventoryDetail) throws Exception {
                         if (resultInventoryDetail.getDetailResults() != null) {
-                            //保存盘点单资产
+                            //功能修改保存服务端已盘，盘盈，盘亏的资产
+                            if(CommonUtils.isNetworkConnected()){
+                                List<InventoryDetail> detailResults = resultInventoryDetail.getDetailResults();
+                                int localInvDetailCount = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailCount(orderId);
+                                if(localInvDetailCount > 0){
+                                    ArrayList<InventoryDetail> needUpdateDetails = new ArrayList<>();
+                                    for (InventoryDetail detailResult : detailResults) {
+                                        if(detailResult.getInvdt_status().getCode() != 0){
+                                            needUpdateDetails.add(detailResult);
+                                        }
+                                    }
+                                    DbBank.getInstance().getInventoryDetailDao().insertItems(needUpdateDetails);
+                                }else {
+                                    DbBank.getInstance().getInventoryDetailDao().insertItems(detailResults);
+                                }
+                            }
+                           /* //保存盘点单资产
                             if(resultInventoryDetail.getInv_status() == 11){
                                 ArrayList<String> invIds = new ArrayList<>();
                                 invIds.add(resultInventoryDetail.getId());
@@ -61,24 +76,11 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                             ResultInventoryOrder resultInvOrderByInvId = resultInventoryOrderDao.findInvOrderByInvId(orderId);
                             resultInvOrderByInvId.setInv_finish_count(resultInventoryDetail.getInv_finish_count());
                             resultInventoryOrderDao.updateItem(resultInvOrderByInvId);
-                            //add 2020/02/17 end
-                            //
+                            //add 2020/02/17 end*/
                         }
                     }
                 })
-                //本地远程除盘点状态同步 1116
-                /*.flatMap(new Function<ResultInventoryDetail, ObservableSource<ResultInventoryDetail>>() {
-                    @Override
-                    public ObservableSource<ResultInventoryDetail> apply(ResultInventoryDetail resultInventoryDetail) throws Exception {
-                        //本地数据库列表
-                        List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
-                        //更新出盘点状态的其他盘点数据
-                        List<InventoryDetail> finalData = handleLocalAndRemountData(localInvDetailsByInvid, resultInventoryDetail.getDetailResults());
-                        DbBank.getInstance().getInventoryDetailDao().insertItems(finalData);
-                        resultInventoryDetail.setDetailResults(finalData);
-                        return Observable.just(resultInventoryDetail);
-                    }
-                })*/.observeOn(AndroidSchedulers.mainThread())
+               .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new BaseObserver<ResultInventoryDetail>(mView, false) {
                     @Override
                     public void onNext(ResultInventoryDetail resultInventoryDetail) {
@@ -133,13 +135,14 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
     }
 
     //本地获取盘点数据
-    public Observable<BaseResponse<ResultInventoryDetail>> getLocalInvDetailsObservable(String orderId, final boolean online) {
-        Observable<BaseResponse<ResultInventoryDetail>> localInvDetailObservable = Observable.create(new ObservableOnSubscribe<BaseResponse<ResultInventoryDetail>>() {
+    private Observable<BaseResponse<ResultInventoryDetail>> getLocalInvDetailsObservable(String orderId, final boolean online) {
+        return Observable.create(new ObservableOnSubscribe<BaseResponse<ResultInventoryDetail>>() {
             @Override
             public void subscribe(ObservableEmitter<BaseResponse<ResultInventoryDetail>> emitter) throws Exception {
                 List<InventoryDetail> localInvDetailsByInvid = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailByInvid(orderId);
                 ResultInventoryOrder invOrderByInvId = DbBank.getInstance().getResultInventoryOrderDao().findInvOrderByInvId(orderId);
-                if (online && (localInvDetailsByInvid.size() == 0 || invOrderByInvId.getInv_status() == 11)) {
+                //if (online && (localInvDetailsByInvid.size() == 0 || invOrderByInvId.getInv_status() == 11)) {
+                if (online) {
                     emitter.onComplete();
                 } else {
                     BaseResponse<ResultInventoryDetail> localInvDetailResponse = new BaseResponse<>();
@@ -155,13 +158,12 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                     //20191219 end
                     localInvDetailResponse.setResult(resultInventoryDetail);
                     localInvDetailResponse.setCode("200000");
-                    localInvDetailResponse.setMessage("成功");
+                    localInvDetailResponse.setMessage("local");
                     localInvDetailResponse.setSuccess(true);
                     emitter.onNext(localInvDetailResponse);
                 }
             }
         });
-        return localInvDetailObservable;
     }
     //除盘点状态外，资产的其他属性使用服务器上数据（用户可能修改过）
     public List<InventoryDetail> handleLocalAndRemountData(List<InventoryDetail> local, List<InventoryDetail> remount) {
