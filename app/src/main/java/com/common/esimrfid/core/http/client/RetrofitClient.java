@@ -129,7 +129,7 @@ public class RetrofitClient {
         builder.addInterceptor(new AppendUrlIntercepter(url));
         builder.cache(cache);
         //设置超时
-        builder.connectTimeout(10, TimeUnit.SECONDS);
+        builder.connectTimeout(20, TimeUnit.SECONDS);
         builder.readTimeout(20, TimeUnit.SECONDS);
         builder.writeTimeout(20, TimeUnit.SECONDS);
         //错误重连

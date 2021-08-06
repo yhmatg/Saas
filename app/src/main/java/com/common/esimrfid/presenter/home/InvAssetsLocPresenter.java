@@ -50,6 +50,7 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
     @Override
     public void handleOneScanned(List<InventoryDetail> oneInvDetails, HashSet<String> oneMoreInvEpcs, String locId, String locName, String invId, String uid) {
         //外层处理有网和没有网的情况
+        mView.showDialog("数据上传中.....");
         ArrayList<InventoryDetail> mMoreAndUpdateInvDetails = new ArrayList<>();
         addSubscribe(getUpdateInvStatusObservable(oneInvDetails, oneMoreInvEpcs, locId, locName, invId)
                 .subscribeOn(Schedulers.io())
@@ -120,13 +121,14 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
 
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-
+                        mView.dismissDialog();
                     }
                 }));
     }
 
     @Override
     public void setOneLessAssetInv(InventoryDetail oneLessAsset, String orderId, String uid) {
+        mView.showDialog("数据上传中...");
         ArrayList<AssetUploadParameter> assetUploadParameters = new ArrayList<>();
         AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
         assetUploadParameter.setInvdt_sign(oneLessAsset.getInvdt_sign());
@@ -160,7 +162,7 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
                 .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
                     @Override
                     public void onNext(BaseResponse baseResponse) {
-
+                        mView.dismissDialog();
                     }
                 }));
     }
