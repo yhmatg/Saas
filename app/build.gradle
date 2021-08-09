@@ -6,8 +6,8 @@ android {
         applicationId "com.common.esimrfid"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 13
-        versionName "2.4.3"
+        versionCode 14
+        versionName "2.4.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //指定room.schemaLocation生成的文件路径
         javaCompileOptions {

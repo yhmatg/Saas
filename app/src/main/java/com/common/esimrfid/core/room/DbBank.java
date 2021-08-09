@@ -21,7 +21,7 @@ import com.common.esimrfid.core.dao.ResultInventoryOrderDao;
         ResultInventoryOrder.class,
         AssetsAllInfo.class,
         }
-        , version = 3)
+        , version = 4)
 @TypeConverters(DateConverter.class)
 public abstract class DbBank extends RoomDatabase {
     public static final String DB_NAME = "inventory.db";
