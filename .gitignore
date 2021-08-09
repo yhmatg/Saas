@@ -6,7 +6,10 @@
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea
+/app/release/
+/app/debug/
 .DS_Store
 /build
 /captures
 .externalNativeBuild
+app/schemas/
