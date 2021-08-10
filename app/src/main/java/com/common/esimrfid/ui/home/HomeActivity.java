@@ -394,28 +394,19 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
             if (!StringUtils.isEmpty(titleAndLogoResult.getConfig_value())) {
                 TitleLogoBean titleLogoBean = JSON.parseObject(titleAndLogoResult.getConfig_value(), TitleLogoBean.class);
                 String appLogo = titleLogoBean.getAppLogo();
-                appLogo = PreferenceHelperImpl.getInstance().getHostUrl() + appLogo.substring(2);
-                titleLogoBean.setAppLogo(appLogo);
-                mCompanyName.setText(titleLogoBean.getAppTitle());
-                RequestOptions options = new RequestOptions()
-                        .fallback(R.drawable.home_logo) //url为空的时候,显示的图片
-                        .error(R.drawable.home_logo);//图片加载失败后，显示的图片
-                Glide.with(this).load(titleLogoBean.getAppLogo()).apply(options).into(ivLogo);
-            } else {
-                ivLogo.setImageResource(R.drawable.home_logo);
-                UserLoginResponse.Userinfo userinfo = uerLogin.getUserinfo();
-                if (userinfo.getCorpInfo() != null && userinfo.getCorpInfo().getOrg_name() != null) {
-                    mCompanyName.setText(userinfo.getCorpInfo().getOrg_name());
+                if(!StringUtils.isEmpty(appLogo)){
+                    appLogo = PreferenceHelperImpl.getInstance().getHostUrl() + appLogo.substring(2);
+                    titleLogoBean.setAppLogo(appLogo);
+                    RequestOptions options = new RequestOptions()
+                            .fallback(R.drawable.home_logo) //url为空的时候,显示的图片
+                            .error(R.drawable.home_logo);//图片加载失败后，显示的图片
+                    Glide.with(this).load(titleLogoBean.getAppLogo()).apply(options).into(ivLogo);
+                }
+                if(!StringUtils.isEmpty(titleLogoBean.getAppTitle())){
+                    mCompanyName.setText(titleLogoBean.getAppTitle());
                 }
             }
-        } else {
-            ivLogo.setImageResource(R.drawable.home_logo);
-            UserLoginResponse.Userinfo userinfo = uerLogin.getUserinfo();
-            if (userinfo.getCorpInfo() != null && userinfo.getCorpInfo().getOrg_name() != null) {
-                mCompanyName.setText(userinfo.getCorpInfo().getOrg_name());
-            }
         }
-
     }
 
     public String getAppVersionName(Context context) {

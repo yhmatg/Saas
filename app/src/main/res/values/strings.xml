@@ -344,4 +344,5 @@
     <string name="extera_ast_discribe">附加资产描述</string>
     <string name="inv_lose_remark">盘亏备注</string>
     <string name="please_add_lose_remark">请输入盘亏备注</string>
+    <string name="sanyi_title">RFID资产管理-三一重工</string>
 </resources>
