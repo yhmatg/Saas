@@ -49,6 +49,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.Menu;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
+import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
 import com.common.esimrfid.presenter.home.HomePresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.NewSpeedataUhfServiceImpl;
@@ -391,20 +392,25 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomeCon
         if (titleAndLogoResult != null) {
             if (!StringUtils.isEmpty(titleAndLogoResult.getConfig_value())) {
                 TitleLogoBean titleLogoBean = JSON.parseObject(titleAndLogoResult.getConfig_value(), TitleLogoBean.class);
-                mCompanyName.setText(titleLogoBean.getAppTitle());
-                RequestOptions options = new RequestOptions()
-                        .fallback(R.drawable.home_logo) //url为空的时候,显示的图片
-                        .error(R.drawable.home_logo);//图片加载失败后，显示的图片
-                Glide.with(this).load(titleLogoBean.getAppLogo()).apply(options).into(ivLogo);
+                String appTitle = titleLogoBean.getAppTitle();
+                if(!StringUtils.isEmpty(appTitle)){
+                    mCompanyName.setText(appTitle);
+                }
+                String appLogo = titleLogoBean.getAppLogo();
+                if(!StringUtils.isEmpty(appLogo)){
+                    appLogo = PreferenceHelperImpl.getInstance().getHostUrl() + appLogo;
+                    RequestOptions options = new RequestOptions()
+                            .fallback(R.drawable.home_logo) //url为空的时候,显示的图片
+                            .error(R.drawable.home_logo);//图片加载失败后，显示的图片
+                    Glide.with(this).load(appLogo).apply(options).into(ivLogo);
+                }
             } else {
-                ivLogo.setImageResource(R.drawable.home_logo);
                 UserLoginResponse.Userinfo userinfo = uerLogin.getUserinfo();
                 if (userinfo.getCorpInfo() != null && userinfo.getCorpInfo().getOrg_name() != null) {
                     mCompanyName.setText(userinfo.getCorpInfo().getOrg_name());
                 }
             }
         } else {
-            ivLogo.setImageResource(R.drawable.home_logo);
             UserLoginResponse.Userinfo userinfo = uerLogin.getUserinfo();
             if (userinfo.getCorpInfo() != null && userinfo.getCorpInfo().getOrg_name() != null) {
                 mCompanyName.setText(userinfo.getCorpInfo().getOrg_name());

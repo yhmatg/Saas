@@ -331,4 +331,5 @@
     <string name="staff_inv_num">员工自助盘点</string>
     <string name="asset_mange_sys">资产管理系统</string>
     <string name="versionchecklib_progress">%d/100</string>
+    <string name="company_title">RFID资产管理</string>
 </resources>
