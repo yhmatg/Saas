@@ -13,15 +13,16 @@ import android.widget.TextView;
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
-import com.common.esimrfid.base.presenter.AbstractPresenter;
+import com.common.esimrfid.contract.settings.SettingConstract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.presenter.settings.SettingPresenter;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.StringUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingConstract.View {
     @BindView(R.id.title_back)
     ImageView mBackImg;
     @BindView(R.id.title_content)
@@ -32,8 +33,8 @@ public class SettingActivity extends BaseActivity {
     LinearLayout right;
 
     @Override
-    public AbstractPresenter initPresenter() {
-        return null;
+    public SettingPresenter initPresenter() {
+        return new SettingPresenter();
     }
 
     @Override
@@ -55,7 +56,7 @@ public class SettingActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.bt_loginout, R.id.title_back,R.id.function_setting})
+    @OnClick({R.id.bt_loginout, R.id.title_back,R.id.function_setting,R.id.sync_data})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.bt_loginout:
@@ -71,6 +72,9 @@ public class SettingActivity extends BaseActivity {
                 if(CommonUtils.isNormalClick()){
                     startActivity(new Intent(this,FunctionActivity.class));
                 }
+                break;
+            case R.id.sync_data:
+                mPresenter.fetchLatestPageAssets(500, 1);
                 break;
         }
     }

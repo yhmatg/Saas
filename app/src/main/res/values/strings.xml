@@ -345,4 +345,5 @@
     <string name="inv_lose_remark">盘亏备注</string>
     <string name="please_add_lose_remark">请输入盘亏备注</string>
     <string name="sanyi_title">RFID资产管理-三一重工</string>
+    <string name="sync_data_str">同步数据</string>
 </resources>
