@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
@@ -31,6 +35,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     TextView mVersion;
     @BindView(R.id.function_setting)
     LinearLayout right;
+    private MaterialDialog progressDialog;
+    private ProgressBar progressBar;
+    private TextView tvProgress;
 
     @Override
     public SettingPresenter initPresenter() {
@@ -41,7 +48,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     protected void initEventAndData() {
         mTitle.setText(R.string.setting_title);
         String versionName = getAppVersionName(this);
-        if(!StringUtils.isEmpty(versionName)){
+        if (!StringUtils.isEmpty(versionName)) {
             mVersion.setText("v" + versionName);
         }
     }
@@ -56,7 +63,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     }
 
-    @OnClick({R.id.bt_loginout, R.id.title_back,R.id.function_setting,R.id.sync_data})
+    @OnClick({R.id.bt_loginout, R.id.title_back, R.id.function_setting, R.id.sync_data})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.bt_loginout:
@@ -69,12 +76,12 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 finish();
                 break;
             case R.id.function_setting:
-                if(CommonUtils.isNormalClick()){
-                    startActivity(new Intent(this,FunctionActivity.class));
+                if (CommonUtils.isNormalClick()) {
+                    startActivity(new Intent(this, FunctionActivity.class));
                 }
                 break;
             case R.id.sync_data:
-                mPresenter.fetchLatestPageAssets(500, 1);
+                mPresenter.fetchLatestPageAssets(1000, 1);
                 break;
         }
     }
@@ -90,5 +97,36 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             Log.e("", e.getMessage());
         }
         return appVersionName;
+    }
+
+    @Override
+    public void showUpdateProgressDialog() {
+        if (progressDialog != null && !progressDialog.isShowing()) {
+            progressDialog.show();
+        } else {
+            View contentView = LayoutInflater.from(this).inflate(R.layout.downloading_layout, null);
+            progressBar = contentView.findViewById(R.id.pb);
+            tvProgress = contentView.findViewById(R.id.tv_progress);
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                    .customView(contentView, false);
+            progressDialog = builder.show();
+            progressDialog.setCanceledOnTouchOutside(false);
+            Window window = progressDialog.getWindow();
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+        }
+    }
+
+    @Override
+    public void updateProgress(int progress, int total) {
+        float finalProgress = (float)progress / total * 100;
+        tvProgress.setText(String.format(getString(R.string.versionchecklib_progress), (int)finalProgress));
+        progressBar.setProgress((int)finalProgress);
+    }
+
+    @Override
+    public void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 }

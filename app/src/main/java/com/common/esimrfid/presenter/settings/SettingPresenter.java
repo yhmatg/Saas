@@ -22,9 +22,9 @@ public class SettingPresenter extends BasePresenter<SettingConstract.View> imple
 
     @Override
     public void fetchLatestPageAssets(Integer size, Integer page) {
-          if (page == 1) {
-            if(mView != null){
-                mView.showDialog("loading...");
+        if (page == 1) {
+            if (mView != null) {
+                mView.showUpdateProgressDialog();
             }
         }
         if (CommonUtils.isNetworkConnected()) {
@@ -37,7 +37,7 @@ public class SettingPresenter extends BasePresenter<SettingConstract.View> imple
                             int pageNum = latestModifyPageAssets.getPageNum();
                             int pages = latestModifyPageAssets.getPages();
                             AssetsAllInfoDao assetsAllInfoDao = DbBank.getInstance().getAssetsAllInfoDao();
-                            if(pageNum == 1){
+                            if (pageNum == 1) {
                                 assetsAllInfoDao.deleteAllData();
                             }
                             if (latestModifyPageAssets.getModified() != null && latestModifyPageAssets.getModified().size() > 0) {
@@ -60,17 +60,18 @@ public class SettingPresenter extends BasePresenter<SettingConstract.View> imple
                             int pageNum = latestModifyPageAssets.getPageNum();
                             int pages = latestModifyPageAssets.getPages();
                             if (pageNum + 1 > pages) {
-                                if(mView != null){
-                                    mView.dismissDialog();
+                                if (mView != null) {
+                                    mView.dismissProgressDialog();
                                 }
+                            } else {
+                                mView.updateProgress(pageNum, pages);
                             }
                         }
-
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
-                            if(mView != null){
-                                mView.dismissDialog();
+                            if (mView != null) {
+                                mView.dismissProgressDialog();
                             }
                         }
                     }));

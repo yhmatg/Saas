@@ -5,7 +5,11 @@ import com.common.esimrfid.base.view.AbstractView;
 
 public interface SettingConstract {
     interface View extends AbstractView {
+        void showUpdateProgressDialog();
 
+        void updateProgress(int progress,int total);
+
+        void dismissProgressDialog();
     }
 
     interface Presenter extends AbstractPresenter<View> {

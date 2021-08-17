@@ -4,7 +4,6 @@ import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetsearch.AssetsSearchContract;
 import com.common.esimrfid.core.DataManager;
-import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 import com.common.esimrfid.core.dao.AssetsAllInfoDao;
@@ -30,12 +29,18 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
 
     @Override
     public void getAllAssetsForSearch() {
+        if (mView != null) {
+            mView.showDialog("数据加载中.....");
+        }
         addSubscribe(getLocalAssetsEpcsObservable()
                 .compose(RxUtils.rxSchedulerHelper())
                 .subscribeWith(new BaseObserver<List<SearchAssetsInfo>>(mView,false) {
                     @Override
                     public void onNext(List<SearchAssetsInfo> searchAssets) {
                         mView.handGetAllAssetsForSearch(searchAssets);
+                        if (mView != null) {
+                            mView.dismissDialog();
+                        }
                     }
                 }));
     }
