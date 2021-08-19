@@ -231,6 +231,7 @@
     <string name="rfid_connect">RFID设备连接中...</string>
     <string name="rfid_connect_fail">RFID连接失败</string>
     <string name="zero_str">查找到资产数量%1$d个</string>
+    <string name="scan_epc_str">扫描到标签数量%1$d个</string>
     <string name="power_setting">功率设置</string>
     <string name="sound_setting">声音设置</string>
     <string name="function_setting">功能设置</string>

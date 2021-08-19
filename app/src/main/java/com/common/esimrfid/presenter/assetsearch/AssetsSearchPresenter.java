@@ -13,6 +13,7 @@ import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -119,5 +120,20 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
                         }
                     }));
         }
+    }
+
+    @Override
+    public void fetchScanAssetsEpc(Set<String> epc) {
+        mView.showDialog("资产查找中.....");
+        addSubscribe(DataManager.getInstance().fetchScanAssetsEpc(epc)
+        .compose(RxUtils.handleResult())
+        .compose(RxUtils.rxSchedulerHelper())
+        .subscribeWith(new BaseObserver<List<SearchAssetsInfo>>(mView, false) {
+            @Override
+            public void onNext(List<SearchAssetsInfo> searchAssetsInfos) {
+                mView.handleSearchAssets(searchAssetsInfos);
+                mView.dismissDialog();
+            }
+        }));
     }
 }

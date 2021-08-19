@@ -5,6 +5,7 @@ import com.common.esimrfid.base.view.AbstractView;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AssetsSearchContract {
     interface View extends AbstractView {
@@ -20,5 +21,7 @@ public interface AssetsSearchContract {
         void fetchPageAssetsInfos(Integer size, String patternName,int currentSize);
 
         void fetchLatestPageAssets(Integer size, Integer page);
+
+        void fetchScanAssetsEpc(Set<String> epc);
     }
 }

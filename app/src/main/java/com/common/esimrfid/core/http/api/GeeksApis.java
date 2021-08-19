@@ -24,11 +24,13 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -213,4 +215,7 @@ public interface GeeksApis {
     //动态获取标题和logo
     @GET("user-server/globalconfigs")
     Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(@Query("tenantid") String tenantid, @Query("config_key") String configKey);
+
+    @POST("assets-server/assets/byrfids")
+    Observable<BaseResponse<List<SearchAssetsInfo>>> fetchScanAssetsEpc(@Body Set<String> epc);
 }

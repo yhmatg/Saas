@@ -40,7 +40,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -67,12 +69,15 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     TextView scanNmuber;
     @BindString(R.string.zero_str)
     String stringNum;
+    @BindString(R.string.scan_epc_str)
+    String scanEpcNum;
     @BindView(R.id.refresh_layout)
     SmartRefreshLayout mRefreshLayout;
     private AssetsSearchAdapter assetsSearchAdapter;
     private List<SearchAssetsInfo> mData = new ArrayList<>();
-    private List<SearchAssetsInfo> allAssets = new ArrayList<>();
-    private HashMap<String, SearchAssetsInfo> assetsMap = new HashMap<>();
+    private Set<String> epcSet = new HashSet<>();
+    //private List<SearchAssetsInfo> allAssets = new ArrayList<>();
+    //private HashMap<String, SearchAssetsInfo> assetsMap = new HashMap<>();
     IEsimUhfService esimUhfService = null;
     private CircleAnimation animation;
     private Boolean canRfid = true;
@@ -113,8 +118,8 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
         mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
         mRefreshLayout.setEnableAutoLoadMore(false);
-        mPresenter.fetchLatestPageAssets(500,1);
-        mPresenter.getAllAssetsForSearch();
+        //mPresenter.fetchLatestPageAssets(500,1);
+        //mPresenter.getAllAssetsForSearch();
     }
 
     @Override
@@ -201,11 +206,12 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
 
     @Override
     public void handGetAllAssetsForSearch(List<SearchAssetsInfo> searchInfos) {
-        allAssets.clear();
+        //从本地查找资产，最新版本已经不用
+       /* allAssets.clear();
         allAssets.addAll(searchInfos);
         for (SearchAssetsInfo allAsset : allAssets) {
             assetsMap.put(allAsset.getAst_epc_code(), allAsset);
-        }
+        }*/
     }
 
     @Override
@@ -257,11 +263,13 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                 image_scan.startAnimation(animation);
                 search.setImageResource(R.drawable.stop_search);
                 editText.setText("");
+                epcSet.clear();
                 if (isSearch) {
                     mData.clear();
                     assetsSearchAdapter.notifyDataSetChanged();
-                    String formatNum = String.format(stringNum, 0);
+                    String formatNum = String.format(scanEpcNum, 0);
                     scanNmuber.setText(formatNum);
+                    scanNmuber.setVisibility(View.VISIBLE);
                     isSearch = false;
                 }
                 mRefreshLayout.setEnableLoadMore(false);
@@ -270,12 +278,13 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                 image_scan.clearAnimation();
                 search.setImageResource(R.drawable.search_nearby_assets);
                 mRefreshLayout.setEnableLoadMore(true);
+                mPresenter.fetchScanAssetsEpc(epcSet);
                 break;
         }
     }
 
     private void handleEpc(String epc) {
-        SearchAssetsInfo searchAssetsInfo = assetsMap.get(epc);
+       /* SearchAssetsInfo searchAssetsInfo = assetsMap.get(epc);
         if (searchAssetsInfo != null && !mData.contains(searchAssetsInfo)) {
             mData.add(searchAssetsInfo);
             if (!showScanAssets) {
@@ -285,7 +294,10 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
             String formatNum = String.format(stringNum, mData.size());
             scanNmuber.setText(formatNum);
             assetsSearchAdapter.notifyDataSetChanged();
-        }
+        }*/
+        epcSet.add(epc);
+        String scanNum = String.format(scanEpcNum, epcSet.size());
+        scanNmuber.setText(scanNum);
     }
 
     @Override

@@ -24,11 +24,13 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
 
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Observable;
 
@@ -94,4 +96,6 @@ public interface HttpHelper {
     Observable<BaseResponse> updateAssetProp(UpdateAssetsPara updateAssetsPara);
 
     Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(String tenantid, String configKey);
+
+    Observable<BaseResponse<List<SearchAssetsInfo>>> fetchScanAssetsEpc(Set<String> epc);
 }

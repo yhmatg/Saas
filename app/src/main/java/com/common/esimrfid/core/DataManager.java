@@ -24,6 +24,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryOrderPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
@@ -33,6 +34,7 @@ import com.common.esimrfid.core.prefs.PreferenceHelper;
 import com.common.esimrfid.core.prefs.PreferenceHelperImpl;
 
 import java.util.List;
+import java.util.Set;
 
 import io.reactivex.Observable;
 
@@ -375,5 +377,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(String tenantid, String configKey) {
         return mHttpHelper.getTitleAndLogo(tenantid, configKey);
+    }
+
+    @Override
+    public Observable<BaseResponse<List<SearchAssetsInfo>>> fetchScanAssetsEpc(Set<String> epc) {
+        return mHttpHelper.fetchScanAssetsEpc(epc);
     }
 }
