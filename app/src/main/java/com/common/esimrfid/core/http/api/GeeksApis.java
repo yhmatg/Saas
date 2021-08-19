@@ -25,6 +25,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
@@ -216,6 +217,11 @@ public interface GeeksApis {
     @GET("user-server/globalconfigs")
     Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(@Query("tenantid") String tenantid, @Query("config_key") String configKey);
 
+    //资产查找界面扫描使用
     @POST("assets-server/assets/byrfids")
     Observable<BaseResponse<List<SearchAssetsInfo>>> fetchScanAssetsEpc(@Body Set<String> epc);
+
+    //资产查找界面模糊查询使用
+    @GET("assets-server/assets/multiconditions")
+    Observable<BaseResponse<SearchAssetsInfoPage>> fetchPageFilterAssetsList(@Query("size") Integer size, @Query("page") Integer page, @Query("pattern_name") String patternName);
 }

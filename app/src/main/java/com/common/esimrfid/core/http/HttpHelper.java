@@ -25,6 +25,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
@@ -98,4 +99,6 @@ public interface HttpHelper {
     Observable<BaseResponse<TitleAndLogoResult>> getTitleAndLogo(String tenantid, String configKey);
 
     Observable<BaseResponse<List<SearchAssetsInfo>>> fetchScanAssetsEpc(Set<String> epc);
+
+    Observable<BaseResponse<SearchAssetsInfoPage>> fetchPageFilterAssetsList(Integer size, Integer page, String patternName);
 }

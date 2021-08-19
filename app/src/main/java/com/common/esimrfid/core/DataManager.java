@@ -25,6 +25,7 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfoPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserInfo;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.UserLoginResponse;
 import com.common.esimrfid.core.bean.update.UpdateVersion;
@@ -382,5 +383,10 @@ public class DataManager implements HttpHelper, PreferenceHelper {
     @Override
     public Observable<BaseResponse<List<SearchAssetsInfo>>> fetchScanAssetsEpc(Set<String> epc) {
         return mHttpHelper.fetchScanAssetsEpc(epc);
+    }
+
+    @Override
+    public Observable<BaseResponse<SearchAssetsInfoPage>> fetchPageFilterAssetsList(Integer size, Integer page, String patternName) {
+        return mHttpHelper.fetchPageFilterAssetsList(size, page, patternName);
     }
 }

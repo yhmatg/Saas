@@ -1,17 +1,23 @@
 package com.common.esimrfid.presenter.assetsearch;
 
+import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.assetsearch.AssetsSearchContract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.assetdetail.AssetFilterParameter;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsListPage;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.SearchAssetsInfoPage;
 import com.common.esimrfid.core.dao.AssetsAllInfoDao;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
+import com.common.esimrfid.utils.ToastUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -135,5 +141,29 @@ public class AssetsSearchPresenter extends BasePresenter<AssetsSearchContract.Vi
                 mView.dismissDialog();
             }
         }));
+    }
+
+    @Override
+    public void fetchPageFilterAssetsList(Integer size, Integer page, String patternName) {
+        mView.showDialog("loading...");
+        addSubscribe(DataManager.getInstance().fetchPageFilterAssetsList(size,page,patternName)
+                .compose(RxUtils.rxSchedulerHelper())
+                .compose(RxUtils.handleResult())
+                .subscribeWith(new BaseObserver<SearchAssetsInfoPage>(mView, false) {
+                    @Override
+                    public void onNext(SearchAssetsInfoPage assetsListPage) {
+                        mView.dismissDialog();
+                        if(page <= assetsListPage.getPages()){
+                            mView.handleFetchPageAssetsInfos(assetsListPage.getList());
+                        }else {
+                            mView.handleFetchPageAssetsInfos(new ArrayList<>());
+                        }
+                    }
+                    @Override
+                    public void onError(Throwable e){
+                        mView.dismissDialog();
+                        ToastUtils.showShort(R.string.not_find_asset);
+                    }
+                }));
     }
 }

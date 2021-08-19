@@ -86,6 +86,7 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
     private boolean isNeedClearData;
     private String preFilter = "";
     private int pageSize = 10;
+    private int currentPage = 1;
 
     @Override
     public AssetsSearchPresenter initPresenter() {
@@ -109,9 +110,15 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 String assetsId = editText.getText().toString();
                 isNeedClearData = !preFilter.equals(assetsId);
-                int currentSize = isNeedClearData ? 0 : mData.size();
+                if (isNeedClearData) {
+                    currentPage = 1;
+                } else {
+                    currentPage++;
+                }
+                //int currentSize = isNeedClearData ? 0 : mData.size();
                 preFilter = assetsId;
-                mPresenter.fetchPageAssetsInfos(pageSize, assetsId, currentSize);
+                //mPresenter.fetchPageAssetsInfos(pageSize, assetsId, currentSize);
+                mPresenter.fetchPageFilterAssetsList(pageSize,currentPage,preFilter);
             }
         });
         mRefreshLayout.setEnableRefresh(false);//使上拉加载具有弹性效果
@@ -184,8 +191,10 @@ public class AssetsSearchActivity extends BaseActivity<AssetsSearchPresenter> im
                     String assetsId = editText.getText().toString();
                     editText.setSelection(assetsId.length());
                     isNeedClearData = true;
+                    currentPage = 1;
                     preFilter = assetsId;
-                    mPresenter.fetchPageAssetsInfos(pageSize, preFilter, 0);
+                    //mPresenter.fetchPageAssetsInfos(pageSize, preFilter, 0);
+                    mPresenter.fetchPageFilterAssetsList(pageSize,currentPage,preFilter);
                     isSearch = true;
                     return true;
                 }
