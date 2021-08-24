@@ -114,7 +114,7 @@
     <string name="assets_status">资产状态</string>
     <string name="rule_model">规格型号</string>
     <string name="measuring_unit">计量单位</string>
-    <string name="SN">SN号</string>
+    <string name="SN">设备序列号</string>
     <string name="ast_material">资产材质</string>
     <string name="belong_company">所属单位</string>
     <string name="model">型\u3000\u3000号</string>
@@ -122,7 +122,7 @@
     <string name="manager">管理员</string>
     <string name="source">来源</string>
     <string name="buy_date">购入日期</string>
-    <string name="count">金额</string>
+    <string name="count">原值</string>
     <string name="expiration_use_months">预使用月数</string>
     <string name="use_company">使用公司</string>
     <string name="use_department">使用部门</string>

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -43,18 +44,13 @@ import com.common.esimrfid.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> implements AssetsDetailsContract.View {
 
@@ -65,48 +61,6 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private static final String ASSETS_EPC = "assets_epc";
     public static final String INV_ID = "inv_id";
     public static final String LOC_IC = "loc_id";
-    @BindView(R.id.ast_code)
-    TextView barcode;
-    @BindView(R.id.ast_name)
-    TextView astName;
-    @BindView(R.id.ast_type)
-    TextView astType;
-    @BindView(R.id.tv_brand)
-    TextView astBrand;
-    @BindView(R.id.ast_status)
-    TextView ast_status;
-    @BindView(R.id.rule_model)
-    TextView ast_model;
-    @BindView(R.id.measuring_unit)
-    TextView ast_unit;
-    @BindView(R.id.sn)
-    TextView sn;
-    @BindView(R.id.ast_material)
-    TextView ast_material;
-    @BindView(R.id.belong_company)
-    TextView belong_crop;
-    @BindView(R.id.stroe_loaction)
-    TextView stroe_loaction;
-    @BindView(R.id.manager)
-    TextView manager;
-    @BindView(R.id.source)
-    TextView source;
-    @BindView(R.id.buy_date)
-    TextView ast_buy_date;
-    @BindView(R.id.count)
-    TextView ast_count;
-    @BindView(R.id.expiration_use_months)
-    TextView use_months;
-    @BindView(R.id.use_company)
-    TextView use_company;
-    @BindView(R.id.use_department)
-    TextView use_department;
-    @BindView(R.id.user)
-    TextView user;
-    @BindView(R.id.requisition_date)
-    TextView requisition_date;
-    @BindView(R.id.remark)
-    TextView remark;
     @BindView(R.id.supplier)
     TextView supplier;
     @BindView(R.id.contacts)
@@ -134,15 +88,13 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     @BindView(R.id.asset_resume)
     RadioButton resume;
     @BindView(R.id.assets_detail)
-    LinearLayout li_assetDetail;
+    RelativeLayout rl_assetDetail;
     @BindView(R.id.maintenance_info)
     LinearLayout li_maintenance;
     @BindView(R.id.li_repair_record)
     LinearLayout li_repair;
     @BindView(R.id.li_asset_resume)
     LinearLayout li_resume;
-    @BindView(R.id.assets_detail_content)
-    LinearLayout detail_content;
     @BindView(R.id.resume_recycler)
     RecyclerView resume_recycler;
     @BindView(R.id.repair_recycler)
@@ -153,6 +105,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     TextView assetInved;
     @BindView(R.id.search_ast)
     ImageView searchAsset;
+    @BindView(R.id.rv_asset_details)
+    RecyclerView assetDetailRecycle;
     private List<AssetResume> mResumeData = new ArrayList<>();//资产履历
     private List<AssetRepair> mRepairData = new ArrayList<>();//维保信息
     private AssetsResumeAdapter assetsResumeAdapter;
@@ -167,6 +121,8 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
     private String mInvId;
     private String mLocId;
     private String userId;
+    private List<AssetDetailItem> assetDetailItemList = new ArrayList<>();
+    private AssetDetailItemAdapter assetDetailItemAdapter;
 
     @Override
     public AssetsDetailsPresenter initPresenter() {
@@ -187,7 +143,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         mPresenter.getAssetsResumeById(assetsId, assetsCode);
         mPresenter.getAssetsRepairById(assetsId, assetsCode);
         empty_page.setVisibility(View.VISIBLE);
-        li_assetDetail.setVisibility(View.GONE);
+        rl_assetDetail.setVisibility(View.GONE);
         li_maintenance.setVisibility(View.GONE);
         li_repair.setVisibility(View.GONE);
         li_resume.setVisibility(View.GONE);
@@ -202,6 +158,13 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             assetInved.setVisibility(View.VISIBLE);
             searchAsset.setVisibility(View.VISIBLE);
             initCustomOptionPicker();
+        }
+        //资产明细
+        assetDetailItemAdapter = new AssetDetailItemAdapter(this, assetDetailItemList);
+        assetDetailRecycle.setLayoutManager(new LinearLayoutManager(this));
+        assetDetailRecycle.setAdapter(assetDetailItemAdapter);
+        if (("AssetRepairActivity".equals(activityFrom))) {
+            addButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -226,7 +189,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 title_tab.clearCheck();
                 title_tab.check(R.id.asset_detail);
                 empty_page.setVisibility(View.GONE);
-                li_assetDetail.setVisibility(View.VISIBLE);
+                rl_assetDetail.setVisibility(View.VISIBLE);
                 li_maintenance.setVisibility(View.GONE);
                 li_repair.setVisibility(View.GONE);
                 li_resume.setVisibility(View.GONE);
@@ -235,7 +198,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 title_tab.clearCheck();
                 title_tab.check(R.id.mainten_info);
                 empty_page.setVisibility(View.GONE);
-                li_assetDetail.setVisibility(View.GONE);
+                rl_assetDetail.setVisibility(View.GONE);
                 li_maintenance.setVisibility(View.VISIBLE);
                 li_repair.setVisibility(View.GONE);
                 li_resume.setVisibility(View.GONE);
@@ -245,13 +208,13 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 title_tab.check(R.id.repair_record);
                 if (mRepairData.isEmpty()) {
                     empty_page.setVisibility(View.VISIBLE);
-                    li_assetDetail.setVisibility(View.GONE);
+                    rl_assetDetail.setVisibility(View.GONE);
                     li_maintenance.setVisibility(View.GONE);
                     li_repair.setVisibility(View.GONE);
                     li_resume.setVisibility(View.GONE);
                 } else {
                     empty_page.setVisibility(View.GONE);
-                    li_assetDetail.setVisibility(View.GONE);
+                    rl_assetDetail.setVisibility(View.GONE);
                     li_maintenance.setVisibility(View.GONE);
                     li_repair.setVisibility(View.VISIBLE);
                     li_resume.setVisibility(View.GONE);
@@ -264,13 +227,13 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 title_tab.check(R.id.asset_resume);
                 if (mResumeData.isEmpty()) {
                     empty_page.setVisibility(View.VISIBLE);
-                    li_assetDetail.setVisibility(View.GONE);
+                    rl_assetDetail.setVisibility(View.GONE);
                     li_maintenance.setVisibility(View.GONE);
                     li_repair.setVisibility(View.GONE);
                     li_resume.setVisibility(View.GONE);
                 } else {
                     empty_page.setVisibility(View.GONE);
-                    li_assetDetail.setVisibility(View.GONE);
+                    rl_assetDetail.setVisibility(View.GONE);
                     li_maintenance.setVisibility(View.GONE);
                     li_repair.setVisibility(View.GONE);
                     li_resume.setVisibility(View.VISIBLE);
@@ -294,7 +257,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
                 pvCustomOptions.show();
                 break;
             case R.id.search_ast:
-                if(CommonUtils.isNormalClick()){
+                if (CommonUtils.isNormalClick()) {
                     Intent intent = new Intent();
                     intent.putExtra(ASSETS_EPC, epcCode);
                     intent.setClass(this, LocationSearchActivity.class);
@@ -309,132 +272,48 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         if (assetsAllInfo != null) {
             title_tab.check(R.id.asset_detail);
             empty_page.setVisibility(View.GONE);
-            li_assetDetail.setVisibility(View.VISIBLE);
-            String code = TextUtils.isEmpty(assetsAllInfo.getAst_barcode()) ? "" : assetsAllInfo.getAst_barcode();
-            barcode.setText(code);
-            String name = TextUtils.isEmpty(assetsAllInfo.getAst_name()) ? "" : assetsAllInfo.getAst_name();
-            astName.setText(name);
+            rl_assetDetail.setVisibility(View.VISIBLE);
             String type = assetsAllInfo.getType_name() == null ? "" : assetsAllInfo.getType_name();
             type = TextUtils.isEmpty(type) ? "" : type;
-            astType.setText(type);
-
-            String brand = TextUtils.isEmpty(assetsAllInfo.getAst_brand()) ? "" : assetsAllInfo.getAst_brand();
-            astBrand.setText(brand);
+            HashMap<String, String> ast_append_info = assetsAllInfo.getAst_append_info();
+            assetDetailItemList.clear();
             status = assetsAllInfo.getAst_used_status();
-            String statusName = TextUtils.isEmpty(AssetsUseStatus.getName(status)) ? "" : AssetsUseStatus.getName(status);
-            ast_status.setText(statusName);
-            String model = TextUtils.isEmpty(assetsAllInfo.getAst_model()) ? "" : assetsAllInfo.getAst_model();
-            ast_model.setText(model);
-            String unit = TextUtils.isEmpty(assetsAllInfo.getAst_measuring_unit()) ? "" : assetsAllInfo.getAst_measuring_unit();
-            ast_unit.setText(unit);
-            String ast_sn = TextUtils.isEmpty(assetsAllInfo.getAst_sn()) ? "" : assetsAllInfo.getAst_sn();
-            sn.setText(ast_sn);
-
+            assetDetailItemList.add(new AssetDetailItem("使用状态", AssetsUseStatus.getName(status)));
+            assetDetailItemList.add(new AssetDetailItem("资产编码", assetsAllInfo.getAst_barcode()));
+            assetDetailItemList.add(new AssetDetailItem("资产名称", assetsAllInfo.getAst_name()));
+            assetDetailItemList.add(new AssetDetailItem("资产分类", type));
+            assetDetailItemList.add(new AssetDetailItem("设备序列号", assetsAllInfo.getAst_sn()));
             int number = assetsAllInfo.getAst_material();
             String material = TextUtils.isEmpty(AssetsMaterial.getName(number)) ? "" : AssetsMaterial.getName(number);
-            ast_material.setText(material);
-
-            String corp = assetsAllInfo.getOrg_belongcorp_name() == null ? "" : assetsAllInfo.getOrg_belongcorp_name();
-            corp = TextUtils.isEmpty(code) ? "" : corp;
-            belong_crop.setText(corp);
-
-            String location = assetsAllInfo.getLoc_name() == null ? "" : assetsAllInfo.getLoc_name();
-            location = TextUtils.isEmpty(location) ? "" : location;
-            stroe_loaction.setText(location);
-
-            String person = assetsAllInfo.getManager_name() == null ? "" : assetsAllInfo.getManager_name();
-            person = TextUtils.isEmpty(person) ? "" : person;
-            manager.setText(person);
-
-            String from = TextUtils.isEmpty(assetsAllInfo.getAst_source()) ? "" : assetsAllInfo.getAst_source();
-            source.setText(from);
-
-            //资产购买日期
-            long buy_date = assetsAllInfo.getAst_buy_date();
-            if (buy_date == 0) {
-                ast_buy_date.setText("");
-            } else {
-                ast_buy_date.setText(DateUtils.long2String(buy_date, DateUtils.FORMAT_TYPE_1));
-            }
-
-            double count = assetsAllInfo.getAst_price();
-            NumberFormat nf = new DecimalFormat("¥#,###.##");//设置金额显示格式
-            String str = nf.format(count);
-            if (count == 0) {
-                ast_count.setText("");
-            } else {
-                ast_count.setText(str + "元");
-            }
-
-            String month = assetsAllInfo.getAst_expiration_months();
-            if (TextUtils.isEmpty(month)) {
-                use_months.setText("");
-            } else {
-                use_months.setText(month + "个月");
-            }
-//            String month = TextUtils.isEmpty(assetsAllInfo.getAst_expiration_months()) ? "" : assetsAllInfo.getAst_expiration_months();
-//            use_months.setText(month+"个月");
-
-            String company = assetsAllInfo.getOrg_usedcorp_name() == null ? "" : assetsAllInfo.getOrg_usedcorp_name();
-            company = TextUtils.isEmpty(company) ? "" : company;
-            use_company.setText(company);
-
-            String department = assetsAllInfo.getOrg_useddept_name() == null ? "" : assetsAllInfo.getOrg_useddept_name();
-            department = TextUtils.isEmpty(department) ? "" : department;
-            use_department.setText(department);
-
-            String Name = assetsAllInfo.getUser_name() == null ? "" : assetsAllInfo.getUser_name();
-            Name = TextUtils.isEmpty(Name) ? "" : Name;
-            user.setText(Name);
-
-            long req_date = assetsAllInfo.getAst_req_date();
-            if (req_date == 0) {
-                requisition_date.setText("");
-            } else {
-                requisition_date.setText(DateUtils.long2String(req_date, DateUtils.FORMAT_TYPE_1));
-            }
-            String text = TextUtils.isEmpty(assetsAllInfo.getAst_remark()) ? "" : assetsAllInfo.getAst_remark();
-            remark.setText(text);
-
-            //扩展字段信息
-            if(assetsAllInfo.getAst_append_info() != null){
-                int appendItems = assetsAllInfo.getAst_append_info().size();
-                for (int n = 0; n < appendItems; n++) {
-                    List<String> Keys = new ArrayList<>();
-                    //取出所有的key值
-                    Iterator i = assetsAllInfo.getAst_append_info().keySet().iterator();
-                    while (i.hasNext()) {
-                        String key = i.next().toString();
-                        Keys.add(key);
-                    }
-                    String type_id = Keys.get(n);
-                    String content = assetsAllInfo.getAst_append_info().get(type_id);
-                    LinearLayout linearLayout = new LinearLayout(this);
-                    TextView textView1 = new TextView(this);
-                    TextView textView2 = new TextView(this);
-                    View view = new View(this);
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, dip2px(this, 45));
-                    LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(0, MATCH_PARENT, 1);
-                    LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT);
-                    LinearLayout.LayoutParams layoutParams3 = new LinearLayout.LayoutParams(MATCH_PARENT, dip2px(this, 1));
-                    linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-                    textView1.setTextSize(14);
-                    textView1.setText(type_id);
-                    textView1.setTextColor(getColor(R.color.home_text_two));
-                    textView1.setGravity(Gravity.CENTER_VERTICAL);
-                    textView2.setTextSize(13);
-                    textView2.setText(content);
-                    textView2.setTextColor(getColor(R.color.setting_text_one));
-                    textView2.setGravity(Gravity.CENTER_VERTICAL);
-                    view.setBackgroundColor(getColor(R.color.line));
-
-                    //将控件加入布局
-                    linearLayout.addView(textView1, layoutParams1);
-                    linearLayout.addView(textView2, layoutParams2);
-                    detail_content.addView(view, layoutParams3);
-                    detail_content.addView(linearLayout, layoutParams);
-                }
-            }
+            assetDetailItemList.add(new AssetDetailItem("资产材质", material));
+            assetDetailItemList.add(new AssetDetailItem("存放地", assetsAllInfo.getLoc_name()));
+            assetDetailItemList.add(new AssetDetailItem("管理员", assetsAllInfo.getManager_name()));
+            assetDetailItemList.add(new AssetDetailItem("原值", String.valueOf(assetsAllInfo.getAst_price())));
+            assetDetailItemList.add(new AssetDetailItem("入账日期", DateUtils.long2String(assetsAllInfo.getCreate_date(), DateUtils.FORMAT_TYPE_1)));
+            assetDetailItemList.add(new AssetDetailItem("入账编号", ast_append_info.get("入账编号")));
+            assetDetailItemList.add(new AssetDetailItem("累计折旧", ast_append_info.get("累计折旧")));
+            assetDetailItemList.add(new AssetDetailItem("入库日期", DateUtils.long2String(assetsAllInfo.getAst_instore_date(), DateUtils.FORMAT_TYPE_1)));
+            assetDetailItemList.add(new AssetDetailItem("打印次数", String.valueOf(assetsAllInfo.getPrint_count())));
+            assetDetailItemList.add(new AssetDetailItem("所属条线", ast_append_info.get("所属条线")));
+            assetDetailItemList.add(new AssetDetailItem("资产数量", ast_append_info.get("资产数量")));
+            assetDetailItemList.add(new AssetDetailItem("主附资产",ast_append_info.get("主附资产") ));
+            assetDetailItemList.add(new AssetDetailItem("资产规格",ast_append_info.get("资产规格") ));
+            assetDetailItemList.add(new AssetDetailItem("采购单号", ast_append_info.get("采购单号")));
+            assetDetailItemList.add(new AssetDetailItem("管理说明", ast_append_info.get("管理说明")));
+            assetDetailItemList.add(new AssetDetailItem("成本中心编号", ast_append_info.get("成本中心编号")));
+            assetDetailItemList.add(new AssetDetailItem("成本中心名称", ast_append_info.get("成本中心名称")));
+            assetDetailItemList.add(new AssetDetailItem("增值", ast_append_info.get("增值")));
+            assetDetailItemList.add(new AssetDetailItem("净值", ast_append_info.get("净值")));
+            assetDetailItemList.add(new AssetDetailItem("合计(原值加增值)", ast_append_info.get("合计(原值加增值)")));
+            assetDetailItemList.add(new AssetDetailItem("币种", ast_append_info.get("币种")));
+            assetDetailItemList.add(new AssetDetailItem("折旧年限", ast_append_info.get("折旧年限")));
+            assetDetailItemList.add(new AssetDetailItem("增加折旧年限", ast_append_info.get("增加折旧年限")));
+            assetDetailItemList.add(new AssetDetailItem("折旧年限合计", ast_append_info.get("折旧年限合计")));
+            assetDetailItemList.add(new AssetDetailItem("使用人", ast_append_info.get("使用人.")));
+            assetDetailItemList.add(new AssetDetailItem("使用部门", ast_append_info.get("使用部门.")));
+            assetDetailItemList.add(new AssetDetailItem("责任部门", ast_append_info.get("责任部门name")));
+            assetDetailItemList.add(new AssetDetailItem("责任人", ast_append_info.get("责任人name")));
+            assetDetailItemAdapter.notifyDataSetChanged();
 
             //维保信息
             String Supplier = assetsAllInfo.getSupplier_name() == null ? "" : assetsAllInfo.getSupplier_name();
@@ -580,12 +459,12 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
 
     private void optionSelect(int options1) {
         AssetTag assetTag = assetTags.get(options1);
-      mPresenter.setOneAssetInved(assetTag.getTagName(),mInvId,mLocId,astId,userId);
+        mPresenter.setOneAssetInved(assetTag.getTagName(), mInvId, mLocId, astId, userId);
     }
 
     @Override
     public void handleSetOneAssetInved(BaseResponse baseResponse) {
-        if(baseResponse.isSuccess()){
+        if (baseResponse.isSuccess()) {
             ToastUtils.showShort(R.string.inved_toast);
             finish();
         }
@@ -603,7 +482,7 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
         mPresenter.getAssetsResumeById(assetsId, assetsCode);
         mPresenter.getAssetsRepairById(assetsId, assetsCode);
         empty_page.setVisibility(View.VISIBLE);
-        li_assetDetail.setVisibility(View.GONE);
+        rl_assetDetail.setVisibility(View.GONE);
         li_maintenance.setVisibility(View.GONE);
         li_repair.setVisibility(View.GONE);
         li_resume.setVisibility(View.GONE);

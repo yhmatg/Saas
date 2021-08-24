@@ -28,7 +28,7 @@
 
         <include layout="@layout/empty_page" />
 
-        <include layout="@layout/content_asset_detail" />
+        <include layout="@layout/default_asset_detail" />
 
         <include layout="@layout/content_maintenance_info" />
 

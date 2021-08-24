@@ -104,6 +104,10 @@ public class AssetsAllInfo {
     private String warranty_id;
     @Ignore
     private HashMap<String, String> ast_append_info;
+    @Ignore
+    private long ast_instore_date;
+    @Ignore
+    private int print_count;
 
     public String getAst_barcode() {
         return ast_barcode;
@@ -447,5 +451,21 @@ public class AssetsAllInfo {
 
     public void setAst_append_info(HashMap<String, String> ast_append_info) {
         this.ast_append_info = ast_append_info;
+    }
+
+    public long getAst_instore_date() {
+        return ast_instore_date;
+    }
+
+    public void setAst_instore_date(long ast_instore_date) {
+        this.ast_instore_date = ast_instore_date;
+    }
+
+    public int getPrint_count() {
+        return print_count;
+    }
+
+    public void setPrint_count(int print_count) {
+        this.print_count = print_count;
     }
 }
