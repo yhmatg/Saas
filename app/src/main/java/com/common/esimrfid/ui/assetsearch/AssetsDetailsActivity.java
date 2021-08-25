@@ -40,6 +40,7 @@ import com.common.esimrfid.ui.assetrepair.RepairAssetEvent;
 import com.common.esimrfid.ui.newinventory.AssetTag;
 import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.DateUtils;
+import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -289,15 +290,23 @@ public class AssetsDetailsActivity extends BaseActivity<AssetsDetailsPresenter> 
             assetDetailItemList.add(new AssetDetailItem("存放地", assetsAllInfo.getLoc_name()));
             assetDetailItemList.add(new AssetDetailItem("管理员", assetsAllInfo.getManager_name()));
             assetDetailItemList.add(new AssetDetailItem("原值", String.valueOf(assetsAllInfo.getAst_price())));
-            assetDetailItemList.add(new AssetDetailItem("入账日期", DateUtils.long2String(assetsAllInfo.getCreate_date(), DateUtils.FORMAT_TYPE_1)));
+            String enterAccountTime = ast_append_info.get("入账日期");
+            long accountLongTime ;
+            if (!StringUtils.isEmpty(enterAccountTime)) {
+                accountLongTime = Long.parseLong(enterAccountTime);
+                enterAccountTime = DateUtils.long2String(accountLongTime, DateUtils.FORMAT_TYPE_1);
+            }else {
+                enterAccountTime = null;
+            }
+            assetDetailItemList.add(new AssetDetailItem("入账日期", enterAccountTime));
             assetDetailItemList.add(new AssetDetailItem("入账编号", ast_append_info.get("入账编号")));
             assetDetailItemList.add(new AssetDetailItem("累计折旧", ast_append_info.get("累计折旧")));
             assetDetailItemList.add(new AssetDetailItem("入库日期", DateUtils.long2String(assetsAllInfo.getAst_instore_date(), DateUtils.FORMAT_TYPE_1)));
             assetDetailItemList.add(new AssetDetailItem("打印次数", String.valueOf(assetsAllInfo.getPrint_count())));
             assetDetailItemList.add(new AssetDetailItem("所属条线", ast_append_info.get("所属条线")));
             assetDetailItemList.add(new AssetDetailItem("资产数量", ast_append_info.get("资产数量")));
-            assetDetailItemList.add(new AssetDetailItem("主附资产",ast_append_info.get("主附资产") ));
-            assetDetailItemList.add(new AssetDetailItem("资产规格",ast_append_info.get("资产规格") ));
+            assetDetailItemList.add(new AssetDetailItem("主附资产", ast_append_info.get("主附资产")));
+            assetDetailItemList.add(new AssetDetailItem("资产规格", ast_append_info.get("资产规格")));
             assetDetailItemList.add(new AssetDetailItem("采购单号", ast_append_info.get("采购单号")));
             assetDetailItemList.add(new AssetDetailItem("管理说明", ast_append_info.get("管理说明")));
             assetDetailItemList.add(new AssetDetailItem("成本中心编号", ast_append_info.get("成本中心编号")));
