@@ -6,7 +6,7 @@ android {
         applicationId "com.common.esimrfid"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 16
+        versionCode 17
         versionName "2.4.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //指定room.schemaLocation生成的文件路径
@@ -36,7 +36,7 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             // 名称_android_版本号.apk
-            outputFileName = "${rootProject.ext.projectName}${defaultConfig.versionName}.apk"
+            outputFileName = "${rootProject.ext.projectName}${defaultConfig.versionCode} ${defaultConfig.versionName}.apk"
         }
     }
 
