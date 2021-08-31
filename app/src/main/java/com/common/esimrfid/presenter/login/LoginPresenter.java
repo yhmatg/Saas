@@ -53,7 +53,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                             //保存UserLoginResponse到sp
                             //不同管理员分配的盘点任务不一样，盘点相关的数据需要清除
                             UserLoginResponse localUserLogin = DataManager.getInstance().getUserLoginResponse();
-                            if (localUserLogin != null && !userLoginResponse.getUserinfo().getId().equals(localUserLogin.getUserinfo().getId())) {
+                            if (localUserLogin != null && !userLoginResponse.getUserinfo().getCorpid().equals(localUserLogin.getUserinfo().getCorpid())) {
                                 DbBank.getInstance().getAssetsAllInfoDao().deleteAllData();
                                 DbBank.getInstance().getInventoryDetailDao().deleteAllData();
                                 DbBank.getInstance().getResultInventoryOrderDao().deleteAllData();
