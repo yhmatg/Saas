@@ -14,9 +14,11 @@ import com.common.esimrfid.R;
 import com.common.esimrfid.app.EsimAndroidApp;
 import com.common.esimrfid.base.activity.BaseActivity;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
+import com.common.esimrfid.contract.home.InvAssetScanContract;
 import com.common.esimrfid.core.bean.inventorytask.EpcBean;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.presenter.home.InvAssetsLocPresenter;
+import com.common.esimrfid.presenter.home.InvAssetsScanPresenter;
 import com.common.esimrfid.uhf.IEsimUhfService;
 import com.common.esimrfid.uhf.UhfMsgEvent;
 import com.common.esimrfid.uhf.UhfMsgType;
@@ -37,7 +39,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> implements InvAssetLocContract.View {
+public class InvAssetScanActivity extends BaseActivity<InvAssetsScanPresenter> implements InvAssetScanContract.View {
 
     public static final String INV_ID = "inv_id";
     public static final String LOC_IC = "loc_id";
@@ -67,7 +69,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     //已盘和盘亏的资产
     List<InventoryDetail> mInvedDetails = new ArrayList<>();
     //盘盈
-    List<InventoryDetail> mMoreDetails = new ArrayList<>();
+    //List<InventoryDetail> mMoreDetails = new ArrayList<>();
     //epc和资产盘点条目
     HashMap<String, InventoryDetail> epcInvBean = new HashMap<>();
     //所有盘盈的epc
@@ -77,11 +79,12 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     //每次盘盈的epc
     HashSet<String> oneMoreInvEpcs = new HashSet<>();
     private BaseDialog baseDialog;
-    private ArrayList<EpcBean> allEpcBeans = new ArrayList<>();
+    //private ArrayList<EpcBean> allEpcBeans = new ArrayList<>();
     private String userId;
+
     @Override
-    public InvAssetsLocPresenter initPresenter() {
-        return new InvAssetsLocPresenter();
+    public InvAssetsScanPresenter initPresenter() {
+        return new InvAssetsScanPresenter();
     }
 
     @Override
@@ -96,7 +99,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
         userId = getUserLoginResponse().getUserinfo().getId();
         mAreaName.setText(mLocName);
         mPresenter.fetchAllInvDetails(mInvId, mLocId);
-        mPresenter.getAllAssetEpcs();
+        //mPresenter.getAllAssetEpcs();
         initAnim();
     }
 
@@ -154,7 +157,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
     @Override
     public void handleInvDetails(List<InventoryDetail> inventoryDetails) {
         mInvedDetails.clear();
-        mMoreDetails.clear();
+        //mMoreDetails.clear();
         epcInvBean.clear();
         mInventoryDetails.clear();
         allMoreEpcs.clear();
@@ -163,7 +166,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
                 mInvedDetails.add(inventoryDetail);
                 mInventoryDetails.add(inventoryDetail);
             } else if (inventoryDetail.getInvdt_status().getCode() == 2) {
-                mMoreDetails.add(inventoryDetail);
+                //mMoreDetails.add(inventoryDetail);
                 allMoreEpcs.add(inventoryDetail.getAst_epc_code());
             } else if (inventoryDetail.getInvdt_status().getCode() == 0) {
                 mInventoryDetails.add(inventoryDetail);
@@ -172,13 +175,17 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
         }
         mAllNum.setText(String.valueOf(mInventoryDetails.size()));
         mInNum.setText(String.valueOf(mInvedDetails.size()));
-        mOutNum.setText(String.valueOf(mMoreDetails.size()));
+        mOutNum.setText(String.valueOf(allMoreEpcs.size()));
     }
 
     @Override
-    public void handleAllAssetEpcs(List<EpcBean> allEpcs) {
-        allEpcBeans.clear();
-        allEpcBeans.addAll(allEpcs);
+    public void handleMoreInvAndInvedNum(Integer oneLocMoreInvCount, Integer oneInvedCount) {
+        if(oneLocMoreInvCount != null){
+            mOutNum.setText(String.valueOf(oneLocMoreInvCount));
+        }
+        if(oneInvedCount != null){
+            mInNum.setText(String.valueOf(oneInvedCount));
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -207,7 +214,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
             case UhfMsgType.UHF_STOP:
                 mScanButton.setText(R.string.start_inv);
                 mInScan.setVisibility(View.GONE);
-                mPresenter.handleOneScanned(oneInvDetails, oneMoreInvEpcs, mLocId, mLocName, mInvId,userId);
+                mPresenter.handleOneScanned(oneInvDetails, oneMoreInvEpcs, mLocId, mLocName, mInvId, userId);
                 stopAnim();
                 break;
         }
@@ -224,7 +231,8 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
                 mInvedDetails.add(inventoryDetail);
                 oneInvDetails.add(inventoryDetail);
             }
-        } else if (inventoryDetail == null && allEpcBeans.contains(epcBean) && !allMoreEpcs.contains(epc)) {
+            //} else if (inventoryDetail == null && allEpcBeans.contains(epcBean) && !allMoreEpcs.contains(epc)) {
+        } else if (inventoryDetail == null && !allMoreEpcs.contains(epc)) {
             allMoreEpcs.add(epc);
             oneMoreInvEpcs.add(epc);
         }
@@ -302,7 +310,5 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsLocPresenter> im
                 baseDialog.show();
             }
         }
-
-
     }
 }

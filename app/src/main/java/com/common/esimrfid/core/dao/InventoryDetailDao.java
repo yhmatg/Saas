@@ -43,4 +43,12 @@ public interface InventoryDetailDao extends BaseDao<InventoryDetail> {
 
     @Query("SELECT count(*) FROM InventoryDetail where inv_id = :invId")
     public int findLocalInvDetailCount(String invId);
+
+    //获取某一位置下所有盘盈的资产
+    @Query("SELECT count(*) FROM InventoryDetail where inv_id = :invId AND invdt_plus_loc_id =:locId AND code =2 AND needUpload = 0")
+    public int findOneLocMoreInvCount(String invId, String locId);
+
+    //获取某一位置下所有已经盘点的资产
+    @Query("SELECT count(*) FROM InventoryDetail where inv_id = :invId AND loc_id =:locId AND code =10 AND needUpload = 0")
+    public int findOneLocInvedCount(String invId, String locId);
 }

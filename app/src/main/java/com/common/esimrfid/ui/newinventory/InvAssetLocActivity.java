@@ -380,11 +380,6 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
     }
 
     @Override
-    public void handleAllAssetEpcs(List<EpcBean> allEpcs) {
-
-    }
-
-    @Override
     public void onItemClick(InventoryDetail invDetailBean, TextView tvAddTag) {
         mCustomPopWindow.showAsDropDown(tvAddTag,-160,20);
         selectNotInvBean = invDetailBean;
