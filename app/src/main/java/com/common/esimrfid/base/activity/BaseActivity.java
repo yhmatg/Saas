@@ -146,6 +146,7 @@ public abstract class BaseActivity<T extends AbstractPresenter> extends Abstract
 
     public void showDialog(String title) {
         if (dialog != null) {
+            dialog.setTitle(title);
             dialog.show();
         } else {
             //MaterialDialog.Builder builder = MaterialDialogUtils.showIndeterminateProgressDialog(this, title, true);

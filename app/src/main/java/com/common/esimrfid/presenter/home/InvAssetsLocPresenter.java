@@ -1,5 +1,7 @@
 package com.common.esimrfid.presenter.home;
 
+import android.util.Log;
+
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.home.InvAssetLocContract;
 import com.common.esimrfid.core.DataManager;
@@ -10,8 +12,10 @@ import com.common.esimrfid.core.bean.nanhua.jsonbeans.InventoryDetail;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.ResultInventoryOrder;
 import com.common.esimrfid.core.room.DbBank;
 import com.common.esimrfid.utils.CommonUtils;
+import com.common.esimrfid.utils.DateUtils;
 import com.common.esimrfid.utils.Md5Util;
 import com.common.esimrfid.utils.RxUtils;
+import com.common.esimrfid.utils.StringUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
 import java.util.ArrayList;
@@ -59,7 +63,6 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
                     @Override
                     public ObservableSource<BaseResponse> apply(List<InventoryDetail> moreInvDetails) throws Exception {
                         mMoreAndUpdateInvDetails.clear();
-                        mMoreAndUpdateInvDetails.addAll(moreInvDetails);
                         mMoreAndUpdateInvDetails.addAll(oneInvDetails);
                         if (CommonUtils.isNetworkConnected()) {
                             ArrayList<AssetUploadParameter> assetUploadParameters = new ArrayList<>();
@@ -77,7 +80,10 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
                                 assetUploadParameter.setInvdt_status(moreInvDetail.getInvdt_status().getCode());
                                 assetUploadParameter.setInvdt_plus_loc_id(moreInvDetail.getInvdt_plus_loc_id());
                                 assetUploadParameter.setAst_id(moreInvDetail.getAst_id());
-                                assetUploadParameters.add(assetUploadParameter);
+                                if(!StringUtils.isEmpty(moreInvDetail.getLoc_id())){
+                                    assetUploadParameters.add(assetUploadParameter);
+                                    mMoreAndUpdateInvDetails.add(moreInvDetail);
+                                }
                             }
                             return DataManager.getInstance().uploadInvAssets(invId, uid, assetUploadParameters);
                         } else {
@@ -276,12 +282,14 @@ public class InvAssetsLocPresenter extends BasePresenter<InvAssetLocContract.Vie
 
     @Override
     public void getAllAssetEpcs() {
+        mView.showDialog("EPC加载中...");
         addSubscribe(getLocalAssetsEpcsObservable()
                 .compose(RxUtils.rxSchedulerHelper())
                 .subscribeWith(new BaseObserver<List<EpcBean>>(mView, false) {
                     @Override
                     public void onNext(List<EpcBean> epcBeans) {
                         mView.handleAllAssetEpcs(epcBeans);
+                        mView.dismissDialog();
                     }
                 }));
     }
