@@ -165,7 +165,7 @@ public class InvAssetScanActivity extends BaseActivity<InvAssetsScanPresenter> i
             if (inventoryDetail.getInvdt_status().getCode() == 1 || inventoryDetail.getInvdt_status().getCode() == 10) {
                 mInvedDetails.add(inventoryDetail);
                 mInventoryDetails.add(inventoryDetail);
-            } else if (inventoryDetail.getInvdt_status().getCode() == 2) {
+            } else if (inventoryDetail.getInvdt_status().getCode() == 2 && !inventoryDetail.getNeedUpload()) {
                 //mMoreDetails.add(inventoryDetail);
                 allMoreEpcs.add(inventoryDetail.getAst_epc_code());
             } else if (inventoryDetail.getInvdt_status().getCode() == 0) {

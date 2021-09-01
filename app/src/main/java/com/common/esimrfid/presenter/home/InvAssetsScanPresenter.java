@@ -63,27 +63,27 @@ public class InvAssetsScanPresenter extends BasePresenter<InvAssetScanContract.V
                     public ObservableSource<BaseResponse> apply(List<InventoryDetail> moreInvDetails) throws Exception {
                         mMoreAndUpdateInvDetails.clear();
                         mMoreAndUpdateInvDetails.addAll(oneInvDetails);
-                        if (CommonUtils.isNetworkConnected()) {
-                            ArrayList<AssetUploadParameter> assetUploadParameters = new ArrayList<>();
-                            for (InventoryDetail inventoryDetail : oneInvDetails) {
-                                AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
-                                assetUploadParameter.setInvdt_sign(inventoryDetail.getInvdt_sign());
-                                assetUploadParameter.setInvdt_status(inventoryDetail.getInvdt_status().getCode());
-                                assetUploadParameter.setInvdt_plus_loc_id(inventoryDetail.getInvdt_plus_loc_id());
-                                assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
+                        ArrayList<AssetUploadParameter> assetUploadParameters = new ArrayList<>();
+                        for (InventoryDetail inventoryDetail : oneInvDetails) {
+                            AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
+                            assetUploadParameter.setInvdt_sign(inventoryDetail.getInvdt_sign());
+                            assetUploadParameter.setInvdt_status(inventoryDetail.getInvdt_status().getCode());
+                            assetUploadParameter.setInvdt_plus_loc_id(inventoryDetail.getInvdt_plus_loc_id());
+                            assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
+                            assetUploadParameters.add(assetUploadParameter);
+                        }
+                        for (InventoryDetail moreInvDetail : moreInvDetails) {
+                            AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
+                            assetUploadParameter.setInvdt_sign(moreInvDetail.getInvdt_sign());
+                            assetUploadParameter.setInvdt_status(moreInvDetail.getInvdt_status().getCode());
+                            assetUploadParameter.setInvdt_plus_loc_id(moreInvDetail.getInvdt_plus_loc_id());
+                            assetUploadParameter.setAst_id(moreInvDetail.getAst_id());
+                            if(!StringUtils.isEmpty(moreInvDetail.getLoc_id())){
                                 assetUploadParameters.add(assetUploadParameter);
+                                mMoreAndUpdateInvDetails.add(moreInvDetail);
                             }
-                            for (InventoryDetail moreInvDetail : moreInvDetails) {
-                                AssetUploadParameter assetUploadParameter = new AssetUploadParameter();
-                                assetUploadParameter.setInvdt_sign(moreInvDetail.getInvdt_sign());
-                                assetUploadParameter.setInvdt_status(moreInvDetail.getInvdt_status().getCode());
-                                assetUploadParameter.setInvdt_plus_loc_id(moreInvDetail.getInvdt_plus_loc_id());
-                                assetUploadParameter.setAst_id(moreInvDetail.getAst_id());
-                                if(!StringUtils.isEmpty(moreInvDetail.getLoc_id())){
-                                    assetUploadParameters.add(assetUploadParameter);
-                                    mMoreAndUpdateInvDetails.add(moreInvDetail);
-                                }
-                            }
+                        }
+                        if (CommonUtils.isNetworkConnected()) {
                             return DataManager.getInstance().uploadInvAssets(invId, uid, assetUploadParameters);
                         } else {
                             return Observable.create(new ObservableOnSubscribe<BaseResponse>() {
