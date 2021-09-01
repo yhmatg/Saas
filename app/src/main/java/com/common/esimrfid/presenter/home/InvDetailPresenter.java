@@ -55,7 +55,7 @@ public class InvDetailPresenter extends BasePresenter<InvDetailContract.View> im
                                 if(localInvDetailCount > 0){
                                     ArrayList<InventoryDetail> needUpdateDetails = new ArrayList<>();
                                     for (InventoryDetail detailResult : detailResults) {
-                                        if(detailResult.getInvdt_status().getCode() != 0){
+                                        if(detailResult.getInvdt_status().getCode() != 0 && detailResult.getInvdt_status().getCode() != 2){
                                             needUpdateDetails.add(detailResult);
                                         }
                                     }

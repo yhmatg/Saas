@@ -37,12 +37,12 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
 
     //分页获取盘点单列表
     @Override
-    public void fetchAllIvnOrdersPage(Integer size, Integer page, int currentSize,String userId, boolean online) {
+    public void fetchAllIvnOrdersPage(Integer size, Integer page, int currentSize, String userId, boolean online) {
         mView.showDialog("loading...");
         if (!CommonUtils.isNetworkConnected()) {
             online = false;
         }
-        addSubscribe(Observable.concat(getLocalInOrderPageObservable(size, currentSize, online), DataManager.getInstance().fetchAllIvnOrdersPage(size,page,userId))
+        addSubscribe(Observable.concat(getLocalInOrderPageObservable(size, currentSize, online), DataManager.getInstance().fetchAllIvnOrdersPage(size, page, userId))
                 .compose(RxUtils.rxSchedulerHelper())
                 .compose(RxUtils.handleResult())
                 .observeOn(Schedulers.io())
@@ -122,18 +122,18 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                     public void accept(ResultInventoryDetail resultInventoryDetail) throws Exception {
                         if (resultInventoryDetail.getDetailResults() != null) {
                             //功能修改保存服务端已盘，盘盈，盘亏的资产
-                            if(CommonUtils.isNetworkConnected()){
+                            if (CommonUtils.isNetworkConnected()) {
                                 List<InventoryDetail> detailResults = resultInventoryDetail.getDetailResults();
                                 int localInvDetailCount = DbBank.getInstance().getInventoryDetailDao().findLocalInvDetailCount(orderId);
-                                if(localInvDetailCount > 0){
+                                if (localInvDetailCount > 0) {
                                     ArrayList<InventoryDetail> needUpdateDetails = new ArrayList<>();
                                     for (InventoryDetail detailResult : detailResults) {
-                                        if(detailResult.getInvdt_status().getCode() != 0){
+                                        if (detailResult.getInvdt_status().getCode() != 0 && detailResult.getInvdt_status().getCode() != 2) {
                                             needUpdateDetails.add(detailResult);
                                         }
                                     }
                                     DbBank.getInstance().getInventoryDetailDao().insertItems(needUpdateDetails);
-                                }else {
+                                } else {
                                     DbBank.getInstance().getInventoryDetailDao().insertItems(detailResults);
                                 }
                             }
@@ -198,7 +198,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                             assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
                             assetUploadParameters.add(assetUploadParameter);
                         }
-                        return DataManager.getInstance().uploadInvAssets(orderId,uid,assetUploadParameters);
+                        return DataManager.getInstance().uploadInvAssets(orderId, uid, assetUploadParameters);
                     }
                 })
                 .doOnNext(new Consumer<BaseResponse>() {
@@ -241,7 +241,7 @@ public class InvOrderPressnter extends BasePresenter<InvOrderContract.View> impl
                             assetUploadParameter.setAst_id(inventoryDetail.getAst_id());
                             assetUploadParameters.add(assetUploadParameter);
                         }
-                        return DataManager.getInstance().finishInvAssets(orderId,uid,assetUploadParameters);
+                        return DataManager.getInstance().finishInvAssets(orderId, uid, assetUploadParameters);
                     }
                 })
                 .doOnNext(new Consumer<BaseResponse>() {

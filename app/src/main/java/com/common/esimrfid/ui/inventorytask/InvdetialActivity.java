@@ -180,6 +180,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
             int notInvNum = 0;
             int invNum = 0;
             int moreInvNum = 0;
+            int showMoreInvNum = 0;
             int lessInvNum = 0;
             for (InventoryDetail invdetail : invdetails) {
                 if (invdetail.getInvdt_status().getCode() == InventoryStatus.INIT.getIndex()) {
@@ -194,6 +195,9 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
                     }
                 }else if (invdetail.getInvdt_status().getCode() == InventoryStatus.MORE.getIndex()) {
                     moreInvNum++;
+                    if(!invdetail.getNeedUpload()){
+                        showMoreInvNum ++;
+                    }
                     if( mergeAssets.containsKey(invdetail.getAst_id())){
                         InventoryDetail tempInventoryDetail = mergeAssets.get(invdetail.getAst_id());
                         if(tempInventoryDetail != null){
@@ -212,7 +216,7 @@ public class InvdetialActivity extends BaseActivity<InvDetailPresenter> implemen
             invLocationBean.setAllNum(invdetails.size() - moreInvNum);
             invLocationBean.setNotInvNum(notInvNum);
             invLocationBean.setInvNum(invNum);
-            invLocationBean.setMoreInvNum(moreInvNum);
+            invLocationBean.setMoreInvNum(showMoreInvNum);
             invLocationBean.setLessInvNum(lessInvNum);
             mLoctionBeans.add(invLocationBean);
             FilterBean filterBean = new FilterBean();

@@ -349,7 +349,7 @@ public class InvAssetLocActivity extends BaseActivity<InvAssetsLocPresenter> imp
                 mNotInvDetails.add(inventoryDetail);
             } else if (inventoryDetail.getInvdt_status().getCode() == 1) {
                 mLessDetails.add(inventoryDetail);
-            } else if (inventoryDetail.getInvdt_status().getCode() == 2) {
+            } else if (inventoryDetail.getInvdt_status().getCode() == 2 && !inventoryDetail.getNeedUpload()) {
                 mMoreDetails.add(inventoryDetail);
             } else if (inventoryDetail.getInvdt_status().getCode() == 10) {
                 mInvedDetails.add(inventoryDetail);
