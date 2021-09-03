@@ -250,6 +250,9 @@ public class HomePresenter extends BasePresenter<HomeConstract.View> implements 
                             DbBank.getInstance().getInventoryDetailDao().deleteAllData();
                             DbBank.getInstance().getResultInventoryOrderDao().deleteAllData();
                             DataManager.getInstance().setLatestSyncTime("0");
+                        } else if (localUserLogin != null && !userLoginResponse.getUserinfo().getId().equals(localUserLogin.getUserinfo().getId())) {
+                            DbBank.getInstance().getInventoryDetailDao().deleteAllData();
+                            DbBank.getInstance().getResultInventoryOrderDao().deleteAllData();
                         }
                         DataManager.getInstance().setUserLoginResponse(userLoginResponse);
                     }

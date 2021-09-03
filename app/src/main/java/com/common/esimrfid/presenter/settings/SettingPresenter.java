@@ -39,6 +39,8 @@ public class SettingPresenter extends BasePresenter<SettingConstract.View> imple
                             AssetsAllInfoDao assetsAllInfoDao = DbBank.getInstance().getAssetsAllInfoDao();
                             if (pageNum == 1) {
                                 assetsAllInfoDao.deleteAllData();
+                                DbBank.getInstance().getInventoryDetailDao().deleteAllData();
+                                DbBank.getInstance().getResultInventoryOrderDao().deleteAllData();
                             }
                             if (latestModifyPageAssets.getModified() != null && latestModifyPageAssets.getModified().size() > 0) {
                                 assetsAllInfoDao.insertItems(latestModifyPageAssets.getModified());
