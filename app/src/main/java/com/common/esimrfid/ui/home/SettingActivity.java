@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,8 +49,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     protected void initEventAndData() {
         mTitle.setText(R.string.setting_title);
         String versionName = getAppVersionName(this);
+        long appVersionCode = getAppVersionCode(this);
         if (!StringUtils.isEmpty(versionName)) {
-            mVersion.setText("v" + versionName);
+            mVersion.setText("v" + versionName +"(" + appVersionCode +")");
         }
     }
 
@@ -97,6 +99,23 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             Log.e("", e.getMessage());
         }
         return appVersionName;
+    }
+
+    public long getAppVersionCode(Context context) {
+        long appVersionCode = 0;
+        try {
+            PackageInfo packageInfo = context.getApplicationContext()
+                    .getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                appVersionCode = packageInfo.getLongVersionCode();
+            } else {
+                appVersionCode = packageInfo.versionCode;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("", e.getMessage());
+        }
+        return appVersionCode;
     }
 
     @Override
