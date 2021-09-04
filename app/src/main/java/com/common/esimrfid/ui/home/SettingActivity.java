@@ -65,7 +65,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     }
 
-    @OnClick({R.id.bt_loginout, R.id.title_back, R.id.function_setting, R.id.sync_data})
+    @OnClick({R.id.bt_loginout, R.id.title_back, R.id.function_setting, R.id.clear_data,R.id.sync_data})
     void performClick(View view) {
         switch (view.getId()) {
             case R.id.bt_loginout:
@@ -81,6 +81,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 if (CommonUtils.isNormalClick()) {
                     startActivity(new Intent(this, FunctionActivity.class));
                 }
+                break;
+            case R.id.clear_data:
+                mPresenter.clearAllData();
                 break;
             case R.id.sync_data:
                 mPresenter.fetchLatestPageAssets(1000, 1);

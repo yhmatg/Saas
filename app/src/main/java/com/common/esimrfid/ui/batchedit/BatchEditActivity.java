@@ -115,7 +115,7 @@ public class BatchEditActivity extends BaseActivity<BatchEditPresenter> implemen
         mRefreshLayout.setEnableOverScrollDrag(false);//禁止越界拖动（1.0.4以上版本）
         mRefreshLayout.setEnableOverScrollBounce(false);//关闭越界回弹功能
         mRefreshLayout.setEnableAutoLoadMore(false);
-        mPresenter.fetchLatestPageAssets(500, 1);
+        //mPresenter.fetchLatestPageAssets(500, 1);
         mPresenter.getAllAssetsForSearch();
         mPresenter.getAllAssetsLocation();
 

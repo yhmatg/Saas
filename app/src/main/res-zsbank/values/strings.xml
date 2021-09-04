@@ -335,4 +335,5 @@
     <string name="versionchecklib_zero_progress">0/100</string>
     <string name="company_title">RFID资产管理</string>
     <string name="sync_data_str">同步数据</string>
+    <string name="clear_data_str">清除数据</string>
 </resources>

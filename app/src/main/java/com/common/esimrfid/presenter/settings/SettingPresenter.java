@@ -3,6 +3,8 @@ package com.common.esimrfid.presenter.settings;
 import com.common.esimrfid.base.presenter.BasePresenter;
 import com.common.esimrfid.contract.settings.SettingConstract;
 import com.common.esimrfid.core.DataManager;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.AssetsAllInfo;
+import com.common.esimrfid.core.bean.nanhua.jsonbeans.BaseResponse;
 import com.common.esimrfid.core.bean.nanhua.jsonbeans.LatestModifyPageAssets;
 import com.common.esimrfid.core.dao.AssetsAllInfoDao;
 import com.common.esimrfid.core.room.DbBank;
@@ -10,6 +12,9 @@ import com.common.esimrfid.utils.CommonUtils;
 import com.common.esimrfid.utils.RxUtils;
 import com.common.esimrfid.widget.BaseObserver;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -28,7 +33,7 @@ public class SettingPresenter extends BasePresenter<SettingConstract.View> imple
             }
         }
         if (CommonUtils.isNetworkConnected()) {
-            addSubscribe(DataManager.getInstance().fetchLatestAssetsPage("0", size, page)
+            addSubscribe(DataManager.getInstance().fetchLatestAssetsPage(DataManager.getInstance().getLatestSyncTime(), size, page)
                     .compose(RxUtils.handleResult())
                     .subscribeOn(Schedulers.io())
                     .doOnNext(new Consumer<LatestModifyPageAssets>() {
@@ -37,11 +42,6 @@ public class SettingPresenter extends BasePresenter<SettingConstract.View> imple
                             int pageNum = latestModifyPageAssets.getPageNum();
                             int pages = latestModifyPageAssets.getPages();
                             AssetsAllInfoDao assetsAllInfoDao = DbBank.getInstance().getAssetsAllInfoDao();
-                            if (pageNum == 1) {
-                                assetsAllInfoDao.deleteAllData();
-                                DbBank.getInstance().getInventoryDetailDao().deleteAllData();
-                                DbBank.getInstance().getResultInventoryOrderDao().deleteAllData();
-                            }
                             if (latestModifyPageAssets.getModified() != null && latestModifyPageAssets.getModified().size() > 0) {
                                 assetsAllInfoDao.insertItems(latestModifyPageAssets.getModified());
                             }
@@ -69,6 +69,7 @@ public class SettingPresenter extends BasePresenter<SettingConstract.View> imple
                                 mView.updateProgress(pageNum, pages);
                             }
                         }
+
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
@@ -78,5 +79,32 @@ public class SettingPresenter extends BasePresenter<SettingConstract.View> imple
                         }
                     }));
         }
+    }
+
+    @Override
+    public void clearAllData() {
+        Observable<BaseResponse> clearDataObservable = Observable.create(new ObservableOnSubscribe<BaseResponse>() {
+            @Override
+            public void subscribe(ObservableEmitter<BaseResponse> emitter) throws Exception {
+                DbBank.getInstance().getAssetsAllInfoDao().deleteAllData();
+                DbBank.getInstance().getInventoryDetailDao().deleteAllData();
+                DbBank.getInstance().getResultInventoryOrderDao().deleteAllData();
+                BaseResponse baseResponse = new BaseResponse<>();
+                baseResponse.setCode("200000");
+                baseResponse.setMessage("成功");
+                baseResponse.setSuccess(true);
+                emitter.onNext(baseResponse);
+            }
+        });
+        mView.showDialog("清除数据中...");
+        addSubscribe(clearDataObservable
+                .compose(RxUtils.rxSchedulerHelper())
+                .subscribeWith(new BaseObserver<BaseResponse>(mView, false) {
+                    @Override
+                    public void onNext(BaseResponse baseResponse) {
+                        DataManager.getInstance().setLatestSyncTime("0");
+                        mView.dismissDialog();
+                    }
+                }));
     }
 }

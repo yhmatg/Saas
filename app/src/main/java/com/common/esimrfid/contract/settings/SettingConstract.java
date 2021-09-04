@@ -16,5 +16,7 @@ public interface SettingConstract {
 
         void fetchLatestPageAssets(Integer size, Integer page);
 
+        void clearAllData();
+
     }
 }
