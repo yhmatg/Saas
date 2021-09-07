@@ -34,10 +34,9 @@
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="@dimen/dp_55"
-        android:layout_height="@dimen/dp_55"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/home_logo" />
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_60"
+        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/company_name"

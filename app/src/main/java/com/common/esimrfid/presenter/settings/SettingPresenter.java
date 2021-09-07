@@ -66,7 +66,7 @@ public class SettingPresenter extends BasePresenter<SettingConstract.View> imple
                                     mView.dismissProgressDialog();
                                 }
                             } else {
-                                mView.updateProgress(pageNum, pages);
+                                mView.updateProgress(pageNum + 1, pages);
                             }
                         }
 
