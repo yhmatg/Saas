@@ -89,7 +89,7 @@ public class InvAssetAdapter extends RecyclerView.Adapter<InvAssetAdapter.ViewHo
                 }
             }
         });
-        viewHolder.mFinishInv.setVisibility(View.VISIBLE);
+        //viewHolder.mFinishInv.setVisibility(View.VISIBLE);
         viewHolder.mFinishInv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
