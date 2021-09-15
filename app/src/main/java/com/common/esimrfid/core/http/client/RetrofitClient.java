@@ -78,7 +78,7 @@ public class RetrofitClient {
             if ("zsbank".equals(projectName)) {
                 url = "https://iwms.cloud.cmbchina.com/asset/";
             } else {
-                url = "https://cloud.assettag.vip/";
+                url = "http://202.102.20.60:9000/";
             }
         }
         retrofit = createRetrofit(provideClient(), url);
